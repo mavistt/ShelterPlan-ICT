@@ -138,6 +138,10 @@ class HarnessService:
                                  limit=limit or self.config.evidence_page_default,
                                  config=self.config)
 
+    def last_result_id(self, session_id: str | None = None) -> str | None:
+        ids = self._runtime(session_id).session.known_result_ids()
+        return ids[-1] if ids else None
+
     def close(self) -> None:
         self.client.close()
 

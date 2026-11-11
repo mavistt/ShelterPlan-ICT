@@ -81,7 +81,8 @@ class HarnessExecutor:
 
             guards.postflight(full_result=result, state=state, config=self.config,
                               claim=request.claim)
-            summary = project(result, task_type=request.task_type, config=self.config)
+            summary = project(result, task_type=request.task_type, config=self.config,
+                              scenario_params=state.params.business_fields())
             self._assert_summary_matches(result, summary)
 
             self.session.remember_result(result["result_id"],

@@ -185,7 +185,8 @@ def _evidence_counts(full_result: dict[str, Any]) -> dict[str, int]:
 
 
 def project(full_result: dict[str, Any], *, task_type: str,
-            config: HarnessConfig | None = None) -> dict[str, Any]:
+            config: HarnessConfig | None = None,
+            scenario_params: dict[str, Any] | None = None) -> dict[str, Any]:
     """Build a <= summary_max_bytes summary that is byte-identical in its numbers."""
     config = config or HarnessConfig()
     summary = full_result.get("result_summary") or {}
@@ -209,6 +210,13 @@ def project(full_result: dict[str, Any], *, task_type: str,
             "weighted_walk_time_min": summary.get("weighted_walk_time_min"),
             "optimized_served_demand": summary.get("optimized_served_demand"),
             "diagnosed_unserved_nodes": summary.get("diagnosed_unserved_nodes"),
+        },
+        # The authoritative full parameter snapshot comes from the caller (the
+        # harness session); scenario_changes alone is only the per-turn delta.
+        "scenario_params": scenario_params or {
+            key: _dig(full_result, ("scenario_changes", key))
+            for key in ("population_demand_ratio", "max_walk_time_min",
+                        "budget_units", "disabled_shelter_ids")
         },
         "warnings": _warning_list(full_result),
         "evidence": _evidence_counts(full_result),
