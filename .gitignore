@@ -1,0 +1,39 @@
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+*.py[cod]
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/manifests/*
+!data/manifests/.gitkeep
+# Secrets and local configuration
+.env.*
+!.env.example
+
+# Logs and runtime output
+*.log
+*.log.*
+logs/
+logs_*
+
+# Python environments and caches
+venv/
+env/
+.mypy_cache/
+.ruff_cache/
+
+# Local/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+work/
+*.tmp
+*.bak

@@ -1,0 +1,53 @@
+project:
+  name: ShelterPlan
+  city: 中山市
+  pilot_town: "东区街道"
+  area_label: "试点分析范围（非正式行政边界，除非另有权威证明）"
+  data_version: "zhongshan_pilot_v0.1"
+  population_year: 2025
+  shelter_sheet: "中山市应急避难场所基础信息表.xlsx"
+  portal_expected_shelter_records: 906
+  portal_record_count_basis: "Catalog metadata; two 2024 attachment batches are shown and their first 20 preview rows match; full unique-record equivalence is not yet verified."
+  portal_attachment_batches:
+    - "ff8080819daf4f90019e678d78683d50"
+    - "ff80808196a71e2901975c8dd57b21e4"
+
+paths:
+  shelter_excel: "data/raw/zhongshan_shelters.xls"
+  population_raster: "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif"
+  analysis_polygon: "configs/pilot_analysis_area.geojson"
+  shelters_clean: "data/processed/shelters_clean.csv"
+  shelters_pilot_raw: "data/processed/shelters_pilot_raw.csv"
+  geocode_candidates: "data/interim/shelters_geocoding_candidates.csv"
+  wgs84_review: "data/interim/shelters_wgs84_review_template.csv"
+  shelters_geojson: "data/processed/shelters_geocoded.geojson"
+  population_clip: "data/processed/pop_pilot.tif"
+  demand_nodes: "data/processed/demand_nodes.geojson"
+  road_graph: "data/processed/road_walk.graphml"
+  travel_matrix: "data/processed/travel_matrix.parquet"
+  manifest: "data/manifests/pilot_manifest.json"
+
+columns:
+  town: ["所在镇区"]
+  community_name: ["所属社区（村）"]
+  source_name_raw: ["名称"]
+  source_specific_address_raw: ["具体地址"]
+  area_10k_sqm: ["避护场所建筑面积（万㎡）"]
+  capacity_10k_persons: ["容纳人数（万人）"]
+  phone: ["办公电话"]
+  updated_at: ["更新时间"]
+
+geocoding:
+  provider: "Amap Web Service"
+  city: "中山市"
+  rate_limit_seconds: 0.35
+
+network:
+  network_type: "walk"
+  network_buffer_m: 1000
+  max_snap_distance_m: 200
+  walking_speed_m_per_s: 1.1
+
+scenario_defaults:
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
