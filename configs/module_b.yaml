@@ -1,0 +1,13 @@
+module_b:
+  skill_graph_version: "module-b-skillgraph-0.1.0"
+  analysis_mode: "demo"
+  default_population_demand_ratio: 0.2
+  default_max_walk_time_min: 15
+  numeric_tolerance: 0.000001
+  max_budget_options: 64
+  max_sensitivity_points: 20
+  max_compare_scenarios: 12
+  max_workers: 2
+  run_output_dir: "outputs/module_b/runs"
+  benchmark_output_dir: "outputs/module_b/bench"
+  source_config: "configs/pilot.yaml"

@@ -1,0 +1,1 @@
+{"task_id":"invalid-dag-001","fixture_id":"toy_case","analysis_mode":"demo","task_type":"assess","proposed_skill_plan":{"nodes":[{"node_id":"x","skill_id":"S99","depends_on":[],"skill_version":"1.0.0"}]}}

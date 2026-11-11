@@ -1,0 +1,23 @@
+{
+  "fixture_id": "mixed_bottlenecks",
+  "description": "Synthetic isolated demand plus connected demand competing for finite capacity.",
+  "data_version": "synthetic_mixed_v1",
+  "data_status": "SYNTHETIC_FIXTURE",
+  "scenario": {"population_demand_ratio": 1.0, "max_walk_time_min": 15.0, "budget_units": 5.0},
+  "demands": [
+    {"demand_id": "D1", "pop_est": 60, "population_status": "synthetic_fixture"},
+    {"demand_id": "D2", "pop_est": 80, "population_status": "synthetic_fixture"},
+    {"demand_id": "D3", "pop_est": 30, "population_status": "synthetic_fixture"}
+  ],
+  "shelters": [
+    {"shelter_id": "S1", "capacity_persons": 70, "verified_status": "synthetic_fixture"},
+    {"shelter_id": "S2", "capacity_persons": 25, "verified_status": "synthetic_fixture"}
+  ],
+  "od_edges": [
+    {"demand_id": "D1", "shelter_id": "S1", "time_min": 6, "distance_m": 396, "reachable": true, "reason": "ok"},
+    {"demand_id": "D2", "shelter_id": "S1", "time_min": 8, "distance_m": 528, "reachable": true, "reason": "ok"},
+    {"demand_id": "D2", "shelter_id": "S2", "time_min": 12, "distance_m": 792, "reachable": true, "reason": "ok"},
+    {"demand_id": "D3", "shelter_id": "S2", "time_min": null, "distance_m": null, "reachable": false, "reason": "no_path"}
+  ],
+  "improvement_options": []
+}

@@ -1,0 +1,1 @@
+{"task_id":"stress-001","fixture_id":"toy_case","analysis_mode":"demo","task_type":"stress_test","parameters":{"disabled_shelter_ids":["A"],"budget_units":10}}

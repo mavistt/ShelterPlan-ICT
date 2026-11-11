@@ -1,0 +1,24 @@
+{
+  "task_id": "c-budget-hypothetical-a-001",
+  "data_version": "zhongshan_pilot_v0.1",
+  "analysis_mode": "demo",
+  "task_type": "optimize",
+  "parameters": {
+    "budget_units": 1
+  },
+  "improvement_options": [
+    {
+      "option_id": "HYPOTHETICAL_CAP_ZS_1B4DF7920B",
+      "shelter_id": "zs_1b4df7920b",
+      "action": "hypothetical_capacity_increase",
+      "delta_capacity_persons": 100,
+      "cost_units": 1,
+      "eligible": true,
+      "source_status": "hypothetical_assumption",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone"
+    }
+  ],
+  "idempotency_key": "c-budget-hypothetical-a-001"
+}

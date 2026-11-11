@@ -1,0 +1,10 @@
+{
+  "task_id": "c-invalid-scenario-toy-001",
+  "fixture_id": "toy_case",
+  "analysis_mode": "demo",
+  "task_type": "assess",
+  "changes": {
+    "population_demand_ratio": 1.2
+  },
+  "idempotency_key": "c-invalid-scenario-toy-001"
+}

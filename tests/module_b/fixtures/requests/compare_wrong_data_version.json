@@ -1,0 +1,1 @@
+{"task_id":"version-mismatch-001","fixture_id":"toy_case","analysis_mode":"demo","task_type":"compare","data_version":"wrong-version","parameters":{"scenarios":[{"max_walk_time_min":15}]}}

@@ -1,0 +1,12 @@
+{
+  "task_id": "c-invalid-skill-plan-toy-001",
+  "fixture_id": "toy_case",
+  "analysis_mode": "demo",
+  "task_type": "assess",
+  "proposed_skill_plan": {
+    "nodes": [
+      {"node_id": "n1", "skill_id": "S99", "skill_version": "1.0.0", "depends_on": []}
+    ]
+  },
+  "idempotency_key": "c-invalid-skill-plan-toy-001"
+}
