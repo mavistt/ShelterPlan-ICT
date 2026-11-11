@@ -1,0 +1,4 @@
+# Local harness runs (traces, projected results, V0 reports) stay untracked.
+# The consolidated evidence that must be reviewable lives in docs/module_c/.
+*
+!.gitignore

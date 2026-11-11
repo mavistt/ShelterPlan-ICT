@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0",
+  "description": "Module C Harness V0 P0 task set. Declarative: the runner executes each step through the harness and evaluates the expectations. No LLM is involved.",
+  "option_sets": {
+    "saturated_300": [
+      {
+        "option_id": "CAP_ZS_FED820D94E_300",
+        "shelter_id": "zs_fed820d94e",
+        "action": "hypothetical_capacity_increase",
+        "delta_capacity_persons": 300,
+        "cost_units": 1,
+        "eligible": true,
+        "source_status": "hypothetical_assumption",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "standalone"
+      }
+    ],
+    "ineffective_100": [
+      {
+        "option_id": "HYPOTHETICAL_CAP_ZS_1B4DF7920B",
+        "shelter_id": "zs_1b4df7920b",
+        "action": "hypothetical_capacity_increase",
+        "delta_capacity_persons": 100,
+        "cost_units": 1,
+        "eligible": true,
+        "source_status": "hypothetical_assumption",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "standalone"
+      }
+    ]
+  },
+  "scarce_shelters": ["zs_1b4df7920b", "zs_60213118ec", "zs_e016bde4b3", "zs_737caba8e8", "zs_6358642b6f"],
+  "cases": [
+    {
+      "case_id": "P0-01",
+      "title": "现状评估：默认情景返回可发布演示结果",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": true, "verification_status": "PASS_DEMO", "data_status": "DEMO_ONLY",
+                 "solver_status": "OPTIMAL", "summary_max_bytes": 20480}
+    },
+    {
+      "case_id": "P0-02",
+      "title": "预算为 0：不选择任何扩容项，保留剩余缺口",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{"task_type": "optimize", "changes": {"budget_units": 0}}],
+      "expect": {"ok": true, "selected_option_ids": [], "served_demand": 6456.103026929056}
+    },
+    {
+      "case_id": "P0-03",
+      "title": "容量成为瓶颈时按预算选择扩容项",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{
+        "task_type": "optimize",
+        "changes": {"budget_units": 1, "disabled_shelter_ids": "@scarce"},
+        "options_ref": "saturated_300"
+      }],
+      "expect": {"ok": true, "selected_option_ids": ["CAP_ZS_FED820D94E_300"],
+                 "total_cost_units": 1, "served_gt": 1000}
+    },
+    {
+      "case_id": "P0-04",
+      "title": "情景比较：两行并列，不强行推荐唯一方案",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{
+        "task_type": "compare",
+        "parameters": {"scenarios": [{"population_demand_ratio": 0.1}, {"population_demand_ratio": 0.3}]}
+      }],
+      "expect": {"ok": true, "scenario_count": 2, "unique_recommendation": null}
+    },
+    {
+      "case_id": "P0-05",
+      "title": "关停压力测试：固定方案与自适应重算并列",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{
+        "task_type": "stress_test",
+        "parameters": {"disabled_shelter_ids": ["zs_1b4df7920b"], "budget_units": 1},
+        "options_ref": "saturated_300"
+      }],
+      "expect": {"ok": true, "fixed_served_lt": 6456.103, "adaptive_present": true,
+                 "summary_max_bytes": 20480}
+    },
+    {
+      "case_id": "P0-06",
+      "title": "参数敏感性：预算两点扫描",
+      "group": "normal",
+      "kind": "success",
+      "steps": [{
+        "task_type": "sensitivity",
+        "parameters": {"parameter": "budget_units", "values": [0, 1]},
+        "options_ref": "saturated_300"
+      }],
+      "expect": {"ok": true, "point_count": 2}
+    },
+    {
+      "case_id": "P0-07",
+      "title": "多轮继承：只改步行阈值，需求比例保持 0.35",
+      "group": "multi_turn",
+      "kind": "success",
+      "steps": [
+        {"task_type": "assess", "changes": {"population_demand_ratio": 0.35}},
+        {"task_type": "assess", "changes": {"max_walk_time_min": 20}}
+      ],
+      "expect": {"ok": true, "preserved": {"population_demand_ratio": 0.35, "max_walk_time_min": 20}}
+    },
+    {
+      "case_id": "P0-08",
+      "title": "多轮继承：预算 6 减半为 3，其余参数不变",
+      "group": "multi_turn",
+      "kind": "success",
+      "steps": [
+        {"task_type": "optimize", "changes": {"budget_units": 6}, "options_ref": "saturated_300"},
+        {"task_type": "optimize", "changes": {"budget_units": 3}, "options_ref": "saturated_300"}
+      ],
+      "expect": {"ok": true, "preserved": {"budget_units": 3, "population_demand_ratio": 0.2,
+                                           "max_walk_time_min": 15.0}}
+    },
+    {
+      "case_id": "P0-09",
+      "title": "多轮继承：先改阈值再改比例，阈值不被重置",
+      "group": "multi_turn",
+      "kind": "success",
+      "steps": [
+        {"task_type": "assess", "changes": {"max_walk_time_min": 20}},
+        {"task_type": "assess", "changes": {"population_demand_ratio": 0.4}}
+      ],
+      "expect": {"ok": true, "preserved": {"max_walk_time_min": 20, "population_demand_ratio": 0.4}}
+    },
+    {
+      "case_id": "P0-10",
+      "title": "多轮继承：关停场所后调整预算，关停名单保留",
+      "group": "multi_turn",
+      "kind": "success",
+      "steps": [
+        {"task_type": "stress_test",
+         "parameters": {"disabled_shelter_ids": ["zs_1b4df7920b"]}},
+        {"task_type": "assess", "changes": {"budget_units": 2}}
+      ],
+      "expect": {"ok": true, "preserved": {"disabled_shelter_ids": ["zs_1b4df7920b"],
+                                           "budget_units": 2}}
+    },
+    {
+      "case_id": "P0-11",
+      "title": "历史情景不可被后续轮次改写",
+      "group": "multi_turn",
+      "kind": "success",
+      "steps": [
+        {"task_type": "assess", "changes": {"population_demand_ratio": 0.3}},
+        {"task_type": "assess", "changes": {"max_walk_time_min": 18}},
+        {"task_type": "assess", "changes": {"budget_units": 1}}
+      ],
+      "expect": {"ok": true, "history_immutable": true}
+    },
+    {
+      "case_id": "P0-12",
+      "title": "缺预算：在提交前拒绝，不产生任何远程调用",
+      "group": "guard",
+      "kind": "expected_error",
+      "steps": [{"task_type": "optimize"}],
+      "expect": {"ok": false, "error_code": "GUARD_MISSING_PARAM", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-13",
+      "title": "非法需求比例：1.2 被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "steps": [{"task_type": "assess", "changes": {"population_demand_ratio": 1.2}}],
+      "expect": {"ok": false, "error_code": "GUARD_INVALID_PARAM", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-14",
+      "title": "非法预算：负数被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "steps": [{"task_type": "optimize", "changes": {"budget_units": -1}}],
+      "expect": {"ok": false, "error_code": "GUARD_INVALID_PARAM", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-15",
+      "title": "数据版本错误：会话锁定到不存在的版本时拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "session": {"data_version": "zhongshan_pilot_v9.9"},
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": false, "error_code": "GUARD_VERSION_MISMATCH", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-16",
+      "title": "越权验证模式：DEMO_ONLY 数据上请求 verified 被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "session": {"analysis_mode": "verified"},
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": false, "error_code": "GUARD_NOT_VERIFIED_SOURCE", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-17",
+      "title": "结果 ID 不匹配：解释一个不属于本会话的结果被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "steps": [{"task_type": "explain_result", "result_id": "00000000-0000-0000-0000-000000000000"}],
+      "expect": {"ok": false, "error_code": "GUARD_UNKNOWN_RESULT", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-18",
+      "title": "比较任务少于两个情景：拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "steps": [{"task_type": "compare",
+                 "parameters": {"scenarios": [{"population_demand_ratio": 0.2}]}}],
+      "expect": {"ok": false, "error_code": "GUARD_INVALID_PARAM", "tool_call_count": 0}
+    },
+    {
+      "case_id": "P0-19",
+      "title": "B 异步失败：未知避难场所 ID 由服务端拒绝并透传错误码",
+      "group": "failure",
+      "kind": "expected_error",
+      "steps": [{"task_type": "stress_test",
+                 "parameters": {"disabled_shelter_ids": ["zs_does_not_exist"]}}],
+      "expect": {"ok": false, "error_code": "B_SCENARIO_INVALID"}
+    },
+    {
+      "case_id": "P0-20",
+      "title": "作业超时：有界等待后返回 JOB_TIMEOUT",
+      "group": "failure",
+      "kind": "expected_error",
+      "inject": "timeout",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": false, "error_code": "JOB_TIMEOUT", "max_duration_ms": 5000}
+    },
+    {
+      "case_id": "P0-21",
+      "title": "B 进程重启导致作业丢失：识别为 JOB_STATE_LOST 而非无限轮询",
+      "group": "failure",
+      "kind": "expected_error",
+      "inject": "job_lost",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": false, "error_code": "JOB_STATE_LOST", "max_duration_ms": 15000}
+    },
+    {
+      "case_id": "P0-22",
+      "title": "摘要与完整结果数值一致",
+      "group": "consistency",
+      "kind": "success",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": true, "summary_consistent": true}
+    },
+    {
+      "case_id": "P0-23",
+      "title": "最优性声明：OPTIMAL 结果允许声称已证明最优",
+      "group": "consistency",
+      "kind": "success",
+      "steps": [{"task_type": "assess", "claim": "optimal"}],
+      "expect": {"ok": true, "optimality_proven": true}
+    },
+    {
+      "case_id": "P0-24",
+      "title": "重复提交与幂等：相同幂等键返回同一 job_id",
+      "group": "consistency",
+      "kind": "success",
+      "inject": "duplicate",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": true, "same_job": true}
+    },
+    {
+      "case_id": "P0-25",
+      "title": "传输故障：一次连接失败后自动重试成功",
+      "group": "consistency",
+      "kind": "success",
+      "inject": "transport_flake",
+      "steps": [{"task_type": "assess"}],
+      "expect": {"ok": true, "min_attempts": 2}
+    }
+  ]
+}

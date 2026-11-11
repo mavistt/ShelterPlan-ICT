@@ -1,0 +1,1606 @@
+{
+  "run_id": "v0-1794422750",
+  "generated_at": "2026-11-11T18:45:50Z",
+  "harness": {
+    "model_in_loop": false,
+    "version": "V0",
+    "module_b_client": "FastAPI TestClient"
+  },
+  "config": {
+    "summary_max_bytes": 20480,
+    "job_timeout_s": 180.0,
+    "max_transport_retries": 2,
+    "max_job_retries": 1
+  },
+  "metrics": {
+    "case_count": 25,
+    "case_pass_count": 25,
+    "case_pass_rate": 1.0,
+    "tool_call_count": 67,
+    "tool_success_rate": 0.9403,
+    "tool_failures_by_design": 4,
+    "unexpected_tool_failures": 0,
+    "parameter_inheritance_rate": 1.0,
+    "error_detection_rate": 1.0,
+    "summary_consistency_rate": 1.0,
+    "latency_p50_ms": 4196.617,
+    "latency_p95_ms": 6335.734,
+    "latency_mean_ms": 3706.016,
+    "tool_calls_per_task": 2.68,
+    "retry_total": 1,
+    "summary_max_bytes": 1871,
+    "summary_mean_bytes": 1629.3,
+    "parameters_inheritance_checks": 4,
+    "error_cases": 10,
+    "consistency_checks": 1
+  },
+  "cases": [
+    {
+      "case_id": "P0-01",
+      "title": "现状评估：默认情景返回可发布演示结果",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "a0641210-3014-4d46-8ef1-166db2974968",
+          "scenario_id": "c-v0-p0-01-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1560,
+          "duration_ms": 3970.9,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 3986.5,
+      "session": {
+        "session_id": "v0-p0-01",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-01-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "a0641210-3014-4d46-8ef1-166db2974968",
+          "created_at": "2026-11-11T18:45:50.989+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-01-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "a0641210-3014-4d46-8ef1-166db2974968"
+          }
+        ],
+        "result_ids": [
+          "a0641210-3014-4d46-8ef1-166db2974968"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-02",
+      "title": "预算为 0：不选择任何扩容项，保留剩余缺口",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "optimize",
+          "ok": true,
+          "error_code": null,
+          "result_id": "43d91c8c-3da3-4625-ac75-6aae4b25f130",
+          "scenario_id": "c-v0-p0-02-t02-58daf0f0",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1532,
+          "duration_ms": 5982.2,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 6002.8,
+      "session": {
+        "session_id": "v0-p0-02",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v0-p0-02-t02-58daf0f0",
+          "parent_scenario_id": "c-v0-p0-02-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "budget_units": 0
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 0,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "43d91c8c-3da3-4625-ac75-6aae4b25f130",
+          "created_at": "2026-11-11T18:45:54.977+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-02-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-02-t02-58daf0f0",
+            "parent_scenario_id": "c-v0-p0-02-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 0
+            },
+            "result_id": "43d91c8c-3da3-4625-ac75-6aae4b25f130"
+          }
+        ],
+        "result_ids": [
+          "43d91c8c-3da3-4625-ac75-6aae4b25f130"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-03",
+      "title": "容量成为瓶颈时按预算选择扩容项",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "optimize",
+          "ok": true,
+          "error_code": null,
+          "result_id": "7879d667-3075-4c2c-be81-4525f9aa222c",
+          "scenario_id": "c-v0-p0-03-t02-cb1fe15d",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1782,
+          "duration_ms": 6335.7,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 6351.3,
+      "session": {
+        "session_id": "v0-p0-03",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v0-p0-03-t02-cb1fe15d",
+          "parent_scenario_id": "c-v0-p0-03-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "budget_units": 1,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b",
+              "zs_60213118ec",
+              "zs_e016bde4b3",
+              "zs_737caba8e8",
+              "zs_6358642b6f"
+            ]
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 1,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b",
+              "zs_60213118ec",
+              "zs_e016bde4b3",
+              "zs_737caba8e8",
+              "zs_6358642b6f"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "7879d667-3075-4c2c-be81-4525f9aa222c",
+          "created_at": "2026-11-11T18:46:00.979+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-03-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-03-t02-cb1fe15d",
+            "parent_scenario_id": "c-v0-p0-03-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 1,
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b",
+                "zs_60213118ec",
+                "zs_e016bde4b3",
+                "zs_737caba8e8",
+                "zs_6358642b6f"
+              ]
+            },
+            "result_id": "7879d667-3075-4c2c-be81-4525f9aa222c"
+          }
+        ],
+        "result_ids": [
+          "7879d667-3075-4c2c-be81-4525f9aa222c"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-04",
+      "title": "情景比较：两行并列，不强行推荐唯一方案",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "compare",
+          "ok": true,
+          "error_code": null,
+          "result_id": "7dd7b41c-2330-4004-bc1d-33d3c014af44",
+          "scenario_id": "c-v0-p0-04-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1871,
+          "duration_ms": 5395.8,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 5410.3,
+      "session": {
+        "session_id": "v0-p0-04",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-04-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "7dd7b41c-2330-4004-bc1d-33d3c014af44",
+          "created_at": "2026-11-11T18:46:07.329+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-04-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "7dd7b41c-2330-4004-bc1d-33d3c014af44"
+          }
+        ],
+        "result_ids": [
+          "7dd7b41c-2330-4004-bc1d-33d3c014af44"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-05",
+      "title": "关停压力测试：固定方案与自适应重算并列",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "stress_test",
+          "ok": true,
+          "error_code": null,
+          "result_id": "759247a8-35fd-4cf0-a4f2-5a7369dbf962",
+          "scenario_id": "c-v0-p0-05-t02-e4d3a1ae",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1769,
+          "duration_ms": 6050.6,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 6067.6,
+      "session": {
+        "session_id": "v0-p0-05",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v0-p0-05-t02-e4d3a1ae",
+          "parent_scenario_id": "c-v0-p0-05-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "budget_units": 1,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ]
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 1,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "759247a8-35fd-4cf0-a4f2-5a7369dbf962",
+          "created_at": "2026-11-11T18:46:12.740+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-05-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-05-t02-e4d3a1ae",
+            "parent_scenario_id": "c-v0-p0-05-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 1,
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b"
+              ]
+            },
+            "result_id": "759247a8-35fd-4cf0-a4f2-5a7369dbf962"
+          }
+        ],
+        "result_ids": [
+          "759247a8-35fd-4cf0-a4f2-5a7369dbf962"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-06",
+      "title": "参数敏感性：预算两点扫描",
+      "group": "normal",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "sensitivity",
+          "ok": true,
+          "error_code": null,
+          "result_id": "18518d36-a2c0-4080-9b1f-9d508df78c18",
+          "scenario_id": "c-v0-p0-06-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1617,
+          "duration_ms": 5644.2,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 5665.8,
+      "session": {
+        "session_id": "v0-p0-06",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-06-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "18518d36-a2c0-4080-9b1f-9d508df78c18",
+          "created_at": "2026-11-11T18:46:18.807+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-06-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "18518d36-a2c0-4080-9b1f-9d508df78c18"
+          }
+        ],
+        "result_ids": [
+          "18518d36-a2c0-4080-9b1f-9d508df78c18"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-07",
+      "title": "多轮继承：只改步行阈值，需求比例保持 0.35",
+      "group": "multi_turn",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "94a40155-9a6a-40d3-9297-1e04b115edf5",
+          "scenario_id": "c-v0-p0-07-t02-aa15307a",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1590,
+          "duration_ms": 5619.2,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "19417f97-c31d-4de2-8f02-f95e6ac0c730",
+          "scenario_id": "c-v0-p0-07-t03-846c4c3c",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1604,
+          "duration_ms": 4243.4,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 9890.0,
+      "session": {
+        "session_id": "v0-p0-07",
+        "turn": 3,
+        "current": {
+          "scenario_id": "c-v0-p0-07-t03-846c4c3c",
+          "parent_scenario_id": "c-v0-p0-07-t02-aa15307a",
+          "turn": 3,
+          "changes": {
+            "max_walk_time_min": 20
+          },
+          "params": {
+            "population_demand_ratio": 0.35,
+            "max_walk_time_min": 20,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "19417f97-c31d-4de2-8f02-f95e6ac0c730",
+          "created_at": "2026-11-11T18:46:30.105+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-07-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-07-t02-aa15307a",
+            "parent_scenario_id": "c-v0-p0-07-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "population_demand_ratio": 0.35
+            },
+            "result_id": "94a40155-9a6a-40d3-9297-1e04b115edf5"
+          },
+          {
+            "scenario_id": "c-v0-p0-07-t03-846c4c3c",
+            "parent_scenario_id": "c-v0-p0-07-t02-aa15307a",
+            "turn": 3,
+            "changes": {
+              "max_walk_time_min": 20
+            },
+            "result_id": "19417f97-c31d-4de2-8f02-f95e6ac0c730"
+          }
+        ],
+        "result_ids": [
+          "94a40155-9a6a-40d3-9297-1e04b115edf5",
+          "19417f97-c31d-4de2-8f02-f95e6ac0c730"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-08",
+      "title": "多轮继承：预算 6 减半为 3，其余参数不变",
+      "group": "multi_turn",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "optimize",
+          "ok": true,
+          "error_code": null,
+          "result_id": "81bd7ac0-bfce-4d44-bd12-64c3a4f27e41",
+          "scenario_id": "c-v0-p0-08-t02-96824fce",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1680,
+          "duration_ms": 6082.2,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "optimize",
+          "ok": true,
+          "error_code": null,
+          "result_id": "73e3b18f-8a2c-44d2-8b1e-f9b796b5af42",
+          "scenario_id": "c-v0-p0-08-t03-77518561",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1701,
+          "duration_ms": 4256.1,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 10369.1,
+      "session": {
+        "session_id": "v0-p0-08",
+        "turn": 3,
+        "current": {
+          "scenario_id": "c-v0-p0-08-t03-77518561",
+          "parent_scenario_id": "c-v0-p0-08-t02-96824fce",
+          "turn": 3,
+          "changes": {
+            "budget_units": 3
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 3,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "73e3b18f-8a2c-44d2-8b1e-f9b796b5af42",
+          "created_at": "2026-11-11T18:46:40.460+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-08-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-08-t02-96824fce",
+            "parent_scenario_id": "c-v0-p0-08-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 6
+            },
+            "result_id": "81bd7ac0-bfce-4d44-bd12-64c3a4f27e41"
+          },
+          {
+            "scenario_id": "c-v0-p0-08-t03-77518561",
+            "parent_scenario_id": "c-v0-p0-08-t02-96824fce",
+            "turn": 3,
+            "changes": {
+              "budget_units": 3
+            },
+            "result_id": "73e3b18f-8a2c-44d2-8b1e-f9b796b5af42"
+          }
+        ],
+        "result_ids": [
+          "81bd7ac0-bfce-4d44-bd12-64c3a4f27e41",
+          "73e3b18f-8a2c-44d2-8b1e-f9b796b5af42"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-09",
+      "title": "多轮继承：先改阈值再改比例，阈值不被重置",
+      "group": "multi_turn",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "d0299159-c5fc-43bd-b208-36c037c4235e",
+          "scenario_id": "c-v0-p0-09-t02-3bb1aa74",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1581,
+          "duration_ms": 3765.1,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "6dd101ab-a43a-4aa2-bc32-a8e2b6698138",
+          "scenario_id": "c-v0-p0-09-t03-55fadbd1",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1612,
+          "duration_ms": 4196.6,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 7991.8,
+      "session": {
+        "session_id": "v0-p0-09",
+        "turn": 3,
+        "current": {
+          "scenario_id": "c-v0-p0-09-t03-55fadbd1",
+          "parent_scenario_id": "c-v0-p0-09-t02-3bb1aa74",
+          "turn": 3,
+          "changes": {
+            "population_demand_ratio": 0.4
+          },
+          "params": {
+            "population_demand_ratio": 0.4,
+            "max_walk_time_min": 20,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "6dd101ab-a43a-4aa2-bc32-a8e2b6698138",
+          "created_at": "2026-11-11T18:46:48.511+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-09-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-09-t02-3bb1aa74",
+            "parent_scenario_id": "c-v0-p0-09-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "max_walk_time_min": 20
+            },
+            "result_id": "d0299159-c5fc-43bd-b208-36c037c4235e"
+          },
+          {
+            "scenario_id": "c-v0-p0-09-t03-55fadbd1",
+            "parent_scenario_id": "c-v0-p0-09-t02-3bb1aa74",
+            "turn": 3,
+            "changes": {
+              "population_demand_ratio": 0.4
+            },
+            "result_id": "6dd101ab-a43a-4aa2-bc32-a8e2b6698138"
+          }
+        ],
+        "result_ids": [
+          "d0299159-c5fc-43bd-b208-36c037c4235e",
+          "6dd101ab-a43a-4aa2-bc32-a8e2b6698138"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-10",
+      "title": "多轮继承：关停场所后调整预算，关停名单保留",
+      "group": "multi_turn",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "stress_test",
+          "ok": true,
+          "error_code": null,
+          "result_id": "d37fa71d-f48c-4358-bdf7-39eac7bc9e94",
+          "scenario_id": "c-v0-p0-10-t02-afdd1f84",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1615,
+          "duration_ms": 3884.2,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "51ee2b50-9af2-4282-b1ff-f7a5821974cb",
+          "scenario_id": "c-v0-p0-10-t03-e953ab28",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1598,
+          "duration_ms": 4020.7,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 7934.5,
+      "session": {
+        "session_id": "v0-p0-10",
+        "turn": 3,
+        "current": {
+          "scenario_id": "c-v0-p0-10-t03-e953ab28",
+          "parent_scenario_id": "c-v0-p0-10-t02-afdd1f84",
+          "turn": 3,
+          "changes": {
+            "budget_units": 2
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 2,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "51ee2b50-9af2-4282-b1ff-f7a5821974cb",
+          "created_at": "2026-11-11T18:46:56.622+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-10-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-10-t02-afdd1f84",
+            "parent_scenario_id": "c-v0-p0-10-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b"
+              ]
+            },
+            "result_id": "d37fa71d-f48c-4358-bdf7-39eac7bc9e94"
+          },
+          {
+            "scenario_id": "c-v0-p0-10-t03-e953ab28",
+            "parent_scenario_id": "c-v0-p0-10-t02-afdd1f84",
+            "turn": 3,
+            "changes": {
+              "budget_units": 2
+            },
+            "result_id": "51ee2b50-9af2-4282-b1ff-f7a5821974cb"
+          }
+        ],
+        "result_ids": [
+          "d37fa71d-f48c-4358-bdf7-39eac7bc9e94",
+          "51ee2b50-9af2-4282-b1ff-f7a5821974cb"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-11",
+      "title": "历史情景不可被后续轮次改写",
+      "group": "multi_turn",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "75a52085-5fa1-4dd7-9d05-d807a481e3ac",
+          "scenario_id": "c-v0-p0-11-t02-e4e6d2bd",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1590,
+          "duration_ms": 4454.3,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "b406cd96-feaf-4589-8257-713da1ca4f03",
+          "scenario_id": "c-v0-p0-11-t03-ab98edc4",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1605,
+          "duration_ms": 5877.4,
+          "tool_calls": 3
+        },
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "f9f9af85-82a1-4b9c-a2e3-aa2ad8d7600d",
+          "scenario_id": "c-v0-p0-11-t04-41ffcf42",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1599,
+          "duration_ms": 5732.2,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 16105.4,
+      "session": {
+        "session_id": "v0-p0-11",
+        "turn": 4,
+        "current": {
+          "scenario_id": "c-v0-p0-11-t04-41ffcf42",
+          "parent_scenario_id": "c-v0-p0-11-t03-ab98edc4",
+          "turn": 4,
+          "changes": {
+            "budget_units": 1
+          },
+          "params": {
+            "population_demand_ratio": 0.3,
+            "max_walk_time_min": 18,
+            "budget_units": 1,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "f9f9af85-82a1-4b9c-a2e3-aa2ad8d7600d",
+          "created_at": "2026-11-11T18:47:11.016+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-11-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v0-p0-11-t02-e4e6d2bd",
+            "parent_scenario_id": "c-v0-p0-11-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "population_demand_ratio": 0.3
+            },
+            "result_id": "75a52085-5fa1-4dd7-9d05-d807a481e3ac"
+          },
+          {
+            "scenario_id": "c-v0-p0-11-t03-ab98edc4",
+            "parent_scenario_id": "c-v0-p0-11-t02-e4e6d2bd",
+            "turn": 3,
+            "changes": {
+              "max_walk_time_min": 18
+            },
+            "result_id": "b406cd96-feaf-4589-8257-713da1ca4f03"
+          },
+          {
+            "scenario_id": "c-v0-p0-11-t04-41ffcf42",
+            "parent_scenario_id": "c-v0-p0-11-t03-ab98edc4",
+            "turn": 4,
+            "changes": {
+              "budget_units": 1
+            },
+            "result_id": "f9f9af85-82a1-4b9c-a2e3-aa2ad8d7600d"
+          }
+        ],
+        "result_ids": [
+          "75a52085-5fa1-4dd7-9d05-d807a481e3ac",
+          "b406cd96-feaf-4589-8257-713da1ca4f03",
+          "f9f9af85-82a1-4b9c-a2e3-aa2ad8d7600d"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-12",
+      "title": "缺预算：在提交前拒绝，不产生任何远程调用",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "optimize",
+          "ok": false,
+          "error_code": "GUARD_MISSING_PARAM",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.1,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.8,
+      "session": {
+        "session_id": "v0-p0-12",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-12-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.762+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-12-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-13",
+      "title": "非法需求比例：1.2 被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": false,
+          "error_code": "GUARD_INVALID_PARAM",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.4,
+      "session": {
+        "session_id": "v0-p0-13",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-13-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.765+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-13-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-14",
+      "title": "非法预算：负数被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "optimize",
+          "ok": false,
+          "error_code": "GUARD_INVALID_PARAM",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.1,
+      "session": {
+        "session_id": "v0-p0-14",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-14-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.768+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-14-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-15",
+      "title": "数据版本错误：会话锁定到不存在的版本时拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": false,
+          "error_code": "GUARD_VERSION_MISMATCH",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.3,
+      "session": {
+        "session_id": "v0-p0-15",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-15-t01-68ff309d",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v9.9",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.770+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-15-t01-68ff309d",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-16",
+      "title": "越权验证模式：DEMO_ONLY 数据上请求 verified 被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": false,
+          "error_code": "GUARD_NOT_VERIFIED_SOURCE",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.6,
+      "session": {
+        "session_id": "v0-p0-16",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-16-t01-c640e319",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "verified"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.772+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-16-t01-c640e319",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-17",
+      "title": "结果 ID 不匹配：解释一个不属于本会话的结果被拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "explain_result",
+          "ok": false,
+          "error_code": "GUARD_UNKNOWN_RESULT",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.7,
+      "session": {
+        "session_id": "v0-p0-17",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-17-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.775+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-17-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-18",
+      "title": "比较任务少于两个情景：拒绝",
+      "group": "guard",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "compare",
+          "ok": false,
+          "error_code": "GUARD_INVALID_PARAM",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 0.0,
+          "tool_calls": 0
+        }
+      ],
+      "duration_ms": 2.7,
+      "session": {
+        "session_id": "v0-p0-18",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-18-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.777+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-18-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-19",
+      "title": "B 异步失败：未知避难场所 ID 由服务端拒绝并透传错误码",
+      "group": "failure",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "stress_test",
+          "ok": false,
+          "error_code": "B_SCENARIO_INVALID",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 3284.6,
+          "tool_calls": 2
+        }
+      ],
+      "duration_ms": 3296.9,
+      "session": {
+        "session_id": "v0-p0-19",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-19-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:16.780+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-19-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-20",
+      "title": "作业超时：有界等待后返回 JOB_TIMEOUT",
+      "group": "failure",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": false,
+          "error_code": "JOB_TIMEOUT",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 834.3,
+          "tool_calls": 2
+        }
+      ],
+      "duration_ms": 946.8,
+      "session": {
+        "session_id": "v0-p0-20",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-20-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:20.077+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-20-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-21",
+      "title": "B 进程重启导致作业丢失：识别为 JOB_STATE_LOST 而非无限轮询",
+      "group": "failure",
+      "kind": "expected_error",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": false,
+          "error_code": "JOB_STATE_LOST",
+          "result_id": null,
+          "scenario_id": null,
+          "solver_status": null,
+          "summary_bytes": 0,
+          "duration_ms": 1182.4,
+          "tool_calls": 2
+        }
+      ],
+      "duration_ms": 1210.1,
+      "session": {
+        "session_id": "v0-p0-21",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-21-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:21.024+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-21-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-22",
+      "title": "摘要与完整结果数值一致",
+      "group": "consistency",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "2187e5ad-88e5-4dcc-bcf1-b3341f576997",
+          "scenario_id": "c-v0-p0-22-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1560,
+          "duration_ms": 9733.4,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 10195.9,
+      "session": {
+        "session_id": "v0-p0-22",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-22-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "2187e5ad-88e5-4dcc-bcf1-b3341f576997",
+          "created_at": "2026-11-11T18:47:22.234+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-22-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "2187e5ad-88e5-4dcc-bcf1-b3341f576997"
+          }
+        ],
+        "result_ids": [
+          "2187e5ad-88e5-4dcc-bcf1-b3341f576997"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-23",
+      "title": "最优性声明：OPTIMAL 结果允许声称已证明最优",
+      "group": "consistency",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "d7855ad2-16c3-4910-ae9a-06500777d9d0",
+          "scenario_id": "c-v0-p0-23-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1560,
+          "duration_ms": 5610.6,
+          "tool_calls": 3
+        }
+      ],
+      "duration_ms": 5631.4,
+      "session": {
+        "session_id": "v0-p0-23",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-23-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "d7855ad2-16c3-4910-ae9a-06500777d9d0",
+          "created_at": "2026-11-11T18:47:32.429+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-23-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "d7855ad2-16c3-4910-ae9a-06500777d9d0"
+          }
+        ],
+        "result_ids": [
+          "d7855ad2-16c3-4910-ae9a-06500777d9d0"
+        ]
+      }
+    },
+    {
+      "case_id": "P0-24",
+      "title": "重复提交与幂等：相同幂等键返回同一 job_id",
+      "group": "consistency",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "duplicate",
+          "ok": true
+        }
+      ],
+      "duration_ms": 5787.5,
+      "session": {
+        "session_id": "v0-p0-24",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-24-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T18:47:38.061+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-24-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "P0-25",
+      "title": "传输故障：一次连接失败后自动重试成功",
+      "group": "consistency",
+      "kind": "success",
+      "passed": true,
+      "failures": [],
+      "steps": [
+        {
+          "task_type": "assess",
+          "ok": true,
+          "error_code": null,
+          "result_id": "a93ad45e-4dde-4375-adb4-dffb0d84efb6",
+          "scenario_id": "c-v0-p0-25-t01-9adb3cf6",
+          "solver_status": "OPTIMAL",
+          "summary_bytes": 1560,
+          "duration_ms": 5024.0,
+          "tool_calls": 4
+        }
+      ],
+      "duration_ms": 5042.1,
+      "session": {
+        "session_id": "v0-p0-25",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v0-p0-25-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "a93ad45e-4dde-4375-adb4-dffb0d84efb6",
+          "created_at": "2026-11-11T18:47:43.848+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v0-p0-25-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "a93ad45e-4dde-4375-adb4-dffb0d84efb6"
+          }
+        ],
+        "result_ids": [
+          "a93ad45e-4dde-4375-adb4-dffb0d84efb6"
+        ]
+      }
+    }
+  ]
+}
