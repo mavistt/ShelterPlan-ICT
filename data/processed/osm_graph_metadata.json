@@ -1,0 +1,14 @@
+{
+  "retrieved_at_utc": "2026-11-11T01:31:21.243542+00:00",
+  "source": "OpenStreetMap contributors via OSMnx graph_from_polygon",
+  "osm_copyright_url": "https://www.openstreetmap.org/copyright",
+  "network_type": "walk",
+  "network_buffer_m": 1000.0,
+  "analysis_polygon_sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+  "osmnx_version": "2.1.1",
+  "graph_nodes": 9040,
+  "graph_edges_directed": 26822,
+  "projected_crs": "EPSG:32649",
+  "graphml_sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+  "snapshot_note": "Live query result; graph hash pins this retrieved artifact, but the upstream OSM database is not a fixed snapshot."
+}

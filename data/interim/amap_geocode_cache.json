@@ -1,0 +1,1320 @@
+{
+  "中山市|中山市兴文路68号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市兴文路68号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴文路",
+        "number": "68号",
+        "location": "113.404561,22.498017",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|东江路12号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东江路12号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "东江路",
+        "number": "12号",
+        "location": "113.427611,22.515621",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|广东省中山市东区沙石公路6号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "3",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市沙石公路6号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "沙石公路",
+        "number": "6号",
+        "location": "113.383707,22.494762",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市沙石公路6号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "沙石公路",
+        "number": [],
+        "location": "113.380148,22.500421",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|广东省中山市东区兴文路72号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市兴文路72号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴文路",
+        "number": "72号",
+        "location": "113.407021,22.498523",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|广东省中山市东区兴中道8号之三": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "3",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市兴中大道",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴中大道",
+        "number": [],
+        "location": "113.189237,22.617031",
+        "level": "道路"
+      },
+      {
+        "formatted_address": "广东省中山市东区兴中道8号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴中道",
+        "number": "8号",
+        "location": "113.390007,22.519328",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区兴中道8号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴中道",
+        "number": "8号",
+        "location": "113.389886,22.519398",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|广东省中山市东区街道博爱五路2号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区街道博爱五路2号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "博爱五路",
+        "number": "2号",
+        "location": "113.393139,22.501357",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区街道博爱五路2栋",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "博爱五路",
+        "number": "2栋",
+        "location": "113.403687,22.501413",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区恒信花园B区41-44卡": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区恒信花园b区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": "b区",
+        "location": "113.384293,22.509074",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区万和街1号之二": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区万和街1号之1",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "万和街",
+        "number": "1号之1",
+        "location": "113.398860,22.507865",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区夏围街1号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区夏围街1号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "夏围街",
+        "number": "1号",
+        "location": "113.394302,22.506122",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区东裕路78号二楼": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区东裕路78号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "东裕路",
+        "number": "78号",
+        "location": "113.400309,22.508680",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区中关街5号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市中关街5号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "中关街",
+        "number": "5号",
+        "location": "113.408953,22.515270",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区土瓜岭大街17号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区土瓜岭大街17号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "土瓜岭大街",
+        "number": "17号",
+        "location": "113.402839,22.519695",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区新村大街8号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "3",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市新村大街8号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "新村大街",
+        "number": "8号",
+        "location": "113.404442,22.504959",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市新村大街8号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "新村大街",
+        "number": [],
+        "location": "113.444636,22.374418",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区小鳌溪米机街12号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市小鳌溪米机街12号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "小鳌溪米机街",
+        "number": [],
+        "location": "113.419156,22.509374",
+        "level": "门牌号"
+      }
+    ]
+  },
+  "中山市|中山市东区大鳌溪新村四街9号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市大鳌溪新村四街9号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "大鳌溪新村四街",
+        "number": "9号",
+        "location": "113.427332,22.509523",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市中山五路22号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市中山五路22号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "中山五路",
+        "number": "22号",
+        "location": "113.407821,22.512860",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区柏苑路73号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区柏苑路73号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "柏苑路",
+        "number": "73号",
+        "location": "113.385049,22.516731",
+        "level": "门址"
+      }
+    ]
+  },
+  "中山市|中山市东区长江北路161号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市长江北路161号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "长江北路",
+        "number": "161号",
+        "location": "113.409284,22.533448",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区齐东正街6号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市齐东正街6号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "齐东正街",
+        "number": "6号",
+        "location": "113.413054,22.521564",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区白沙湾中湾街3号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市白沙湾镇中湾街3号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "中湾街",
+        "number": "3号",
+        "location": "113.410580,22.543313",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区起湾大街28号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市起湾大街28号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "起湾大街",
+        "number": [],
+        "location": "113.405956,22.521452",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市起湾大街69号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "起湾大街",
+        "number": [],
+        "location": "113.406638,22.522605",
+        "level": "门牌号"
+      }
+    ]
+  },
+  "中山市|中山市东区长江村长景街13号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市长江村长景街12号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "长景街",
+        "number": [],
+        "location": "113.446942,22.494803",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区三溪下街28号三楼": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区三溪下街28号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "东区三溪下街",
+        "number": [],
+        "location": "113.421532,22.497836",
+        "level": "门牌号"
+      }
+    ]
+  },
+  "中山市|中山市东区长江鳌长公路127号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "3",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市长江鳌长公路127号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "鳌长公路",
+        "number": "127号",
+        "location": "113.444826,22.494824",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市长江鳌长公路49号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "鳌长公路",
+        "number": [],
+        "location": "113.421473,22.515396",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市悦朗路天丰御品园3栋": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市悦朗路",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "悦朗路",
+        "number": [],
+        "location": "113.374742,22.498828",
+        "level": "道路"
+      }
+    ]
+  },
+  "中山市|中山市东区槎桥村槎桥正街1号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市槎桥村槎桥正街1号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "槎桥正街",
+        "number": "1号",
+        "location": "113.376981,22.496700",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区兴龙路6号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市兴龙路6号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "兴龙路",
+        "number": "6号",
+        "location": "113.382778,22.499728",
+        "level": "门址"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区新安路18号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "2",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市新安路5号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "新安路",
+        "number": [],
+        "location": "113.452119,22.359855",
+        "level": "门牌号"
+      },
+      {
+        "formatted_address": "广东省中山市东区",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.395819,22.513947",
+        "level": "未知"
+      }
+    ]
+  },
+  "中山市|中山市东区远洋城万象花园56卡": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市远洋城",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": [],
+        "number": [],
+        "location": "113.418156,22.499014",
+        "level": "兴趣点"
+      }
+    ]
+  },
+  "中山市|中山市东区银竹街9号": {
+    "status": "1",
+    "info": "OK",
+    "infocode": "10000",
+    "count": "1",
+    "geocodes": [
+      {
+        "formatted_address": "广东省中山市东区银竹街9号",
+        "country": "中国",
+        "province": "广东省",
+        "citycode": "0760",
+        "city": "中山市",
+        "district": [],
+        "township": [],
+        "neighborhood": {
+          "name": [],
+          "type": []
+        },
+        "building": {
+          "name": [],
+          "type": []
+        },
+        "adcode": "442000",
+        "street": "银竹街",
+        "number": "9号",
+        "location": "113.398530,22.515099",
+        "level": "门址"
+      }
+    ]
+  }
+}

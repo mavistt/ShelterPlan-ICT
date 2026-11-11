@@ -3,14 +3,6 @@
 __pycache__/
 .pytest_cache/
 *.py[cod]
-data/raw/*
-!data/raw/.gitkeep
-data/interim/*
-!data/interim/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
-data/manifests/*
-!data/manifests/.gitkeep
 # Secrets and local configuration
 .env.*
 !.env.example
@@ -37,3 +29,10 @@ env/
 work/
 *.tmp
 *.bak
+# Project data and generated results are intentionally tracked
+*.key
+*.pem
+*.p12
+data/raw/*.part
+
+data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif

@@ -1,0 +1,130 @@
+{
+  "audited_at_utc": "2026-11-11T03:29:52.619680+00:00",
+  "data_version": "zhongshan_pilot_v0.1",
+  "verdict": "DEMO_ONLY",
+  "demo_ready": true,
+  "real_pilot_accepted": false,
+  "real_pilot_blockers": [
+    "Downloaded shelter workbook has 453 rows while portal catalog metadata reports 906; two 2024 batches share the same first 20 preview rows, but full-batch reconciliation is missing or inconclusive.",
+    "24 included shelters lack verified status.",
+    "24 shelter coordinates use approximate/demo methods.",
+    "24 shelter points lack an approved WGS84 method and coordinate source URL.",
+    "24 shelter capacities lack current verification evidence.",
+    "Analysis polygon is not an authoritative administrative boundary.",
+    "Shelter register records are from 2024; current capacity/open status is not established."
+  ],
+  "shelter_register": {
+    "source_rows": 453,
+    "portal_catalog_rows": 906,
+    "portal_count_basis": "Catalog metadata; two 2024 attachment batches are shown and their first 20 preview rows match; full unique-record equivalence is not yet verified.",
+    "portal_attachment_batches": [
+      "ff8080819daf4f90019e678d78683d50",
+      "ff80808196a71e2901975c8dd57b21e4"
+    ],
+    "batch_reconciliation": null,
+    "batch_reconciliation_current": false,
+    "scope_reconciled": false,
+    "updated_values": [
+      "2024年度"
+    ]
+  },
+  "pilot_reconciliation": {
+    "east_source_rows": 31,
+    "pilot_input_rows": 30,
+    "held_before_geocoding": [
+      {
+        "shelter_id": "zs_63f1d8e4ef",
+        "source_row_excel": 75
+      }
+    ],
+    "geocode_candidate_rows": 24,
+    "documented_exclusion_rows": 6,
+    "unresolved_geocode_disposition_ids": [],
+    "overlap_candidate_and_exclusion_ids": [],
+    "dispositions_reconcile": true
+  },
+  "coordinate_evidence_missing_count": 24,
+  "capacity_unverified_count": 24,
+  "population": {
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_nonnegative_cells": 8151,
+    "raster_population_sum": 551028.7028387613,
+    "demand_nodes": 7965,
+    "demand_population_sum": 551028.7028387613,
+    "within_analysis_area": 7965,
+    "outside_analysis_area": 0,
+    "within_100m_of_analysis_boundary": 321
+  },
+  "shelters": {
+    "count": 24,
+    "unverified_count": 24,
+    "approximate_or_unknown_coordinate_count": 24,
+    "coordinate_evidence_missing_count": 24,
+    "capacity_unverified_count": 24,
+    "capacity_sum_persons": 11332.0,
+    "coordinate_status_counts": {
+      "approximate_demo_unverified": 24
+    }
+  },
+  "network": {
+    "nodes": 9040,
+    "directed_edges": 26822,
+    "components": 19,
+    "largest_component_nodes": 8960,
+    "largest_component_share": 0.9911504424778761,
+    "snap": {
+      "demand": {
+        "count": 7965,
+        "min": 0.3441043771240987,
+        "median": 69.14873139033162,
+        "p95": 248.14724591001277,
+        "max": 681.5877672636042,
+        "mean": 92.52271071350765,
+        "within_configured_max": 7227,
+        "over_configured_max": 738,
+        "max_snap_distance_m": 200.0,
+        "ids": 7965
+      },
+      "shelter": {
+        "count": 24,
+        "min": 6.483166955512169,
+        "median": 37.25989358574917,
+        "p95": 93.54453414377694,
+        "max": 181.97855013114832,
+        "mean": 49.30972938001535,
+        "within_configured_max": 24,
+        "over_configured_max": 0,
+        "max_snap_distance_m": 200.0,
+        "ids": 24
+      }
+    }
+  },
+  "travel_matrix": {
+    "rows": 191160,
+    "expected_rows": 191160,
+    "reachable_pairs": 172704,
+    "unreachable_pairs": 18456,
+    "reason_counts": {
+      "ok": 172704,
+      "demand_snap_too_far": 17712,
+      "no_path": 744
+    },
+    "time_threshold_min": 15.0,
+    "demand_nodes_with_at_least_one_pair_within_threshold": 2366,
+    "demand_nodes_without_pair_within_threshold": 5599,
+    "pairs_within_time_threshold": 3272
+  },
+  "analysis_area": {
+    "path": "configs/pilot_analysis_area.geojson",
+    "is_official_boundary": false,
+    "properties": "试点分析范围：场所候选点外包矩形加约1公里缓冲，非行政边界 | demo_approximate"
+  },
+  "route_example_exists": true,
+  "errors": [],
+  "warnings": [
+    "24/24 shelters are not verified; results are DEMO_ONLY.",
+    "1 East District source records are held out before geocoding: [{'shelter_id': 'zs_63f1d8e4ef', 'source_row_excel': 75}].",
+    "Analysis area is not documented as an official administrative boundary."
+  ]
+}

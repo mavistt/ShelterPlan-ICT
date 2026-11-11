@@ -1,0 +1,332 @@
+{
+  "project": {
+    "name": "ShelterPlan",
+    "city": "中山市",
+    "pilot_town": "东区街道",
+    "area_label": "试点分析范围（非正式行政边界，除非另有权威证明）",
+    "data_version": "zhongshan_pilot_v0.1",
+    "population_year": 2025,
+    "shelter_sheet": "中山市应急避难场所基础信息表.xlsx",
+    "portal_expected_shelter_records": 906,
+    "portal_record_count_basis": "Catalog metadata; two 2024 attachment batches are shown and their first 20 preview rows match; full unique-record equivalence is not yet verified.",
+    "portal_attachment_batches": [
+      "ff8080819daf4f90019e678d78683d50",
+      "ff80808196a71e2901975c8dd57b21e4"
+    ]
+  },
+  "created_at_utc": "2026-11-11T03:51:54.793301+00:00",
+  "reproducibility": {
+    "command": "bash scripts/run_stage_a_demo.sh",
+    "scope": "Rebuilds derived GIS outputs from frozen shelter, geocoding, population, and polygon inputs; online OSM retrieval may change over time.",
+    "secrets_excluded": [
+      ".env",
+      "AMAP_KEY"
+    ],
+    "software_versions": {
+      "pandas": "2.3.3",
+      "numpy": "2.4.6",
+      "geopandas": "1.2.0",
+      "rasterio": "1.4.4",
+      "shapely": "2.2.0",
+      "pyproj": "3.7.2",
+      "osmnx": "2.1.1",
+      "networkx": "3.6.1",
+      "pyarrow": "26.0.1",
+      "scipy": "1.17.1",
+      "requests": "2.34.2",
+      "PyYAML": "6.0.3"
+    },
+    "code": {
+      "scripts/00_inspect_shelters.py": {
+        "bytes": 1318,
+        "sha256": "92d66719363380d14fa18c2e8d3c8dec5af9abcd8590d01d8d611e3d6fc77789"
+      },
+      "scripts/01_clean_shelters.py": {
+        "bytes": 13269,
+        "sha256": "e7d71e7fcc566f65cc4a75768f2ea95544aae2286f09d66d7429bbca081f7d7d"
+      },
+      "scripts/01_prepare_pilot_demo.py": {
+        "bytes": 3872,
+        "sha256": "547b8b5fc7ed1cb4320e43b96c8c131b06010d19692b467952f0f10de7175177"
+      },
+      "scripts/12_reconcile_portal_batches.py": {
+        "bytes": 5925,
+        "sha256": "d66fdeef660fd518d3292c349463e12665312135ef4da5158a25b1fa05d21c80"
+      },
+      "scripts/02_geocode_amap.py": {
+        "bytes": 6954,
+        "sha256": "6e30924f6dbd4c7a8d03a6c5a7965dac364624f43adaebc0ea6c6bd5a27a9bca"
+      },
+      "scripts/03_prepare_verified_shelters.py": {
+        "bytes": 6944,
+        "sha256": "6032e773d34ca42c98ade09d94c8abedc75f0154af9a19a0fb84994c120ff7b6"
+      },
+      "scripts/04_clip_population.py": {
+        "bytes": 3571,
+        "sha256": "5108c90eb170d43b61533e03bd485c6baec4039baed9aae01c6e7f77439bab82"
+      },
+      "scripts/05_build_walk_graph.py": {
+        "bytes": 4794,
+        "sha256": "5bda1f112cfb24fdec97b79bc364749b532a68dcdfe01efa903650bd64035417"
+      },
+      "scripts/06_build_travel_matrix.py": {
+        "bytes": 7014,
+        "sha256": "1a1c1478dc7661625106c40d3536f2cb01e4f712a0b989f8c1fe5033db44ddd2"
+      },
+      "scripts/07_validate_outputs.py": {
+        "bytes": 4028,
+        "sha256": "736c83144d963eca917e282297473417289feb205074dba82ca3c834beda457b"
+      },
+      "scripts/08_build_manifest.py": {
+        "bytes": 7064,
+        "sha256": "d421a7bb569ce4bed3ba8f6d6656f021902dbcb6a2e0d4b5a4dfc391405c9742"
+      },
+      "scripts/09_check_east_review.py": {
+        "bytes": 1937,
+        "sha256": "b43b7d675139d584ae61eed2e1bdeb59d8e508cde6b4bb0d473b0d7c4d029992"
+      },
+      "scripts/10_a7_quality_audit.py": {
+        "bytes": 22569,
+        "sha256": "9075177d51262af11baf9240820f6f58910d8b52756a009cf68049265097603e"
+      },
+      "scripts/common.py": {
+        "bytes": 1699,
+        "sha256": "dabdbb6d8f13a916a05568eda5feaf393deb24d4bec6799406c6726068b60147"
+      },
+      "scripts/run_stage_a_demo.sh": {
+        "bytes": 1163,
+        "sha256": "e7bbbff06901095bd3d1e031879fc839eb95d99d887a414caaa0da32e9e65504"
+      },
+      "scripts/11_snap_time_sensitivity.py": {
+        "bytes": 9865,
+        "sha256": "3ba6c76d3feb993b75396e4ad2da5c3976dca5ce0b9c28f0016685e8407dcf8c"
+      }
+    }
+  },
+  "coordinate_reference_system": "EPSG:4326 for vector interchange; local projected CRS for network distances",
+  "data_quality": "Demonstration only unless all shelter positions/capacities and the analysis boundary have verified evidence. Current shelter points use an approximate non-official GCJ-02 inverse.",
+  "sources": {
+    "shelter_register": {
+      "url": "https://zsdata.zs.gov.cn/web/dataServerView?id=ff80808171f8c2d2017211d225c2039a",
+      "licence_status": "Portal marks dataset fully open; retain source attribution and confirm redistribution terms",
+      "download_method": "Manual Xls download from portal",
+      "source_period": "2024年度",
+      "portal_catalog_record_count": 906,
+      "attachment_batches": [
+        "ff8080819daf4f90019e678d78683d50",
+        "ff80808196a71e2901975c8dd57b21e4"
+      ],
+      "count_interpretation": "The portal exposes two 2024 attachment batches whose first 20 preview rows match. The local workbook has 453 rows; the catalog count of 906 may include batch versions, but full row-level equivalence and unique current-register size are not verified."
+    },
+    "population": {
+      "url": "https://stac.worldpop.org/collections/CHN/items/chn_pop_2025_CN_100m_R2025A_v1",
+      "doi": "10.5258/SOTON/WP00839",
+      "licence": "CC BY 4.0",
+      "meaning": "Modelled total people per grid cell, not evacuees"
+    },
+    "walking_network": {
+      "url": "https://www.openstreetmap.org/copyright",
+      "source": "OpenStreetMap contributors, retrieved through OSMnx/Overpass",
+      "licence": "ODbL 1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "version_note": "Online query result is captured by the road graph SHA256; no fixed regional PBF snapshot was used.",
+      "retrieval_metadata": {
+        "retrieved_at_utc": "2026-11-11T01:31:21.243542+00:00",
+        "source": "OpenStreetMap contributors via OSMnx graph_from_polygon",
+        "osm_copyright_url": "https://www.openstreetmap.org/copyright",
+        "network_type": "walk",
+        "network_buffer_m": 1000.0,
+        "analysis_polygon_sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+        "osmnx_version": "2.1.1",
+        "graph_nodes": 9040,
+        "graph_edges_directed": 26822,
+        "projected_crs": "EPSG:32649",
+        "graphml_sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+        "snapshot_note": "Live query result; graph hash pins this retrieved artifact, but the upstream OSM database is not a fixed snapshot."
+      }
+    },
+    "geocoding": {
+      "provider": "Amap Web Service",
+      "coordinate_system_returned": "GCJ-02",
+      "note": "The current demo uses a non-official approximate inverse to estimate WGS84 and is not suitable as verified/surveyed coordinates."
+    }
+  },
+  "assumptions": {
+    "analysis_area_status": "Generated pilot analysis rectangle; not an official administrative boundary",
+    "network_buffer_m": 1000,
+    "walking_speed_m_per_s": 1.1,
+    "max_snap_distance_m": 200,
+    "population_demand_ratio": "Scenario parameter; not baked into population raster output",
+    "walk_time_threshold_min": 15
+  },
+  "files": {
+    "data/raw/zhongshan_shelters.xls": {
+      "bytes": 97792,
+      "sha256": "15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f79a45e4a87b"
+    },
+    "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif": {
+      "bytes": 922251437,
+      "sha256": "99b2bcebaf173d0d9f9fc43b45a122e896bcd0ac2190d1882a1b6f2ab0941913"
+    },
+    "data/interim/east_district_shelters_review.xlsx": {
+      "bytes": 11453,
+      "sha256": "2dbebeca275a361edfb39170efd86c0b3d0177d61294fb3cceee7fde0fd17733"
+    },
+    "data/interim/east_district_shelters_review.csv": {
+      "bytes": 10220,
+      "sha256": "a7523fed030f08338425e5e58529e12a1a60d2f2a5fecc08bf07cdd33b5c5907"
+    },
+    "data/interim/shelters_review_required.xlsx": {
+      "bytes": 58351,
+      "sha256": "fc08da42e9ba3dadb9f9a576ba60a254313c2f803c51412e66495cda067b2705"
+    },
+    "data/interim/shelters_review_required.csv": {
+      "bytes": 132852,
+      "sha256": "409ddfbf079341852a6de475393971b026ecdde464b8fbbf9a83b234c54b9cb3"
+    },
+    "data/interim/shelters_wgs84_review_template.csv": {
+      "bytes": 3545,
+      "sha256": "ced142af99c6a6b028f4e46470baf4c4e7329d213d256714ea4f7960f9bdce5c"
+    },
+    "configs/pilot.yaml": {
+      "bytes": 2037,
+      "sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146"
+    },
+    "configs/pilot_analysis_area.geojson": {
+      "bytes": 948,
+      "sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec"
+    },
+    "data/processed/shelters_clean.csv": {
+      "bytes": 187399,
+      "sha256": "c65a445f7fbbfedcbbddec889df7dfe7c5ebf8d837e77602aaff0734c91761c6"
+    },
+    "data/processed/shelters_pilot_raw.csv": {
+      "bytes": 8427,
+      "sha256": "f3733eebf820e49c7376e388301e6af2d1be5797675ea13ccb8de37a7059e456"
+    },
+    "data/interim/shelters_geocoding_candidates.csv": {
+      "bytes": 10009,
+      "sha256": "df64259b7853206ee501d39bef73e2218693de944441fe3f720293cf8ac1140c"
+    },
+    "data/interim/shelters_geocoding_exclusions.csv": {
+      "bytes": 3104,
+      "sha256": "968bcbc4be1b3265c133c14ced8f8354ae499cf2829808c9886d0459051047e8"
+    },
+    "data/interim/amap_geocode_cache.json": {
+      "bytes": 33543,
+      "sha256": "b908dfe2402bedca4863554c3edb6e940d4a6ec8f080ac2b48c28a5a98965bff"
+    },
+    "data/processed/shelters_geocoded.geojson": {
+      "bytes": 28304,
+      "sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318"
+    },
+    "data/processed/pop_pilot.tif": {
+      "bytes": 38421,
+      "sha256": "daa9169062aeea02ccd395b629628a9d46f9943f4d6622e4e62e8e643e9faa85"
+    },
+    "data/processed/demand_nodes.geojson": {
+      "bytes": 2633782,
+      "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46"
+    },
+    "data/processed/road_walk.graphml": {
+      "bytes": 12352967,
+      "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be"
+    },
+    "data/processed/osm_graph_metadata.json": {
+      "bytes": 692,
+      "sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d"
+    },
+    "data/processed/map_layers/road_edges.geojson": {
+      "bytes": 13715042,
+      "sha256": "bd484a3ec32643205ec36196804fac81ad69cd080f2c37bf4bdfeed429e0b4f1"
+    },
+    "data/processed/map_layers/network_buffer.geojson": {
+      "bytes": 3433,
+      "sha256": "d26d19397d21cbe22bcea5f35ebe4e4e61fb3e8986db5aa6f3e01f383644b27e"
+    },
+    "data/processed/map_layers/demand_nodes.geojson": {
+      "bytes": 2633782,
+      "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46"
+    },
+    "data/processed/map_layers/shelters.geojson": {
+      "bytes": 28601,
+      "sha256": "9aa8371578f1e2bfc9e6ed7ffe79bf9c2fe21fbe0703e8bd4468c6ad5e64699c"
+    },
+    "data/processed/map_layers/route_example.geojson": {
+      "bytes": 2518,
+      "sha256": "a0593d7ac9b2d921111533078cb4cdcc7509ca611913fec6aa5c6ffe3f711b1e"
+    },
+    "data/processed/demand_snap_audit.csv": {
+      "bytes": 355564,
+      "sha256": "27bf50829751c2578f63761b3628c89aa9abfa6828266a045187b7e3e0fd66aa"
+    },
+    "data/processed/shelter_snap_audit.csv": {
+      "bytes": 1207,
+      "sha256": "4b3c296fbb7c8bc2ef26abb9d63cba0bd0ea23b6b68fc04e69ebf3d9b70f746b"
+    },
+    "data/processed/travel_matrix.parquet": {
+      "bytes": 6077300,
+      "sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c"
+    },
+    "data/processed/travel_matrix_reason_counts.csv": {
+      "bytes": 66,
+      "sha256": "30016a8f1b8c2e93738f46518c139b56acc9a55ac9e2de0f03e38ece939860da"
+    },
+    "data/processed/snap_time_sensitivity.csv": {
+      "bytes": 4408,
+      "sha256": "1c71662ae6b65402c5a6fb96744ea3b5463abd082d012eceed31d43e7a7e7349"
+    },
+    "data/processed/a7_quality_summary.json": {
+      "bytes": 4457,
+      "sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c"
+    },
+    "README.md": {
+      "bytes": 712,
+      "sha256": "ff6be043b39426204343bdf0d1b575b362021c890be7b55462099effd6cb0c56"
+    },
+    "docs/shelter_inspection.txt": {
+      "bytes": 2914,
+      "sha256": "9c6207b4982eebf504efb4a4ce72e0756391ed641493d25e9c3fe565ce006fe5"
+    },
+    "docs/data_quality_shelters.md": {
+      "bytes": 2436,
+      "sha256": "35af80be9da082dd9abb533a5dca6854c7a71f88bcaf3914355e5c3218f015b9"
+    },
+    "docs/data_quality_population.md": {
+      "bytes": 607,
+      "sha256": "ac799eb09e6f113d289eea181d9736b27b2790692c03c72f473817d330d8e1f5"
+    },
+    "docs/data_quality_roads.md": {
+      "bytes": 790,
+      "sha256": "88c71079ccc6fe7630d498c8cce822c572cc65c03c5ddc719ef79608707567d5"
+    },
+    "docs/data_quality_pilot.md": {
+      "bytes": 401,
+      "sha256": "dcd188f13b3752f89becfca136ccdb884f9c0ed4b6b5b25aa56bfdbf8292a1d5"
+    },
+    "docs/data_quality_a7.md": {
+      "bytes": 2947,
+      "sha256": "281f05f2de0c9655417c4edccd876ff6919c59c6878e25ceacbc4c99fd31e757"
+    },
+    "docs/handoffs/A_to_B.md": {
+      "bytes": 4083,
+      "sha256": "bf0ca5ca40f26843bce4e70b151b0e1dfb2af5e2b8f82f730c9a716e184e91e8"
+    },
+    "docs/data_dictionary.md": {
+      "bytes": 2640,
+      "sha256": "6ead72d3d459b2d5b8ac9187c82634831d0d2ef1a3885e3dfff6694fead247ea"
+    },
+    "docs/module_a.md": {
+      "bytes": 5932,
+      "sha256": "7dc3d5efe184cdf21401c22857233e170fdbfbfbdbefda7f16483e543f319817"
+    },
+    "docs/snap_time_sensitivity.md": {
+      "bytes": 2486,
+      "sha256": "80d514f5570cebf27573d68a1ff7dfb5deec9afc44df48c8a7d9c02bb29c2a4c"
+    },
+    "requirements-lock.txt": {
+      "bytes": 545,
+      "sha256": "56de145bac17a55a5ef12d226ee0e4aba489e7779d1beb4875a66bcb5488f9dd"
+    }
+  }
+}
