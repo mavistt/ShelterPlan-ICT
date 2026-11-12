@@ -515,7 +515,19 @@ python -m agent.mcp_server --transport stdio
 
 ---
 
-## 12. 下一轮（V1.5 → AgentArts）计划
+## 12. 交付记录
+
+| 项 | 值 |
+|---|---|
+| 分支 | `feature/module-c`（基于 B 的 `5f8bb512`） |
+| 代码提交 | **`46fc667`** — 33 文件，+16,988 / −33 |
+| 新增代码 | 2,688 行（`agent/intent` 1,111 · `agent/workflow` 515 · `structured_runner` 362 · `eval_lib`+`run_v2` 700） |
+| 新增测试 | 75 条（`test_intent` 34 · `test_workflow` 26 · `test_eval_lib` 13 · `test_mcp_structured` 2），全量 153 条 |
+| 上游改动 | **0**：`backend/`、`data/`、`configs/`、`scripts/` 均未触碰 |
+| 远端 | **未 push、未合并** |
+| 证据 | `docs/module_c/evidence/v2_report.json`、`v2_trace.jsonl`、`v2_fix_trace.jsonl`、`v2_rep2_*`、`v2_tables.md` |
+
+## 13. 下一轮（V1.5 → AgentArts）计划
 
 1. **把槽位抽取从提示词搬到结构化节点**：AgentArts 的 Code 节点做 `ops` 归一化，
    Condition 节点做缺参分支，LLM 只负责意图分类。
