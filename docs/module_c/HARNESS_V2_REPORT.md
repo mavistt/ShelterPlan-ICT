@@ -15,7 +15,7 @@
 
 | # | 功能 | 位置 | 状态 |
 |---|---|---|---|
-| 1 | 结构化意图信封（9 类意图、5 种参数操作、对比/敏感性/候选槽位） | `agent/intent/schema.py` | 完成 |
+| 1 | 结构化意图信封（9 类意图、4 种参数操作、对比/敏感性/候选槽位） | `agent/intent/schema.py` | 完成 |
 | 2 | LLM 抽取器：JSON 模式 → 确定性修复 → 一次重问 → 规则兜底 | `agent/intent/extractor.py` | 完成 |
 | 3 | 参数归一化：`set/delta/scale/restore` 作用于完整会话快照 | `agent/intent/normalizer.py` | 完成 |
 | 4 | 受控路由：意图→任务、缺参澄清、数据准入、对比/敏感性计划 | `agent/workflow/router.py` | 完成 |
@@ -25,7 +25,7 @@
 | 8 | 四臂消融运行器（顺序轮换、逐条配对、多次重复） | `tests/module_c/run_v2.py` | 完成 |
 | 9 | 公平判分库（修复 V1 的 8 处框架缺陷） | `tests/module_c/eval_lib.py` + `docs/module_c/V1_EVAL_AUDIT.md` | 完成 |
 | 10 | 23 条全新测试用例（5 组） | `tests/module_c/cases/v2_cases.json` | 完成 |
-| 11 | 离线单元测试 73 条 + MCP 入口 2 条 | `tests/module_c/test_intent.py`、`test_workflow.py`、`test_eval_lib.py` | 完成 |
+| 11 | 离线单元测试 75 条（含 MCP 入口 2 条） | `tests/module_c/test_intent.py`、`test_workflow.py`、`test_eval_lib.py`、`test_mcp_structured.py` | 完成 |
 
 **没有做**：没有新增 B 的任务类型；没有改 B 的求解器/Verifier；没有把 B 的 12 个原子技能暴露给模型；
 没有引入新的付费服务；没有把 V0 的确定性结果混进 LLM 指标。
