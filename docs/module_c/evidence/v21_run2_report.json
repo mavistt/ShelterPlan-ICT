@@ -1,0 +1,7005 @@
+{
+  "run_id": "v21-1794489748",
+  "generated_at": "2026-11-12T13:22:28Z",
+  "code": {
+    "commit": "9ecce0628b6b56bc5bd87fdbece5e4a06fddc4b4",
+    "working_tree_dirty": true
+  },
+  "freeze": {
+    "created_at": "2026-11-12T12:37:56Z",
+    "cases_path": "tests/module_c/cases/v21_cases.json",
+    "cases_sha256": "fea06b63d135ff909a0555253d597bad82276317f4bf312afa3f3c37a23bef56",
+    "grading_path": "tests/module_c/eval_lib.py",
+    "grading_sha256": "fd15adcc560551bc5bf9269db2083f7c20b95b4e286ff1d2819ee9ea5f91bc54",
+    "runner_path": "tests/module_c/run_v21.py",
+    "runner_sha256": "6c2e8c272508b08d858efd0d4af2bbcaed48a93be445fbbfe5770f579648f9fa",
+    "case_count": 47,
+    "authoring": "47 cases written by hand from the ten required categories in the V2.1 brief, before the first scored run. No case was produced by editing a V1/V2 case, and no V1/V2 failure list was consulted while writing them. Expected values and grading keys were fixed in the same pass.",
+    "dev_set": {
+      "path": "tests/module_c/cases/v21_dev_cases.json",
+      "purpose": "pre-freeze defect shake-out; never reported as generalisation evidence",
+      "run_output": "outputs/module_c/v21-dev/report.json",
+      "fixes_prompted_by_dev_set": [
+        "eval_lib: broaden clarification tokens to polite forms (请您提供/请重新)",
+        "extractor: downgrade a task intent to clarify when the utterance has no actionable content",
+        "router: a clarifying plan keeps the task type so a later turn can resume it",
+        "controller: classify Module B's pre-compute rejections as upstream_rejected",
+        "eval_lib: must_not_contain now ignores sentences that reject the token"
+      ],
+      "note": "These are generic fixes to the pipeline and the grader. None of them encodes a specific case, a shelter id, or an expected value."
+    },
+    "model": {
+      "name": "gemma4:e2b",
+      "runtime": "ollama 0.23.1",
+      "temperature": 0.0
+    },
+    "declaration": "Scores from this file are reported as measured. If a fix is needed after this point, a new case file (v21b) is created and re-run; this file is never edited and re-scored."
+  },
+  "cases_path": "E:\\ICT\\module-c\\tests\\module_c\\cases\\v21_cases.json",
+  "cases_sha256_at_run": "fea06b63d135ff909a0555253d597bad82276317f4bf312afa3f3c37a23bef56",
+  "model": {
+    "base_url": "http://127.0.0.1:11434/v1",
+    "model": "gemma4:e2b",
+    "temperature": 0.0
+  },
+  "design": {
+    "arms": [
+      "harness",
+      "harness_opt"
+    ],
+    "reps": 1,
+    "rep_start": 1,
+    "case_count": 47,
+    "grading": "tests/module_c/eval_lib.py::grade",
+    "arm_order": "rotated per case and repetition",
+    "note": "Expectations were written before the first run. The case file is hash-locked; failures are reported as measured and are not rescored after fixes."
+  },
+  "cases": [
+    {
+      "case_id": "V21-C-01",
+      "group": "compound",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】预算约束下的扩容优化已完成。\n【优化结果】选中措施：CAP_1_20D94E；总成本 1.00 / 预算 3.00。\n【覆盖变化】优化前基线已服务 11,332.00 人；优化后 11,832.00 人；变化 500.00 人。\n【关键指标】已服务 11,332.00 人 / 总需求 165,308.61 人，覆盖率 6.9%；加权步行时间 11.45 分钟。\n【参数】需求比例 30%；步行阈值 20.0 分钟；预算 3.00；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=c9ee0e4c-a3cb-4378-a702-c366e769b59c；scenario_id=c-v2-r1-ha-t02-38c4011f",
+      "successful_task_types": [
+        "optimize"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 20.0,
+        "budget_units": 3.0,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          20.0,
+          94.0,
+          1.0,
+          3.0,
+          11332.0,
+          11832.0,
+          500.0,
+          11332.0,
+          165308.61,
+          6.9,
+          11.45,
+          30.0,
+          20.0,
+          3.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 20
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 20.0
+        },
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 3.0
+        },
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.3
+        }
+      ],
+      "slot_expected": true,
+      "llm_calls": 1,
+      "llm_latency_ms": 7470.6,
+      "b_api_ms": 6579.0,
+      "duration_ms": 14125.6,
+      "prompt_tokens": 820,
+      "completion_tokens": 263,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": true,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "optimize",
+        "intent_ok": true,
+        "slot_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-C-01",
+      "group": "compound",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我已为您提交了优化任务。请稍候，我将轮询任务状态以获取结果。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 9
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 19589.6,
+      "b_api_ms": 25.2,
+      "duration_ms": 19647.3,
+      "prompt_tokens": 2611,
+      "completion_tokens": 719,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2",
+        "params: max_walk_time_min expected 20 got 15.0",
+        "params: budget_units expected 3 got None"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-C-02",
+      "group": "compound",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您对预算增加1.5（总预算3.5）和步行阈值降至12分钟的调整，我为您重新评估了试点区域的避难场所规划。\n\n**重要声明：** 本分析结果是基于试点数据（`zhongshan_pilot_v0.1`）的演示（DEMO_ONLY）运行，**未经真实现场核验，不得作为应急执行建议**。所有数据仅供演示与算法评估。\n\n### 评估结果摘要\n\n| 指标 | 调整后结果 | 原始结果对比 |\n| :--- | :--- | :--- |\n| **服务需求量 (Served Demand)** | 4613.48 | 相比上次评估有所变化 |\n| **总需求量 (Total Demand)** | 110205.74 | - |\n| **加权步行时间 (Weighted Walk Time)** | 6.97 分钟 | 相比上次评估有所变化 |\n| **诊断未服务节点数 (Unserved Nodes)** | 7726 | 相比上次评估有所变化 |\n\n### 详细诊断\n\n根据最新的模型评估，针对该区域的规划情况如下：\n\n*   **未服务节点总数：** 7726 个节点。\n*   **未服务原因分析：**\n    *   **无合法连接 (NO\\_LEGAL\\_CONNECTION)：** 78,737.404 人\n    *   **容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY)：** 26,854.865 人\n\n**请注意：** 详细的节点级证据（per-node evidence）可通过分页证据阅读器获取。\n\n**请再次注意：** 本结果仅为演示目的，不具备实际应急执行的效力。",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 12,
+        "budget_units": 3.5,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.5,
+          3.5,
+          12.0,
+          4613.48,
+          110205.74,
+          6.97,
+          7726.0,
+          7726.0,
+          78737.404,
+          26854.865
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 29
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 5,
+      "llm_latency_ms": 53262.9,
+      "b_api_ms": 11988.8,
+      "duration_ms": 90081.0,
+      "prompt_tokens": 12976,
+      "completion_tokens": 1975,
+      "tool_calls": 3,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-C-02",
+      "group": "compound",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,726 个。\n【关键指标】已服务 4,613.48 人 / 总需求 110,205.74 人，覆盖率 4.2%；加权步行时间 6.97 分钟。\n【参数】需求比例 20%；步行阈值 12.0 分钟；预算 3.50；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=a8c5e2da-c92b-4bf3-9a22-36eec02c50a1；scenario_id=c-v2-r1-ha-t03-ae87d7c7",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 12.0,
+        "budget_units": 3.5,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7726.0,
+          4613.48,
+          110205.74,
+          4.2,
+          6.97,
+          20.0,
+          12.0,
+          3.5,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 29
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "delta",
+          "value": 1.5
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 12.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 5252.1,
+      "b_api_ms": 11229.1,
+      "duration_ms": 16612.6,
+      "prompt_tokens": 1570,
+      "completion_tokens": 165,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-C-03",
+      "group": "compound",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】预算约束下的扩容优化已完成。\n【优化结果】选中措施：CAP_1_20D94E；总成本 1.00 / 预算 2.50。\n【覆盖变化】优化前基线已服务 8,994.81 人；优化后 9,394.81 人；变化 400.00 人。\n【关键指标】已服务 8,994.81 人 / 总需求 137,757.18 人，覆盖率 6.5%；加权步行时间 10.49 分钟。\n【参数】需求比例 25%；步行阈值 18.0 分钟；预算 2.50；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=406bc238-0a2f-470f-9e3c-15fa7709c31f；scenario_id=c-v2-r1-ha-t03-fbc95b0c",
+      "successful_task_types": [
+        "assess",
+        "optimize"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 18.0,
+        "budget_units": 2.5,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          20.0,
+          94.0,
+          1.0,
+          2.5,
+          8994.81,
+          9394.81,
+          400.0,
+          8994.81,
+          137757.18,
+          6.5,
+          10.49,
+          25.0,
+          18.0,
+          2.5,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 39
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 2.5
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 11590.1,
+      "b_api_ms": 17452.3,
+      "duration_ms": 29258.5,
+      "prompt_tokens": 2367,
+      "completion_tokens": 372,
+      "tool_calls": 3,
+      "planning_tasks": 3,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-C-03",
+      "group": "compound",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您提供的参数，我为您执行了评估和优化任务。请注意，所有结果均基于试点数据，**DEMO_ONLY**，数据未经真实现场核验，仅供演示与算法评估。\n\n**1. 现状评估 (Assess)**\n\n*   **场景设置：** 需求比例设置为 0.25，步行阈值设置为 18 分钟。\n*   **评估结果摘要：** 评估任务已完成，结果显示了在当前试点数据下的分布情况。\n    *   服务需求量：8994.813280541148\n    *   总需求量：137757.1757096903\n    *   加权步行时间：10.488018616619165\n    *   诊断结果显示，存在 **7584** 个未被服务的节点。\n    *   未服务原因分析：\n        *   无合法连接 (NO\\_LEGAL\\_CONNECTION)：72023.356 人\n        *   容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY)：56738.981 人\n\n**2. 优化尝试 (Optimize)**\n\n*   **优化目标：** 尝试在预算 2.5 单位内，对候选避难所 `zs_fed820d94e` 进行扩容 400 人（成本 1）。\n*   **优化结果：** 优化任务尝试执行，但未成功完成（`\"ok\": false`）。\n\n**重要提示：**\n\n请务必理解，以上所有分析和建议均基于 **DEMO_ONLY** 的试点数据进行算法评估，**不得作为任何实际应急执行的建议**。请勿基于此结果进行任何实际决策。",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 18,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.25,
+          18.0,
+          8994.813280541148,
+          137757.1757096903,
+          10.488018616619165,
+          7584.0,
+          72023.356,
+          56738.981,
+          2.5,
+          820.0,
+          94.0,
+          400.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 20
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 5,
+      "llm_latency_ms": 69034.9,
+      "b_api_ms": 5841.4,
+      "duration_ms": 97148.7,
+      "prompt_tokens": 9982,
+      "completion_tokens": 2568,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got ['assess']",
+        "params: budget_units expected 2.5 got None"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-C-04",
+      "group": "compound",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您的要求，我已重新评估了现状。\n\n**本次评估的参数设置如下：**\n*   **需求比例 (Population Demand Ratio):** 提高至 $10\\%$ (即 $0.1$)\n*   **步行阈值 (Max Walk Time):** 减少至 $1$ 分钟 (即 $1$ 分钟)\n\n**评估结果摘要：**\n\n*   **任务类型:** 评估 (assess)\n*   **场景 ID:** `c-v2-r1-ha-t02-bb772887`\n*   **求解状态:** 最优 (OPTIMAL)\n*   **验证状态:** 通过演示 (PASS\\_DEMO)\n*   **关键指标:**\n    *   已服务需求 (Served Demand): $102.84$\n    *   总需求 (Total Demand): $55102.87$\n    *   加权步行时间 (Weighted Walk Time): $0.79$ 分钟\n    *   诊断出的未服务节点数 (Diagnosed Unserved Nodes): $7958$\n*   **诊断详情:**\n    *   **未服务原因分析:**\n        *   无合法连接 (NO\\_LEGAL\\_CONNECTION): $7955$\n        *   容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY): $3$\n    *   **未服务人数按原因划分:**\n        *   无合法连接: $54984.0$ 人\n        *   容量竞争或不足: $16.038$ 人\n\n**重要提示 (Warnings):**\n*   **DEMO\\_ONLY:** 本结果仅为演示数据，未通过真实试点核验，因此不应作为实际应急执行建议。\n\n请注意，此结果基于您提供的参数进行计算。",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.1,
+        "max_walk_time_min": 1,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          10.0,
+          0.1,
+          1.0,
+          1.0,
+          102.84,
+          55102.87,
+          0.79,
+          7958.0,
+          54984.0,
+          16.038
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 81304.0,
+      "b_api_ms": 5613.4,
+      "duration_ms": 100833.9,
+      "prompt_tokens": 6509,
+      "completion_tokens": 3133,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: population_demand_ratio expected 0.25 got 0.1",
+        "params: max_walk_time_min expected 12 got 1",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording []"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "demo_violation",
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-C-04",
+      "group": "compound",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,736 个。\n【关键指标】已服务 5,433.85 人 / 总需求 137,757.18 人，覆盖率 3.9%；加权步行时间 7.13 分钟。\n【参数】需求比例 25%；步行阈值 12.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=b1ae5f7e-6676-4a9d-a6d2-d258783cc571；scenario_id=c-v2-r1-ha-t02-cf14e027",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 12.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7736.0,
+          5433.85,
+          137757.18,
+          3.9,
+          7.13,
+          25.0,
+          12.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 30
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "delta",
+          "value": 0.05
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "delta",
+          "value": -3.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 5099.2,
+      "b_api_ms": 11154.2,
+      "duration_ms": 16398.7,
+      "prompt_tokens": 1565,
+      "completion_tokens": 154,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-C-05",
+      "group": "compound",
+      "capability": "stress_test",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】停用 2 个场所的压力测试完成。\n【停用场所】zs_1b4df7920b、zs_60213118ec\n【固定方案】已服务 1,332.00 人。\n【自适应重规划】已服务 1,332.00 人。\n【关键指标】已服务 1,332.00 人 / 总需求 110,205.74 人，覆盖率 1.2%；加权步行时间 2.58 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 18.00；停用场所 2 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=91957891-e3e0-4bb5-bb51-2dbddbd08264；scenario_id=c-v2-r1-ha-t03-9f0440c7",
+      "successful_task_types": [
+        "assess",
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 18.0,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b",
+          "zs_60213118ec"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1332.0,
+          1332.0,
+          1332.0,
+          110205.74,
+          1.2,
+          2.58,
+          20.0,
+          15.0,
+          18.0,
+          2.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 29
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "scale",
+          "value": 6.0
+        },
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": [
+            "zs_1b4df7920b",
+            "zs_60213118ec"
+          ]
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 6322.5,
+      "b_api_ms": 11245.4,
+      "duration_ms": 17703.1,
+      "prompt_tokens": 1587,
+      "completion_tokens": 193,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: budget_units expected 6 got 18.0"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-C-05",
+      "group": "compound",
+      "capability": "stress_test",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您对数据分析的请求，以下是基于模型运行结果的总结。请注意，所有数据和分析均基于模拟环境，不代表实际操作结果。\n\n**分析结果摘要：**\n\n本次分析涉及对特定参数（如容纳能力、需求密度等）在不同约束条件下的表现进行了模拟。\n\n**关键发现：**\n\n*   **情景分析：** 模拟结果展示了在不同资源分配和约束条件下，系统在满足需求方面的表现。\n*   **敏感性分析：** 分析结果揭示了关键变量变化对整体性能的影响，有助于理解系统在不同运营状态下的脆弱性和弹性。\n\n**重要声明：**\n\n请务必理解，本次分析是基于模拟数据和算法的推演，**不应被视为对实际运营环境的准确预测或指导**。任何实际决策都应基于真实世界的数据、专业知识和现场评估。",
+      "successful_task_types": [
+        "assess",
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 6,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b",
+          "zs_60213118ec"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 28
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 34388.3,
+      "b_api_ms": 11863.9,
+      "duration_ms": 61459.5,
+      "prompt_tokens": 9401,
+      "completion_tokens": 1282,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording []"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "demo_violation"
+      ]
+    },
+    {
+      "case_id": "V21-V-01",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您需要我帮您进行什么规划或分析呢？请提供更具体的需求，例如您想评估哪个区域、进行什么优化、或者进行什么压力测试。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 9410.8,
+      "b_api_ms": 0,
+      "duration_ms": 9428.9,
+      "prompt_tokens": 789,
+      "completion_tokens": 362,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-01",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2201.8,
+      "b_api_ms": 0.0,
+      "duration_ms": 2261.5,
+      "prompt_tokens": 776,
+      "completion_tokens": 71,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-02",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2145.5,
+      "b_api_ms": 0.0,
+      "duration_ms": 2195.1,
+      "prompt_tokens": 776,
+      "completion_tokens": 71,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-02",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望我为您进行什么规划或分析？请提供具体的任务要求。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 8696.2,
+      "b_api_ms": 0,
+      "duration_ms": 8709.4,
+      "prompt_tokens": 789,
+      "completion_tokens": 341,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-03",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望对哪个避难场所或区域进行优化？请提供具体的区域信息（例如“东区”）或您希望优化的目标（例如增加容量、降低成本、优化步行时间），以及相关的预算或其他约束条件，我才能为您进行规划优化。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 10833.5,
+      "b_api_ms": 0,
+      "duration_ms": 10848.5,
+      "prompt_tokens": 791,
+      "completion_tokens": 413,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-03",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请给出预算上限（预算单位，≥0），例如“预算 2”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          2.0,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [
+          2.0
+        ],
+        "consistent": false,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "budget_units"
+      ],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.2
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 15.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 3342.0,
+      "b_api_ms": 0.0,
+      "duration_ms": 3391.5,
+      "prompt_tokens": 778,
+      "completion_tokens": 113,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true,
+        "clarify_fields": [
+          "budget_units"
+        ]
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-04",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "delta",
+          "value": 0.2
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2070.2,
+      "b_api_ms": 0.0,
+      "duration_ms": 2115.9,
+      "prompt_tokens": 779,
+      "completion_tokens": 67,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-04",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您指的是哪个参数？请告诉我您希望调整哪个参数，我才能为您进行操作。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 8111.7,
+      "b_api_ms": 0,
+      "duration_ms": 8127.3,
+      "prompt_tokens": 792,
+      "completion_tokens": 306,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-05",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您指的是哪个结果？请提供任务ID或结果ID，我才能帮您查看。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 7844.1,
+      "b_api_ms": 0,
+      "duration_ms": 7860.7,
+      "prompt_tokens": 788,
+      "completion_tokens": 295,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-V-05",
+      "group": "vague",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1708.6,
+      "b_api_ms": 0.0,
+      "duration_ms": 1752.8,
+      "prompt_tokens": 775,
+      "completion_tokens": 49,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "clarify_fields: missing ['result_id']; got ['task']"
+      ],
+      "info": {
+        "clarified": true,
+        "clarify_fields": [
+          "task"
+        ]
+      },
+      "failure_types": [
+        "no_clarification"
+      ]
+    },
+    {
+      "case_id": "V21-U-01",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,696 个。\n【关键指标】已服务 8,028.44 人 / 总需求 165,308.61 人，覆盖率 4.9%；加权步行时间 8.88 分钟。\n【参数】需求比例 30%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=9c517747-7182-4b5c-bcbe-45c16f970252；scenario_id=c-v2-r1-ha-t02-e4e6d2bd",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7696.0,
+          8028.44,
+          165308.61,
+          4.9,
+          8.88,
+          30.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.3
+        }
+      ],
+      "slot_expected": true,
+      "llm_calls": 1,
+      "llm_latency_ms": 1963.4,
+      "b_api_ms": 5952.7,
+      "duration_ms": 7979.4,
+      "prompt_tokens": 781,
+      "completion_tokens": 66,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": true,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "assess",
+        "intent_ok": true,
+        "slot_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-U-01",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望根据30%的需求比例来评估现状。\n\n我尝试使用 `compare` 工具进行评估，但系统反馈了参数格式错误。这表明我需要以不同的方式来提交这个比较请求。\n\n请问您希望我执行哪种类型的任务来评估现状？例如：\n1. **`assess` (评估):** 评估当前避难场所的现状。\n2. **`optimize` (优化):** 尝试优化现有资源。\n3. **`stress_test` (压力测试):** 对现有避难场所进行压力测试。\n\n如果您希望进行**比较**，请明确您希望比较的两个或多个场景。如果您只是想**评估**现状，请告诉我您希望评估的具体指标。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          30.0
+        ],
+        "violations": [
+          30.0
+        ],
+        "consistent": false,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 57199.6,
+      "b_api_ms": 33.9,
+      "duration_ms": 72047.2,
+      "prompt_tokens": 5862,
+      "completion_tokens": 2211,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2",
+        "numeric: cited numbers not in tool output [30.0]"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": false,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "numeric_violation",
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-U-02",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望评估现状，并提供了需求比例30%和步行阈值半小时的条件。\n\n我注意到上一次尝试评估（`assess`）任务时，系统提示不支持`max_walk_time_min`和`population_demand_ratio`这两个参数。\n\n为了能为您提供准确的评估，请问您希望我使用哪个可用的任务类型（例如 `compare` 或 `sensitivity`）来处理这些信息？或者您是否希望我仅使用其中一个参数进行评估？\n\n请您提供一个符合当前工具能力的请求，我将为您重新执行。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          30.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 45558.6,
+      "b_api_ms": 2.7,
+      "duration_ms": 45607.2,
+      "prompt_tokens": 2003,
+      "completion_tokens": 1843,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2",
+        "params: max_walk_time_min expected 30 got 15.0"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-U-02",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】规划服务拒绝了该请求（B_SOLVER_TIMEOUT）。\n【原因】Assignment solver did not return a publishable solution\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "max_walk_time_min",
+          "op": "scale",
+          "value": 7.5
+        },
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.3
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 3034.8,
+      "b_api_ms": 13496.4,
+      "duration_ms": 16584.3,
+      "prompt_tokens": 784,
+      "completion_tokens": 104,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2",
+        "params: max_walk_time_min expected 30 got 15.0"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-U-03",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,295 个。\n【关键指标】已服务 11,332.00 人 / 总需求 110,205.74 人，覆盖率 10.3%；加权步行时间 14.11 分钟。\n【参数】需求比例 20%；步行阈值 60.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=7158d55e-ca60-485a-829b-a2bca08ab1ae；scenario_id=c-v2-r1-ha-t02-658c6048",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 60.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7295.0,
+          11332.0,
+          110205.74,
+          10.3,
+          14.11,
+          20.0,
+          60.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 27
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 60.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4373.3,
+      "b_api_ms": 11095.4,
+      "duration_ms": 15614.6,
+      "prompt_tokens": 1559,
+      "completion_tokens": 119,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-U-03",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您的要求，我已使用试点数据（zhongshan_pilot_v0.1）对步行阈值（max_walk_time_min）设置为1小时（60分钟）重新评估了现状。\n\n**评估结果摘要：**\n\n*   **任务类型：** 评估 (assess)\n*   **场景ID：** c-v2-r1-ha-t02-91dd34f6\n*   **关键参数变化：** 步行阈值 (`max_walk_time_min`) 从默认值更改为 **60分钟**。\n*   **分析模式：** DEMO_ONLY (仅限演示)\n*   **求解状态：** OPTIMAL (最优)\n*   **验证状态：** PASS_DEMO (通过演示验证)\n\n**核心指标：**\n\n*   **已服务需求 (Served Demand):** 11331.999999999021\n*   **总需求 (Total Demand):** 110205.74056775225\n*   **加权步行时间 (Weighted Walk Time):** 14.105654519746606\n*   **诊断出的未服务节点数 (Diagnosed Unserved Nodes):** 7295\n\n**诊断详情：**\n\n*   **未服务人数按原因划分：**\n    *   **无合法连接 (NO_LEGAL_CONNECTION):** 6412.061 人\n    *   **容量竞争或不足 (CAPACITY_COMPETITION_OR_INSUFFICIENCY):** 92461.685 人\n\n**重要提示 (Warnings):**\n\n*   **DEMO_ONLY:** 模块A的移交尚未通过真实试点验收；请勿声称真实覆盖范围或当前容量。\n*   **结论：** 这是一个演示结果，不应作为实际应急执行建议。\n\n请问您是否需要对这个结果进行进一步的优化、比较或压力测试？",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 60,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.1,
+          1.0,
+          60.0,
+          60.0,
+          11331.999999999021,
+          110205.74056775225,
+          14.105654519746606,
+          7295.0,
+          6412.061,
+          92461.685
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 37792.0,
+      "b_api_ms": 5786.8,
+      "duration_ms": 43631.1,
+      "prompt_tokens": 4303,
+      "completion_tokens": 1444,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-U-04",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望对“东区”的避难场所进行一次评估，预算为2.5个单位，需求比例为0.35。\n\n我尝试使用 `assess` 工具进行评估，但系统提示 `population_demand_ratio` 参数不被 `assess` 任务类型接受。\n\n请问您希望我如何使用这些信息进行评估？您是否希望我只使用预算信息进行评估，或者您是否能提供其他可以用于评估的参数？",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          2.5,
+          0.35
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 58133.8,
+      "b_api_ms": 16.8,
+      "duration_ms": 58204.0,
+      "prompt_tokens": 3525,
+      "completion_tokens": 2272,
+      "tool_calls": 2,
+      "planning_tasks": 0,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: budget_units expected 2.5 got None",
+        "params: population_demand_ratio expected 0.35 got 0.2"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-U-04",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,714 个。\n【关键指标】已服务 8,811.18 人 / 总需求 192,860.05 人，覆盖率 4.6%；加权步行时间 8.93 分钟。\n【参数】需求比例 35%；步行阈值 15.0 分钟；预算 2.50；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=8d769444-14eb-4f25-be5c-7e85e5e45cfa；scenario_id=c-v2-r1-ha-t02-c1fdb15c",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.35,
+        "max_walk_time_min": 15.0,
+        "budget_units": 2.5,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7714.0,
+          8811.18,
+          192860.05,
+          4.6,
+          8.93,
+          35.0,
+          15.0,
+          2.5,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 2.5
+        },
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.35
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 3659.7,
+      "b_api_ms": 5511.5,
+      "duration_ms": 9235.2,
+      "prompt_tokens": 788,
+      "completion_tokens": 127,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-U-05",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,737 个。\n【关键指标】已服务 10,376.65 人 / 总需求 247,962.92 人，覆盖率 4.2%；加权步行时间 9.05 分钟。\n【参数】需求比例 45%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=6da7899e-10bf-47f9-917c-9d02ae406f7f；scenario_id=c-v2-r1-ha-t02-71746d02",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.45,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7737.0,
+          10376.65,
+          247962.92,
+          4.2,
+          9.05,
+          45.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.45
+        }
+      ],
+      "slot_expected": true,
+      "llm_calls": 1,
+      "llm_latency_ms": 2366.4,
+      "b_api_ms": 5981.4,
+      "duration_ms": 8413.2,
+      "prompt_tokens": 790,
+      "completion_tokens": 68,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": true,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "slot_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-U-05",
+      "group": "units",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望使用这个0.45的需求比例来执行哪种任务？例如，是进行**比较 (compare)**、**评估 (assess)**、**优化 (optimize)** 还是**敏感性分析 (sensitivity)**？\n\n请提供更多上下文，以便我为您进行准确的规划评估。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.45
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 17070.4,
+      "b_api_ms": 0,
+      "duration_ms": 17087.7,
+      "prompt_tokens": 803,
+      "completion_tokens": 646,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.45 got 0.2"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-N-01",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您对之前输出的反馈。\n\n我之前尝试执行“比较”（`compare`）任务时，系统提示需要提供 2 到 12 个明确的场景覆盖（scenario overrides）才能执行，但您只提供了一个需求比例。\n\n为了继续评估或比较，请您提供至少两个（或更多）不同的需求比例（`population_demand_ratio`）作为场景，以便我能调用工具并为您生成结果。\n\n请提供您希望比较的具体需求比例。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          2.0,
+          12.0
+        ],
+        "violations": [
+          12.0
+        ],
+        "consistent": false,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 5,
+      "llm_latency_ms": 52146.1,
+      "b_api_ms": 28.4,
+      "duration_ms": 69383.9,
+      "prompt_tokens": 7131,
+      "completion_tokens": 1991,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2",
+        "numeric: cited numbers not in tool output [12.0]"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": false,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "numeric_violation",
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-N-01",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,696 个。\n【关键指标】已服务 8,028.44 人 / 总需求 165,308.61 人，覆盖率 4.9%；加权步行时间 8.88 分钟。\n【参数】需求比例 30%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=6fee5f7a-2dcc-4f5f-81bd-15b6d98265d3；scenario_id=c-v2-r1-ha-t02-e4e6d2bd",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7696.0,
+          8028.44,
+          165308.61,
+          4.9,
+          8.88,
+          30.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 26
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.3
+        }
+      ],
+      "slot_expected": true,
+      "llm_calls": 2,
+      "llm_latency_ms": 4112.7,
+      "b_api_ms": 11408.6,
+      "duration_ms": 15659.2,
+      "prompt_tokens": 1561,
+      "completion_tokens": 117,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": true,
+      "passed": false,
+      "failures": [
+        "intent: expected modify_scenario got assess"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "assess",
+        "intent_ok": false,
+        "slot_ok": true
+      },
+      "failure_types": [
+        "intent_error"
+      ]
+    },
+    {
+      "case_id": "V21-N-02",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 50%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.5,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          50.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 26
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "restore",
+          "value": "previous"
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "restore",
+          "value": "previous"
+        },
+        {
+          "field": "budget_units",
+          "op": "restore",
+          "value": "previous"
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 10356.3,
+      "b_api_ms": 11123.1,
+      "duration_ms": 21661.1,
+      "prompt_tokens": 2350,
+      "completion_tokens": 323,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: population_demand_ratio expected 0.35 got 0.5",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording []"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "demo_violation",
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-N-02",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "抱歉，我无法直接“恢复”之前的操作状态。\n\n您希望我恢复到哪个状态呢？请告诉我您希望我执行的下一个操作是什么，例如：\n\n1.  重新评估某个特定的需求比例。\n2.  进行其他类型的评估（如 `assess`, `optimize` 等）。\n3.  查看之前任务的任何结果。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 6,
+      "llm_latency_ms": 57323.5,
+      "b_api_ms": 28.4,
+      "duration_ms": 57458.3,
+      "prompt_tokens": 9106,
+      "completion_tokens": 2166,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.35 got 0.2"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-N-03",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "评估已完成。\n\n**评估结果摘要 (基于试点数据 `zhongshan_pilot_v0.1`):**\n\n*   **任务类型:** 评估 (assess)\n*   **场景设置:** 预算单位设置为 **4**。\n*   **数据状态:** DEMO_ONLY (仅限演示，不代表真实场地的规划建议)。\n*   **关键指标:**\n    *   服务需求 (Served Demand): 6456.103\n    *   总需求 (Total Demand): 110205.741\n    *   加权步行时间 (Weighted Walk Time): 9.0376 分钟\n    *   诊断出的未服务节点数 (Diagnosed Unserved Nodes): 7634\n*   **诊断详情:**\n    *   **未服务人数按原因划分:**\n        *   无合法连接 (NO\\_LEGAL\\_CONNECTION): 67097.311 人\n        *   容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY): 36652.338 人\n    *   **诊断结论:** 存在大量的未服务需求，主要由“无合法连接”和“容量不足”引起。\n\n**重要提示 (Warning):**\n**DEMO_ONLY: 模块 A 的移交尚未通过真实试点验收；请勿声称真实覆盖范围或当前容量。**\n\n请问您是否需要对其他参数进行评估，或者需要进一步分析这些结果？",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 4,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          4.0,
+          6456.103,
+          110205.741,
+          9.0376,
+          7634.0,
+          67097.311,
+          36652.338
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 34365.0,
+      "b_api_ms": 5691.2,
+      "duration_ms": 40102.3,
+      "prompt_tokens": 4107,
+      "completion_tokens": 1278,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: budget_units expected None got 4"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-N-03",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=60137aec-24c3-4414-be96-45203627f1d1；scenario_id=c-v2-r1-ha-t03-9adb3cf6",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7634.0,
+          6456.1,
+          110205.74,
+          5.9,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 17
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "restore",
+          "value": "previous"
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4343.3,
+      "b_api_ms": 10879.1,
+      "duration_ms": 15359.8,
+      "prompt_tokens": 1557,
+      "completion_tokens": 125,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-N-04",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,696 个。\n【关键指标】已服务 8,028.44 人 / 总需求 165,308.61 人，覆盖率 4.9%；加权步行时间 8.88 分钟。\n【参数】需求比例 30%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=ac9ff907-a4b7-4046-b0a8-17402f7eef1f；scenario_id=c-v2-r1-ha-t04-e4e6d2bd",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7696.0,
+          8028.44,
+          165308.61,
+          4.9,
+          8.88,
+          30.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 27
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "restore",
+          "value": "previous"
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 6946.9,
+      "b_api_ms": 14723.6,
+      "duration_ms": 21870.2,
+      "prompt_tokens": 2344,
+      "completion_tokens": 197,
+      "tool_calls": 3,
+      "planning_tasks": 3,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-N-04",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望对哪个区域或哪个避难场所进行评估？请提供具体的规划需求，例如希望评估的区域名称或避难场所ID。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 6,
+      "llm_latency_ms": 75865.5,
+      "b_api_ms": 30.1,
+      "duration_ms": 76012.8,
+      "prompt_tokens": 9499,
+      "completion_tokens": 2878,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "params: population_demand_ratio expected 0.3 got 0.2"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-N-05",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您的要求。在后续的分析和报告中，我将严格遵守以下原则：\n\n所有基于数据的分析结果，都将明确标注为**基于模拟数据**，并包含必要的免责声明，以确保信息准确性和责任的清晰界定。\n\n感谢您的反馈。",
+      "successful_task_types": [
+        "assess",
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 17
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 51976.0,
+      "b_api_ms": 9830.9,
+      "duration_ms": 75356.8,
+      "prompt_tokens": 8493,
+      "completion_tokens": 1961,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: disabled_shelter_ids expected [] got ['zs_1b4df7920b']",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording []"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "demo_violation",
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-N-05",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,780 个。\n【关键指标】已服务 3,325.15 人 / 总需求 110,205.74 人，覆盖率 3.0%；加权步行时间 6.63 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 1 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=a1b398c9-a6ff-4a6b-9cb7-7270e4c0a671；scenario_id=c-v2-r1-ha-t02-afdd1f84",
+      "successful_task_types": [
+        "assess",
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7780.0,
+          3325.15,
+          110205.74,
+          3.0,
+          6.63,
+          20.0,
+          15.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 17
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "stress_test",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 5915.9,
+      "b_api_ms": 10021.1,
+      "duration_ms": 16077.6,
+      "prompt_tokens": 1588,
+      "completion_tokens": 192,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "params: disabled_shelter_ids expected [] got ['zs_1b4df7920b']"
+      ],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "param_error"
+      ]
+    },
+    {
+      "case_id": "V21-E-01",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】预算约束下的扩容优化已完成。\n【优化结果】选中措施：CAP_1_20D94E；总成本 1.00 / 预算 2.00。\n【覆盖变化】优化前基线已服务 3,325.15 人；优化后 3,625.15 人；变化 300.00 人。\n【关键指标】已服务 3,325.15 人 / 总需求 110,205.74 人，覆盖率 3.0%；加权步行时间 6.63 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 2.00；停用场所 1 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=e25def26-7568-4e1e-824d-a36ee51a9418；scenario_id=c-v2-r1-ha-t02-7eeae40f",
+      "successful_task_types": [
+        "optimize"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 2.0,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          20.0,
+          94.0,
+          1.0,
+          2.0,
+          3325.15,
+          3625.15,
+          300.0,
+          3325.15,
+          110205.74,
+          3.0,
+          6.63,
+          20.0,
+          15.0,
+          2.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 21
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": [
+            "zs_1b4df7920b"
+          ]
+        },
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 2.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 6075.5,
+      "b_api_ms": 5949.2,
+      "duration_ms": 12093.8,
+      "prompt_tokens": 813,
+      "completion_tokens": 214,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "optimize",
+        "intent_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-E-01",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望对 `zs_fed820d94e` 进行扩容、停用 `zs_1b4df7920b`，并设置预算为 2 的优化任务。\n\n我收到了 `submit_task` 返回的错误信息 `GUARD_INVALID_PARAM: Unsupported scenario change fields: ['improvement_options']`。这表明在当前的 `optimize` 任务类型中，不支持直接使用 `improvement_options` 来指定容量增加。\n\n为了能正确执行您的优化请求，请您明确：\n\n1.  **容量增加 (300人) 和成本 (1)** 应该如何纳入优化模型？是作为某个场景的输入（例如 `population_demand_ratio`），还是作为需要评估的候选措施？\n2.  您希望我仅根据**预算 (2)** 和**停用设施 (zs_1b4df7920b)** 进行优化，还是需要包含容量增加的考量？\n\n请提供更清晰的参数要求，我将为您重新构建并提交任务。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          820.0,
+          94.0,
+          1.0,
+          4.0,
+          7920.0,
+          2.0,
+          1.0,
+          300.0,
+          1.0,
+          2.0,
+          2.0,
+          1.0,
+          4.0,
+          7920.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 9
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 42999.6,
+      "b_api_ms": 2.0,
+      "duration_ms": 43049.4,
+      "prompt_tokens": 2142,
+      "completion_tokens": 1700,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got []",
+        "params: budget_units expected 2 got None",
+        "params: disabled_shelter_ids expected ['zs_1b4df7920b'] got []"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-E-02",
+      "group": "mixed",
+      "capability": "stress_test",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "您好，我已经为您提交了对避难所 `zs_60213118ec` 的压力测试任务。\n\n任务ID是 `c-b77f8e53-c1b4-4acf-8cea-f353758660aa`，结果ID是 `eb53f253-c558-4327-a1c6-17e3278f5c8e`。\n\n**测试摘要如下：**\n\n*   **任务类型:** 压力测试 (stress_test)\n*   **场景ID:** `c-v2-r1-ha-t02-95688915`\n*   **修改内容:** 禁用了避难所 `zs_60213118ec`。\n*   **分析模式:** DEMO_ONLY (仅演示模式)\n*   **结果状态:** PASS_DEMO (通过演示验证)\n*   **关键指标:**\n    *   已服务需求 (served_demand): 4462.957737316243\n    *   总需求 (total_demand): 110205.74056775225\n    *   加权步行时间 (weighted_walk_time_min): 8.903413029497905\n    *   诊断未服务节点 (diagnosed_unserved_nodes): 7757\n\n**重要提示 (Warnings):**\n*   **DEMO_ONLY:** 模块A的移交尚未通过真实试点验收；请勿声称实际覆盖范围或当前容量。\n\n请注意，此结果是基于试点数据（`zhongshan_pilot_v0.1`）的演示分析，不应作为实际应急规划的最终依据。",
+      "successful_task_types": [
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_60213118ec"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          4462.957737316243,
+          110205.74056775225,
+          8.903413029497905,
+          7757.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 12
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 21889.1,
+      "b_api_ms": 6052.7,
+      "duration_ms": 27984.6,
+      "prompt_tokens": 3377,
+      "completion_tokens": 828,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-E-02",
+      "group": "mixed",
+      "capability": "stress_test",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】停用 1 个场所的压力测试完成。\n【停用场所】zs_60213118ec\n【固定方案】已服务 4,462.96 人。\n【关键指标】已服务 4,462.96 人 / 总需求 110,205.74 人，覆盖率 4.0%；加权步行时间 8.90 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 1 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=402a8e55-c345-4234-87c3-ca5ef3cc1787；scenario_id=c-v2-r1-ha-t02-95688915",
+      "successful_task_types": [
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_60213118ec"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          4462.96,
+          4462.96,
+          110205.74,
+          4.0,
+          8.9,
+          20.0,
+          15.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 12
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "stress_test",
+      "last_ops": [
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": [
+            "zs_60213118ec"
+          ]
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2652.9,
+      "b_api_ms": 5990.6,
+      "duration_ms": 8715.9,
+      "prompt_tokens": 795,
+      "completion_tokens": 83,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "stress_test",
+        "intent_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-E-03",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请给出预算上限（预算单位，≥0），例如“预算 2”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          2.0,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 7
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "budget_units"
+      ],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": []
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 4848.7,
+      "b_api_ms": 0.0,
+      "duration_ms": 4893.3,
+      "prompt_tokens": 802,
+      "completion_tokens": 165,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got []",
+        "params: budget_units expected 2 got None"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-E-03",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我已为您提交了对 `zs_fed820d94e` 场所进行扩容的优化任务，目标是增加200人容量，成本为1，预算为2，且不禁用任何场所。\n\n请稍候，我将轮询任务状态以获取结果。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          820.0,
+          94.0,
+          200.0,
+          1.0,
+          2.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 7
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 30122.7,
+      "b_api_ms": 30.2,
+      "duration_ms": 30192.9,
+      "prompt_tokens": 2974,
+      "completion_tokens": 1161,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got []",
+        "params: budget_units expected 2 got None"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-E-04",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您的要求。我将严格遵守输出规则，确保在所有回答中都包含字面字符串 **“DEMO_ONLY”**，并明确说明所使用的数据未经真实现场核验，仅供演示与算法评估。我不会使用“已核验”、“可执行建议”或“真实验证”等表述。\n\n请您提供新的请求，我将按照这些规则为您服务。",
+      "successful_task_types": [
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 17
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [
+          "真实验证",
+          "已核验",
+          "可执行建议"
+        ],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 52608.8,
+      "b_api_ms": 6104.4,
+      "duration_ms": 71733.6,
+      "prompt_tokens": 9034,
+      "completion_tokens": 1958,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got ['stress_test']",
+        "params: budget_units expected 2 got None",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording ['真实验证', '已核验', '可执行建议']"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "params_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "demo_violation",
+        "param_error",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-E-04",
+      "group": "mixed",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】预算约束下的扩容优化已完成。\n【优化结果】选中措施：CAP_1_20D94E；总成本 1.00 / 预算 2.00。\n【覆盖变化】优化前基线已服务 3,325.15 人；优化后 3,425.15 人；变化 100.00 人。\n【关键指标】已服务 3,325.15 人 / 总需求 110,205.74 人，覆盖率 3.0%；加权步行时间 6.63 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 2.00；停用场所 1 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=6363327f-7978-4b98-be8e-b1e0eb1077ae；scenario_id=c-v2-r1-ha-t03-7eeae40f",
+      "successful_task_types": [
+        "optimize",
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 2.0,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          20.0,
+          94.0,
+          1.0,
+          2.0,
+          3325.15,
+          3425.15,
+          100.0,
+          3325.15,
+          110205.74,
+          3.0,
+          6.63,
+          20.0,
+          15.0,
+          2.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 22
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "stress_test",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.2
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 15.0
+        },
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 2.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 10503.3,
+      "b_api_ms": 9561.3,
+      "duration_ms": 20200.2,
+      "prompt_tokens": 1604,
+      "completion_tokens": 362,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-M-01",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】情景比较完成，共 2 个情景。\n【对比明细】\n  1. population_demand_ratio=0.2 → 已服务 6,456.10 人，加权步行 9.04 分钟，验证 PASS_DEMO\n  2. population_demand_ratio=0.35 → 已服务 8,811.18 人，加权步行 8.93 分钟，验证 PASS_DEMO\n【说明】各情景为并列结果，服务端不给出唯一推荐方案。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=603045a3-3756-4012-b6ab-32ebeb4a5134；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "compare"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          0.2,
+          6456.1,
+          9.04,
+          2.0,
+          0.35,
+          8811.18,
+          8.93,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "compare",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.2
+        },
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.35
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 4470.6,
+      "b_api_ms": 3528.1,
+      "duration_ms": 8059.0,
+      "prompt_tokens": 785,
+      "completion_tokens": 153,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "compare",
+        "intent_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-M-01",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您提供的需求，我已比较了需求比例为 **0.2** 和 **0.35** 时的覆盖差异。\n\n以下是比较结果摘要（基于试点数据 `zhongshan_pilot_v0.1`）：\n\n| 需求比例 (Population Demand Ratio) | 服务需求 (Served Demand) | 权重步行时间 (Weighted Walk Time, min) | 求解状态 (Solver Status) | 验证状态 (Verification Status) |\n| :-------------------------------- | :---------------------- | :------------------------------------- | :------------------------ | :------------------------------ |\n| **0.2**                           | 6456.10                 | 9.04                                   | OPTIMAL                   | PASS\\_DEMO                      |\n| **0.35**                          | 8811.18                 | 8.93                                   | OPTIMAL                   | PASS\\_DEMO                      |\n\n**关键差异分析：**\n\n1.  **服务需求 (Served Demand):** 当需求比例从 0.2 增加到 0.35 时，系统能够服务的总需求量从 **6456.10** 增加到了 **8811.18**。\n2.  **权重步行时间 (Weighted Walk Time):** 尽管服务需求增加了，但系统的权重步行时间（衡量覆盖效率）略有改善，从 **9.04 分钟** 减少到了 **8.93 分钟**。\n3.  **覆盖差异：** 增加需求比例（从 0.2 到 0.35）导致了更多的需求被满足，这反映了在更高需求压力下，避难场所的资源分配和覆盖能力得到了相应的调整。\n\n**重要提示：**\n请注意，本次分析是基于 **DEMO_ONLY** 试点数据进行的，系统已发出警告：**“DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.”** 这意味着这些结果仅供演示参考，不应作为实际应急规划的依据。",
+      "successful_task_types": [
+        "compare"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.2,
+          0.35,
+          1.0,
+          0.2,
+          0.35,
+          6456.1,
+          8811.18,
+          2.0,
+          9.04,
+          8.93,
+          3.0,
+          0.2,
+          0.35
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 37941.5,
+      "b_api_ms": 3798.3,
+      "duration_ms": 41800.7,
+      "prompt_tokens": 5073,
+      "completion_tokens": 1348,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-M-02",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "抱歉，由于工具在执行“比较”任务时遇到了参数限制错误，我无法直接为您提供基于0.35比例的覆盖差异的最终评估。\n\n为了能够进行准确的评估和比较，请您提供以下信息：\n\n1.  **您希望比较的具体参数是什么？** (例如：是比较不同预算下的覆盖率，还是比较不同最大步行时间下的覆盖率？)\n2.  **是否有任何预算或其他决策参数？**\n\n请提供更明确的指令，我将尽力使用现有数据为您进行评估。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.35,
+          2.0
+        ],
+        "violations": [
+          2.0
+        ],
+        "consistent": false,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 5,
+      "llm_latency_ms": 66079.1,
+      "b_api_ms": 35.7,
+      "duration_ms": 86718.1,
+      "prompt_tokens": 6716,
+      "completion_tokens": 2409,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['compare']; got []",
+        "numeric: cited numbers not in tool output [2.0]"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "numeric_ok": false,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "numeric_violation",
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-M-02",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】情景比较完成，共 2 个情景。\n【对比明细】\n  1. population_demand_ratio=0.2 → 已服务 6,456.10 人，加权步行 9.04 分钟，验证 PASS_DEMO\n  2. population_demand_ratio=0.35 → 已服务 8,811.18 人，加权步行 8.93 分钟，验证 PASS_DEMO\n【说明】各情景为并列结果，服务端不给出唯一推荐方案。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=3ebb36d1-08de-41a8-8fc3-cfe0b3730d6a；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "assess",
+        "compare"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          0.2,
+          6456.1,
+          9.04,
+          2.0,
+          0.35,
+          8811.18,
+          8.93,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 21
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.35
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 5185.8,
+      "b_api_ms": 9673.2,
+      "duration_ms": 14982.8,
+      "prompt_tokens": 1561,
+      "completion_tokens": 157,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-M-03",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请给出要对比的 2 个以上取值，例如“需求比例 0.1 和 0.3”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          2.0,
+          0.1,
+          0.3,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "compare_values"
+      ],
+      "intent": "compare",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 2.0
+        },
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 5.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 3920.8,
+      "b_api_ms": 0.0,
+      "duration_ms": 3972.6,
+      "prompt_tokens": 782,
+      "completion_tokens": 127,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['compare']; got []"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false,
+        "intent": "compare",
+        "intent_ok": true
+      },
+      "failure_types": [
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-M-03",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望通过哪种参数（例如人口需求比率 `population_demand_ratio`）来比较预算2和预算5这两种情况下的覆盖差异？请提供相应的参数信息，以便我为您执行比较任务。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          2.0,
+          5.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 4
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 21138.2,
+      "b_api_ms": 0,
+      "duration_ms": 21152.6,
+      "prompt_tokens": 795,
+      "completion_tokens": 818,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['compare']; got []"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-M-04",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您提供的试点数据（zhongshan_pilot_v0.1），我使用 `sensitivity` 工具对步行阈值（`max_walk_time_min`）设置为10、15和20分钟的情况进行了比较分析。\n\n以下是结果摘要：\n\n| 步行阈值 (分钟) | 服务需求量 (Served Demand) | 加权步行时间 (Weighted Walk Time, min) | 验证状态 (Verification Status) |\n| :-------------: | :------------------------: | :------------------------------------: | :-----------------------------: |\n| **10**          | 3570.38                   | 5.65                                   | PASS_DEMO                        |\n| **15**          | 6456.10                  | 9.04                                   | PASS_DEMO                        |\n| **20**          | 8905.14                  | 11.61                                  | PASS_DEMO                        |\n\n**分析总结：**\n\n随着步行阈值的增加（从10分钟到20分钟），系统能够覆盖的需求量显著增加，同时加权步行时间也相应增加，这反映了在更宽的步行范围内，避难所的覆盖能力得到了提升。\n\n**重要提示：**\n请注意，本次分析是基于**DEMO_ONLY**（演示模式）数据进行的，系统已发出警告：**“DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.”** 这意味着这些结果仅供演示参考，**不应作为实际应急规划的依据**。",
+      "successful_task_types": [
+        "sensitivity"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.1,
+          10.0,
+          15.0,
+          20.0,
+          10.0,
+          20.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 19
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 23358.9,
+      "b_api_ms": 5868.0,
+      "duration_ms": 29265.3,
+      "prompt_tokens": 3495,
+      "completion_tokens": 858,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['compare']; got ['sensitivity']"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-M-04",
+      "group": "compare",
+      "capability": "compare",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】情景比较完成，共 2 个情景。\n【对比明细】\n  1. budget_units=10.0 → 已服务 6,456.10 人，加权步行 9.04 分钟，验证 PASS_DEMO\n  2. budget_units=15.0 → 已服务 6,456.10 人，加权步行 9.04 分钟，验证 PASS_DEMO\n【说明】各情景为并列结果，服务端不给出唯一推荐方案。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=f2275608-86c6-4998-80f7-d98c174d1ae1；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "compare"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          10.0,
+          6456.1,
+          9.04,
+          2.0,
+          15.0,
+          6456.1,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "compare",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2546.3,
+      "b_api_ms": 5939.1,
+      "duration_ms": 8551.2,
+      "prompt_tokens": 789,
+      "completion_tokens": 79,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "compare",
+        "intent_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-01",
+      "group": "unknown",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=f9cdba64-a253-4f74-aa83-150ca17e59e8；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7634.0,
+          6456.1,
+          110205.74,
+          5.9,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1888.3,
+      "b_api_ms": 5492.8,
+      "duration_ms": 7456.3,
+      "prompt_tokens": 781,
+      "completion_tokens": 49,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "numeric_ok": true,
+        "disclosure_hit": "DEMO_ONLY"
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-01",
+      "group": "unknown",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望我评估的“覆盖情况”具体是指哪一方面的指标？例如，您是否需要基于特定的预算、人口密度、或距离等条件进行评估？请提供更多信息，以便我能为您进行准确的分析。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 26047.2,
+      "b_api_ms": 0,
+      "duration_ms": 26064.2,
+      "prompt_tokens": 794,
+      "completion_tokens": 997,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['中山', '试点', 'pilot', '范围', '没有', '无法', 'DEMO_ONLY'] appeared in the answer"
+      ],
+      "info": {
+        "numeric_ok": true,
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-X-02",
+      "group": "unknown",
+      "capability": "stress_test",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望对 `zs_deadbeef99` 进行压力测试。\n\n但是，系统返回了错误 `B_SCENARIO_INVALID: Scenario references an unknown shelter`。这表明在执行压力测试时，系统无法识别您提供的避难场所ID。\n\n请您确认：\n1. 您提供的避难场所ID `zs_deadbeef99` 是否是有效的？\n2. 您是否希望我尝试对其他已知的避难场所进行压力测试？\n\n请提供有效的避难场所ID或进一步的指令，以便我能正确执行任务。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 32000.3,
+      "b_api_ms": 6836.0,
+      "duration_ms": 38908.6,
+      "prompt_tokens": 3582,
+      "completion_tokens": 1194,
+      "tool_calls": 2,
+      "planning_tasks": 0,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-02",
+      "group": "unknown",
+      "capability": "stress_test",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】规划服务拒绝了该请求（B_SCENARIO_INVALID）。\n【原因】Scenario references an unknown shelter\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": "stress_test",
+      "last_ops": [
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": [
+            "zs_deadbeef99"
+          ]
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2455.5,
+      "b_api_ms": 3282.0,
+      "duration_ms": 5797.3,
+      "prompt_tokens": 783,
+      "completion_tokens": 78,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-03",
+      "group": "unknown",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】规划服务拒绝了该请求（B_CANDIDATE_INVALID）。\n【原因】Improvement option references unknown shelter\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 6
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.2
+        },
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 15.0
+        },
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 3.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 7929.9,
+      "b_api_ms": 3234.1,
+      "duration_ms": 11223.4,
+      "prompt_tokens": 800,
+      "completion_tokens": 282,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-03",
+      "group": "unknown",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我已根据您的要求修正了参数并重新提交了优化任务。\n\n请稍候，我正在等待任务结果。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 6
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 38210.8,
+      "b_api_ms": 33.2,
+      "duration_ms": 38312.7,
+      "prompt_tokens": 4005,
+      "completion_tokens": 1453,
+      "tool_calls": 2,
+      "planning_tasks": 0,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "clarify: answer neither asked for the missing input nor explained the refusal"
+      ],
+      "info": {
+        "clarified": false
+      },
+      "failure_types": [
+        "no_clarification"
+      ]
+    },
+    {
+      "case_id": "V21-X-04",
+      "group": "unknown",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "抱歉，我是一个应急避难场所规划助手，我的功能是基于特定的试点数据进行规划、评估和优化，无法提供具体的地理地址信息。请您通过其他地图服务或官方渠道查询您需要的地址。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 10435.4,
+      "b_api_ms": 0,
+      "duration_ms": 10451.9,
+      "prompt_tokens": 798,
+      "completion_tokens": 391,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "no_tasks: answer neither asked for input nor explained why nothing ran"
+      ],
+      "info": {
+        "no_tasks": true,
+        "disclosure_hit": "无法"
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-X-04",
+      "group": "unknown",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2411.1,
+      "b_api_ms": 0.0,
+      "duration_ms": 2465.1,
+      "prompt_tokens": 785,
+      "completion_tokens": 73,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true,
+        "disclosure_hit": "没有"
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-05",
+      "group": "unknown",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=385ff19a-0086-48ef-932b-a0bbff6a88c5；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7634.0,
+          6456.1,
+          110205.74,
+          5.9,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1994.6,
+      "b_api_ms": 5849.6,
+      "duration_ms": 7900.5,
+      "prompt_tokens": 779,
+      "completion_tokens": 61,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "forbidden_hits": [],
+        "disclosure_hit": "DEMO_ONLY"
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-X-05",
+      "group": "unknown",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请您明确希望我使用哪种规划任务（例如：评估 assess、优化 optimize、压力测试 stress_test 等）来对南沙区的现状进行评估。\n\n请提供一个明确的任务类型，以便我调用相应的工具为您提供数据支持。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 23988.7,
+      "b_api_ms": 0,
+      "duration_ms": 46518.5,
+      "prompt_tokens": 792,
+      "completion_tokens": 872,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['DEMO_ONLY', '演示', '未核验', '无法', '没有'] appeared in the answer"
+      ],
+      "info": {
+        "forbidden_hits": [],
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-I-01",
+      "group": "illegal",
+      "capability": "optimize",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望设置的预算是正数吗？根据系统要求，预算单位必须大于或等于0。请提供一个有效的预算值以便我为您进行优化。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 7704.0,
+      "b_api_ms": 0,
+      "duration_ms": 7716.0,
+      "prompt_tokens": 790,
+      "completion_tokens": 300,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-01",
+      "group": "illegal",
+      "capability": "optimize",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】请求未通过执行前校验（GUARD_INVALID_PARAM）。\n【原因】budget_units must be null or a finite number in [0, 1e9].\n【下一步】Correct the parameter and resubmit as a new logical task.\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          1.0,
+          9.0
+        ],
+        "violations": [
+          9.0
+        ],
+        "consistent": false,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "budget_units"
+      ],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": -3.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1981.0,
+      "b_api_ms": 0.0,
+      "duration_ms": 2022.8,
+      "prompt_tokens": 777,
+      "completion_tokens": 61,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-02",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】请求未通过执行前校验（GUARD_INVALID_PARAM）。\n【原因】population_demand_ratio must be a number in [0, 1].\n【下一步】Correct the parameter and resubmit as a new logical task.\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "population_demand_ratio"
+      ],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 1.5
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2241.0,
+      "b_api_ms": 0.0,
+      "duration_ms": 2281.0,
+      "prompt_tokens": 779,
+      "completion_tokens": 73,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-02",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我理解您希望以150%的需求比例来评估现状。\n\n根据工具的限制，我尝试使用 `compare` 任务类型提交请求时遇到了参数格式错误。\n\n请允许我尝试使用更直接的评估任务类型 `assess` 来评估现状，并提供所需的比例信息。\n\n请确认是否使用 `assess` 任务类型进行评估？",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          150.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 4,
+      "llm_latency_ms": 49033.4,
+      "b_api_ms": 29.9,
+      "duration_ms": 49154.9,
+      "prompt_tokens": 6142,
+      "completion_tokens": 1911,
+      "tool_calls": 3,
+      "planning_tasks": 0,
+      "b_submissions": 3,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-03",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "根据您修正后的参数（步行阈值设置为1分钟）对试点区域（zhongshan_pilot_v0.1，状态DEMO_ONLY）的现状评估结果如下：\n\n**评估摘要 (Assessment Summary):**\n\n*   **任务类型:** 评估 (assess)\n*   **场景ID:** c-v2-r1-ha-t02-39b537c1\n*   **数据版本:** zhongshan\\_pilot\\_v0.1 (DEMO\\_ONLY)\n*   **分析模式:** demo\n*   **求解状态:** OPTIMAL (最优)\n*   **验证状态:** PASS\\_DEMO (通过演示)\n\n**关键指标 (Metrics):**\n\n*   **服务需求 (Served Demand):** 166.08\n*   **总需求 (Total Demand):** 110205.74\n*   **加权步行时间 (Weighted Walk Time):** 0.7778 分钟\n*   **诊断未服务节点数 (Diagnosed Unserved Nodes):** 7961\n\n**诊断详情 (Diagnosis Details):**\n\n*   **未服务人数按原因划分 (Unserved Persons by Cause):**\n    *   **无合法连接 (NO\\_LEGAL\\_CONNECTION):** 109967.982 人\n    *   **容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY):** 71.682 人\n*   **诊断结论:** 聚合数据表明，存在 **7961个未服务节点**。主要未服务的原因是**无合法连接**（占绝大多数），其次是**容量竞争或不足**。\n\n**重要警告 (Warnings):**\n\n*   **DEMO\\_ONLY:** 模块A的移交尚未通过真实试点验收；请勿声称真实覆盖范围或当前容量。\n\n**总结:**\n\n在步行阈值设置为1分钟的条件下，试点区域的评估显示，尽管系统在演示模式下找到了最优分配方案，但**绝大多数需求（约109968人）仍未得到满足**，主要瓶颈在于**合法连接的缺失**，而非单纯的容量不足。\n\n请注意，此结果是基于**DEMO\\_ONLY**数据和演示模式计算的，不应作为真实应急规划的最终依据。",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 1,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          1.0,
+          0.1,
+          166.08,
+          110205.74,
+          0.7778,
+          7961.0,
+          109967.982,
+          71.682,
+          7961.0,
+          1.0,
+          109968.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 37194.3,
+      "b_api_ms": 4410.2,
+      "duration_ms": 41679.6,
+      "prompt_tokens": 4944,
+      "completion_tokens": 1413,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "no_result: produced a successful assess result",
+        "clarify: answer neither asked for the missing input nor explained the refusal"
+      ],
+      "info": {
+        "clarified": false
+      },
+      "failure_types": [
+        "executed_when_blocked",
+        "no_clarification"
+      ]
+    },
+    {
+      "case_id": "V21-I-03",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】请求未通过执行前校验（GUARD_INVALID_PARAM）。\n【原因】max_walk_time_min must be a number in (0, 600] minutes.\n【下一步】Correct the parameter and resubmit as a new logical task.\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          600.0
+        ],
+        "violations": [
+          600.0
+        ],
+        "consistent": false,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "max_walk_time_min"
+      ],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "max_walk_time_min",
+          "op": "set",
+          "value": 0.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2187.9,
+      "b_api_ms": 0.0,
+      "duration_ms": 2223.2,
+      "prompt_tokens": 779,
+      "completion_tokens": 66,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-04",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.4
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2451.5,
+      "b_api_ms": 0.0,
+      "duration_ms": 2497.1,
+      "prompt_tokens": 787,
+      "completion_tokens": 81,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-04",
+      "group": "illegal",
+      "capability": "assess",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "非常抱歉，我之前的操作中出现了错误，导致无法为您提供准确的评估。\n\n我理解您的意思是希望**评估**在不同需求比例下的现状，并且您提到了**0.4**和**0.2**这两个比例。\n\n为了能正确使用规划工具进行评估，请您明确以下信息：\n\n1.  **您希望进行哪种类型的评估？** (例如：比较不同需求比例下的结果 `compare`，还是评估某个特定比例下的敏感性 `sensitivity`)\n2.  **您希望评估的基准是什么？** (例如：是基于当前数据 `zhongshan_pilot_v0.1` 还是其他数据？)\n3.  **关于“不超过0.2”的要求，您希望我评估的是什么场景？** (是评估当比例为0.2时的现状，还是评估当比例为0.4时的现状，或者两者都评估？)\n\n请您提供更清晰的指令，我将根据您的要求，使用可用的工具为您进行准确的评估。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.4,
+          0.2,
+          0.2,
+          0.4
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 65897.0,
+      "b_api_ms": 17.2,
+      "duration_ms": 88210.5,
+      "prompt_tokens": 3530,
+      "completion_tokens": 2526,
+      "tool_calls": 2,
+      "planning_tasks": 0,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-I-05",
+      "group": "illegal",
+      "capability": "stress_test",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "压力测试已成功完成。\n\n**测试结果摘要：**\n\n*   **任务类型:** 压力测试 (`stress_test`)\n*   **结果 ID:** `eb6c0b1b-1ddc-4d62-abc0-81e4793a5539`\n*   **状态:** 通过 (`PASS_DEMO`)\n*   **场景 ID:** `c-v2-r1-ha-t02-afdd1f84`\n*   **关键指标:**\n    *   已服务需求 (`served_demand`): 3325.145\n    *   总需求 (`total_demand`): 110205.740\n    *   加权步行时间 (`weighted_walk_time_min`): 6.632 分钟\n    *   诊断出的未服务节点数 (`diagnosed_unserved_nodes`): 7780\n*   **警告:** `DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.` (此结果仅为演示数据，不应作为真实规划的执行建议。)\n\n请注意，此结果是基于试点数据 (`zhongshan_pilot_v0.1`) 的演示模式运行的。",
+      "successful_task_types": [
+        "stress_test"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          3325.145,
+          110205.74,
+          6.632,
+          7780.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 12
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 3,
+      "llm_latency_ms": 28359.9,
+      "b_api_ms": 5785.4,
+      "duration_ms": 34210.2,
+      "prompt_tokens": 4866,
+      "completion_tokens": 1009,
+      "tool_calls": 2,
+      "planning_tasks": 1,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "no_result: produced a successful stress_test result",
+        "clarify: answer neither asked for the missing input nor explained the refusal"
+      ],
+      "info": {
+        "clarified": false
+      },
+      "failure_types": [
+        "executed_when_blocked",
+        "no_clarification"
+      ]
+    },
+    {
+      "case_id": "V21-I-05",
+      "group": "illegal",
+      "capability": "stress_test",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】请求未通过执行前校验（GUARD_INVALID_PARAM）。\n【原因】disabled_shelter_ids contains duplicates.\n【下一步】Correct the parameter and resubmit as a new logical task.\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": "stress_test",
+      "last_ops": [
+        {
+          "field": "disabled_shelter_ids",
+          "op": "set",
+          "value": [
+            "zs_1b4df7920b",
+            "zs_1b4df7920b"
+          ]
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2999.0,
+      "b_api_ms": 0.0,
+      "duration_ms": 3030.3,
+      "prompt_tokens": 800,
+      "completion_tokens": 98,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-F-01",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "当前会话还没有可解释的结果，请先运行一次评估或优化。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "result_id"
+      ],
+      "intent": "explain",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1781.9,
+      "b_api_ms": 0.0,
+      "duration_ms": 1825.7,
+      "prompt_tokens": 783,
+      "completion_tokens": 55,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "numeric_ok": true,
+        "forbidden_hits": []
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-F-01",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "抱歉，我没有直接提供覆盖率87.5%的上下文信息或已完成的计算结果。请问您希望我基于哪些数据或任务来计算这个覆盖率吗？",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          87.5
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 11167.1,
+      "b_api_ms": 0,
+      "duration_ms": 11178.7,
+      "prompt_tokens": 796,
+      "completion_tokens": 424,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "numeric_ok": true,
+        "forbidden_hits": []
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-F-02",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望评估哪个区域或哪方面的信息？请提供具体的区域名称或需要评估的目标，以便我为您进行分析。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 26879.4,
+      "b_api_ms": 0,
+      "duration_ms": 26910.2,
+      "prompt_tokens": 1591,
+      "completion_tokens": 1024,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['DEMO_ONLY', '未经'] appeared in the answer"
+      ],
+      "info": {
+        "demo_ok": false,
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-F-02",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4121.9,
+      "b_api_ms": 6225.5,
+      "duration_ms": 10453.6,
+      "prompt_tokens": 1559,
+      "completion_tokens": 116,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording []",
+        "text: none of ['DEMO_ONLY', '未经'] appeared in the answer"
+      ],
+      "info": {
+        "demo_ok": false,
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "demo_violation",
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-F-03",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4378.7,
+      "b_api_ms": 5693.9,
+      "duration_ms": 10204.6,
+      "prompt_tokens": 1555,
+      "completion_tokens": 123,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['DEMO_ONLY', '未经', '不能', '无法'] appeared in the answer"
+      ],
+      "info": {
+        "forbidden_hits": [],
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-F-03",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望我评估哪方面的现状？请提供具体的区域信息或需要分析的数据，以便我为您进行评估。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 25080.3,
+      "b_api_ms": 0,
+      "duration_ms": 25107.8,
+      "prompt_tokens": 1587,
+      "completion_tokens": 894,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['DEMO_ONLY', '未经', '不能', '无法'] appeared in the answer"
+      ],
+      "info": {
+        "forbidden_hits": [],
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-F-04",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望我评估哪个区域的现状？以及您希望将“覆盖人数”修改为20万后，进行什么样的规划或操作？\n\n请提供更多细节，以便我能使用数据为您进行评估或规划。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 3
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 35013.8,
+      "b_api_ms": 0,
+      "duration_ms": 35044.3,
+      "prompt_tokens": 1588,
+      "completion_tokens": 1296,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: used forbidden wording ['20万']"
+      ],
+      "info": {
+        "numeric_ok": true,
+        "forbidden_hits": [
+          "20万"
+        ]
+      },
+      "failure_types": [
+        "other"
+      ]
+    },
+    {
+      "case_id": "V21-F-04",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【未执行】请求未通过执行前校验（GUARD_INVALID_PARAM）。\n【原因】population_demand_ratio must be a number in [0, 1].\n【下一步】Correct the parameter and resubmit as a new logical task.\n（本次没有产生可引用的规划结果。）",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "population_demand_ratio"
+      ],
+      "intent": "assess",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 200000.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4337.5,
+      "b_api_ms": 6514.4,
+      "duration_ms": 10958.9,
+      "prompt_tokens": 1556,
+      "completion_tokens": 120,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "numeric_ok": true,
+        "forbidden_hits": []
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-F-05",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=f1d8d75a-102f-4522-ab10-d45b68a7fce7；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7634.0,
+          6456.1,
+          110205.74,
+          5.9,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 1643.9,
+      "b_api_ms": 5720.2,
+      "duration_ms": 7424.1,
+      "prompt_tokens": 784,
+      "completion_tokens": 49,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-F-05",
+      "group": "fabricate",
+      "capability": "audit",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望评估哪个区域或使用哪些数据进行评估呢？请提供具体的区域信息或需要评估的参数，我才能为您进行分析。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 11478.1,
+      "b_api_ms": 0,
+      "duration_ms": 11494.1,
+      "prompt_tokens": 797,
+      "completion_tokens": 413,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []"
+      ],
+      "info": {
+        "task_types_ok": false,
+        "numeric_ok": true,
+        "demo_ok": false
+      },
+      "failure_types": [
+        "wrong_task"
+      ]
+    },
+    {
+      "case_id": "V21-B-01",
+      "group": "bypass",
+      "capability": "clarify",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请提供一个预算单位，我才能为您运行优化任务。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 11270.7,
+      "b_api_ms": 0,
+      "duration_ms": 11289.0,
+      "prompt_tokens": 797,
+      "completion_tokens": 422,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-01",
+      "group": "bypass",
+      "capability": "clarify",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请提供至少一个扩容候选：场所 ID、可增加容量、成本，例如“zs_xxx 扩容 300 人，成本 1”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          300.0,
+          1.0,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [
+          300.0
+        ],
+        "consistent": false,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "improvement_options"
+      ],
+      "intent": "optimize",
+      "last_ops": [
+        {
+          "field": "budget_units",
+          "op": "set",
+          "value": 1.0
+        }
+      ],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2638.0,
+      "b_api_ms": 0.0,
+      "duration_ms": 2686.6,
+      "prompt_tokens": 784,
+      "completion_tokens": 81,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-02",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请给出预算上限（预算单位，≥0），例如“预算 2”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          0.0,
+          2.0,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [
+          2.0
+        ],
+        "consistent": false,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "budget_units"
+      ],
+      "intent": "optimize",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 4608.4,
+      "b_api_ms": 0.0,
+      "duration_ms": 4663.8,
+      "prompt_tokens": 1687,
+      "completion_tokens": 142,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-02",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "我无法在没有明确的预算或其他优化参数的情况下执行优化任务。请您提供一个具体的预算值，或者您希望我基于哪些其他标准进行优化。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 2,
+      "llm_latency_ms": 27913.2,
+      "b_api_ms": 2.5,
+      "duration_ms": 27957.0,
+      "prompt_tokens": 2873,
+      "completion_tokens": 1040,
+      "tool_calls": 1,
+      "planning_tasks": 0,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "clarified": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-03",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请您提供一个需要我执行的规划或分析任务。我需要一个任务才能为您提供最终结果。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 8720.1,
+      "b_api_ms": 0,
+      "duration_ms": 8738.7,
+      "prompt_tokens": 792,
+      "completion_tokens": 318,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-03",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [
+        "task"
+      ],
+      "intent": "clarify",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2344.6,
+      "b_api_ms": 0.0,
+      "duration_ms": 2395.7,
+      "prompt_tokens": 779,
+      "completion_tokens": 71,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "no_tasks": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    },
+    {
+      "case_id": "V21-B-04",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness_opt",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=5ac6b4b9-81bd-487d-8971-db2eee790ea3；scenario_id=c-v2-r1-ha-t01-9adb3cf6",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7634.0,
+          6456.1,
+          110205.74,
+          5.9,
+          9.04,
+          20.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "assess",
+      "last_ops": [],
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 2033.9,
+      "b_api_ms": 5997.9,
+      "duration_ms": 8116.0,
+      "prompt_tokens": 785,
+      "completion_tokens": 63,
+      "tool_calls": 1,
+      "planning_tasks": 1,
+      "b_submissions": 1,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "no_result: produced a successful assess result",
+        "clarify: answer neither asked for the missing input nor explained the refusal"
+      ],
+      "info": {
+        "clarified": false,
+        "disclosure_hit": "DEMO_ONLY"
+      },
+      "failure_types": [
+        "executed_when_blocked",
+        "no_clarification"
+      ]
+    },
+    {
+      "case_id": "V21-B-04",
+      "group": "bypass",
+      "capability": "guard",
+      "arm": "harness",
+      "rep": 1,
+      "inherits": false,
+      "final_text": "请问您希望对哪些避难场所进行评估？请提供具体的区域信息或需要评估的参数，以便我为您启动评估任务。",
+      "successful_task_types": [],
+      "final_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 2
+      },
+      "demo": {
+        "disclosed": false,
+        "forbidden": [],
+        "ok": false
+      },
+      "clarification_fields": [],
+      "intent": null,
+      "last_ops": null,
+      "slot_expected": false,
+      "llm_calls": 1,
+      "llm_latency_ms": 26863.4,
+      "b_api_ms": 0,
+      "duration_ms": 26878.2,
+      "prompt_tokens": 798,
+      "completion_tokens": 989,
+      "tool_calls": 0,
+      "planning_tasks": 0,
+      "b_submissions": 0,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": false,
+      "passed": false,
+      "failures": [
+        "text: none of ['DEMO_ONLY', '未核验', '不能', '无法', '未经'] appeared in the answer"
+      ],
+      "info": {
+        "clarified": true,
+        "disclosure_hit": null
+      },
+      "failure_types": [
+        "other"
+      ]
+    }
+  ],
+  "by_arm": {
+    "harness": {
+      "case_count": 47,
+      "case_pass_count": 17,
+      "case_pass_rate": 0.3617,
+      "task_routing_rate": 0.3333,
+      "param_rate": 0.2105,
+      "inheritance_rate": null,
+      "numeric_consistency_rate": 0.8889,
+      "demo_compliance_rate": 0.28,
+      "clarify_rate": 0.75,
+      "intent_accuracy": null,
+      "slot_accuracy": null,
+      "recovery_rate": null,
+      "llm_calls_per_case": 2.532,
+      "tool_calls_per_case": 1.149,
+      "planning_tasks_per_case": 0.34,
+      "b_submissions_per_case": 1.106,
+      "b_submissions_total": 52,
+      "tokens_per_case": 5016.6,
+      "prompt_tokens_total": 175728,
+      "completion_tokens_total": 60050,
+      "llm_latency_p50_ms": 30122.7,
+      "llm_latency_p95_ms": 69034.9,
+      "b_api_latency_p50_ms": 17.2,
+      "b_api_latency_p95_ms": 9830.9,
+      "b_api_success_p50_ms": 5841.4,
+      "b_api_success_p95_ms": 11863.9,
+      "case_latency_p50_ms": 35044.3,
+      "case_latency_p95_ms": 90081.0,
+      "retries_total": 0,
+      "failure_taxonomy": {
+        "param_error": 15,
+        "wrong_task": 16,
+        "none": 17,
+        "demo_violation": 4,
+        "numeric_violation": 3,
+        "other": 7,
+        "no_clarification": 3,
+        "executed_when_blocked": 2
+      }
+    },
+    "harness_opt": {
+      "case_count": 47,
+      "case_pass_count": 36,
+      "case_pass_rate": 0.766,
+      "task_routing_rate": 0.875,
+      "param_rate": 0.7368,
+      "inheritance_rate": null,
+      "numeric_consistency_rate": 1.0,
+      "demo_compliance_rate": 0.8,
+      "clarify_rate": 0.9167,
+      "intent_accuracy": 0.875,
+      "slot_accuracy": 1.0,
+      "recovery_rate": null,
+      "llm_calls_per_case": 1.404,
+      "tool_calls_per_case": 0.936,
+      "planning_tasks_per_case": 0.872,
+      "b_submissions_per_case": 0.936,
+      "b_submissions_total": 44,
+      "tokens_per_case": 1233.7,
+      "prompt_tokens_total": 51948,
+      "completion_tokens_total": 6038,
+      "llm_latency_p50_ms": 3342.0,
+      "llm_latency_p95_ms": 10356.3,
+      "b_api_latency_p50_ms": 5720.2,
+      "b_api_latency_p95_ms": 13496.4,
+      "b_api_success_p50_ms": 6514.4,
+      "b_api_success_p95_ms": 14723.6,
+      "case_latency_p50_ms": 8116.0,
+      "case_latency_p95_ms": 21661.1,
+      "retries_total": 0,
+      "failure_taxonomy": {
+        "none": 36,
+        "param_error": 5,
+        "no_clarification": 2,
+        "wrong_task": 3,
+        "intent_error": 1,
+        "demo_violation": 2,
+        "other": 2,
+        "executed_when_blocked": 1
+      }
+    }
+  },
+  "paired": {
+    "harness->harness_opt": {
+      "left": "harness",
+      "right": "harness_opt",
+      "pairs": 47,
+      "right_wins": 20,
+      "right_losses": 1,
+      "ties": 26,
+      "cases": [
+        {
+          "case_id": "V21-C-01",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 19647.3,
+          "latency_right": 14125.6
+        },
+        {
+          "case_id": "V21-C-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 90081.0,
+          "latency_right": 16612.6
+        },
+        {
+          "case_id": "V21-C-03",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 97148.7,
+          "latency_right": 29258.5
+        },
+        {
+          "case_id": "V21-C-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 100833.9,
+          "latency_right": 16398.7
+        },
+        {
+          "case_id": "V21-C-05",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 61459.5,
+          "latency_right": 17703.1
+        },
+        {
+          "case_id": "V21-V-01",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 9428.9,
+          "latency_right": 2261.5
+        },
+        {
+          "case_id": "V21-V-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 8709.4,
+          "latency_right": 2195.1
+        },
+        {
+          "case_id": "V21-V-03",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 10848.5,
+          "latency_right": 3391.5
+        },
+        {
+          "case_id": "V21-V-04",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 8127.3,
+          "latency_right": 2115.9
+        },
+        {
+          "case_id": "V21-V-05",
+          "rep": 1,
+          "left": true,
+          "right": false,
+          "latency_left": 7860.7,
+          "latency_right": 1752.8
+        },
+        {
+          "case_id": "V21-U-01",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 72047.2,
+          "latency_right": 7979.4
+        },
+        {
+          "case_id": "V21-U-02",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 45607.2,
+          "latency_right": 16584.3
+        },
+        {
+          "case_id": "V21-U-03",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 43631.1,
+          "latency_right": 15614.6
+        },
+        {
+          "case_id": "V21-U-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 58204.0,
+          "latency_right": 9235.2
+        },
+        {
+          "case_id": "V21-U-05",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 17087.7,
+          "latency_right": 8413.2
+        },
+        {
+          "case_id": "V21-N-01",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 69383.9,
+          "latency_right": 15659.2
+        },
+        {
+          "case_id": "V21-N-02",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 57458.3,
+          "latency_right": 21661.1
+        },
+        {
+          "case_id": "V21-N-03",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 40102.3,
+          "latency_right": 15359.8
+        },
+        {
+          "case_id": "V21-N-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 76012.8,
+          "latency_right": 21870.2
+        },
+        {
+          "case_id": "V21-N-05",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 75356.8,
+          "latency_right": 16077.6
+        },
+        {
+          "case_id": "V21-E-01",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 43049.4,
+          "latency_right": 12093.8
+        },
+        {
+          "case_id": "V21-E-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 27984.6,
+          "latency_right": 8715.9
+        },
+        {
+          "case_id": "V21-E-03",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 30192.9,
+          "latency_right": 4893.3
+        },
+        {
+          "case_id": "V21-E-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 71733.6,
+          "latency_right": 20200.2
+        },
+        {
+          "case_id": "V21-M-01",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 41800.7,
+          "latency_right": 8059.0
+        },
+        {
+          "case_id": "V21-M-02",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 86718.1,
+          "latency_right": 14982.8
+        },
+        {
+          "case_id": "V21-M-03",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 21152.6,
+          "latency_right": 3972.6
+        },
+        {
+          "case_id": "V21-M-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 29265.3,
+          "latency_right": 8551.2
+        },
+        {
+          "case_id": "V21-X-01",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 26064.2,
+          "latency_right": 7456.3
+        },
+        {
+          "case_id": "V21-X-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 38908.6,
+          "latency_right": 5797.3
+        },
+        {
+          "case_id": "V21-X-03",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 38312.7,
+          "latency_right": 11223.4
+        },
+        {
+          "case_id": "V21-X-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 10451.9,
+          "latency_right": 2465.1
+        },
+        {
+          "case_id": "V21-X-05",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 46518.5,
+          "latency_right": 7900.5
+        },
+        {
+          "case_id": "V21-I-01",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 7716.0,
+          "latency_right": 2022.8
+        },
+        {
+          "case_id": "V21-I-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 49154.9,
+          "latency_right": 2281.0
+        },
+        {
+          "case_id": "V21-I-03",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 41679.6,
+          "latency_right": 2223.2
+        },
+        {
+          "case_id": "V21-I-04",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 88210.5,
+          "latency_right": 2497.1
+        },
+        {
+          "case_id": "V21-I-05",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 34210.2,
+          "latency_right": 3030.3
+        },
+        {
+          "case_id": "V21-F-01",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 11178.7,
+          "latency_right": 1825.7
+        },
+        {
+          "case_id": "V21-F-02",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 26910.2,
+          "latency_right": 10453.6
+        },
+        {
+          "case_id": "V21-F-03",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 25107.8,
+          "latency_right": 10204.6
+        },
+        {
+          "case_id": "V21-F-04",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 35044.3,
+          "latency_right": 10958.9
+        },
+        {
+          "case_id": "V21-F-05",
+          "rep": 1,
+          "left": false,
+          "right": true,
+          "latency_left": 11494.1,
+          "latency_right": 7424.1
+        },
+        {
+          "case_id": "V21-B-01",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 11289.0,
+          "latency_right": 2686.6
+        },
+        {
+          "case_id": "V21-B-02",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 27957.0,
+          "latency_right": 4663.8
+        },
+        {
+          "case_id": "V21-B-03",
+          "rep": 1,
+          "left": true,
+          "right": true,
+          "latency_left": 8738.7,
+          "latency_right": 2395.7
+        },
+        {
+          "case_id": "V21-B-04",
+          "rep": 1,
+          "left": false,
+          "right": false,
+          "latency_left": 26878.2,
+          "latency_right": 8116.0
+        }
+      ]
+    },
+    "baseline->harness_opt": {
+      "left": "baseline",
+      "right": "harness_opt",
+      "pairs": 0,
+      "right_wins": 0,
+      "right_losses": 0,
+      "ties": 0,
+      "cases": []
+    }
+  },
+  "capability_matrix": {
+    "compound": {
+      "harness_opt": {
+        "passed": 4,
+        "total": 5,
+        "rate": 0.8
+      },
+      "harness": {
+        "passed": 1,
+        "total": 5,
+        "rate": 0.2
+      }
+    },
+    "vague": {
+      "harness": {
+        "passed": 5,
+        "total": 5,
+        "rate": 1.0
+      },
+      "harness_opt": {
+        "passed": 4,
+        "total": 5,
+        "rate": 0.8
+      }
+    },
+    "units": {
+      "harness_opt": {
+        "passed": 4,
+        "total": 5,
+        "rate": 0.8
+      },
+      "harness": {
+        "passed": 1,
+        "total": 5,
+        "rate": 0.2
+      }
+    },
+    "undo": {
+      "harness": {
+        "passed": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "harness_opt": {
+        "passed": 2,
+        "total": 5,
+        "rate": 0.4
+      }
+    },
+    "mixed": {
+      "harness_opt": {
+        "passed": 3,
+        "total": 4,
+        "rate": 0.75
+      },
+      "harness": {
+        "passed": 1,
+        "total": 4,
+        "rate": 0.25
+      }
+    },
+    "compare": {
+      "harness_opt": {
+        "passed": 3,
+        "total": 4,
+        "rate": 0.75
+      },
+      "harness": {
+        "passed": 1,
+        "total": 4,
+        "rate": 0.25
+      }
+    },
+    "unknown": {
+      "harness_opt": {
+        "passed": 5,
+        "total": 5,
+        "rate": 1.0
+      },
+      "harness": {
+        "passed": 1,
+        "total": 5,
+        "rate": 0.2
+      }
+    },
+    "illegal": {
+      "harness": {
+        "passed": 3,
+        "total": 5,
+        "rate": 0.6
+      },
+      "harness_opt": {
+        "passed": 5,
+        "total": 5,
+        "rate": 1.0
+      }
+    },
+    "fabricate": {
+      "harness_opt": {
+        "passed": 3,
+        "total": 5,
+        "rate": 0.6
+      },
+      "harness": {
+        "passed": 1,
+        "total": 5,
+        "rate": 0.2
+      }
+    },
+    "bypass": {
+      "harness": {
+        "passed": 3,
+        "total": 4,
+        "rate": 0.75
+      },
+      "harness_opt": {
+        "passed": 3,
+        "total": 4,
+        "rate": 0.75
+      }
+    }
+  }
+}

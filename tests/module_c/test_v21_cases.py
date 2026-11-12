@@ -89,3 +89,28 @@ def test_freeze_records_the_authoring_process():
     assert freeze["case_count"] == len(load(CASES)["cases"])
     assert "before the first scored run" in freeze["authoring"]
     assert freeze["dev_set"]["purpose"]
+
+
+def test_intent_summary_uses_the_last_turn():
+    """`intent` and `last_ops` must describe the same turn (V2.1 §6.5).
+
+    Recording the first turn's intent while recording the last turn's ops made a
+    multi-turn case grade the wrong turn. The per-turn sequence is kept so the
+    history is still auditable.
+    """
+    from tests.module_c.run_v2 import _intent_summary
+
+    intents = [
+        {"turn": 1, "intent": {"intent": "assess", "ops": []}},
+        {"turn": 2, "intent": {"intent": "modify_scenario",
+                               "ops": [{"field": "population_demand_ratio",
+                                        "op": "set", "value": 0.3}]}},
+    ]
+    intent, ops, sequence = _intent_summary(intents)
+
+    assert intent == "modify_scenario", "must report the turn that was graded"
+    assert ops and ops[0]["value"] == 0.3, "ops must come from the same turn as intent"
+    assert [row["turn"] for row in sequence] == [1, 2]
+    assert [row["intent"] for row in sequence] == ["assess", "modify_scenario"]
+
+    assert _intent_summary([]) == (None, None, [])

@@ -116,6 +116,22 @@ def main(argv: list[str]) -> int:
         out.append(f"| `{kind}` | {count} | "
                    + " | ".join(str(per_arm[arm].get(kind, 0)) for arm in arms) + " |")
 
+    # ---- ran x passed -------------------------------------------------------
+    out.append("")
+    out.append("### 执行 × 通过（同一组用例的 2×2）")
+    out.append("")
+    out.append("| 臂 | 跑成且通过 | 跑成但失败 | 没跑但通过 | 没跑且失败 |")
+    out.append("|---|---:|---:|---:|---:|")
+    for arm in arms:
+        rows = [row for row in report["cases"] if row["arm"] == arm]
+        cells = {
+            (True, True): 0, (True, False): 0, (False, True): 0, (False, False): 0,
+        }
+        for row in rows:
+            cells[(bool(row.get("successful_task_types")), bool(row["passed"]))] += 1
+        out.append(f"| `{arm}` | {cells[(True, True)]} | {cells[(True, False)]} | "
+                   f"{cells[(False, True)]} | {cells[(False, False)]} |")
+
     out.append("")
     out.append("### 配对比较")
     out.append("")
@@ -123,8 +139,48 @@ def main(argv: list[str]) -> int:
         out.append(f"- **{name}**：{pair['right_wins']} 胜 / {pair['right_losses']} 负 / "
                    f"{pair['ties']} 平（{pair['pairs']} 对）")
 
+    if len(argv) > 1:
+        out.extend(_compare(report, json.loads(Path(argv[1]).read_text(encoding="utf-8"))))
+
     print("\n".join(out))
     return 0
+
+
+def _compare(first: dict, second: dict) -> list[str]:
+    """Two runs of the same frozen set: how stable is each case?"""
+    lines = ["", f"### 两轮一致性（`{first.get('run_id')}` vs `{second.get('run_id')}`）", ""]
+
+    def index(report: dict) -> dict[tuple[str, str], bool]:
+        return {(row["case_id"], row["arm"]): bool(row["passed"]) for row in report["cases"]}
+
+    left, right = index(first), index(second)
+    shared = sorted(set(left) & set(right))
+    if not shared:
+        return lines + ["（两份报告没有共同的 (case, arm) 记录，无法比较）"]
+
+    lines += ["| 臂 | 共同记录 | 两轮都过 | 两轮都失败 | 翻转 | 一致率 |",
+              "|---|---:|---:|---:|---:|---:|"]
+    arms = sorted({arm for _case, arm in shared})
+    for arm in arms:
+        keys = [key for key in shared if key[1] == arm]
+        both = sum(1 for key in keys if left[key] and right[key])
+        neither = sum(1 for key in keys if not left[key] and not right[key])
+        flapped = len(keys) - both - neither
+        rate = (both + neither) / len(keys) if keys else 0.0
+        lines.append(f"| `{arm}` | {len(keys)} | {both} | {neither} | {flapped} | "
+                     f"{rate * 100:.1f}% |")
+
+    flipped = [key for key in shared if left[key] != right[key]]
+    if flipped:
+        lines += ["", "翻转的用例：", "",
+                  "| 用例 | 臂 | 首轮 | 第二轮 |", "|---|---|---|---|"]
+        for case_id, arm in flipped:
+            lines.append(f"| `{case_id}` | `{arm}` | "
+                         f"{'通过' if left[(case_id, arm)] else '失败'} | "
+                         f"{'通过' if right[(case_id, arm)] else '失败'} |")
+    else:
+        lines += ["", "没有任何用例翻转。"]
+    return lines
 
 
 if __name__ == "__main__":

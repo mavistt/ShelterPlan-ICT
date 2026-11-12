@@ -97,6 +97,24 @@ def _classify(failures: list[str]) -> list[str]:
     return sorted(set(taxonomy)) or ["none"]
 
 
+def _intent_summary(intents: list[dict[str, Any]]) -> tuple[
+        str | None, list[dict] | None, list[dict[str, Any]]]:
+    """`intent` / `last_ops` must come from the *same* (last) turn.
+
+    Taking the first turn's intent while taking the last turn's ops made
+    multi-turn cases grade the wrong turn; V2.1 §6.5 documents the one case this
+    affected. The full per-turn sequence is returned so nothing is hidden.
+    """
+    if not intents:
+        return None, None, []
+    last = intents[-1]
+    payload = last.get("intent") or {}
+    sequence = [{"turn": row.get("turn"),
+                 "intent": (row.get("intent") or {}).get("intent"),
+                 "ops": (row.get("intent") or {}).get("ops") or []} for row in intents]
+    return payload.get("intent"), payload.get("ops"), sequence
+
+
 def _record(case: dict[str, Any], arm: str, rep: int, *, final_text: str | None,
             successful_types: list[str], final_params: dict[str, Any],
             numeric_document: Any, user_numbers: list[float],
@@ -105,7 +123,8 @@ def _record(case: dict[str, Any], arm: str, rep: int, *, final_text: str | None,
             tool_calls: int, planning_tasks: int, retries: int,
             intent: str | None, last_ops: list[dict] | None,
             clarification_fields: list[str], runner_error: str | None,
-            max_turns_hit: bool, b_submissions: int = 0) -> dict[str, Any]:
+            max_turns_hit: bool, b_submissions: int = 0,
+            intents_per_turn: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     audit = check_citations(final_text or "", {
         **({"documents": numeric_document} if arm == "baseline" else
            {"summaries": numeric_document}),
@@ -129,8 +148,13 @@ def _record(case: dict[str, Any], arm: str, rep: int, *, final_text: str | None,
         "numeric": audit,
         "demo": demo_flags(final_text, produced_result=produced),
         "clarification_fields": clarification_fields,
+        # `intent` is the *last* turn's intent, the same turn `last_ops` comes
+        # from. Recording the first turn's intent here used to make multi-turn
+        # cases grade the wrong turn (V2.1 §6.5); the full sequence is kept so a
+        # reviewer can still see every turn.
         "intent": intent,
         "last_ops": last_ops,
+        "intents_per_turn": intents_per_turn or [],
         "slot_expected": bool("ops" in expect and arm in STRUCTURED_ARMS),
         "llm_calls": llm_calls,
         "llm_latency_ms": round(llm_latency_ms, 1),
@@ -222,9 +246,7 @@ def run_one(case: dict[str, Any], arm: str, rep: int, *, service: HarnessService
     duration = (time.perf_counter() - started) * 1000
     successful = [row["task_type"] for row in result.successful_tasks if row.get("task_type")]
     summaries = [row["summary"] for row in result.submitted if row.get("summary")]
-    intents = result.intents
-    intent_name = (intents[0]["intent"]["intent"] if intents else None)
-    last_ops = (intents[-1]["intent"]["ops"] if intents else None)
+    intent_name, last_ops, intents_per_turn = _intent_summary(result.intents)
     retries = sum(max(0, int(row.get("attempts") or 1) - 1) for row in result.controls)
     return _record(
         case, arm, rep, final_text=result.final_text, successful_types=successful,
@@ -235,6 +257,7 @@ def run_one(case: dict[str, Any], arm: str, rep: int, *, service: HarnessService
         completion_tokens=result.completion_tokens, tool_calls=len(result.tool_calls),
         planning_tasks=sum(1 for row in result.controls if row.get("status") == "ok"),
         retries=retries, intent=intent_name, last_ops=last_ops,
+        intents_per_turn=intents_per_turn,
         clarification_fields=list(result.clarification_fields),
         b_submissions=len(result.tool_calls),
         runner_error=result.error, max_turns_hit=result.max_turns_hit)

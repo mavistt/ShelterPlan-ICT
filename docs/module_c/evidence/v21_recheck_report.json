@@ -1,0 +1,218 @@
+{
+  "run_id": "v21-1794492559",
+  "generated_at": "2026-11-12T14:09:19Z",
+  "code": {
+    "commit": "9ecce0628b6b56bc5bd87fdbece5e4a06fddc4b4",
+    "working_tree_dirty": true
+  },
+  "freeze": {
+    "created_at": "2026-11-12T12:37:56Z",
+    "cases_path": "tests/module_c/cases/v21_cases.json",
+    "cases_sha256": "fea06b63d135ff909a0555253d597bad82276317f4bf312afa3f3c37a23bef56",
+    "grading_path": "tests/module_c/eval_lib.py",
+    "grading_sha256": "fd15adcc560551bc5bf9269db2083f7c20b95b4e286ff1d2819ee9ea5f91bc54",
+    "runner_path": "tests/module_c/run_v21.py",
+    "runner_sha256": "6c2e8c272508b08d858efd0d4af2bbcaed48a93be445fbbfe5770f579648f9fa",
+    "case_count": 47,
+    "authoring": "47 cases written by hand from the ten required categories in the V2.1 brief, before the first scored run. No case was produced by editing a V1/V2 case, and no V1/V2 failure list was consulted while writing them. Expected values and grading keys were fixed in the same pass.",
+    "dev_set": {
+      "path": "tests/module_c/cases/v21_dev_cases.json",
+      "purpose": "pre-freeze defect shake-out; never reported as generalisation evidence",
+      "run_output": "outputs/module_c/v21-dev/report.json",
+      "fixes_prompted_by_dev_set": [
+        "eval_lib: broaden clarification tokens to polite forms (请您提供/请重新)",
+        "extractor: downgrade a task intent to clarify when the utterance has no actionable content",
+        "router: a clarifying plan keeps the task type so a later turn can resume it",
+        "controller: classify Module B's pre-compute rejections as upstream_rejected",
+        "eval_lib: must_not_contain now ignores sentences that reject the token"
+      ],
+      "note": "These are generic fixes to the pipeline and the grader. None of them encodes a specific case, a shelter id, or an expected value."
+    },
+    "model": {
+      "name": "gemma4:e2b",
+      "runtime": "ollama 0.23.1",
+      "temperature": 0.0
+    },
+    "declaration": "Scores from this file are reported as measured. If a fix is needed after this point, a new case file (v21b) is created and re-run; this file is never edited and re-scored."
+  },
+  "cases_path": "E:\\ICT\\module-c\\tests\\module_c\\cases\\v21_cases.json",
+  "cases_sha256_at_run": "fea06b63d135ff909a0555253d597bad82276317f4bf312afa3f3c37a23bef56",
+  "model": {
+    "base_url": "http://127.0.0.1:11434/v1",
+    "model": "gemma4:e2b",
+    "temperature": 0.0
+  },
+  "design": {
+    "arms": [
+      "harness_opt"
+    ],
+    "reps": 1,
+    "rep_start": 2,
+    "case_count": 1,
+    "grading": "tests/module_c/eval_lib.py::grade",
+    "arm_order": "rotated per case and repetition",
+    "note": "Expectations were written before the first run. The case file is hash-locked; failures are reported as measured and are not rescored after fixes."
+  },
+  "cases": [
+    {
+      "case_id": "V21-N-01",
+      "group": "undo",
+      "capability": "assess",
+      "arm": "harness_opt",
+      "rep": 2,
+      "inherits": false,
+      "final_text": "【结论】现状评估完成。\n【未服务节点】7,696 个。\n【关键指标】已服务 8,028.44 人 / 总需求 165,308.61 人，覆盖率 4.9%；加权步行时间 8.88 分钟。\n【参数】需求比例 30%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=7a0cbf53-d50a-464a-80ca-eca222c653a0；scenario_id=c-v2-r2-ha-t02-e4e6d2bd",
+      "successful_task_types": [
+        "assess"
+      ],
+      "final_params": {
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "numeric": {
+        "cited_numbers": [
+          7696.0,
+          8028.44,
+          165308.61,
+          4.9,
+          8.88,
+          30.0,
+          15.0,
+          0.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 26
+      },
+      "demo": {
+        "disclosed": true,
+        "forbidden": [],
+        "ok": true
+      },
+      "clarification_fields": [],
+      "intent": "modify_scenario",
+      "last_ops": [
+        {
+          "field": "population_demand_ratio",
+          "op": "set",
+          "value": 0.3
+        }
+      ],
+      "intents_per_turn": [
+        {
+          "turn": 1,
+          "intent": "assess",
+          "ops": []
+        },
+        {
+          "turn": 2,
+          "intent": "modify_scenario",
+          "ops": [
+            {
+              "field": "population_demand_ratio",
+              "op": "set",
+              "value": 0.3
+            }
+          ]
+        }
+      ],
+      "slot_expected": true,
+      "llm_calls": 2,
+      "llm_latency_ms": 4279.5,
+      "b_api_ms": 11254.9,
+      "duration_ms": 15665.5,
+      "prompt_tokens": 1561,
+      "completion_tokens": 117,
+      "tool_calls": 2,
+      "planning_tasks": 2,
+      "b_submissions": 2,
+      "retries": 0,
+      "runner_error": null,
+      "max_turns_hit": false,
+      "slot_ok": true,
+      "passed": true,
+      "failures": [],
+      "info": {
+        "task_types_ok": true,
+        "params_ok": true,
+        "numeric_ok": true,
+        "demo_ok": true,
+        "intent": "modify_scenario",
+        "intent_ok": true,
+        "slot_ok": true
+      },
+      "failure_types": [
+        "none"
+      ]
+    }
+  ],
+  "by_arm": {
+    "harness_opt": {
+      "case_count": 1,
+      "case_pass_count": 1,
+      "case_pass_rate": 1.0,
+      "task_routing_rate": 1.0,
+      "param_rate": 1.0,
+      "inheritance_rate": null,
+      "numeric_consistency_rate": 1.0,
+      "demo_compliance_rate": 1.0,
+      "clarify_rate": null,
+      "intent_accuracy": 1.0,
+      "slot_accuracy": 1.0,
+      "recovery_rate": null,
+      "llm_calls_per_case": 2.0,
+      "tool_calls_per_case": 2.0,
+      "planning_tasks_per_case": 2.0,
+      "b_submissions_per_case": 2.0,
+      "b_submissions_total": 2,
+      "tokens_per_case": 1678.0,
+      "prompt_tokens_total": 1561,
+      "completion_tokens_total": 117,
+      "llm_latency_p50_ms": 4279.5,
+      "llm_latency_p95_ms": 4279.5,
+      "b_api_latency_p50_ms": 11254.9,
+      "b_api_latency_p95_ms": 11254.9,
+      "b_api_success_p50_ms": 11254.9,
+      "b_api_success_p95_ms": 11254.9,
+      "case_latency_p50_ms": 15665.5,
+      "case_latency_p95_ms": 15665.5,
+      "retries_total": 0,
+      "failure_taxonomy": {
+        "none": 1
+      }
+    }
+  },
+  "paired": {
+    "harness->harness_opt": {
+      "left": "harness",
+      "right": "harness_opt",
+      "pairs": 0,
+      "right_wins": 0,
+      "right_losses": 0,
+      "ties": 0,
+      "cases": []
+    },
+    "baseline->harness_opt": {
+      "left": "baseline",
+      "right": "harness_opt",
+      "pairs": 0,
+      "right_wins": 0,
+      "right_losses": 0,
+      "ties": 0,
+      "cases": []
+    }
+  },
+  "capability_matrix": {
+    "undo": {
+      "harness_opt": {
+        "passed": 1,
+        "total": 1,
+        "rate": 1.0
+      }
+    }
+  }
+}
