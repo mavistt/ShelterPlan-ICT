@@ -220,6 +220,12 @@ UNDO_FIELD_RE = re.compile(
     r"(?P<field>预算|需求比例|比例|步行阈值|步行|阈值|停用|停用的场所)")
 UNDO_DISABLE_RE = re.compile(
     r"(?:不要|别|不用|取消|撤销|撤消)\s*(?:再)?\s*(?:停用|关停|关闭|禁用)")
+# An explicit "撤销停用 / 取消停用" is always an undo. A bare "不要停用任何场所"
+# is a *negative condition on a new request*, not an instruction to undo an
+# existing shutdown; it only becomes an undo when the session really has a
+# shutdown list to clear (checked by the caller via `has_disabled`).
+UNDO_EXPLICIT_DISABLE_RE = re.compile(
+    r"(?:取消|撤销|撤消)\s*(?:了)?\s*(?:停用|关停|关闭|禁用)")
 UNDO_VAGUE_RE = re.compile(r"^(?:撤销|撤消|撤回|作废|回退|回滚|算了|恢复一下)[一下这个那次。！!]*$")
 FIELD_BY_WORD = {
     "预算": "budget_units",
@@ -247,22 +253,25 @@ class UndoRequest:
         return self.kind == "ambiguous"
 
 
-def detect_undo(text: str) -> UndoRequest | None:
+def detect_undo(text: str, *, has_disabled: bool = False) -> UndoRequest | None:
     """Read "撤销上一步" / "恢复预算" / "不要停用 zs_x" without a model.
 
     Undo is the one operation where a wrong guess is worse than a question: it
     silently rewrites the snapshot the rest of the conversation is built on.
+    `has_disabled` comes from the authoritative session snapshot and keeps a
+    negative condition ("但不要停用任何场所") from being read as an undo of a
+    shutdown that never happened.
     """
     text = (text or "").strip()
     if not text or is_cancel(text):
         return None
 
-    if UNDO_DISABLE_RE.search(text):
-        ids = RESULT_ID_RE.findall(text) or []
-        ids = [value for value in re.findall(r"\bzs_[0-9a-z]{6,}\b", text, re.I)]
+    disable_match = UNDO_DISABLE_RE.search(text)
+    if disable_match and (has_disabled or UNDO_EXPLICIT_DISABLE_RE.search(text)):
+        ids = re.findall(r"\bzs_[0-9a-z]{6,}\b", text, re.I)
         return UndoRequest(kind="disable", fields=["disabled_shelter_ids"],
                            shelter_ids=list(dict.fromkeys(ids)),
-                           evidence=UNDO_DISABLE_RE.search(text).group(0))
+                           evidence=disable_match.group(0))
 
     match = UNDO_LAST_RE.search(text)
     if match:
@@ -516,11 +525,32 @@ def resume_intent(pending: PendingTask, values: dict[str, Any]) -> ParsedIntent:
     intent = ParsedIntent(name=name, ops=build_resume_ops(pending, values),
                           source="resume", confidence=1.0)
     if name == "compare":
-        intent.compare = values.get("compare_values") or pending.parameters.get("compare_spec")
+        spec = values.get("compare_values") or pending.parameters.get("compare_spec")
+        if not spec:
+            # A clarification that asked about something else may still carry
+            # the comparison rows the user already confirmed. Rebuild the spec
+            # from those rows instead of asking for the same values twice.
+            rows = [row for row in (pending.parameters.get("scenarios") or []) if row]
+            axes = {key for row in rows for key in row}
+            axes &= {"budget_units", "population_demand_ratio", "max_walk_time_min"}
+            if len(rows) >= 2 and len(axes) == 1:
+                axis = next(iter(axes))
+                spec = {"field": axis,
+                        "values": [row[axis] for row in rows if axis in row]}
+        intent.compare = spec
     if name == "sensitivity":
-        intent.sensitivity = values.get("sensitivity_spec") or pending.parameters.get("sensitivity_spec")
+        spec = values.get("sensitivity_spec") or pending.parameters.get("sensitivity_spec")
+        if not spec and pending.parameters.get("parameter") and pending.parameters.get("values"):
+            spec = {"parameter": pending.parameters["parameter"],
+                    "values": list(pending.parameters["values"])}
+        intent.sensitivity = spec
     options = values.get("improvement_options") or pending.options
     if options:
         intent.options = list(options)
+    if values.get("result_id"):
+        # The user answered "which result?" explicitly; route() reads it from
+        # raw so the explanation binds to the id they named, not to "the last
+        # one" (which may not exist in this session).
+        intent.raw = {**intent.raw, "result_id": str(values["result_id"])}
     intent.reason = f"resumed pending {pending.task_type} after {pending.attempts} clarification(s)"
     return intent

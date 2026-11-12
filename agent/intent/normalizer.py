@@ -172,6 +172,16 @@ def _resolve_restore(value: Any, current: ScenarioParams,
             raise GuardMissingParam("No default snapshot is available to restore.",
                                     details={"field": "restore"})
         return defaults.to_dict(), "default"
+    if value == "last":
+        # "按上一轮的预算再评估" is a *reference* to the most recent committed
+        # snapshot, not an undo. It must read history[-1], whereas "撤销上一步"
+        # (`previous`) rewinds one step further to history[-2].
+        if history:
+            target = history[-1]
+            return target.params.to_dict(), f"turn:{target.turn}"
+        if defaults is not None:
+            return defaults.to_dict(), "default"
+        return current.to_dict(), "current"
     if value == "previous" or value is None:
         if len(history) >= 2:
             target = history[-2]

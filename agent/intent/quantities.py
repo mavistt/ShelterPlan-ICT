@@ -34,7 +34,9 @@ FIELD_ANCHORS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("max_walk_time_min", re.compile(r"步行|步距|阈值|walk", re.I)),
 )
 
-CLAUSE_SPLIT_RE = re.compile(r"[，,。；;\n]|(?:然后|同时|并且|再)")
+# "再" is NOT a clause boundary: "步行阈值再放宽半小时" is one clause and must
+# keep its field anchor. Only explicit connectives split a sentence here.
+CLAUSE_SPLIT_RE = re.compile(r"[，,。；;\n]|(?:然后|同时|并且)")
 
 # --- multipliers ----------------------------------------------------------- #
 DOUBLE_RE = re.compile(r"翻倍|翻一番|翻一翻|加倍|双倍|两倍|二倍")
@@ -54,12 +56,39 @@ MINUTES_RE = re.compile(r"(\d+(?:\.\d+)?)\s*分钟")
 # --- ratios ---------------------------------------------------------------- #
 PERCENT_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
 CHENG_RE = re.compile(r"([一二三四五六七八九十\d]+)\s*成")
+# "再加 5 个百分点" is an absolute increment on a ratio (+0.05), NOT a
+# multiplier (x1.05). The word 百分点 decides it; a bare "提高 5%" is a scale.
+POINT_DELTA_DOWN_RE = re.compile(
+    r"(?:减少|减|降低|下调|少)\s*(\d+(?:\.\d+)?)\s*个?百分点")
+POINT_DELTA_UP_RE = re.compile(
+    r"(?:增加|加|提高|上调|多|再)\s*(\d+(?:\.\d+)?)\s*个?百分点")
 
 # --- delta / restore ------------------------------------------------------- #
-DELTA_VERB_RE = re.compile(r"增加|加|减少|减|提高|降低|上调|下调|多|少")
+DELTA_VERB_RE = re.compile(
+    r"增加|加|减少|减|提高|降低|上调|下调|多|少|放宽|延长|缩短|收紧|调高|调低")
 RESTORE_VERB_RE = re.compile(r"撤销|作废|恢复|还原|回滚|回退|回到|退回|不算|取消(?:刚才|上次|上一)")
 UNDO_LAST_RE = re.compile(r"(?:撤销|作废|回退|回滚|恢复|回到)\s*(?:上一步|上一轮|上一次|刚才|上次)")
 UNDO_ONE_RE = re.compile(r"撤(?:销|回)\s*(?:一下|这个|这次)")
+
+# "按上一轮的预算" / "用刚才那个比例" is a *reference to a historical value*,
+# not a request to invent one. It resolves to a field-scoped `restore previous`.
+HISTORY_REF_RE = re.compile(
+    r"(?:按|用|沿用|照着|照|根据|依照)\s*"
+    r"(?:上一轮|上一次|上次|刚才|之前|上一步|刚才那次|上一)(?:的|那个)?\s*"
+    r"(?P<field>预算|需求比例|人口比例|比例|需求|步行阈值|步行|阈值|停用场所|停用列表)?")
+HISTORY_FIELD_BY_WORD = {
+    "预算": "budget_units",
+    "需求比例": "population_demand_ratio", "人口比例": "population_demand_ratio",
+    "比例": "population_demand_ratio", "需求": "population_demand_ratio",
+    "步行阈值": "max_walk_time_min", "步行": "max_walk_time_min", "阈值": "max_walk_time_min",
+    "停用场所": "disabled_shelter_ids", "停用列表": "disabled_shelter_ids",
+}
+
+# An incremental duration ("减少 3 分钟", "再放宽半小时") is a delta, not a
+# target value. "改成/到/为" inside the head means the number IS the target.
+DURATION_DOWN_RE = re.compile(r"减少|减|缩短|降低|调低|少|收紧")
+DURATION_UP_RE = re.compile(r"增加|加|延长|放宽|提高|调高|多|再给")
+DURATION_ABSOLUTE_RE = re.compile(r"改成|改为|设为|设定为|调整为|调成|定为|等于|到|至|为|是")
 
 CHINESE_DIGITS = {"一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5,
                   "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
@@ -159,6 +188,53 @@ def duration_minutes(clause: str) -> tuple[float, str, str] | None:
     return None
 
 
+def duration_delta(clause: str) -> tuple[float, str, str] | None:
+    """(signed_minutes, evidence, rule) for an incremental duration phrase.
+
+    "步行阈值减少 3 分钟" -> (-3, ..., duration.delta_down): the 3 is an
+    increment on the current 15 minutes, not a new target of 3 minutes.
+    "改成 / 到 / 为" in the head makes the number an absolute target instead,
+    in which case this function stays silent and `derive_ops` emits `set`.
+    """
+    duration = duration_minutes(clause)
+    if duration is None:
+        return None
+    minutes, evidence, _rule = duration
+    head = clause[:clause.find(evidence)] if evidence in clause else clause
+    if DURATION_ABSOLUTE_RE.search(head):
+        return None
+    if DURATION_DOWN_RE.search(head):
+        return -minutes, clause.strip(), "duration.delta_down"
+    if DURATION_UP_RE.search(head):
+        return minutes, clause.strip(), "duration.delta_up"
+    return None
+
+
+def history_reference(text: str) -> tuple[str, str] | None:
+    """(field, evidence) when the sentence references a previous turn's value."""
+    for match in HISTORY_REF_RE.finditer(text or ""):
+        field = HISTORY_FIELD_BY_WORD.get(match.group("field") or "")
+        if field:
+            return field, match.group(0)
+    return None
+
+
+def ratio_point_delta(clause: str) -> tuple[float, str, str] | None:
+    """(percentage points, evidence, rule) for an absolute ratio increment.
+
+    The value is kept in *points* (5, not 0.05) because `normalizer._apply_single`
+    converts a ratio delta above 1 into /100 - that keeps the model's envelope,
+    the rule parser and the guard speaking the same units.
+    """
+    match = POINT_DELTA_DOWN_RE.search(clause)
+    if match:
+        return -float(match.group(1)), match.group(0), "ratio.point_delta_down"
+    match = POINT_DELTA_UP_RE.search(clause)
+    if match:
+        return float(match.group(1)), match.group(0), "ratio.point_delta_up"
+    return None
+
+
 def ratio_value(clause: str) -> tuple[float, str, str] | None:
     match = PERCENT_RE.search(clause)
     if match:
@@ -188,15 +264,27 @@ def derive_ops(text: str) -> list[Quantity]:
             continue
 
         if field == "max_walk_time_min":
+            delta = duration_delta(clause)
+            if delta:
+                value, evidence, rule = delta
+                derived.append(Quantity(field, "delta", value, evidence, rule))
+                seen.add(field)
+                continue
             duration = duration_minutes(clause)
             if duration:
                 value, evidence, rule = duration
                 derived.append(Quantity(field, "set", value, evidence, rule))
                 seen.add(field)
-                # "步行阈值提高到半小时" is still a set: the target is absolute.
+                # "步行阈值改成半小时" is a set: the target is absolute.
                 continue
 
         if field == "population_demand_ratio":
+            point_delta = ratio_point_delta(clause)
+            if point_delta:
+                value, evidence, rule = point_delta
+                derived.append(Quantity(field, "delta", value, evidence, rule))
+                seen.add(field)
+                continue
             ratio = ratio_value(clause)
             if ratio:
                 value, evidence, rule = ratio
@@ -244,9 +332,9 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
     typed = numbers(text)
 
     if op == "restore":
-        if RESTORE_VERB_RE.search(text):
+        if RESTORE_VERB_RE.search(text) or history_reference(text):
             return True, "", None
-        return False, "撤销/恢复类操作在句子里没有依据", None
+        return False, "撤销/恢复/历史引用类操作在句子里没有依据", None
 
     if op == "scale":
         found = multiplier(text)
@@ -273,9 +361,18 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
         base = min((abs(number) for number in typed),
                    key=lambda n: min(abs(n - candidate) for candidate in candidates),
                    default=None)
-        if base is None or min(abs(base - candidate) for candidate in candidates) > 1e-9:
+        # "再放宽半小时" contains no literal 30, but the phrase unambiguously
+        # means 30 minutes. The derived duration is therefore valid evidence
+        # for a delta of the same magnitude.
+        duration = duration_minutes(text)
+        duration_ok = (duration is not None
+                       and abs(duration[0] - abs(numeric)) < 1e-9
+                       and duration_delta(text) is not None)
+        literal_ok = (base is not None
+                      and min(abs(base - candidate) for candidate in candidates) <= 1e-9)
+        if not (literal_ok or duration_ok):
             return False, "增量数值在句子里找不到", None
-        if not DELTA_VERB_RE.search(text):
+        if not DELTA_VERB_RE.search(text) and not duration_ok:
             return False, "句子里没有增加/减少类动词", None
         return True, "", None
 

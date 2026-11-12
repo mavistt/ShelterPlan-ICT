@@ -232,7 +232,7 @@ class StructuredRunner:
 
         # 1b. an undo is never a slot value: handle it before the pending task,
         # or "撤销上一步" would be consumed as a budget.
-        undo = detect_undo(text)
+        undo = detect_undo(text, has_disabled=bool(params.disabled_shelter_ids))
         if undo is not None:
             if undo.ambiguous:
                 plan = RoutePlan(

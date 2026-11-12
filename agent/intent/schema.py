@@ -243,6 +243,10 @@ def _coerce_op_value(field_name: str, operator: str, value: Any) -> Any:
     if operator == "restore":
         if value in (None, "", "previous", "prev", "上一轮", "上一步"):
             return "previous"
+        # A historical *reference* ("按上一轮的预算") - distinct from an undo,
+        # which rewinds to `previous`. See normalizer._resolve_restore.
+        if value in ("last", "latest", "上一轮的值", "刚才的值"):
+            return "last"
         if value in ("default", "默认"):
             return "default"
         if isinstance(value, int) and not isinstance(value, bool):

@@ -117,8 +117,12 @@ def test_expansion_request_is_not_a_shutdown():
                           options=[])
     fixed = _deterministic_repairs(
         "预算6，候选措施：给 zs_fed820d94e 扩容300人，成本1。做扩容优化。", intent)
-    assert fixed.ops == []
+    # The shutdown op must disappear from an expansion request.
+    assert not any(op.field == "disabled_shelter_ids" for op in fixed.ops)
     assert fixed.options and fixed.options[0]["delta_capacity_persons"] == 300.0
+    # V2.3: the sentence states "预算 6" explicitly, so the deterministic layer
+    # recovers it instead of asking the user to repeat a value they just typed.
+    assert any(op.field == "budget_units" and op.value == 6.0 for op in fixed.ops)
 
 
 def test_compare_without_comparison_wording_is_downgraded():

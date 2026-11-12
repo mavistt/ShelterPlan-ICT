@@ -18,6 +18,15 @@ from agent.service import HarnessService
 from tests.module_c.rule_llm import RuleLLM
 
 
+def _model():
+    """Rule-based substitute by default (deterministic CI); `LLM_MODE=real`
+    switches to the configured local/remote LLM adapter for a live demo."""
+    if os.environ.get("LLM_MODE") == "real":
+        from agent.llm_adapter import LLMAdapter, LLMConfig
+        return LLMAdapter(LLMConfig.from_env())
+    return RuleLLM()
+
+
 def main() -> None:
     config = HarnessConfig.from_env()
     service = HarnessService(
@@ -26,7 +35,7 @@ def main() -> None:
         trace_dir=os.environ.get("TRACE_DIR", "outputs/module_c/http_trace"),
     )
     application = create_app(
-        config=config, service=service, llm=RuleLLM(),
+        config=config, service=service, llm=_model(),
         store_dir=os.environ["STORE_DIR"], dialogue_enabled=True,
     )
     uvicorn.run(application, host="127.0.0.1", port=int(os.environ["PORT"]),

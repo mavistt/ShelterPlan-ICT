@@ -235,8 +235,34 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             intent.ops.append(quantity.as_op())
             intent.warnings.append(f"op from text: {quantity.rule} = {quantity.value!r}")
 
+    # 2a2. a correction inside the same sentence, or an explicit reference to
+    # a previous turn's value. Both are statements about *which value to use*,
+    # not new arithmetic, so they must not depend on what the model guessed.
+    if intent.name not in {"compare", "sensitivity"}:
+        targets = list(TARGET_VALUE_RE.finditer(text))
+        if CORRECTION_RE.search(text) and targets:
+            match = targets[-1]
+            value = float(match.group(1))
+            unit = match.group(2) or ""
+            if unit in {"%", "个百分点", "百分点"}:
+                value /= 100.0
+            elif unit == "成":
+                value /= 10.0
+            field = _nearest_field(text, match.start())
+            if field:
+                intent.ops = [op for op in intent.ops if op.field != field]
+                intent.ops.append(ParamOp(field, "set", value))
+                intent.warnings.append(f"corrected target wins: {field}={value!r}")
+        reference = quantities.history_reference(text)
+        if reference:
+            field, evidence = reference
+            intent.ops = [op for op in intent.ops if op.field != field]
+            intent.ops.append(ParamOp(field, "restore", "last"))
+            intent.warnings.append(
+                f"history reference: {field} <- last snapshot ({evidence})")
+
     # 2b. "expansion" is not "shutdown" ------------------------------------
-    if re.search(r"扩容|增加容量|加容量", text) and not DISABLE_RE.search(text):
+    if re.search(r"扩容|增加容量|加容量", text) and not _effective_disable(text):
         if any(op.field == "disabled_shelter_ids" for op in intent.ops):
             intent.ops = [op for op in intent.ops if op.field != "disabled_shelter_ids"]
             intent.warnings.append("dropped shutdown op from an expansion request")
@@ -264,6 +290,50 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
         intent.name = "assess" if re.search(r"评估|现状", text) else "clarify"
         intent.warnings.append("downgraded compare without comparison wording")
 
+    # 2e. task slots the sentence states but the model did not structure.
+    # "比较预算2和预算5" often arrives as two `budget set` ops and no compare
+    # spec; "给 X 扩容…预算2，但不要停用" often arrives as a stress test.
+    # Neither is a guess: the wording is explicit, so the rule layer wins.
+    if (intent.name not in {"compare", "sensitivity", "optimize", "stress_test", "diagnose"}
+            and COMPARE_CUE_RE.search(text)
+            and not re.search(r"优化|压力测试|敏感性|诊断", text)):
+        spec = _rule_compare(text)
+        if spec:
+            intent.name = "compare"
+            intent.compare = spec
+            intent.ops = [op for op in intent.ops if op.field != spec["field"]]
+            intent.warnings.append("comparison intent and paired values recovered by rule parser")
+    if (OPTIMIZE_CUE_RE.search(text)
+            and re.search(r"预算|成本|优化", text)
+            and intent.name not in {"optimize", "compare", "sensitivity"}
+            and not re.search(r"压力测试|敏感性|比较|对比", text)):
+        intent.name = "optimize"
+        intent.warnings.append("optimization intent recovered from expansion table")
+
+    # 2f. a stated bound that contradicts a stated target is not a plan.
+    contradiction = _contradictory_bound(text)
+    if contradiction and intent.name not in {"compare", "sensitivity"}:
+        field, wanted, limit = contradiction
+        intent.name = "clarify"
+        intent.ops = []
+        intent.compare = None
+        intent.sensitivity = None
+        intent.clarify = [field]
+        intent.warnings.append(
+            f"contradictory bound: target {wanted:g} exceeds limit {limit:g}")
+        return intent
+
+    # 2g. an optimisation cannot run without a budget, and the sentence stated
+    # one: recover the literal rather than asking the user to repeat it. This is
+    # scoped to `optimize` so other task types keep their own slot rules.
+    if (intent.name == "optimize"
+            and not any(op.field == "budget_units" for op in intent.ops)):
+        budget_match = BUDGET_RE.search(text)
+        if budget_match:
+            intent.ops.append(ParamOp("budget_units", "set",
+                                      float(budget_match.group(1))))
+            intent.warnings.append("budget literal recovered from text")
+
     # 3. never accept a shelter id the user did not mention ----------------
     if any(op.field == "disabled_shelter_ids" and
            any(str(shelter) not in mentioned_ids for shelter in (op.value or []))
@@ -276,6 +346,16 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
         if len(kept) != len(intent.options):
             intent.warnings.append("dropped improvement options with unmentioned shelter ids")
         intent.options = kept
+
+    # 3a. "上次那个结果怎么样？" is a request to explain a result, not an
+    # under-specified new analysis. With no result in the session the correct
+    # clarification is `result_id`, never a generic "which task?" question.
+    if (intent.name in {"clarify", "assess", "modify_scenario"}
+            and EXPLAIN_CUE_RE.search(text)
+            and not re.search(r"评估|现状|优化|比较|对比|压力测试|敏感性|诊断", text)):
+        intent.name = "explain"
+        intent.clarify = []
+        intent.warnings.append("result explanation recognised deterministically")
 
     # 3b. no actionable content at all -> ask, do not guess a task ---------
     # "你看着办吧" / "帮我弄一下那个" have no verb, no parameter and no id. Any
@@ -292,15 +372,48 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             and not re.search(r"优化|比较|对比|压力测试|敏感性|诊断|解释", text):
         intent.name = "assess"
 
-    # 5. shutdown verb with no id ------------------------------------------
-    if (DISABLE_RE.search(text) and not mentioned_ids
+    # 5. shutdown verb with no id (a negated shutdown is not one) ----------
+    if (_effective_disable(text) and not mentioned_ids
             and not re.search(r"评估|现状", text)
             and intent.name not in {"stress_test", "clarify"}):
         intent.name = "stress_test"
-    if DISABLE_RE.search(text) and not mentioned_ids:
+    if _effective_disable(text) and not mentioned_ids:
         if "disabled_shelter_ids" not in intent.clarify:
             intent.clarify.append("disabled_shelter_ids")
     return intent
+
+
+def _unit_scale(unit: str | None) -> float:
+    if unit in {"%", "个百分点", "百分点"}:
+        return 0.01
+    if unit == "成":
+        return 0.1
+    return 1.0
+
+
+def _contradictory_bound(text: str) -> tuple[str, float, float] | None:
+    """(field, stated target, stated upper bound) when they cannot both hold."""
+    target = TARGET_SET_RE.search(text)
+    bound = BOUND_RE.search(text)
+    if not target or not bound:
+        return None
+    wanted = float(target.group(1)) * _unit_scale(target.group(2))
+    limit = float(bound.group(1)) * _unit_scale(bound.group(2))
+    if _unit_scale(target.group(2)) != _unit_scale(bound.group(2)):
+        return None
+    if wanted <= limit + 1e-9:
+        return None
+    return (_nearest_field(text, target.start()) or "task"), wanted, limit
+
+
+def _nearest_field(text: str, before: int) -> str | None:
+    """Field anchor closest to (and before) a position in the sentence."""
+    best: tuple[int, str] | None = None
+    for field, pattern in quantities.FIELD_ANCHORS:
+        for match in pattern.finditer(text[:before]):
+            if best is None or match.start() > best[0]:
+                best = (match.start(), field)
+    return best[1] if best else None
 
 
 def _same_op_value(left: Any, right: Any) -> bool:
@@ -354,12 +467,44 @@ RATIO_LITERAL_RE = re.compile(
 # The sign matters: "-1" must reach the guard as -1 and be rejected there.
 # Dropping the minus turned "cost -1" into a free expansion (V2.1 §4.4).
 OPTION_COST_RE = re.compile(r"成本\s*(-?\d+(?:\.\d+)?)")
-COMPARE_NUMBERS_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(%|成)?\s*(?:和|、|与|vs\.?|对比)\s*(\d+(?:\.\d+)?)\s*(%|成)?")
+# "预算2和预算5" repeats the field name between the conjunction and the number;
+# a short non-numeric gap keeps the pair in one clause without swallowing whole
+# sentences.
+COMPARE_NUMBERS_RE = re.compile(
+    r"(\d+(?:\.\d+)?)\s*(%|成)?\s*(?:和|、|与|vs\.?|对比)\s*[^0-9]{0,8}?\s*"
+    r"(\d+(?:\.\d+)?)\s*(%|成)?")
+# "不要停用任何场所" is an instruction NOT to disable, not a stress test.
+NEGATED_DISABLE_RE = re.compile(
+    r"(?:不要|不用|别|无需|不必|取消|撤销)\s*(?:再)?\s*(?:停用|关停|关闭|禁用)")
+# The last explicitly corrected target wins: "先按30%算……不对，改成0.45".
+# Only explicit "the earlier value was wrong" cues. A plain "改成 20 分钟"
+# is a normal target, not a correction, and must not override other fields.
+CORRECTION_RE = re.compile(r"不对|不是|算了|其实|更正|纠正|说错|写错|先按|刚才按|原本")
+TARGET_VALUE_RE = re.compile(
+    r"(?:改成|改为|设为|调整为|调成|定为|按|用)\s*"
+    r"(-?\d+(?:\.\d+)?)\s*(%|个百分点|百分点|成)?")
+EXPLAIN_CUE_RE = re.compile(
+    r"结果怎么样|上次那个结果|上一条结果|这个结果|那个结果|每个数字|"
+    r"结果.*(?:原因|来源|怎么样)|解释|说明一下|为什么.*(?:覆盖|结果)")
+OPTIMIZE_CUE_RE = re.compile(r"扩容\s*-?\d+\s*人")
+COMPARE_CUE_RE = re.compile(r"比较|对比|差异|两种|两档")
+# "改成 0.4，但不超过 0.2" is contradictory. Planning on either number would
+# be inventing a resolution the user never gave, so the turn becomes a question.
+TARGET_SET_RE = re.compile(
+    r"(?:改成|改为|设为|调整为|调成|定为|为)\s*(\d+(?:\.\d+)?)\s*(%|个百分点|百分点|成)?")
+BOUND_RE = re.compile(
+    r"(?:不超过|不大于|不高于|最多|上限为|上限是|上限|小于等于|≤)\s*"
+    r"(\d+(?:\.\d+)?)\s*(%|个百分点|百分点|成)?")
 # Any lexical trace of an actual planning request: a task verb, a parameter
 # name, a shelter id, or a number the user wants planned with.
 ACTIONABLE_RE = re.compile(
-    r"评估|现状|优化|扩容|比较|对比|差异|压力测试|敏感性|诊断|解释|模拟|"
+    r"评估|现状|优化|扩容|比较|对比|差异|压力测试|敏感性|诊断|解释|模拟|结果|"
     r"预算|比例|步行|阈值|停用|关停|关闭|覆盖|zs_|\d")
+
+
+def _effective_disable(text: str) -> bool:
+    """True only when the sentence really asks to disable shelters."""
+    return bool(DISABLE_RE.search(NEGATED_DISABLE_RE.sub("", text or "")))
 
 
 def rule_extract(text: str) -> ParsedIntent:
@@ -369,7 +514,7 @@ def rule_extract(text: str) -> ParsedIntent:
     warnings: list[str] = ["rule-based fallback"]
 
     disabled_ids: list[str] = []
-    for match in DISABLE_SEGMENT_RE.finditer(text):
+    for match in DISABLE_SEGMENT_RE.finditer(NEGATED_DISABLE_RE.sub("", text)):
         clause = re.split(r"候选|给|然后|预算|做|进行|评估|并", match.group(1))[0]
         for found in ID_RE.findall(clause):
             if found not in disabled_ids:
@@ -448,7 +593,7 @@ def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:
         return "diagnose"
     if re.search(r"优化|扩容", text) or re.search(r"预算.*(改善|提升)", text):
         return "optimize"
-    if re.search(r"压力测试|关停|停用|关闭|模拟.*(关|停)", text):
+    if re.search(r"压力测试|模拟.*(关|停)", text) or _effective_disable(text):
         return "stress_test"
     if re.search(r"评估|现状|够不够|覆盖情况|服务情况", text):
         return "assess"
