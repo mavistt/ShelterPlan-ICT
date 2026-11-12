@@ -110,7 +110,9 @@ class LLMAdapter:
     # ------------------------------------------------------------------ #
     def chat(self, messages: list[dict[str, Any]], *,
              tools: list[dict[str, Any]] | None = None,
-             max_tokens: int | None = None) -> ChatResult:
+             max_tokens: int | None = None,
+             response_format: dict[str, Any] | None = None,
+             reasoning_effort: str | None = None) -> ChatResult:
         payload: dict[str, Any] = {
             "model": self.config.model,
             "messages": messages,
@@ -120,8 +122,11 @@ class LLMAdapter:
         if tools:
             payload["tools"] = tools
             payload["tool_choice"] = "auto"
-        if self.config.reasoning_effort:
-            payload["reasoning_effort"] = self.config.reasoning_effort
+        if response_format:
+            payload["response_format"] = response_format
+        effort = reasoning_effort if reasoning_effort is not None else self.config.reasoning_effort
+        if effort:
+            payload["reasoning_effort"] = effort
         headers = {"Content-Type": "application/json"}
         if self.config.api_key:
             headers["Authorization"] = f"Bearer {self.config.api_key}"

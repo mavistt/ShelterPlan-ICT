@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import threading
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
@@ -36,6 +37,8 @@ INSTRUCTIONS = (
 
 mcp = FastMCP("ShelterPlan", instructions=INSTRUCTIONS)
 _service: HarnessService | None = None
+_structured_runners: dict[str, Any] = {}
+_structured_lock = threading.RLock()
 
 
 def get_service() -> HarnessService:
@@ -116,6 +119,55 @@ def get_result(result_id: str, session_id: str = "default") -> dict[str, Any]:
         return {"ok": True, "result": get_service().result(result_id, session_id=session_id)}
     except Exception as exc:  # noqa: BLE001
         return _error_payload(exc)
+
+
+def _structured_runner(session_id: str):
+    """One StructuredRunner per session so multi-turn memory survives MCP calls."""
+    from agent.llm_adapter import LLMAdapter, LLMConfig
+    from agent.structured_runner import StructuredRunner
+    with _structured_lock:
+        runner = _structured_runners.get(session_id)
+        if runner is None:
+            config = HarnessConfig.from_env()
+            runner = StructuredRunner(
+                "harness_opt", get_service(), LLMAdapter(LLMConfig.from_env()), config,
+                session_id=session_id)
+            _structured_runners[session_id] = runner
+        return runner
+
+
+if os.environ.get("SHELTERPLAN_MCP_STRUCTURED") == "1":
+    @mcp.tool()
+    def handle_request(text: str, session_id: str = "default") -> dict[str, Any]:
+        """Turn one natural-language request into a verified plan, deterministically.
+
+        This is the structured entry point: intent extraction -> fixed routing ->
+        Module B -> answer composed from bound result values. Parameters the user
+        did not mention are inherited from this session; missing ones produce a
+        clarification instead of a guess. Disabled by default (`SHELTERPLAN_MCP_STRUCTURED=1`).
+
+        Args:
+            text: the user's request in Chinese
+            session_id: conversation id; reuse it for multi-turn parameter inheritance
+        """
+        try:
+            result = _structured_runner(session_id).run_case(
+                f"mcp-{session_id}", [{"user": text}])
+            plan = result.plans[-1] if result.plans else {}
+            return {
+                "ok": True,
+                "answer": result.final_text,
+                "intent": (result.intents[-1]["intent"]["intent"] if result.intents else None),
+                "task_type": plan.get("task_type"),
+                "action": plan.get("action"),
+                "clarification_fields": list(result.clarification_fields),
+                "result_id": ((result.submitted[-1] or {}).get("result_id")
+                              if result.submitted else None),
+                "llm_calls": len(result.llm_calls),
+                "error": result.error,
+            }
+        except Exception as exc:  # noqa: BLE001
+            return _error_payload(exc)
 
 
 if os.environ.get("SHELTERPLAN_MCP_EXPOSE_EVIDENCE") == "1":

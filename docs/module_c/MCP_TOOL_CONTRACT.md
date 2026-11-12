@@ -208,7 +208,44 @@ C 的错误码：
 
 ---
 
-## 5. `get_evidence`（默认不注册）
+## 5. `handle_request`（V2 结构化入口，默认不注册）
+
+**开关**：`SHELTERPLAN_MCP_STRUCTURED=1`
+
+**定位**：给"不想自己选工具"的客户端一个自然语言入口。它内部执行
+`意图抽取 → 固定路由 → Module B → 确定性作答`，**不暴露 12 个原子技能**，
+也不把 B 的嵌套参数结构交给模型。
+
+**输入**
+
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `text` | string | 是 | 用户原话（中文） |
+| `session_id` | string | 否 | 会话 ID；复用它才能继承上一轮参数 |
+
+**输出**
+
+```jsonc
+{
+  "ok": true,
+  "answer": "【结论】…【数据声明】DEMO_ONLY — …",
+  "intent": "modify_scenario",
+  "task_type": "optimize",
+  "action": "task",
+  "clarification_fields": [],
+  "result_id": "5a9a0087-…",
+  "llm_calls": 1,
+  "error": null
+}
+```
+
+`action=clarify` 时 `answer` 是一句澄清问题，`clarification_fields` 给出缺失字段，
+`result_id=null`（未执行任何任务）。同一个 `session_id` 的 `TurnMemory`
+（上一轮任务、候选措施、上一条 result_id）在进程内保留。
+
+---
+
+## 6. `get_evidence`（默认不注册）
 
 设置 `SHELTERPLAN_MCP_EXPOSE_EVIDENCE=1` 后才会出现在 `tools/list` 中。用于审计，不给模型：
 
@@ -222,7 +259,7 @@ get_evidence(result_id, section, offset=0, limit=50)
 
 ---
 
-## 6. 调用顺序（Harness 强约束）
+## 7. 调用顺序（Harness 强约束）
 
 ```
 get_capabilities

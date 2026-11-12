@@ -42,6 +42,14 @@ class GuardMissingParam(GuardError):
     user_action = "Ask the user for the missing value; never infer a real budget or ratio."
 
 
+class ToolArgumentError(HarnessError):
+    """A required tool argument was missing or unusable. Correctable by the
+    caller without asking the user anything."""
+
+    code = "TOOL_ARGUMENT_ERROR"
+    user_action = "Provide the missing tool argument and retry the same call."
+
+
 class GuardInvalidParam(GuardError):
     code = "GUARD_INVALID_PARAM"
     user_action = "Correct the parameter and resubmit as a new logical task."

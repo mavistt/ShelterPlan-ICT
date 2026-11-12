@@ -14,11 +14,12 @@ isolates the machinery, not prompt engineering.
 from __future__ import annotations
 
 import json
+import time
 from typing import Any, Callable
 
 from agent.b_client import BClient
 from agent.config import HarnessConfig
-from agent.errors import HarnessError
+from agent.errors import HarnessError, ToolArgumentError
 from agent.service import HarnessService
 
 BASELINE_DEFAULTS = {"population_demand_ratio": 0.2, "max_walk_time_min": 15.0}
@@ -39,7 +40,8 @@ HARNESS_SYSTEM_PROMPT = SHARED_SYSTEM_PROMPT
 
 _SUBMIT_EXAMPLES = (
     "参数示例：optimize → changes={\"budget_units\": 1} 且 improvement_options=[{"
-    "\"option_id\":\"CAP_1\",\"shelter_id\":\"zs_x\",\"delta_capacity_persons\":300,"
+    "\"option_id\":\"CAP_1\",\"shelter_id\":\"zs_x\","
+    "\"action\":\"hypothetical_capacity_increase\",\"delta_capacity_persons\":300,"
     "\"cost_units\":1,\"eligible\":true,\"source_status\":\"hypothetical\","
     "\"hypothetical\":true,\"human_confirmed\":false,\"combination_policy\":\"standalone\"}]；"
     "compare → parameters={\"scenarios\":[{\"population_demand_ratio\":0.1},"
@@ -145,9 +147,13 @@ def harness_registry(service: HarnessService, session_id: str) -> tuple[ToolRegi
     def get_capabilities() -> dict:
         return service.capabilities()
 
-    def submit_task(task_type: str, changes: dict | None = None, parameters: dict | None = None,
+    def submit_task(task_type: str | None = None, changes: dict | None = None,
+                    parameters: dict | None = None,
                     improvement_options: list[dict] | None = None, claim: str | None = None,
                     result_id: str | None = None) -> dict:
+        if not task_type:
+            raise ToolArgumentError("submit_task requires `task_type`.",
+                                    details={"required": ["task_type"]})
         if task_type == "explain_result" and not result_id:
             result_id = service.last_result_id(session_id)
         outcome = service.submit(
@@ -201,15 +207,31 @@ def baseline_registry(client: BClient, config: HarnessConfig, *,
                       tool_budget_chars: int = 12000
                       ) -> tuple[ToolRegistry, dict[str, Any]]:
     del tool_budget_chars  # size limiting is handled by elide()
-    state: dict[str, Any] = {"requests": [], "results": {}}
+    # `visible` stores exactly what the model received. Grading must use that,
+    # not the 5-11 MB document the model never saw (a V1 fairness bug).
+    state: dict[str, Any] = {"requests": [], "results": {}, "visible": {},
+                             "job_to_request": {}, "result_to_request": {}}
+
+    def _timed(call, *args, **kwargs):
+        tick = time.perf_counter()
+        try:
+            return call(*args, **kwargs)
+        finally:
+            state["b_ms"] = state.get("b_ms", 0.0) + (time.perf_counter() - tick) * 1000
 
     def get_capabilities() -> dict:
-        return client.get_capabilities()
+        return _timed(client.get_capabilities)
 
-    def submit_task(task_type: str, changes: dict | None = None, parameters: dict | None = None,
+    def submit_task(task_type: str | None = None, changes: dict | None = None,
+                    parameters: dict | None = None,
                     improvement_options: list[dict] | None = None,
                     data_version: str | None = None,
-                    scenario: dict | None = None) -> dict:
+                    scenario: dict | None = None,
+                    result_id: str | None = None,
+                    claim: str | None = None) -> dict:
+        if not task_type:
+            raise ToolArgumentError("submit_task requires `task_type`.",
+                                    details={"required": ["task_type"]})
         payload: dict[str, Any] = {
             "task_type": task_type,
             "analysis_mode": "demo",
@@ -222,27 +244,44 @@ def baseline_registry(client: BClient, config: HarnessConfig, *,
             payload["data_version"] = data_version
         if scenario:
             payload["scenario"] = scenario
+        if result_id and task_type == "explain_result":
+            payload["result_id"] = result_id
         state["requests"].append({
             "payload": payload,
             "effective_params": effective_baseline_params(payload),
             "completed": False,
         })
-        return client.submit(payload)
+        response = _timed(client.submit, payload)
+        index = len(state["requests"]) - 1
+        job_id = response.get("job_id")
+        if job_id:
+            state["job_to_request"][job_id] = index
+        return response
 
     def get_job(job_id: str) -> dict:
-        job = client.get_job(job_id)
+        job = _timed(client.get_job, job_id)
+        if job.get("result_id") and job_id in state["job_to_request"]:
+            state["result_to_request"][job["result_id"]] = state["job_to_request"][job_id]
         if job.get("status") in {"QUEUED", "RUNNING"}:
             # Protocol-level guidance so a raw client knows polling is expected.
             job = {**job, "hint": "job 尚未完成，请稍候后再次调用 get_job；SUCCEEDED 后调用 get_result。"}
         return job
 
     def get_result(result_id: str) -> dict:
-        document = client.get_result(result_id)
+        document = _timed(client.get_result, result_id)
         state["results"][result_id] = document
-        if state["requests"]:
-            state["requests"][-1]["completed"] = document.get(
+        visible = json.loads(json.dumps(elide(document)))  # depth-elided raw document
+        state["visible"][result_id] = visible
+        index = state["result_to_request"].get(result_id)
+        if index is None and state["requests"]:
+            # The result did not come from a known job: attribute it to the most
+            # recent request rather than blindly to the last one.
+            index = len(state["requests"]) - 1
+        if index is not None:
+            state["requests"][index]["completed"] = document.get(
                 "verification_status") in {"PASS_DEMO", "PASS_VERIFIED"}
-        return json.loads(json.dumps(elide(document)))  # depth-elided raw document
+            state["requests"][index]["result_id"] = result_id
+        return visible
 
     schemas = [
         {"type": "function", "function": {

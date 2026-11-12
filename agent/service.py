@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 import threading
 from typing import Any
 import uuid
@@ -51,8 +52,8 @@ class HarnessService:
             runtime = self._runtimes.get(session_id)
             if runtime is None:
                 session = self._registry.get_or_create(session_id)
-                path = (f"{self._trace_dir}/{session_id}.jsonl" if self._trace_dir
-                        else self.config.trace_dir / f"{session_id}.jsonl")
+                base = Path(self._trace_dir) if self._trace_dir else Path(self.config.trace_dir)
+                path = base / f"{session_id}.jsonl"
                 runtime = SessionRuntime(session=session, trace=TraceRecorder(path, session_id))
                 self._runtimes[session_id] = runtime
             return runtime
@@ -61,14 +62,22 @@ class HarnessService:
         session_id = session_id or DEFAULT_SESSION_ID
         with self._lock:
             session = self._registry.reset(session_id)
-            path = (f"{self._trace_dir}/{session_id}.jsonl" if self._trace_dir
-                    else self.config.trace_dir / f"{session_id}.jsonl")
+            base = Path(self._trace_dir) if self._trace_dir else Path(self.config.trace_dir)
+            path = base / f"{session_id}.jsonl"
             self._runtimes[session_id] = SessionRuntime(
                 session=session, trace=TraceRecorder(path, session_id))
             return session.snapshot()
 
     def session_state(self, session_id: str | None = None) -> dict[str, Any]:
         return self._runtime(session_id).session.snapshot()
+
+    def session_history(self, session_id: str | None = None) -> list:
+        """Full immutable snapshots, used for restore operations."""
+        return list(self._runtime(session_id).session.history)
+
+    @property
+    def defaults(self):
+        return self._defaults
 
     # ------------------------------------------------------------------ #
     def capabilities(self) -> dict[str, Any]:

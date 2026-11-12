@@ -36,6 +36,7 @@ class LLMCall:
     completion_tokens: int
     tool_call_names: list[str]
     finish_reason: str | None
+    phase: str = "agent"
 
 
 @dataclass
@@ -64,6 +65,12 @@ class AgentRun:
     max_turns_hit: bool = False
     error: str | None = None
     messages: list[dict[str, Any]] = field(default_factory=list)
+    # Structured arms only (C/D): the intent envelope, the plan and the
+    # controller outcome for every turn. Empty for the tool-calling arms.
+    intents: list[dict[str, Any]] = field(default_factory=list)
+    plans: list[dict[str, Any]] = field(default_factory=list)
+    controls: list[dict[str, Any]] = field(default_factory=list)
+    clarification_fields: list[str] = field(default_factory=list)
 
     @property
     def prompt_tokens(self) -> int:
@@ -80,6 +87,12 @@ class AgentRun:
     @property
     def tool_latency_ms(self) -> float:
         return sum(call.latency_ms for call in self.tool_calls)
+
+    @property
+    def b_api_ms(self) -> float:
+        """Time spent inside Module B for the structured arms (0 for tool arms,
+        whose latency is already inside the tool calls)."""
+        return round(sum(row.get("b_api_ms") or 0.0 for row in self.controls), 1)
 
     @property
     def successful_tasks(self) -> list[dict[str, Any]]:
@@ -102,6 +115,11 @@ class AgentRun:
             "rewrite_used": self.rewrite_used,
             "max_turns_hit": self.max_turns_hit,
             "error": self.error,
+            "intents": self.intents,
+            "plans": self.plans,
+            "controls": self.controls,
+            "clarification_fields": self.clarification_fields,
+            "b_api_ms": self.b_api_ms,
         }
 
 
@@ -129,6 +147,7 @@ class AgentRunner:
     # Parameter-shaped refusals the model can fix by itself. Semantic gaps
     # (missing budget) are deliberately absent: the model must ask the user.
     CORRECTABLE_ERRORS = {
+        "TOOL_ARGUMENT_ERROR",
         "GUARD_INVALID_PARAM",
         "GUARD_INVALID_OPTION",
         "B_SCENARIO_INVALID",

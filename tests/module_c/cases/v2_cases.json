@@ -1,0 +1,327 @@
+{
+  "schema_version": "2.0",
+  "description": "V2 independent test set. Written after V1 was closed; the 14 V1 holdout cases are NOT reused here (they are a regression set only). Covers planning, multi-turn inheritance, relative parameter edits, clarification, shelter shutdown, comparison and error recovery.",
+  "option_note": "Improvement options are described in natural language; the model must emit a compact {shelter_id, delta_capacity_persons, cost_units} row and C expands it to Module B's contract.",
+  "cases": [
+    {
+      "case_id": "V2-P-01",
+      "group": "plan",
+      "capability": "assess",
+      "turns": [{"user": "东区现在的应急避难场所够用吗？帮我评估一下现状。"}],
+      "expect": {
+        "intent": "assess",
+        "task_types": ["assess"],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-P-02",
+      "group": "plan",
+      "capability": "optimize",
+      "turns": [{"user": "预算2，候选措施：给场所 zs_fed820d94e 扩容300人，成本1。帮我做扩容优化。"}],
+      "expect": {
+        "intent": "optimize",
+        "task_types": ["optimize"],
+        "params": {"budget_units": 2},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-P-03",
+      "group": "plan",
+      "capability": "compare",
+      "turns": [{"user": "比较需求比例0.2和0.4这两种情景的覆盖差异。"}],
+      "expect": {
+        "intent": "compare",
+        "task_types": ["compare"],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-P-04",
+      "group": "plan",
+      "capability": "sensitivity",
+      "turns": [{"user": "预算0、1、2三档做敏感性分析，候选措施：给 zs_fed820d94e 扩容300人，成本1。"}],
+      "expect": {
+        "intent": "sensitivity",
+        "task_types": ["sensitivity"],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-P-05",
+      "group": "plan",
+      "capability": "diagnose",
+      "turns": [{"user": "很多需求点没有被服务到，帮我做一次瓶颈诊断，看看原因。"}],
+      "expect": {
+        "intent": "diagnose",
+        "task_types": ["diagnose_intervene"],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-P-06",
+      "group": "plan",
+      "capability": "stress_test",
+      "turns": [{"user": "假设关停 zs_1b4df7920b，做一次压力测试，看看影响。"}],
+      "expect": {
+        "intent": "stress_test",
+        "task_types": ["stress_test"],
+        "params": {"disabled_shelter_ids": ["zs_1b4df7920b"]},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-M-01",
+      "group": "multi",
+      "capability": "inherit_untouched",
+      "inherits": true,
+      "turns": [
+        {"user": "按需求比例0.35评估一下现状。"},
+        {"user": "把步行阈值改成20分钟，其它不变。"}
+      ],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"population_demand_ratio": 0.35, "max_walk_time_min": 20},
+        "ops": [{"field": "max_walk_time_min", "op": "set", "value": 20}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-M-02",
+      "group": "multi",
+      "capability": "budget_halved_with_options_memory",
+      "inherits": true,
+      "turns": [
+        {"user": "预算6，候选措施：给 zs_fed820d94e 扩容300人，成本1。做扩容优化。"},
+        {"user": "预算减半，其它保持不变。"}
+      ],
+      "expect": {
+        "task_types": ["optimize"],
+        "params": {"budget_units": 3, "population_demand_ratio": 0.2},
+        "ops": [{"field": "budget_units", "op": "scale", "value": 0.5}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-M-03",
+      "group": "multi",
+      "capability": "disable_then_budget",
+      "inherits": true,
+      "turns": [
+        {"user": "关停 zs_60213118ec，然后评估现状。"},
+        {"user": "预算设为2。"}
+      ],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"disabled_shelter_ids": ["zs_60213118ec"], "budget_units": 2},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-M-04",
+      "group": "multi",
+      "capability": "ratio_undo",
+      "inherits": true,
+      "turns": [
+        {"user": "需求比例0.5，评估一下。"},
+        {"user": "改回0.2，重新评估。"}
+      ],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"population_demand_ratio": 0.2},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-M-05",
+      "group": "multi",
+      "capability": "disable_two_shelters",
+      "turns": [{"user": "关停 zs_1b4df7920b 和 zs_60213118ec，然后评估现状。"}],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"disabled_shelter_ids": ["zs_1b4df7920b", "zs_60213118ec"]},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-R-01",
+      "group": "relative",
+      "capability": "budget_delta",
+      "inherits": true,
+      "turns": [
+        {"user": "预算6，候选措施：给 zs_fed820d94e 扩容300人，成本1。做扩容优化。"},
+        {"user": "预算再加2。"}
+      ],
+      "expect": {
+        "task_types": ["optimize"],
+        "params": {"budget_units": 8},
+        "ops": [{"field": "budget_units", "op": "delta", "value": 2}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-R-02",
+      "group": "relative",
+      "capability": "budget_scale",
+      "inherits": true,
+      "turns": [
+        {"user": "预算4，候选措施：给 zs_fed820d94e 扩容300人，成本1。做扩容优化。"},
+        {"user": "预算减半。"}
+      ],
+      "expect": {
+        "task_types": ["optimize"],
+        "params": {"budget_units": 2},
+        "ops": [{"field": "budget_units", "op": "scale", "value": 0.5}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-R-03",
+      "group": "relative",
+      "capability": "ratio_raise",
+      "inherits": true,
+      "turns": [
+        {"user": "按需求比例0.2评估现状。"},
+        {"user": "需求比例提高到0.35。"}
+      ],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"population_demand_ratio": 0.35},
+        "ops": [{"field": "population_demand_ratio", "op": "set", "value": 0.35}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-R-04",
+      "group": "relative",
+      "capability": "restore_previous",
+      "inherits": true,
+      "turns": [
+        {"user": "预算6，候选措施：给 zs_fed820d94e 扩容300人，成本1。做扩容优化。"},
+        {"user": "预算减半。"},
+        {"user": "把预算恢复到上一轮的值。"}
+      ],
+      "expect": {
+        "task_types": ["optimize"],
+        "params": {"budget_units": 6},
+        "ops": [{"field": "budget_units", "op": "restore", "value": "previous"}],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-C-01",
+      "group": "clarify",
+      "capability": "missing_budget",
+      "turns": [{"user": "帮我优化一下覆盖情况。"}],
+      "expect": {
+        "intent": ["optimize", "clarify"],
+        "no_result": "optimize",
+        "clarify_fields": ["budget_units"]
+      }
+    },
+    {
+      "case_id": "V2-C-02",
+      "group": "clarify",
+      "capability": "negative_budget",
+      "turns": [{"user": "预算-5，帮我做一下扩容优化。"}],
+      "expect": {
+        "intent": "optimize",
+        "no_result": "optimize",
+        "clarify_fields": ["budget_units"]
+      }
+    },
+    {
+      "case_id": "V2-C-03",
+      "group": "clarify",
+      "capability": "invalid_ratio",
+      "turns": [{"user": "需求比例按150%评估一下现状。"}],
+      "expect": {
+        "intent": "assess",
+        "no_result": "assess",
+        "clarify_fields": ["population_demand_ratio"]
+      }
+    },
+    {
+      "case_id": "V2-C-04",
+      "group": "clarify",
+      "capability": "missing_stress_target",
+      "turns": [{"user": "模拟关停一个场所，看看影响有多大。"}],
+      "expect": {
+        "intent": ["stress_test", "clarify"],
+        "no_result": "stress_test",
+        "clarify_fields": ["disabled_shelter_ids"]
+      }
+    },
+    {
+      "case_id": "V2-C-05",
+      "group": "clarify",
+      "capability": "scale_without_baseline",
+      "turns": [{"user": "把预算减半。"}],
+      "expect": {
+        "intent": "modify_scenario",
+        "no_result": "assess",
+        "clarify_fields": ["budget_units"]
+      }
+    },
+    {
+      "case_id": "V2-E-01",
+      "group": "recover",
+      "capability": "guard_then_fix",
+      "turns": [
+        {"user": "预算-5，帮我做扩容优化。"},
+        {"user": "改成预算2，候选措施：给 zs_fed820d94e 扩容300人，成本1，重新优化。"}
+      ],
+      "expect": {
+        "task_types": ["optimize"],
+        "params": {"budget_units": 2},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-E-02",
+      "group": "recover",
+      "capability": "ratio_then_fix",
+      "turns": [
+        {"user": "需求比例按150%评估一下。"},
+        {"user": "改成0.4，重新评估。"}
+      ],
+      "expect": {
+        "task_types": ["assess"],
+        "params": {"population_demand_ratio": 0.4},
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    },
+    {
+      "case_id": "V2-E-03",
+      "group": "recover",
+      "capability": "compare_then_fix",
+      "turns": [
+        {"user": "比较一下这两个情景的差异。"},
+        {"user": "比较需求比例0.2和0.4这两种情景。"}
+      ],
+      "expect": {
+        "task_types": ["compare"],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      }
+    }
+  ]
+}

@@ -41,6 +41,10 @@ def tool_call(name: str, **arguments: Any) -> dict[str, Any]:
     return {"id": f"call_{name}", "name": name, "arguments": dict(arguments)}
 
 
+def json_response(payload: str, **kwargs: Any) -> ScriptedResponse:
+    return ScriptedResponse(content=payload, finish_reason="stop", usage=ok_usage(), **kwargs)
+
+
 def ok_usage(prompt: int = 10, completion: int = 5) -> dict[str, int]:
     return {"prompt_tokens": prompt, "completion_tokens": completion, "total_tokens": prompt + completion}
 
@@ -53,7 +57,9 @@ class ScriptedLLM:
         self.conversations: list[list[dict[str, Any]]] = []
 
     def chat(self, messages: list[dict[str, Any]], *, tools: Any = None,
-             max_tokens: int | None = None) -> ScriptedResponse:
+             max_tokens: int | None = None,
+             response_format: dict[str, Any] | None = None,
+             reasoning_effort: str | None = None) -> ScriptedResponse:
         self.conversations.append(json_copy(messages))
         if not self.responses:
             raise AssertionError("ScriptedLLM ran out of responses")
