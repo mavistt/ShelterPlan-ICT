@@ -636,7 +636,10 @@ last_ops    = (intents[-1]["intent"]["ops"] if intents else None)     # 末轮�
 | `46fc667` | 上一轮 V2 的交付（本轮的起点） |
 | `e504ac7` | **本轮功能**：对话层、Web API、状态落盘、冻结用例集、47 条用例、V2.1 runner |
 | `9ecce06` | **本轮证据与工具**：证据清单、分析器、MCP↔API 一致性测试、首轮报告正文 |
-| <!-- FINAL_SHA --> | 报告定稿 + 第二轮重复证据 |
+| `0840c51` | **第二轮重复证据 + 记录器修复 + 本报告正文** |
+
+> 本报告自身的最后修改是一个 docs-only 提交（只动这份文件），因此不在这里写它自己的 SHA
+> （写进去就会立刻失效）。取法：`git log -1 --pretty=%h -- docs/module_c/HARNESS_V2_1_REPORT.md`。
 
 两轮运行实际执行的代码是**同一份**：`git diff --stat e504ac7 9ecce06 -- agent/` 为空。
 两次报告里的 `working_tree_dirty` 都是 `true`，原因是**文档在运行期间被编辑**；
@@ -663,6 +666,10 @@ last_ops    = (intents[-1]["intent"]["ops"] if intents else None)     # 末轮�
 | `tests/module_c/test_api_http.py` | +211 | 2 个真实两进程 HTTP 联调 |
 | `tests/module_c/test_v21_cases.py` | +91 | 7 条冻结集自查 |
 | `tests/module_c/eval_lib.py` | +61 | 新判定键（`no_tasks`/`must_not_contain`/`must_contain_any`）+ 业务提交口径 |
+| `tests/module_c/recompute_v2.py` | +新 | 从 92 条原始记录重算 V2 全部指标，不符即 exit 1 |
+| `tests/module_c/evidence_manifest.py` | +新 | 生成证据清单（文件哈希 + 记录集指纹） |
+| `tests/module_c/analyse_v21.py` | +新 | 由 `report.json` 生成报告表格、失败分类、两轮一致性 |
+| `tests/module_c/test_entry_points_agree.py` | +新 | MCP 与 HTTP 两个入口必须给出同一组数字 |
 
 未改动：`backend/`（B 的模型与求解器）、`data/`（A 的数据）、任何其他分支。
 
