@@ -30,7 +30,14 @@ def classify_error(code: str | None) -> str:
         return "guard"
     if code in RETRYABLE_CODES:
         return "upstream_transient"
-    if code.startswith("B_") or code in {"HTTP_ERROR", "JOB_FAILED", "JOB_NOT_FOUND"}:
+    if code.startswith("B_") or code in {
+        "HTTP_ERROR", "JOB_FAILED", "JOB_NOT_FOUND",
+        # Module B rejects these before computing; retrying would not help and
+        # the user can act on the message.
+        "SCENARIO_INVALID", "CANDIDATE_INVALID", "DATA_INVALID", "DATA_UNAVAILABLE",
+        "DATA_NOT_VERIFIED", "TASK_TYPE_MISMATCH", "REQUEST_TOO_LARGE",
+        "JOB_LIMIT_REACHED", "FIXTURE_INVALID",
+    }:
         return "upstream_rejected"
     if code in {"RESULT_MISMATCH", "RESULT_NOT_FOUND"}:
         return "integrity"

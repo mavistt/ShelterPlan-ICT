@@ -107,25 +107,29 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
 
     options = expand_options(intent.options)
     if intent.options and not options:
-        return _clarify(["improvement_options"], codes + ["options_unusable"])
+        return _clarify(["improvement_options"], codes + ["options_unusable"],
+                        task_type=task_type)
     plan = RoutePlan(action="task", task_type=task_type, changes=dict(changes),
                      options=options, reason_codes=codes)
 
     if task_type == "optimize":
         budget = plan.changes.get("budget_units", params.budget_units)
         if budget is None:
-            return _clarify(["budget_units"], codes + ["budget_missing"])
+            return _clarify(["budget_units"], codes + ["budget_missing"],
+                            task_type=task_type)
         if not plan.options:
             plan.options = list(memory.last_options)
             if plan.options:
                 plan.reason_codes.append("options_reused_from_memory")
         if not plan.options:
-            return _clarify(["improvement_options"], codes + ["options_missing"])
+            return _clarify(["improvement_options"], codes + ["options_missing"],
+                            task_type=task_type)
 
     elif task_type == "stress_test":
         disabled = plan.changes.get("disabled_shelter_ids", list(params.disabled_shelter_ids))
         if not disabled:
-            return _clarify(["disabled_shelter_ids"], codes + ["stress_target_missing"])
+            return _clarify(["disabled_shelter_ids"], codes + ["stress_target_missing"],
+                            task_type=task_type)
         plan.changes["disabled_shelter_ids"] = list(disabled)
 
     elif task_type == "compare":
@@ -134,14 +138,16 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
             plan.changes.pop(intent.compare["field"], None)
         rows = build_compare_rows(params=params, changes=plan.changes, spec=intent.compare)
         if len(rows) < 2:
-            return _clarify(["compare_values"], codes + ["compare_axis_missing"])
+            return _clarify(["compare_values"], codes + ["compare_axis_missing"],
+                            task_type=task_type)
         plan.parameters = {"scenarios": rows}
         plan.reason_codes.append("compare_rows_from_" + ("explicit_values" if intent.compare else "before_after"))
 
     elif task_type == "sensitivity":
         spec = build_sensitivity(intent.sensitivity)
         if spec is None:
-            return _clarify(["sensitivity_spec"], codes + ["sensitivity_spec_missing"])
+            return _clarify(["sensitivity_spec"], codes + ["sensitivity_spec_missing"],
+                            task_type=task_type)
         plan.parameters = spec
         plan.changes.pop(spec["parameter"], None)
         if not plan.options:
@@ -154,16 +160,24 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
         if result_id is None and known_result_ids:
             result_id = known_result_ids[-1]
         if not result_id:
-            return _clarify(["result_id"], codes + ["no_result_to_explain"])
+            return _clarify(["result_id"], codes + ["no_result_to_explain"],
+                            task_type=task_type)
         plan.result_id = result_id
         plan.reason_codes.append("explain_bound_to_last_result")
 
     return plan
 
 
-def _clarify(fields: list[str], codes: list[str]) -> RoutePlan:
+def _clarify(fields: list[str], codes: list[str],
+             task_type: str | None = None) -> RoutePlan:
+    """`task_type` records what the user was trying to do.
+
+    It is what lets the next turn *resume* the original task instead of
+    re-guessing the intent from a one-word answer. It does not change any
+    routing decision.
+    """
     fields = [field for field in dict.fromkeys(fields) if field]
     question = " ".join(CLARIFY_QUESTIONS.get(field, f"请补充 {field}。") for field in fields) \
         if fields else CLARIFY_QUESTIONS["task"]
-    return RoutePlan(action="clarify", clarify_fields=fields, question=question,
-                     reason_codes=codes + ["clarify"])
+    return RoutePlan(action="clarify", task_type=task_type, clarify_fields=fields,
+                     question=question, reason_codes=codes + ["clarify"])

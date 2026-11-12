@@ -71,6 +71,13 @@ class HarnessService:
     def session_state(self, session_id: str | None = None) -> dict[str, Any]:
         return self._runtime(session_id).session.snapshot()
 
+    def restore_session(self, session_id: str, snapshot: dict[str, Any]) -> dict[str, Any]:
+        """Replace an in-memory session with a persisted one (restart recovery)."""
+        runtime = self._runtime(session_id)
+        with runtime.lock:
+            runtime.session.restore(snapshot)
+        return runtime.session.snapshot()
+
     def session_history(self, session_id: str | None = None) -> list:
         """Full immutable snapshots, used for restore operations."""
         return list(self._runtime(session_id).session.history)
@@ -150,6 +157,13 @@ class HarnessService:
     def last_result_id(self, session_id: str | None = None) -> str | None:
         ids = self._runtime(session_id).session.known_result_ids()
         return ids[-1] if ids else None
+
+    def session_has_result(self, session_id: str | None, result_id: str) -> bool:
+        """Membership check: another session's result must never be served."""
+        return self._runtime(session_id).session.has_result(result_id)
+
+    def session_object(self, session_id: str | None = None) -> Session:
+        return self._runtime(session_id).session
 
     def close(self) -> None:
         self.client.close()

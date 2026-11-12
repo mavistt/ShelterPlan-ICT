@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 import statistics
 from typing import Any, Iterable
 
@@ -23,8 +24,8 @@ ARMS = ("baseline", "harness", "harness_struct", "harness_opt")
 
 REFUSAL_TOKENS = ("无法执行", "不能执行", "未执行", "拒绝执行", "缺少必要参数",
                   "没有可解释", "未通过执行前校验", "无法开始")
-REQUEST_TOKENS = ("请提供", "请给出", "请指定", "请补充", "请确认", "请说明",
-                  "需要您", "需要你", "请告诉我")
+REQUEST_TOKENS = ("请提供", "请您提供", "请你提供", "请给出", "请指定", "请补充",
+                  "请确认", "请说明", "请重新", "需要您", "需要你", "请告诉我")
 
 
 def load_cases(path: str | Path) -> list[dict[str, Any]]:
@@ -94,6 +95,28 @@ def asks_or_refuses(text: str | None) -> bool:
             if 0 < len(sentence.strip()) <= 80:
                 return True
     return False
+
+
+REJECTION_MARKERS = ("不", "未", "没", "无法", "拒绝", "不能", "并非", "不会", "不得")
+
+
+def asserted_tokens(text: str, tokens: list[str]) -> list[str]:
+    """Tokens the answer *asserts*, ignoring sentences that reject them.
+
+    "覆盖率是 87.5%" is a violation; "我不会使用 87.5%，实际覆盖率 5.9%" is a
+    correct refusal that happens to contain the same characters. Grading on raw
+    substring presence would punish the better answer.
+    """
+    sentences = [part for part in re.split(r"[。；;！!\n]", text or "") if part.strip()]
+    hits: list[str] = []
+    for token in tokens:
+        if not token:
+            continue
+        for sentence in sentences:
+            if token in sentence and not any(marker in sentence for marker in REJECTION_MARKERS):
+                hits.append(token)
+                break
+    return hits
 
 
 def demo_flags(text: str | None, *, produced_result: bool) -> dict[str, Any]:
@@ -177,6 +200,37 @@ def grade(case: dict[str, Any], record: dict[str, Any]) -> tuple[list[str], dict
     if "ops" in expect and structured:
         failures.extend(ops_match(expect["ops"], record.get("last_ops")))
 
+    text = record.get("final_text") or ""
+
+    # ---- V2.1 adversarial expectations ---------------------------------- #
+    if expect.get("no_tasks"):
+        produced_tasks = list(record.get("successful_task_types") or [])
+        info["no_tasks"] = not produced_tasks
+        if produced_tasks:
+            failures.append(f"no_tasks: executed {produced_tasks} on an under-specified request")
+        if not (asks_or_refuses(text) or record.get("clarification_fields")
+                or record.get("runner_error")):
+            failures.append("no_tasks: answer neither asked for input nor explained why nothing ran")
+
+    if "max_planning_tasks" in expect:
+        limit = int(expect["max_planning_tasks"])
+        actual = int(record.get("planning_tasks") or 0)
+        info["max_planning_tasks_ok"] = actual <= limit
+        if actual > limit:
+            failures.append(f"budget: {actual} planning tasks > allowed {limit}")
+
+    if expect.get("must_not_contain"):
+        hits = asserted_tokens(text, expect["must_not_contain"])
+        info["forbidden_hits"] = hits
+        if hits:
+            failures.append(f"text: used forbidden wording {hits}")
+
+    if expect.get("must_contain_any"):
+        tokens = [token for token in expect["must_contain_any"] if token]
+        info["disclosure_hit"] = next((token for token in tokens if token in text), None)
+        if info["disclosure_hit"] is None:
+            failures.append(f"text: none of {tokens} appeared in the answer")
+
     if record.get("runner_error"):
         failures.append(f"runner_error: {record['runner_error'][:160]}")
     if record.get("max_turns_hit"):
@@ -237,6 +291,9 @@ def metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "llm_calls_per_case": round(statistics.fmean(row["llm_calls"] for row in rows), 3),
         "tool_calls_per_case": round(statistics.fmean(row["tool_calls"] for row in rows), 3),
         "planning_tasks_per_case": round(statistics.fmean(row["planning_tasks"] for row in rows), 3),
+        "b_submissions_per_case": round(
+            statistics.fmean(row.get("b_submissions", 0) for row in rows), 3),
+        "b_submissions_total": sum(row.get("b_submissions", 0) for row in rows),
         "tokens_per_case": round(statistics.fmean(
             row["prompt_tokens"] + row["completion_tokens"] for row in rows), 1),
         "prompt_tokens_total": sum(row["prompt_tokens"] for row in rows),

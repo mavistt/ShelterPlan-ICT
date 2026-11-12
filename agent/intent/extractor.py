@@ -261,7 +261,16 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             intent.warnings.append("dropped improvement options with unmentioned shelter ids")
         intent.options = kept
 
-    # 4. shutdown verb with no id ------------------------------------------
+    # 3b. no actionable content at all -> ask, do not guess a task ---------
+    # "你看着办吧" / "帮我弄一下那个" have no verb, no parameter and no id. Any
+    # task chosen here is the model's invention, so the correct action is to
+    # ask which analysis the user wants.
+    if intent.name not in {"clarify"} and not ACTIONABLE_RE.search(text):
+        intent.name = "clarify"
+        if not intent.clarify:
+            intent.clarify = ["task"]
+        intent.warnings.append("downgraded a task intent with no actionable content")
+
     # 4. an explicit evaluation verb outranks a bare parameter mention -----
     if intent.name == "modify_scenario" and re.search(r"评估|看一下现状|看看现状", text) \
             and not re.search(r"优化|比较|对比|压力测试|敏感性|诊断|解释", text):
@@ -319,6 +328,11 @@ RATIO_LITERAL_RE = re.compile(
     r"(?:需求)?比例\s*(?:设为|改成|调整为|调成|按|为|是|=|:|：)?\s*(\d+(?:\.\d+)?)\s*%?")
 OPTION_COST_RE = re.compile(r"成本\s*(\d+(?:\.\d+)?)")
 COMPARE_NUMBERS_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(%|成)?\s*(?:和|、|与|vs\.?|对比)\s*(\d+(?:\.\d+)?)\s*(%|成)?")
+# Any lexical trace of an actual planning request: a task verb, a parameter
+# name, a shelter id, or a number the user wants planned with.
+ACTIONABLE_RE = re.compile(
+    r"评估|现状|优化|扩容|比较|对比|差异|压力测试|敏感性|诊断|解释|模拟|"
+    r"预算|比例|步行|阈值|停用|关停|关闭|覆盖|zs_|\d")
 
 
 def rule_extract(text: str) -> ParsedIntent:

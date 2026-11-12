@@ -119,6 +119,7 @@ class Session:
                     "parent_scenario_id": row.parent_scenario_id,
                     "turn": row.turn,
                     "changes": row.changes,
+                    "params": row.params.to_dict(),
                     "result_id": row.result_id,
                 }
                 for row in self._history
@@ -166,6 +167,42 @@ class Session:
                 "lineage": self.lineage(),
                 "result_ids": list(self._results),
             }
+
+    # ------------------------------------------------------------------ #
+    def dump(self) -> dict[str, Any]:
+        """Full durable form: snapshot plus the projected result registry."""
+        snapshot = self.snapshot()
+        with self._lock:
+            snapshot["results"] = dict(self._results)
+        return snapshot
+
+    def restore(self, snapshot: dict[str, Any]) -> "Session":
+        """Rebuild a session from `snapshot()` output.
+
+        Only the *verified* parts are restored: parameter snapshots, lineage and
+        the projected summaries this session already saw. A restored session
+        never claims a Module B job is still running - the caller is responsible
+        for marking interrupted turns.
+        """
+        states: list[ScenarioState] = []
+        for row in snapshot.get("lineage") or []:
+            params = ScenarioParams(**row["params"])
+            states.append(ScenarioState(
+                scenario_id=row["scenario_id"],
+                parent_scenario_id=row.get("parent_scenario_id"),
+                params=params,
+                changes=dict(row.get("changes") or {}),
+                turn=int(row.get("turn") or 1),
+                created_at=row.get("created_at") or utc_now(),
+                result_id=row.get("result_id"),
+            ))
+        if not states:
+            raise ValueError("session snapshot contains no scenario states")
+        with self._lock:
+            self._history = states
+            self._current = states[-1]
+            self._results = dict(snapshot.get("results") or {})
+        return self
 
 
 class SessionRegistry:

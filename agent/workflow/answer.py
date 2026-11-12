@@ -60,6 +60,9 @@ def _params_line(params: dict[str, Any]) -> str:
 
 def compose_answer(control: ControlResult, *, params: ScenarioParams,
                    memory: Any | None = None) -> str:
+    if control.status == "cancelled":
+        return ("已取消这次未完成的规划请求。没有执行任何规划任务，也没有产生新的结果；"
+                "已有参数保持不变。")
     if control.status == "clarify":
         return compose_clarification(control.plan, params)
     if control.status == "refuse":

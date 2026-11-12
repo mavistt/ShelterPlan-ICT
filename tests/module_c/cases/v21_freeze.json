@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-11-12T12:37:56Z",
+  "cases_path": "tests/module_c/cases/v21_cases.json",
+  "cases_sha256": "fea06b63d135ff909a0555253d597bad82276317f4bf312afa3f3c37a23bef56",
+  "grading_path": "tests/module_c/eval_lib.py",
+  "grading_sha256": "fd15adcc560551bc5bf9269db2083f7c20b95b4e286ff1d2819ee9ea5f91bc54",
+  "runner_path": "tests/module_c/run_v21.py",
+  "runner_sha256": "6c2e8c272508b08d858efd0d4af2bbcaed48a93be445fbbfe5770f579648f9fa",
+  "case_count": 47,
+  "authoring": "47 cases written by hand from the ten required categories in the V2.1 brief, before the first scored run. No case was produced by editing a V1/V2 case, and no V1/V2 failure list was consulted while writing them. Expected values and grading keys were fixed in the same pass.",
+  "dev_set": {
+    "path": "tests/module_c/cases/v21_dev_cases.json",
+    "purpose": "pre-freeze defect shake-out; never reported as generalisation evidence",
+    "run_output": "outputs/module_c/v21-dev/report.json",
+    "fixes_prompted_by_dev_set": [
+      "eval_lib: broaden clarification tokens to polite forms (请您提供/请重新)",
+      "extractor: downgrade a task intent to clarify when the utterance has no actionable content",
+      "router: a clarifying plan keeps the task type so a later turn can resume it",
+      "controller: classify Module B's pre-compute rejections as upstream_rejected",
+      "eval_lib: must_not_contain now ignores sentences that reject the token"
+    ],
+    "note": "These are generic fixes to the pipeline and the grader. None of them encodes a specific case, a shelter id, or an expected value."
+  },
+  "model": {
+    "name": "gemma4:e2b",
+    "runtime": "ollama 0.23.1",
+    "temperature": 0.0
+  },
+  "declaration": "Scores from this file are reported as measured. If a fix is needed after this point, a new case file (v21b) is created and re-run; this file is never edited and re-scored."
+}

@@ -105,7 +105,7 @@ def _record(case: dict[str, Any], arm: str, rep: int, *, final_text: str | None,
             tool_calls: int, planning_tasks: int, retries: int,
             intent: str | None, last_ops: list[dict] | None,
             clarification_fields: list[str], runner_error: str | None,
-            max_turns_hit: bool) -> dict[str, Any]:
+            max_turns_hit: bool, b_submissions: int = 0) -> dict[str, Any]:
     audit = check_citations(final_text or "", {
         **({"documents": numeric_document} if arm == "baseline" else
            {"summaries": numeric_document}),
@@ -140,6 +140,9 @@ def _record(case: dict[str, Any], arm: str, rep: int, *, final_text: str | None,
         "completion_tokens": completion_tokens,
         "tool_calls": tool_calls,
         "planning_tasks": planning_tasks,
+        # A business-task submission is not the same thing as an LLM call or a
+        # tool call: one submission can poll Module B dozens of times.
+        "b_submissions": b_submissions,
         "retries": retries,
         "runner_error": runner_error,
         "max_turns_hit": max_turns_hit,
@@ -186,6 +189,7 @@ def run_one(case: dict[str, Any], arm: str, rep: int, *, service: HarnessService
             duration_ms=duration, prompt_tokens=result.prompt_tokens,
             completion_tokens=result.completion_tokens, tool_calls=len(result.tool_calls),
             planning_tasks=len(completed), retries=0, intent=None, last_ops=None,
+            b_submissions=len(state["requests"]),
             clarification_fields=[], runner_error=result.error,
             max_turns_hit=result.max_turns_hit)
 
@@ -209,6 +213,7 @@ def run_one(case: dict[str, Any], arm: str, rep: int, *, service: HarnessService
             planning_tasks=len({row.get("result_id") for row in result.successful_tasks
                                 if row.get("result_id")}),
             retries=0, intent=None, last_ops=None, clarification_fields=[],
+            b_submissions=sum(1 for call in result.tool_calls if call.name == "submit_task"),
             runner_error=result.error, max_turns_hit=result.max_turns_hit)
 
     runner = StructuredRunner(arm, service, llm, config, session_id=session_id, trace=trace,
@@ -231,6 +236,7 @@ def run_one(case: dict[str, Any], arm: str, rep: int, *, service: HarnessService
         planning_tasks=sum(1 for row in result.controls if row.get("status") == "ok"),
         retries=retries, intent=intent_name, last_ops=last_ops,
         clarification_fields=list(result.clarification_fields),
+        b_submissions=len(result.tool_calls),
         runner_error=result.error, max_turns_hit=result.max_turns_hit)
 
 

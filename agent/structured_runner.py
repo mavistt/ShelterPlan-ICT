@@ -7,6 +7,7 @@ number ever passes through the model on the way out.
 """
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import Any
 
 from agent.agent_loop import AgentRun, FORBIDDEN_DEMO_PHRASES, LLMCall, ToolExecution
@@ -21,7 +22,15 @@ from agent.intent.schema import TASK_BY_INTENT
 from agent.numeric_audit import check_citations, extract_planning_numbers
 from agent.workflow.answer import compose_answer, compose_clarification, compose_error
 from agent.workflow.controller import ControlResult, TaskController
-from agent.workflow.router import RoutePlan, TurnMemory, route
+from agent.workflow.dialogue import (
+    TASK_TO_INTENT,
+    DialogueState,
+    detect_task_switch,
+    fill_pending,
+    is_cancel,
+    resume_intent,
+)
+from agent.workflow.router import CLARIFY_QUESTIONS, RoutePlan, TurnMemory, route
 
 ANSWER_SYSTEM_PROMPT = (
     "你是 ShelterPlan 应急避难场所规划助手。你会收到用户问题和一次已完成的规划结果 JSON。\n"
@@ -45,13 +54,54 @@ ERROR_SYSTEM_PROMPT = (
 ANSWER_CHAR_CAP = 6000
 
 
+@dataclass
+class TurnRecord:
+    """The application-facing view of one completed turn.
+
+    The Web layer does not parse prose: it reads this record. `status` is the
+    five-value vocabulary Module D needs, and every identifier is the one the
+    planner actually used.
+    """
+
+    status: str  # SUCCEEDED | NEEDS_CLARIFICATION | FAILED | CANCELLED
+    text: str
+    turn: int = 0
+    control: ControlResult | None = None
+    plan: RoutePlan | None = None
+    intent: dict[str, Any] | None = None
+    params: ScenarioParams | None = None
+    clarification_fields: list[str] = field(default_factory=list)
+    resumed: bool = False
+    cancelled: bool = False
+    job_id: str | None = None
+    bindings: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "status": self.status,
+            "turn": self.turn,
+            "task_type": (self.control.plan.task_type if self.control else None),
+            "action": (self.control.plan.action if self.control else None),
+            "intent": (self.intent or {}).get("intent"),
+            "clarification_fields": list(self.clarification_fields),
+            "resumed": self.resumed,
+            "cancelled": self.cancelled,
+            "job_id": self.job_id,
+            "error_code": (self.control.error_code if self.control else None),
+            "error_class": (self.control.error_class if self.control else None),
+            "answer_chars": len(self.text or ""),
+        }
+
+
 class StructuredRunner:
     """One runner per (arm, case): fresh session, deterministic control flow."""
 
     def __init__(self, arm: str, service: Any, llm: Any, config: HarnessConfig, *,
                  session_id: str, trace: TraceRecorder | None = None,
                  extractor: IntentExtractor | None = None,
-                 max_llm_calls: int = 10, max_answer_rewrites: int = 1) -> None:
+                 max_llm_calls: int = 10, max_answer_rewrites: int = 1,
+                 dialogue: DialogueState | None = None,
+                 dialogue_enabled: bool = False) -> None:
         if arm not in {"harness_struct", "harness_opt"}:
             raise ValueError(f"unknown structured arm: {arm}")
         self.arm = arm
@@ -68,11 +118,19 @@ class StructuredRunner:
         self._summaries: list[dict[str, Any]] = []
         self._memory = TurnMemory()
         self._pending: dict[str, Any] = {}
+        # Cross-turn clarification is opt-in so the V2 arms stay byte-identical
+        # to the run the V2 report cites.
+        self.dialogue = dialogue or DialogueState()
+        self.dialogue_enabled = dialogue_enabled
+        self.last_turn: TurnRecord | None = None
+        self.last_run: AgentRun | None = None
+        self._turn_no = 0
 
     # ------------------------------------------------------------------ #
     def run_case(self, case_id: str, turns: list[dict[str, Any]]) -> AgentRun:
         run = AgentRun(mode=self.arm, case_id=case_id)
         self.user_numbers = []
+        self._turn_no = 0
         for turn in turns:
             self.user_numbers.extend(extract_planning_numbers(turn.get("user") or ""))
 
@@ -96,25 +154,126 @@ class StructuredRunner:
                     error_class="internal"))
             run.final_text = answer
             self._trace("turn", case_id=case_id, turn=index, answer_chars=len(answer),
-                        clarification=bool(run.clarification_fields))
+                        clarification=bool(run.clarification_fields),
+                        status=(self.last_turn.status if self.last_turn else None))
         return self._finish(run)
 
     # ------------------------------------------------------------------ #
+    def run_turn(self, text: str) -> TurnRecord:
+        """One user utterance on a long-lived runner (application entry point)."""
+        self._turn_no += 1
+        run = AgentRun(mode=self.arm, case_id=f"app-{self._turn_no}")
+        self.user_numbers.extend(extract_planning_numbers(text))
+        self._turn(self._turn_no, text, run)
+        self.last_run = run
+        assert self.last_turn is not None
+        return self.last_turn
+
+    # ------------------------------------------------------------------ #
     def _turn(self, index: int, text: str, run: AgentRun) -> str:
+        record = self._dialogue_turn(index, text, run)
+        self.last_turn = record
+        return record.text
+
+    def _dialogue_turn(self, index: int, text: str, run: AgentRun) -> TurnRecord:
         params = self._params()
+        switch_target: str | None = None
+
+        # 0. an expired clarification must not silently resume a stale task.
+        if self.dialogue_enabled and self.dialogue.expired():
+            self.dialogue.close("expired")
+            plan = RoutePlan(
+                action="clarify", clarify_fields=["task"], task_type="assess",
+                question="上一轮需要补充的信息已超过有效期，请重新说明要做的分析。",
+                reason_codes=["clarification_expired"])
+            control = ControlResult(status="clarify", plan=plan)
+            answer = compose_clarification(plan, params)
+            self._trace("dialogue", case_id=run.case_id, turn=index,
+                        dialogue_event="expired", answer_chars=len(answer))
+            return TurnRecord(status="NEEDS_CLARIFICATION", text=answer, turn=index,
+                              control=control, plan=plan, params=params,
+                              clarification_fields=["task"])
+
+        # 1. explicit cancellation of the unfinished task.
+        if self.dialogue_enabled and self.dialogue.pending and is_cancel(text):
+            pending = self.dialogue.pending
+            self.dialogue.close("cancelled")
+            plan = RoutePlan(action="cancel", task_type=pending.task_type,
+                             reason_codes=["user_cancelled"])
+            control = ControlResult(status="cancelled", plan=plan)
+            answer = compose_answer(control, params=params, memory=self._memory)
+            self._trace("dialogue", case_id=run.case_id, turn=index,
+                        dialogue_event="cancelled", task_type=pending.task_type)
+            return TurnRecord(status="CANCELLED", text=answer, turn=index, control=control,
+                              plan=plan, params=params, cancelled=True)
+
+        # 2. resume the pending task when this reply supplies what was missing.
+        if self.dialogue_enabled and self.dialogue.pending is not None:
+            pending = self.dialogue.pending
+            filled = fill_pending(pending, text)
+            switch = detect_task_switch(text, pending.task_type)
+            if switch:
+                switch_target = switch
+                self.dialogue.close("switched")
+                self._trace("dialogue", case_id=run.case_id, turn=index,
+                            dialogue_event="switched", from_task=pending.task_type, to_task=switch)
+            elif filled.complete:
+                self.dialogue.close("resumed")
+                intent = resume_intent(pending, filled.values)
+                self._trace("dialogue", case_id=run.case_id, turn=index, dialogue_event="resumed",
+                            task_type=pending.task_type, filled=sorted(filled.values),
+                            attempts=pending.attempts)
+                return self._execute_intent(index, text, intent, run, resumed=True)
+            else:
+                plan = RoutePlan(
+                    action="clarify", task_type=pending.task_type,
+                    clarify_fields=filled.remaining,
+                    question=" ".join(CLARIFY_QUESTIONS.get(name, f"请补充 {name}。")
+                                       for name in filled.remaining),
+                    reason_codes=["clarification_incomplete"],
+                    changes=dict(pending.changes))
+                self.dialogue.open(plan, params=params, text=text)
+                control = ControlResult(status="clarify", plan=plan)
+                run.intents.append({"turn": index, "intent": {"intent": "clarify"},
+                                    "mode": "dialogue", "llm_calls": 0,
+                                    "llm_latency_ms": 0.0, "error": None})
+                answer = compose_clarification(plan, params)
+                self._record_control(run, index, control, params)
+                self._trace("dialogue", case_id=run.case_id, turn=index,
+                            dialogue_event="re-ask", missing=filled.remaining)
+                return TurnRecord(status="NEEDS_CLARIFICATION", text=answer, turn=index,
+                                  control=control, plan=plan, params=params,
+                                  clarification_fields=list(filled.remaining))
+
+        # 3. ordinary extraction path.
         extraction = self.extractor.extract(
             text, params=params, last_task=self._memory.last_task_type,
             last_actions=self._memory.actions)
-        self._record_llm_calls(run, extraction.call_stats, phase="intent",
-                               tools=[])
+        self._record_llm_calls(run, extraction.call_stats, phase="intent", tools=[])
+        if switch_target:
+            # The user named the new task in this very sentence; a weaker
+            # extractor must not downgrade it back to the abandoned one.
+            forced = TASK_TO_INTENT.get(switch_target)
+            if forced and extraction.intent.name != forced:
+                extraction.intent.warnings.append(
+                    f"task switched by user: {extraction.intent.name} -> {forced}")
+                extraction.intent.name = forced
         run.intents.append({"turn": index, **extraction.to_dict()})
         self._trace("intent", case_id=run.case_id, turn=index,
                     intent=extraction.intent.name, extract_mode=extraction.mode,
                     ops=[op.to_dict() for op in extraction.intent.ops],
                     llm_calls=extraction.llm_calls,
                     latency_ms=round(extraction.llm_latency_ms, 1))
+        return self._execute_intent(index, text, extraction.intent, run,
+                                    intent_payload=extraction.to_dict())
 
-        intent = extraction.intent
+    # ------------------------------------------------------------------ #
+    def _execute_intent(self, index: int, text: str, intent: Any, run: AgentRun, *,
+                        resumed: bool = False,
+                        intent_payload: dict[str, Any] | None = None) -> TurnRecord:
+        params = self._params()
+        if intent_payload is not None:
+            run.intents[-1] = {"turn": index, **intent_payload}
         try:
             normalized = apply_ops(params, intent.ops,
                                    history=self.service.session_history(self.session_id),
@@ -133,9 +292,16 @@ class StructuredRunner:
                                     error_class="guard")
             self._record_control(run, index, control, params)
             self._memory.remember_failure(plan, control.error_code)
-            return self._respond(text, control, params, run, index)
+            answer = self._respond(text, control, params, run, index)
+            return TurnRecord(status="FAILED", text=answer, turn=index, control=control,
+                              plan=plan, params=params, resumed=resumed,
+                              intent=intent.to_dict())
 
         self._trace("plan", case_id=run.case_id, turn=index, **plan.to_dict())
+        if plan.action == "clarify" and changes:
+            # A clarifying plan must carry everything collected so far, or the
+            # next turn would resume with a hole where the budget used to be.
+            plan.changes = dict(changes)
 
         if plan.action == "task":
             control = self.controller.run(plan)
@@ -154,10 +320,21 @@ class StructuredRunner:
             self._pending.clear()
         elif control.status == "clarify":
             self._memory.remember_failure(plan, "CLARIFY")
-            self._pending = dict(plan.changes)
+            if self.dialogue_enabled:
+                self.dialogue.open(plan, params=params, text=text)
+            else:
+                self._pending = dict(plan.changes)
         else:
             self._memory.remember_failure(plan, control.error_code)
-        return self._respond(text, control, params, run, index)
+        answer = self._respond(text, control, params, run, index)
+        status = {"ok": "SUCCEEDED", "clarify": "NEEDS_CLARIFICATION",
+                  "refuse": "FAILED"}.get(control.status, "FAILED")
+        return TurnRecord(status=status, text=answer, turn=index, control=control, plan=plan,
+                          params=params, resumed=resumed,
+                          clarification_fields=list(plan.clarify_fields),
+                          job_id=(control.outcome or {}).get("job_id"),
+                          bindings=dict(control.bindings or {}),
+                          intent=intent.to_dict())
 
     # ------------------------------------------------------------------ #
     def _respond(self, text: str, control: ControlResult, params: ScenarioParams,
