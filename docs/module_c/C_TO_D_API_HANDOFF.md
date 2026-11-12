@@ -449,3 +449,24 @@ export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
   V2.1 盲测 `38/47`、`37/47` 与 V2.2 回归 `38/47`、`41/47` 原样保留，不与本轮并列。
 - 回归只是验证手段：本轮功能验收看的是 260 条自动化测试、两种模型模式的
   端到端演示和本文的字段契约，不拿旧集分数当成果。
+
+复现命令（都写新目录，不覆盖历史证据）：
+
+```bash
+cd /e/ICT/module-c
+export PYTHONPATH='E:\ICT\_sp\pylibs18;E:\ICT\_sp\pylibs'
+export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
+PY=/d/Anaconda/python.exe
+
+$PY -m pytest tests/module_c -q                            # 260 passed
+$PY examples/c_to_d_business_flow.py                      # 真实两进程，rule 模式
+$PY examples/c_to_d_business_flow.py --real-llm           # 真实两进程，真实 LLM
+$PY -m tests.module_c.run_v21 --arms harness_opt --reps 1 --rep-start 5 \
+    --label "post-fix regression (V2.3 final)" \
+    --output outputs/module_c/v23-postfix-final-replay
+$PY -m tests.module_c.classify_v22_trace \
+    --report outputs/module_c/v23-postfix-final-replay/report.json \
+    --trace outputs/module_c/v23-postfix-final-replay/trace \
+    --output outputs/module_c/v23-postfix-final-replay/trace_taxonomy.md
+$PY -m tests.module_c.recompute_v2                        # 历史 V2 指标只读复核
+```
