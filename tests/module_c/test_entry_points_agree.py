@@ -123,19 +123,12 @@ def test_mcp_rejects_an_inadmissible_option(service, monkeypatch):
     assert out["task"]["error"]["code"] == "GUARD_INVALID_OPTION"
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="known defect: the rule extractor's improvement-option regex drops a "
-           "leading minus, so '成本-1' is read as cost 1 and the guard never sees "
-           "the negative value. The frozen V2.1 set does not cover a negative "
-           "candidate cost; documented in HARNESS_V2_1_REPORT.md §4.4.",
-)
 def test_text_entry_rejects_a_negative_option_cost(api, service, monkeypatch):
     """Adversarial: a negative candidate cost must not be silently rewritten.
 
-    Parameter values are not affected - `预算-3` really does extract as -3.0 and is
-    rejected. Only the candidate table loses the sign, which is why this test is
-    narrow and why it is reported as a defect found *after* the frozen set.
+    V2.2 fixed the extractor's option regex (`成本 -1` used to become cost 1, i.e.
+    a free expansion). The sign now survives extraction and the shared guard
+    rejects it, which is what this test pins.
     """
     monkeypatch.setattr(mcp_server, "_service", service, raising=False)
 

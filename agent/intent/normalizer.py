@@ -10,8 +10,9 @@ from dataclasses import dataclass, field
 from typing import Any, Iterable
 
 from agent.contracts import SCENARIO_CHANGE_KEYS, ScenarioParams, ScenarioState
-from agent.errors import GuardInvalidParam, GuardMissingParam
+from agent.errors import GuardInvalidParam, GuardMissingParam, GuardUnclearOperation
 from agent.harness import guards
+from agent.intent import quantities
 from agent.intent.schema import ParamOp
 
 LIST_FIELDS = ("disabled_shelter_ids",)
@@ -32,8 +33,17 @@ class NormalizedTurn:
 
 def apply_ops(current: ScenarioParams, ops: Iterable[ParamOp], *,
               history: Iterable[ScenarioState] | None = None,
-              defaults: ScenarioParams | None = None) -> NormalizedTurn:
-    """Resolve ops into an explicit change set relative to `current`."""
+              defaults: ScenarioParams | None = None,
+              text: str | None = None) -> NormalizedTurn:
+    """Resolve ops into an explicit change set relative to `current`.
+
+    When `text` is supplied, every operation must be **supported by the sentence**
+    (see `quantities.supports`). This is the "no unfounded arithmetic" rule: a
+    `scale` with no multiplier in the text, or a `set` whose number the user never
+    said, raises `GuardUnclearOperation` so the caller can ask instead of
+    submitting an invented number to Module B. If the text states a different but
+    equally unambiguous value, the text wins and the override is recorded.
+    """
     ops = list(ops or [])
     if not ops:
         return NormalizedTurn(params=current, changes={})
@@ -41,6 +51,9 @@ def apply_ops(current: ScenarioParams, ops: Iterable[ParamOp], *,
     working = current.to_dict()
     warnings: list[str] = []
     restored_from: str | None = None
+
+    if text is not None:
+        ops = _ground_ops_in_text(text, ops, warnings)
 
     for op in ops:
         if op.field not in SCENARIO_CHANGE_KEYS:
@@ -77,6 +90,24 @@ def apply_ops(current: ScenarioParams, ops: Iterable[ParamOp], *,
     params = current.merged(changes) if changes else current
     return NormalizedTurn(params=params, changes=changes, warnings=warnings,
                           restored_from=restored_from)
+
+
+def _ground_ops_in_text(text: str, ops: list[ParamOp], warnings: list[str]) -> list[ParamOp]:
+    """Reject (or correct) operations the sentence does not justify."""
+    grounded: list[ParamOp] = []
+    for op in ops:
+        ok, reason, override = quantities.supports(text, op.field, op.op, op.value)
+        if not ok:
+            raise GuardUnclearOperation(
+                f"无法从原句推出 {op.field} 的 {op.op} 操作：{reason}",
+                details={"field": op.field, "op": op.op, "value": op.value,
+                         "reason": reason, "text": text})
+        if override is not None:
+            warnings.append(f"{op.field}:{op.op} {op.value!r} -> {override!r} ({reason})")
+            grounded.append(ParamOp(op.field, op.op, override))
+            continue
+        grounded.append(op)
+    return grounded
 
 
 def _apply_single(op: ParamOp, current_value: Any, warnings: list[str]) -> Any:
@@ -216,7 +247,12 @@ def expand_options(raw: Iterable[dict[str, Any]] | None) -> list[dict[str, Any]]
             cost_value = float(cost if cost is not None else 1)
         except (TypeError, ValueError):
             continue
-        if not shelter_id or capacity_value <= 0 or cost_value < 0:
+        # Only candidates that cannot mean anything are dropped here (missing id,
+        # zero capacity, unparseable number) - the router then asks for a usable
+        # table. A *negative* cost or capacity is kept so the guard can reject it
+        # by name: silently deleting it turned "cost -1" into a free expansion,
+        # which is the V2.2 P0 defect.
+        if not shelter_id or capacity_value == 0:
             continue
         option = dict(OPTION_DEFAULTS)
         option.update({

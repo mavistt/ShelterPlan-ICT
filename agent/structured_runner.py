@@ -14,15 +14,25 @@ from agent.agent_loop import AgentRun, FORBIDDEN_DEMO_PHRASES, LLMCall, ToolExec
 from agent.config import HarnessConfig
 from agent.contracts import ScenarioParams
 from agent.errors import HarnessError
+from agent.harness import contract
 from agent.harness.results import json_bytes
 from agent.harness.trace import TraceRecorder
 from agent.intent.extractor import IntentExtractor
 from agent.intent.normalizer import apply_ops
 from agent.intent.schema import TASK_BY_INTENT
 from agent.numeric_audit import check_citations, extract_planning_numbers
-from agent.workflow.answer import compose_answer, compose_clarification, compose_error
+from agent.workflow.answer import (
+    DEMO_LINE,
+    compose_answer,
+    compose_clarification,
+    compose_error,
+    compose_refusal,
+)
 from agent.workflow.controller import ControlResult, TaskController
 from agent.workflow.dialogue import (
+    MAX_CLARIFY_ATTEMPTS,
+    detect_undo,
+    undo_intent,
     TASK_TO_INTENT,
     DialogueState,
     detect_task_switch,
@@ -30,7 +40,13 @@ from agent.workflow.dialogue import (
     is_cancel,
     resume_intent,
 )
-from agent.workflow.router import CLARIFY_QUESTIONS, RoutePlan, TurnMemory, route
+from agent.workflow.router import (
+    CLARIFY_FIELD_NAMES,
+    CLARIFY_QUESTIONS,
+    RoutePlan,
+    TurnMemory,
+    route,
+)
 
 ANSWER_SYSTEM_PROMPT = (
     "你是 ShelterPlan 应急避难场所规划助手。你会收到用户问题和一次已完成的规划结果 JSON。\n"
@@ -179,6 +195,13 @@ class StructuredRunner:
         params = self._params()
         switch_target: str | None = None
 
+        # -1. a request to rewrite a trust constraint is refused before anything
+        # else looks at it: it must not be consumed as a slot value, and it must
+        # not clear a pending clarification (state survives a refusal).
+        refusal = contract.detect(text, self.config)
+        if refusal is not None:
+            return self._refuse(index, text, refusal, run, params)
+
         # 0. an expired clarification must not silently resume a stale task.
         if self.dialogue_enabled and self.dialogue.expired():
             self.dialogue.close("expired")
@@ -207,6 +230,41 @@ class StructuredRunner:
             return TurnRecord(status="CANCELLED", text=answer, turn=index, control=control,
                               plan=plan, params=params, cancelled=True)
 
+        # 1b. an undo is never a slot value: handle it before the pending task,
+        # or "撤销上一步" would be consumed as a budget.
+        undo = detect_undo(text)
+        if undo is not None:
+            if undo.ambiguous:
+                plan = RoutePlan(
+                    action="clarify", clarify_fields=["undo_target"],
+                    question=("要撤销哪一项？请说“撤销上一步”“恢复预算”“恢复需求比例”"
+                              "或“不要停用 zs_xxx”。"),
+                    reason_codes=["undo_target_unclear"])
+                control = ControlResult(status="clarify", plan=plan)
+                if self.dialogue_enabled:
+                    self.dialogue.open(plan, params=params, text=text)
+                run.intents.append({"turn": index,
+                                    "intent": {"intent": "clarify", "ops": [],
+                                               "reason": "undo_target_unclear"},
+                                    "mode": "undo", "llm_calls": 0,
+                                    "llm_latency_ms": 0.0, "error": None})
+                self._trace("dialogue", case_id=run.case_id, turn=index,
+                            dialogue_event="undo-ambiguous", evidence=undo.evidence)
+                return TurnRecord(status="NEEDS_CLARIFICATION",
+                                  text=compose_clarification(plan, params), turn=index,
+                                  control=control, plan=plan, params=params,
+                                  clarification_fields=["undo_target"])
+            self.dialogue.close("undone")
+            self._trace("dialogue", case_id=run.case_id, turn=index,
+                        dialogue_event="undo", kind=undo.kind, evidence=undo.evidence)
+            intent = undo_intent(undo, params, self.service.session_history(self.session_id),
+                                 self._memory.last_task_type, text)
+            run.intents.append({"turn": index, "intent": intent.to_dict(),
+                                "mode": "undo", "llm_calls": 0,
+                                "llm_latency_ms": 0.0, "error": None})
+            return self._execute_intent(index, text, intent, run,
+                                        intent_payload={"intent": intent.to_dict()})
+
         # 2. resume the pending task when this reply supplies what was missing.
         if self.dialogue_enabled and self.dialogue.pending is not None:
             pending = self.dialogue.pending
@@ -224,6 +282,25 @@ class StructuredRunner:
                             task_type=pending.task_type, filled=sorted(filled.values),
                             attempts=pending.attempts)
                 return self._execute_intent(index, text, intent, run, resumed=True)
+            elif pending.attempts >= MAX_CLARIFY_ATTEMPTS:
+                # Stop asking. Three unproductive replies means the question is
+                # not working, and repeating it forever is worse than admitting it.
+                self.dialogue.close("abandoned")
+                self._trace("dialogue", case_id=run.case_id, turn=index,
+                            dialogue_event="abandoned", attempts=pending.attempts,
+                            missing=list(pending.missing))
+                plan = RoutePlan(
+                    action="clarify", task_type=pending.task_type, clarify_fields=[],
+                    question=(f"我已经问了 {pending.attempts} 次，还是没能确定"
+                              f"{'、'.join(CLARIFY_FIELD_NAMES.get(n, n) for n in pending.missing)}。"
+                              "这次先放下，请把要做的分析连同参数一起重新说一遍。"),
+                    reason_codes=["clarification_abandoned"])
+                control = ControlResult(status="clarify", plan=plan)
+                answer = compose_clarification(plan, params)
+                self._record_control(run, index, control, params)
+                return TurnRecord(status="NEEDS_CLARIFICATION", text=answer, turn=index,
+                                  control=control, plan=plan, params=params,
+                                  clarification_fields=[])
             else:
                 plan = RoutePlan(
                     action="clarify", task_type=pending.task_type,
@@ -275,9 +352,15 @@ class StructuredRunner:
         if intent_payload is not None:
             run.intents[-1] = {"turn": index, **intent_payload}
         try:
+            # Ground ops in the sentence that produced them. Ops replayed from a
+            # pending clarification or an undo were justified by an *earlier*
+            # sentence (the budget the user gave two turns ago is not in today's
+            # reply), so re-checking them against this turn's text would reject
+            # perfectly valid state.
+            ground_text = text if getattr(intent, "source", "llm") in {"llm", "rules"} else None
             normalized = apply_ops(params, intent.ops,
                                    history=self.service.session_history(self.session_id),
-                                   defaults=self.service.defaults)
+                                   defaults=self.service.defaults, text=ground_text)
             changes = dict(self._pending)
             changes.update(normalized.changes)
             plan = route(intent, params=normalized.params, changes=changes,
@@ -285,6 +368,30 @@ class StructuredRunner:
                          known_result_ids=self._known_results())
         except HarnessError as exc:
             field = (exc.details or {}).get("field")
+            if exc.code == "GUARD_UNCLEAR_OPERATION" and isinstance(field, str):
+                # The sentence does not justify the arithmetic. Asking is the only
+                # honest option: submitting the model's number would be a guess
+                # dressed up as a plan. The session state is left untouched.
+                plan = RoutePlan(
+                    action="clarify", task_type=TASK_BY_INTENT.get(intent.name),
+                    clarify_fields=[field],
+                    question=(f"“{text.strip()}” 里我没法确定 {CLARIFY_FIELD_NAMES.get(field, field)}"
+                              " 应该变成多少。请直接给目标值或明确的倍数，"
+                              "例如“改成 20 分钟”“翻倍”“减半”。"),
+                    reason_codes=["operation_unclear"])
+                control = ControlResult(status="clarify", plan=plan)
+                self._record_control(run, index, control, params)
+                if self.dialogue_enabled:
+                    self.dialogue.open(plan, params=params, text=text)
+                else:
+                    self._pending = {}
+                self._trace("dialogue", case_id=run.case_id, turn=index,
+                            dialogue_event="operation_unclear", field=field,
+                            reason=(exc.details or {}).get("reason"))
+                answer = compose_clarification(plan, params)
+                return TurnRecord(status="NEEDS_CLARIFICATION", text=answer, turn=index,
+                                  control=control, plan=plan, params=params, resumed=resumed,
+                                  clarification_fields=[field], intent=intent.to_dict())
             plan = RoutePlan(action="task", task_type=TASK_BY_INTENT.get(intent.name),
                              clarify_fields=[field] if isinstance(field, str) else [],
                              reason_codes=["pre_route_error"])
@@ -302,6 +409,11 @@ class StructuredRunner:
             # A clarifying plan must carry everything collected so far, or the
             # next turn would resume with a hole where the budget used to be.
             plan.changes = dict(changes)
+            # The confirmed part of the request is real even though the task is
+            # not: commit it as a candidate scenario so the user can see it and
+            # so a later "undo that" has something to return to. No business
+            # task is submitted from this branch.
+            self._stage_candidate(changes, run=run, index=index)
 
         if plan.action == "task":
             control = self.controller.run(plan)
@@ -335,6 +447,52 @@ class StructuredRunner:
                           job_id=(control.outcome or {}).get("job_id"),
                           bindings=dict(control.bindings or {}),
                           intent=intent.to_dict())
+
+    def _refuse(self, index: int, text: str, refusal: Any, run: AgentRun,
+                params: ScenarioParams) -> TurnRecord:
+        """Answer a trust-altering request without touching the session."""
+        message = refusal.message(
+            data_status=self.config.expected_data_status,
+            disclosure=(DEMO_LINE if self.config.expected_data_status == "DEMO_ONLY" else None))
+        plan = RoutePlan(action="refuse", reason_codes=[f"contract:{refusal.fact}"],
+                         question=message)
+        control = ControlResult(
+            status="refuse", plan=plan,
+            error={"code": "CONTRACT_VIOLATION",
+                   "message": f"{refusal.label}不由对话决定：{refusal.reason}",
+                   "user_action": "不需要改声明；如需规划结果，请直接说明分析类型与参数。"},
+            error_class="policy")
+        answer = compose_refusal(plan, data_status=self.config.expected_data_status)
+        run.intents.append({"turn": index,
+                            "intent": {"intent": "refuse",
+                                       "ops": [],
+                                       "reason": f"contract:{refusal.fact}"},
+                            "mode": "policy", "llm_calls": 0,
+                            "llm_latency_ms": 0.0, "error": None})
+        self._trace("policy", case_id=run.case_id, turn=index,
+                    fact=refusal.fact, matched=refusal.matched, text_chars=len(text))
+        return TurnRecord(status="FAILED", text=answer, turn=index, control=control,
+                          plan=plan, params=params, intent={"intent": "refuse"})
+
+    def _stage_candidate(self, changes: dict[str, Any], *, run: Any, index: int) -> None:
+        """Commit parameter changes without running a task.
+
+        This is what makes "先确认参数、再决定跑不跑" honest: the snapshot moves,
+        Module B is never called, and the next turn starts from what the user
+        already agreed to instead of re-deriving it.
+        """
+        if not changes:
+            return
+        session = self.service.session_object(self.session_id)
+        try:
+            state = session.plan_turn(changes)
+            session.commit(state)
+        except Exception as exc:  # noqa: BLE001 - staging must never fail a turn
+            self._trace("dialogue", case_id=run.case_id, turn=index,
+                        dialogue_event="stage-failed", error=str(exc)[:160])
+            return
+        self._trace("dialogue", case_id=run.case_id, turn=index,
+                    dialogue_event="staged", changes=sorted(changes))
 
     # ------------------------------------------------------------------ #
     def _respond(self, text: str, control: ControlResult, params: ScenarioParams,

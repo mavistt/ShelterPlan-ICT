@@ -20,6 +20,7 @@ from typing import Any
 
 from agent.contracts import ScenarioParams
 from agent.errors import HarnessError
+from agent.intent import quantities
 from agent.intent.schema import (
     INTENT_SCHEMA_HINT,
     IntentParseError,
@@ -219,6 +220,21 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             intent.ops = [op for op in intent.ops if op.field != "population_demand_ratio"]
             intent.ops.append(ParamOp("population_demand_ratio", "set", value))
 
+    # 2a. phrasing that has exactly one arithmetic reading wins over the model.
+    # "预算翻倍" is x2, "步行半小时" is 30 minutes. A model that answered
+    # `scale: 6` or `scale: 7.5` was not misunderstood - it was wrong, and the
+    # sentence is the authority. Every override is recorded as a warning so the
+    # trace shows what changed and why.
+    if intent.name not in {"compare", "sensitivity"}:
+        for quantity in quantities.derive_ops(text):
+            same = any(op.field == quantity.field and op.op == quantity.op
+                       and _same_op_value(op.value, quantity.value) for op in intent.ops)
+            if same:
+                continue
+            intent.ops = [op for op in intent.ops if op.field != quantity.field]
+            intent.ops.append(quantity.as_op())
+            intent.warnings.append(f"op from text: {quantity.rule} = {quantity.value!r}")
+
     # 2b. "expansion" is not "shutdown" ------------------------------------
     if re.search(r"扩容|增加容量|加容量", text) and not DISABLE_RE.search(text):
         if any(op.field == "disabled_shelter_ids" for op in intent.ops):
@@ -287,6 +303,15 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
     return intent
 
 
+def _same_op_value(left: Any, right: Any) -> bool:
+    if isinstance(left, (list, tuple)) or isinstance(right, (list, tuple)):
+        return list(left or []) == list(right or [])
+    try:
+        return abs(float(left) - float(right)) <= 1e-9
+    except (TypeError, ValueError):
+        return left == right
+
+
 def _decode(content: str) -> tuple[dict[str, Any] | None, bool]:
     """Return (payload, repaired). `repaired` is True when the raw text was not
     already a bare JSON object (fenced block, prose wrapper, smart quotes)."""
@@ -322,11 +347,13 @@ RATIO_DECIMAL_RE = re.compile(r"(?:需求)?比例[^0-9]{0,6}(\d*\.\d+|\d+)")
 WALK_RE = re.compile(r"步行[^0-9]{0,8}(\d+(?:\.\d+)?)\s*分钟")
 DISABLE_RE = re.compile(r"(关停|停用|关闭|禁用)")
 DISABLE_SEGMENT_RE = re.compile(r"(?:关停|停用|关闭|禁用)([^。；\n]*)")
-OPTION_RE = re.compile(r"(zs_[0-9a-z]+)[^。；，,]{0,12}?(?:扩容|增加|加)\s*(\d+)\s*人")
+OPTION_RE = re.compile(r"(zs_[0-9a-z]+)[^。；，,]{0,12}?(?:扩容|增加|加)\s*(-?\d+)\s*人")
 LITERAL_NEGATIVE_RE = re.compile(r"预算\s*(-\d+(?:\.\d+)?)")
 RATIO_LITERAL_RE = re.compile(
     r"(?:需求)?比例\s*(?:设为|改成|调整为|调成|按|为|是|=|:|：)?\s*(\d+(?:\.\d+)?)\s*%?")
-OPTION_COST_RE = re.compile(r"成本\s*(\d+(?:\.\d+)?)")
+# The sign matters: "-1" must reach the guard as -1 and be rejected there.
+# Dropping the minus turned "cost -1" into a free expansion (V2.1 §4.4).
+OPTION_COST_RE = re.compile(r"成本\s*(-?\d+(?:\.\d+)?)")
 COMPARE_NUMBERS_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(%|成)?\s*(?:和|、|与|vs\.?|对比)\s*(\d+(?:\.\d+)?)\s*(%|成)?")
 # Any lexical trace of an actual planning request: a task verb, a parameter
 # name, a shelter id, or a number the user wants planned with.
@@ -399,11 +426,15 @@ def rule_extract(text: str) -> ParsedIntent:
     clarify = []
     if intent == "optimize" and not any(op.field == "budget_units" for op in ops) and "预算" not in text:
         clarify.append("budget_units")
-    return ParsedIntent(
+    parsed = ParsedIntent(
         name=intent, ops=ops, compare=compare, sensitivity=sensitivity,
         options=_rule_options(text), confidence=0.4, clarify=clarify,
         source="rules", warnings=warnings, reason="rule-based extraction",
     )
+    # The same safety layer the model path gets. Without this, "步行半小时"
+    # extracted by rules would stay a bare "no walk change" while the model path
+    # repaired it - two code paths drifting apart is exactly what V2.1 measured.
+    return _deterministic_repairs(text, parsed)
 
 
 def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:

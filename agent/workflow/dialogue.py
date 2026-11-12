@@ -39,6 +39,10 @@ from agent.intent.schema import ParamOp, ParsedIntent
 from agent.workflow.router import RoutePlan
 
 DEFAULT_TTL_S = 1800.0
+# Three unproductive replies is enough. Beyond that the agent is not asking a
+# question any more, it is looping - and a loop looks to the user like a broken
+# product, not like patience.
+MAX_CLARIFY_ATTEMPTS = 3
 
 CANCEL_RE = re.compile(r"^\s*(算了|取消|不做了|先不做了|不用了|放弃|停止|stop|cancel)\s*[。.!！]?\s*$", re.I)
 CANCEL_ANY_RE = re.compile(r"取消(?:这次|刚才|这个)?(?:任务|请求|操作)|不做了|放弃这次")
@@ -204,6 +208,120 @@ class Filled:
 def is_cancel(text: str) -> bool:
     text = (text or "").strip()
     return bool(CANCEL_RE.match(text) or CANCEL_ANY_RE.search(text))
+
+
+# "作废，恢复到上一轮" puts words between the verb and the target; a bounded gap
+# keeps it a single-clause match without turning into a catch-all.
+UNDO_LAST_RE = re.compile(
+    r"(?:撤销|撤消|作废|回退|回滚|还原|恢复|回到)[^。；，,]{0,8}"
+    r"(?:上一步|上一轮|上一次|刚才|上次|刚才那次)")
+UNDO_FIELD_RE = re.compile(
+    r"(?:撤销|撤消|作废|还原|恢复|回退)\s*(?:掉|了)?\s*"
+    r"(?P<field>预算|需求比例|比例|步行阈值|步行|阈值|停用|停用的场所)")
+UNDO_DISABLE_RE = re.compile(
+    r"(?:不要|别|不用|取消|撤销|撤消)\s*(?:再)?\s*(?:停用|关停|关闭|禁用)")
+UNDO_VAGUE_RE = re.compile(r"^(?:撤销|撤消|撤回|作废|回退|回滚|算了|恢复一下)[一下这个那次。！!]*$")
+FIELD_BY_WORD = {
+    "预算": "budget_units",
+    "需求比例": "population_demand_ratio",
+    "比例": "population_demand_ratio",
+    "步行阈值": "max_walk_time_min",
+    "步行": "max_walk_time_min",
+    "阈值": "max_walk_time_min",
+    "停用": "disabled_shelter_ids",
+    "停用的场所": "disabled_shelter_ids",
+}
+
+
+@dataclass
+class UndoRequest:
+    """A request to undo something, plus whether the target is actually known."""
+
+    kind: str                       # last | field | disable | ambiguous
+    fields: list[str] = field(default_factory=list)
+    shelter_ids: list[str] = field(default_factory=list)
+    evidence: str = ""
+
+    @property
+    def ambiguous(self) -> bool:
+        return self.kind == "ambiguous"
+
+
+def detect_undo(text: str) -> UndoRequest | None:
+    """Read "撤销上一步" / "恢复预算" / "不要停用 zs_x" without a model.
+
+    Undo is the one operation where a wrong guess is worse than a question: it
+    silently rewrites the snapshot the rest of the conversation is built on.
+    """
+    text = (text or "").strip()
+    if not text or is_cancel(text):
+        return None
+
+    if UNDO_DISABLE_RE.search(text):
+        ids = RESULT_ID_RE.findall(text) or []
+        ids = [value for value in re.findall(r"\bzs_[0-9a-z]{6,}\b", text, re.I)]
+        return UndoRequest(kind="disable", fields=["disabled_shelter_ids"],
+                           shelter_ids=list(dict.fromkeys(ids)),
+                           evidence=UNDO_DISABLE_RE.search(text).group(0))
+
+    match = UNDO_LAST_RE.search(text)
+    if match:
+        return UndoRequest(kind="last", fields=[], evidence=match.group(0))
+
+    match = UNDO_FIELD_RE.search(text)
+    if match:
+        word = match.group("field")
+        field_name = FIELD_BY_WORD.get(word)
+        if field_name is None:
+            return UndoRequest(kind="ambiguous", evidence=match.group(0))
+        if field_name == "disabled_shelter_ids":
+            return UndoRequest(kind="disable", fields=[field_name], evidence=match.group(0))
+        return UndoRequest(kind="field", fields=[field_name], evidence=match.group(0))
+
+    if UNDO_VAGUE_RE.match(text):
+        return UndoRequest(kind="ambiguous", evidence=text)
+    return None
+
+
+def _last_named_task(text: str) -> str | None:
+    """The task mentioned latest in the sentence, ignoring earlier ones."""
+    best: tuple[int, str] | None = None
+    for task_type, pattern in TASK_WORDS:
+        for match in pattern.finditer(text or ""):
+            if best is None or match.start() > best[0]:
+                best = (match.start(), task_type)
+    return best[1] if best else None
+
+
+def undo_intent(request: UndoRequest, params: Any, history: list[Any],
+                last_task_type: str | None, text: str = "") -> ParsedIntent:
+    """Translate an undo request into explicit operations.
+
+    `restore` is field-scoped and resolved against the session history, so the
+    caller does not need to know any values. For "stop disabling X" the list is
+    rewritten explicitly, because a restore would also rewind unrelated ids.
+    """
+    ops: list[ParamOp] = []
+    if request.kind == "last":
+        for field_name in ("budget_units", "population_demand_ratio",
+                           "max_walk_time_min", "disabled_shelter_ids"):
+            ops.append(ParamOp(field_name, "restore", "previous"))
+    elif request.kind == "field":
+        for field_name in request.fields:
+            ops.append(ParamOp(field_name, "restore", "previous"))
+    elif request.kind == "disable":
+        current = list(getattr(params, "disabled_shelter_ids", []) or [])
+        remaining = [sid for sid in current if sid not in set(request.shelter_ids)] \
+            if request.shelter_ids else []
+        ops.append(ParamOp("disabled_shelter_ids", "set", remaining))
+
+    # "撤销停用，然后评估现状" names the next task in the same sentence, and the
+    # *last* task word wins: the earlier one ("停用") is what is being undone.
+    named = _last_named_task(text)
+    name = TASK_TO_INTENT.get(named or last_task_type or "", "modify_scenario")
+    intent = ParsedIntent(name=name, ops=ops, source="undo", confidence=1.0)
+    intent.reason = f"undo:{request.kind} via “{request.evidence}”"
+    return intent
 
 
 def detect_task_switch(text: str, current: str) -> str | None:

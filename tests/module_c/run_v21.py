@@ -73,7 +73,7 @@ def verify_freeze(cases_path: Path = CASES_PATH, freeze_path: Path = FREEZE_PATH
 def run(*, cases_path: Path = CASES_PATH, output_dir: Path, arms: list[str],
         reps: int = 1, rep_start: int = 0, only: str | None = None,
         llm_config: LLMConfig | None = None, max_llm_calls: int = 10,
-        frozen: bool = True) -> dict[str, Any]:
+        frozen: bool = True, label: str = "") -> dict[str, Any]:
     freeze = verify_freeze(cases_path) if frozen else {"cases_sha256": file_sha256(cases_path)}
     needles = [part.strip() for part in (only or "").split(",") if part.strip()]
     cases = [case for case in load_cases(cases_path)
@@ -128,9 +128,11 @@ def run(*, cases_path: Path = CASES_PATH, output_dir: Path, arms: list[str],
             "case_count": len(cases),
             "grading": "tests/module_c/eval_lib.py::grade",
             "arm_order": "rotated per case and repetition",
+            "label": label or "blind",
             "note": ("Expectations were written before the first run. The case file is "
                      "hash-locked; failures are reported as measured and are not rescored "
-                     "after fixes."),
+                     "after fixes. A run with label=post-fix regression measures the same "
+                     "frozen cases after code changes and is NOT a blind score."),
         },
         "cases": records,
         "by_arm": by_arm,
@@ -208,6 +210,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model", default=None)
     parser.add_argument("--llm-base-url", default=None)
     parser.add_argument("--max-llm-calls", type=int, default=12)
+    parser.add_argument("--label", default="",
+                        help="e.g. 'post-fix regression'; recorded in design.label")
     parser.add_argument("--allow-unfrozen", action="store_true",
                         help="dev set only; never use for a reported generalisation run")
     args = parser.parse_args(argv)
@@ -224,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
     report = run(cases_path=Path(args.cases), output_dir=Path(args.output), arms=arms,
                  reps=args.reps, rep_start=args.rep_start, only=args.only,
                  llm_config=llm_config, max_llm_calls=args.max_llm_calls,
-                 frozen=not args.allow_unfrozen)
+                 frozen=not args.allow_unfrozen, label=args.label)
     print(json.dumps({"by_arm": report["by_arm"], "paired": {
         key: {k: v for k, v in value.items() if k != "cases"}
         for key, value in report["paired"].items()}}, ensure_ascii=False, indent=2))

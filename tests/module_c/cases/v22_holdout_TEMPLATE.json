@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "status": "TEMPLATE — not a test set, will not be scored",
+  "description": "Copy this file to v22_holdout.json, replace every case with sentences written by someone who did not build Module C, then run `python -m tests.module_c.freeze_holdout tests/module_c/cases/v22_holdout.json --author \"<name>\"` BEFORE the first run. Until that happens the non-author result stays PENDING in HARNESS_V2_2_REPORT.md.",
+  "rules": [
+    "The person writing these must not have seen agent/, tests/module_c/cases/ or the V2.1 report.",
+    "Write what a real user would type: messy, incomplete, sometimes wrong. Do not tidy it into the schema's vocabulary.",
+    "At least 20 cases. Mix single-turn and multi-turn.",
+    "`expect` may be an empty object. Recording what happens is still evidence; inventing expectations afterwards is not.",
+    "Freeze before running. Run once. Do not edit and re-score."
+  ],
+  "cases": [
+    {
+      "case_id": "H-01",
+      "group": "plan",
+      "capability": "assess",
+      "turns": [{"user": "<replace: e.g. 中山这边现在这些避难所能覆盖多少人？>"}],
+      "expect": {}
+    },
+    {
+      "case_id": "H-02",
+      "group": "plan",
+      "capability": "optimize",
+      "turns": [{"user": "<replace: a budget-limited expansion request in the writer's own words>"}],
+      "expect": {}
+    }
+  ]
+}

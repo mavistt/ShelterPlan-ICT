@@ -257,3 +257,20 @@ def test_expand_options_fills_b_contract():
 def test_expand_options_drops_invalid_rows():
     assert expand_options([{"shelter_id": "", "delta_capacity_persons": 300}]) == []
     assert expand_options([{"shelter_id": "zs_x", "delta_capacity_persons": 0}]) == []
+
+
+def test_expand_options_keeps_negative_values_for_the_guard():
+    """V2.2: a negative cost must be *rejected by name*, not silently deleted.
+
+    Dropping it here made "cost -1" behave like a free expansion, because the
+    option simply disappeared and the plan ran with whatever was left.
+    """
+    kept = expand_options([{"shelter_id": "zs_x", "delta_capacity_persons": 300,
+                            "cost_units": -1}])
+    assert len(kept) == 1 and kept[0]["cost_units"] == -1.0
+
+    negative_capacity = expand_options([{"shelter_id": "zs_x",
+                                         "delta_capacity_persons": -300,
+                                         "cost_units": 1}])
+    assert len(negative_capacity) == 1
+    assert negative_capacity[0]["delta_capacity_persons"] == -300.0

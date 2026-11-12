@@ -24,6 +24,19 @@ CLARIFY_QUESTIONS = {
     "task": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。",
 }
 
+# Chinese labels for the fields, so a question can name the thing the user used.
+CLARIFY_FIELD_NAMES = {
+    "budget_units": "预算",
+    "improvement_options": "扩容候选",
+    "disabled_shelter_ids": "要停用的场所",
+    "compare_values": "对比取值",
+    "sensitivity_spec": "敏感性档位",
+    "result_id": "要解释的结果",
+    "population_demand_ratio": "需求比例",
+    "max_walk_time_min": "步行阈值",
+    "task": "分析类型",
+}
+
 
 @dataclass
 class TurnMemory:

@@ -55,6 +55,17 @@ class GuardInvalidParam(GuardError):
     user_action = "Correct the parameter and resubmit as a new logical task."
 
 
+class GuardUnclearOperation(GuardError):
+    """The sentence does not justify the arithmetic operation that was proposed.
+
+    Not an error in the user's request - a refusal to guess. The caller turns this
+    into a clarification question rather than submitting a number to Module B.
+    """
+
+    code = "GUARD_UNCLEAR_OPERATION"
+    user_action = "State the target value or the multiplier explicitly."
+
+
 class GuardVersionMismatch(GuardError):
     code = "GUARD_VERSION_MISMATCH"
     user_action = "Use the data_version of the currently loaded source."

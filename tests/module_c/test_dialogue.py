@@ -148,9 +148,14 @@ def test_reply_can_carry_an_extra_condition(service):
     runner = make_runner(service, "sess-extra")
     runner.run_turn("帮我做个扩容优化。")
     runner.run_turn("预算2，步行阈值改成20分钟。")
-    # Nothing has executed yet, so the session snapshot must not move; the
-    # pending task is what carries the collected values.
-    assert service.session_state("sess-extra")["current"]["params"]["max_walk_time_min"] == 15
+    # V2.2: parameters the user has already confirmed are committed as a
+    # *candidate* scenario immediately, so the next turn starts from what was
+    # agreed. No business task is submitted until the clarification completes -
+    # that is what the empty result list asserts.
+    state = service.session_state("sess-extra")
+    assert state["current"]["params"]["max_walk_time_min"] == 20
+    assert state["current"]["params"]["budget_units"] == 2
+    assert state["result_ids"] == [], "a clarification must never submit a task"
     assert runner.dialogue.pending.changes.get("budget_units") == 2
     assert runner.dialogue.pending.changes.get("max_walk_time_min") == 20
 

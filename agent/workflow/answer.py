@@ -176,6 +176,14 @@ def compose_clarification(plan: RoutePlan, params: ScenarioParams) -> str:
             "（未执行任何规划任务，因此没有新增结果。）")
 
 
+def compose_refusal(plan: RoutePlan, *, data_status: str,
+                    disclosure: str | None = None) -> str:
+    """Fixed wording for a request that would rewrite a trust constraint."""
+    body = plan.question or "这项请求改的是系统的可信性声明，我不会执行。"
+    lines = [body, f"（本次没有执行任何规划任务，现有会话状态未改变。）"]
+    return "\n".join(lines)
+
+
 def compose_error(control: ControlResult) -> str:
     error = control.error or {}
     code = error.get("code") or "UNKNOWN"
