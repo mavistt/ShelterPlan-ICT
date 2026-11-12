@@ -41,6 +41,8 @@ BUSINESS_CODES = ("GUARD_", "SCENARIO_INVALID", "CANDIDATE_INVALID", "DATA_INVAL
 MODEL_MODES = {"rules_fallback", "llm_retry", "llm_repaired"}
 MEASUREMENT_MARKERS = ("clarify_fields:", "text:", "demo:", "numeric:", "no_tasks:",
                        "max_planning_tasks", "must_not_contain", "must_contain_any")
+POLICY_REFUSAL_MARKERS = ("【已拒绝】", "CONTRACT_VIOLATION", "我不会执行",
+                          "未执行任何规划任务", "【未执行】")
 
 
 def trace_events(trace_dir: Path, rep: int, arm: str, case_id: str) -> list[dict[str, Any]]:
@@ -74,6 +76,13 @@ def classify(row: dict[str, Any], events: list[dict[str, Any]]) -> tuple[str, st
         return "business_rejection", f"guard/B error in answer or trace ({error_codes[:2]})"
     if row.get("runner_error") or row.get("max_turns_hit"):
         return "business_rejection", "runner error or loop budget exhausted"
+    if (any(marker in text for marker in POLICY_REFUSAL_MARKERS)
+            and any("clarify:" in failure for failure in failures)):
+        # The answer is a correct policy refusal, but the frozen grader only
+        # recognises a fixed set of refusal phrases. That is a measurement
+        # difference, not a wrong plan - and the grader is hash-locked, so it
+        # must be reported rather than "fixed".
+        return "measurement", "correct policy refusal not recognised by frozen text heuristic"
     if modes & MODEL_MODES:
         return "model_extraction", f"extract_mode={sorted(modes & MODEL_MODES)}"
     if any(marker in joined for marker in ("intent: expected", "ops: missing", "loop_limit:")):

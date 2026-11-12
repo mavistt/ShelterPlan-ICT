@@ -7,6 +7,7 @@ mathematically incapable of changing.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import re
 from typing import Any, Iterable
 
 from agent.contracts import SCENARIO_CHANGE_KEYS, ScenarioParams, ScenarioState
@@ -17,6 +18,18 @@ from agent.intent.schema import ParamOp
 
 LIST_FIELDS = ("disabled_shelter_ids",)
 RATIO_FIELDS = ("population_demand_ratio",)
+
+# Whether the sentence mentions a field at all. A model sometimes "helpfully"
+# restates the current defaults as `set` ops for fields the user never named.
+# Those are hallucinations, not unfounded user requests: dropping the single op
+# (with a warning) keeps the rest of the turn executable, while a field the
+# user DID name but did not quantify must still become a clarification.
+FIELD_MENTIONS = {
+    "budget_units": re.compile(r"预算|budget", re.I),
+    "population_demand_ratio": re.compile(r"需求|比例|百分点|%|[一二三四五六七八九十\d]成"),
+    "max_walk_time_min": re.compile(r"步行|阈值|分钟|小时|walk", re.I),
+    "disabled_shelter_ids": re.compile(r"停用|关停|关闭|禁用|zs_", re.I),
+}
 
 
 @dataclass
@@ -98,6 +111,17 @@ def _ground_ops_in_text(text: str, ops: list[ParamOp], warnings: list[str]) -> l
     for op in ops:
         ok, reason, override = quantities.supports(text, op.field, op.op, op.value)
         if not ok:
+            mentioned = FIELD_MENTIONS.get(op.field)
+            hallucinated = (op.op in {"set", "scale"} and mentioned is not None
+                            and not mentioned.search(text))
+            if hallucinated:
+                # The user never named this field, so this op cannot be their
+                # instruction. Record it in the trace and keep the other ops;
+                # an all-or-nothing refusal would let a model restatement cancel
+                # an otherwise complete request.
+                warnings.append(f"dropped unfounded {op.field} {op.op} "
+                                f"{op.value!r} (field not mentioned in the sentence)")
+                continue
             raise GuardUnclearOperation(
                 f"无法从原句推出 {op.field} 的 {op.op} 操作：{reason}",
                 details={"field": op.field, "op": op.op, "value": op.value,

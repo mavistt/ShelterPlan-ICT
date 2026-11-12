@@ -221,3 +221,25 @@ def test_invalid_replies_are_bounded(service):
     assert final.status == "NEEDS_CLARIFICATION"
     assert "先放下" in final.text
     assert run.dialogue.pending is None, "the pending task must be closed, not looped"
+
+
+def test_hallucinated_default_restatement_does_not_block_a_real_task(service):
+    """post-fix regression V21-E-04: the model restated two defaults as `set` ops.
+
+    The user asked for an optimisation with budget 2. The two fields they never
+    named must be dropped with a warning, not turn the whole request into a
+   clarification.
+    """
+    run = runner(service, "p0-restatement")
+    run.llm.payload = {
+        "intent": "optimize",
+        "ops": [{"field": "population_demand_ratio", "op": "set", "value": 0.2},
+                {"field": "max_walk_time_min", "op": "set", "value": 15.0},
+                {"field": "budget_units", "op": "set", "value": 2.0}],
+        "options": [{"shelter_id": SHIELD, "delta_capacity_persons": 100,
+                     "cost_units": 1}],
+        "clarify": [],
+    }
+    record = run.run_turn(f"再给 {SHIELD} 扩容100人、成本1，预算2，做优化。")
+    assert params(service, "p0-restatement")["budget_units"] == 2.0
+    assert record.status == "SUCCEEDED", record.text

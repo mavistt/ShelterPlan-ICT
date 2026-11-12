@@ -266,9 +266,14 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
             numeric = float(value)
         except (TypeError, ValueError):
             return False, "增量不是数字", None
-        base = min((abs(number) for number in typed), key=lambda n: abs(abs(n) - abs(numeric)),
+        # "需求比例再提高 5 个百分点" reaches the normaliser as 0.05 while the
+        # sentence literally contains 5. A ratio delta is *stated* in percentage
+        # points, so both spellings are legitimate evidence for the same op.
+        candidates = (abs(numeric), abs(numeric) * 100.0)
+        base = min((abs(number) for number in typed),
+                   key=lambda n: min(abs(n - candidate) for candidate in candidates),
                    default=None)
-        if base is None or abs(base - abs(numeric)) > 1e-9:
+        if base is None or min(abs(base - candidate) for candidate in candidates) > 1e-9:
             return False, "增量数值在句子里找不到", None
         if not DELTA_VERB_RE.search(text):
             return False, "句子里没有增加/减少类动词", None

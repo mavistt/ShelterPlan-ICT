@@ -182,3 +182,34 @@ def test_supports_accepts_a_derived_ratio():
     ok, _reason, override = quantities.supports("需求比例按三成", "population_demand_ratio",
                                                 "set", 0.3)
     assert ok is True and override is None
+
+
+# --------------------------------------------------------------------------- #
+# 4. V2.2 follow-up: two regressions found by the post-fix run
+# --------------------------------------------------------------------------- #
+def test_ratio_delta_in_percentage_points_is_supported(params):
+    """'再提高5个百分点' states 5, the model emits 0.05: both are evidence."""
+    result = apply_ops(
+        params, [ParamOp("population_demand_ratio", "delta", 0.05)],
+        text="需求比例再提高5个百分点，重新评估。")
+    assert result.changes["population_demand_ratio"] == pytest.approx(0.25)
+
+
+def test_unmentioned_restatements_are_dropped_not_the_whole_turn(params):
+    """A model restating current defaults must not cancel a complete request."""
+    result = apply_ops(
+        params,
+        [ParamOp("population_demand_ratio", "set", 0.2),
+         ParamOp("max_walk_time_min", "set", 15.0),
+         ParamOp("budget_units", "set", 2.0)],
+        text="预算2，做扩容优化，候选 zs_fed820d94e 扩容100人成本1。")
+    assert result.changes == {"budget_units": 2.0}
+    assert sum("dropped unfounded" in warning for warning in result.warnings) == 2
+
+
+def test_restore_without_wording_still_asks_even_when_field_unmentioned(params):
+    """An undo is high-risk: never silently drop it, always ask."""
+    with pytest.raises(Exception) as caught:
+        apply_ops(params, [ParamOp("budget_units", "restore", "previous")],
+                  text="看看现在的情况。")
+    assert caught.value.__class__.__name__ == "GuardUnclearOperation"
