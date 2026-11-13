@@ -27,13 +27,14 @@
 
 ### 1.1 依赖
 
-- Python **3.12**（本机 `D:\Anaconda\python.exe`）；B 的运行时与 C 的运行时都需要：
+- Python **3.11/3.12**；B 的运行时与 C 的运行时都需要：
   `fastapi`, `pydantic`, `uvicorn`, `httpx`, `PyYAML`, `numpy`, `scipy`, `pyarrow`,
   `networkx`, `pytest`，C 另需 `mcp`。版本约束见 `requirements.txt` /
   `requirements-b.txt` / `requirements-c.txt`。
-- **版本陷阱**：`pyarrow 26` 要求 numpy 2，而 B 锁定 numpy 1.26；本机实测用
-  `pyarrow 18.1.0` 并把它所在的 `pylibs18` 放在 `PYTHONPATH` 前面，否则 B 返回
-  `DATA_INVALID: pyarrow requires NumPy 2.0 or newer`。
+- **版本陷阱**：`pyarrow 26` 要求 numpy 2，而 B 需要 numpy 1.26（B 侧锁定
+  `pyarrow>=16,<19`）。同一解释器若已装 pyarrow 26，B 会返回
+  `DATA_INVALID: pyarrow requires NumPy 2.0 or newer`——请为 B+C 建独立虚拟环境，
+  按三个 requirements 文件安装即可避开。
 - 模型：默认走 `LLMAdapter`（本地 Ollama `/v1`，`gemma4:e2b`）。没有模型服务时
   `IntentExtractor` 会落到 `rule_extract`，功能可用但每轮多一次连接超时；
   CI/演示可用确定性替身 `RuleLLM`（`LLM_MODE=rule`）。
@@ -50,12 +51,11 @@
 | `SHELTERPLAN_LLM_BASE_URL` / `_MODEL` | `http://127.0.0.1:11434/v1` / `gemma4:e2b` | 模型端点 |
 | `NO_PROXY` / `no_proxy` | 建议 `127.0.0.1,localhost` | 防止企业代理劫持 loopback |
 
-### 1.3 启动（两个终端，仓库根目录 `E:/ICT/module-c`）
+### 1.3 启动（两个终端，均在仓库根目录执行）
 
 ```bash
-export PYTHONPATH='E:\ICT\_sp\pylibs18;E:\ICT\_sp\pylibs'
-export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
-PY=/d/Anaconda/python.exe
+export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost   # 防企业代理劫持 loopback
+PY=python    # 需满足三个 requirements 的版本约束（见 §1.1）
 
 # 终端 1：Module B（求解器，不要暴露公网）
 $PY -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
@@ -329,12 +329,10 @@ curl -s "$C/v1/results/$RID/evidence/diagnosis?session_id=$SID&offset=0&limit=20
 **澄清 → 补预算 → 补候选 → 续跑成功**：
 
 ```bash
-cd /e/ICT/module-c
-export PYTHONPATH='E:\ICT\_sp\pylibs18;E:\ICT\_sp\pylibs'
 export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
 
-/d/Anaconda/python.exe examples/c_to_d_business_flow.py                 # 确定性模型替身
-/d/Anaconda/python.exe examples/c_to_d_business_flow.py --real-llm      # 本地 Ollama 真实模型
+python examples/c_to_d_business_flow.py                 # 确定性模型替身（LLM_MODE=rule）
+python examples/c_to_d_business_flow.py --real-llm      # 本地 Ollama 真实模型
 ```
 
 脚本会打印每一步的状态/结果编号/已服务人数，并把**完整 envelope**写到
@@ -345,7 +343,7 @@ export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
 同一流程被固化为 pytest 用例（CI 可跑）：
 
 ```bash
-/d/Anaconda/python.exe -m pytest tests/module_c/test_business_flow_e2e.py -q
+python -m pytest tests/module_c/test_business_flow_e2e.py -q
 ```
 
 它断言四步都是 `SUCCEEDED`、任务类型依次为
@@ -414,11 +412,11 @@ export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
 
 ```bash
 # 队友把模板另存为 v22_holdout.json 并写 ≥20 条自己的话（不看 agent/ 与旧用例）
-/d/Anaconda/python.exe -m tests.module_c.freeze_holdout \
+python -m tests.module_c.freeze_holdout \
     tests/module_c/cases/v22_holdout.json --author "<队友姓名>"
 
 # 冻结之后才允许跑；--allow-unfrozen 是必须的（run_v21 默认拿 v21_freeze.json 校验传入文件）
-/d/Anaconda/python.exe -m tests.module_c.run_v21 \
+python -m tests.module_c.run_v21 \
     --cases tests/module_c/cases/v22_holdout.json --allow-unfrozen \
     --arms harness_opt --reps 1 --label "non-author" \
     --output outputs/module_c/v23-holdout
@@ -453,10 +451,8 @@ export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
 复现命令（都写新目录，不覆盖历史证据）：
 
 ```bash
-cd /e/ICT/module-c
-export PYTHONPATH='E:\ICT\_sp\pylibs18;E:\ICT\_sp\pylibs'
 export NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost
-PY=/d/Anaconda/python.exe
+PY=python
 
 $PY -m pytest tests/module_c -q                            # 260 passed
 $PY examples/c_to_d_business_flow.py                      # 真实两进程，rule 模式

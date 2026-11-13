@@ -59,6 +59,10 @@ python -m agent.mcp_server --transport http --host 127.0.0.1 --port 8010
 
 # 工具契约
 python -m agent.mcp_server --list-tools
+
+# 端到端业务演示（自动拉起 B + C 两个真实进程，跑通评估→改参→优化→比较）
+python examples/c_to_d_business_flow.py             # 确定性模型替身
+python examples/c_to_d_business_flow.py --real-llm  # 本地 Ollama 真实模型
 ```
 
 客户端侧环境变量：`SHELTERPLAN_B_BASE_URL`（默认 `http://127.0.0.1:8000`）。
