@@ -22,6 +22,7 @@ concern and is marked unverified in docs/module_c/V21_AGENTARTS_MAPPING.md.
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import asynccontextmanager
 from copy import deepcopy
 import threading
 import time
@@ -113,6 +114,7 @@ class ConversationService:
         self._lock = threading.RLock()
         self._pool = ThreadPoolExecutor(max_workers=max_workers,
                                         thread_name_prefix="module-c-api")
+        self._closed = False
         self.interrupted = self.store.mark_interrupted()
 
     # ------------------------------------------------------------------ #
@@ -179,8 +181,10 @@ class ConversationService:
             summaries = list(persisted.get("summaries") or [])
             memory_data = dict(persisted.get("memory") or {})
             client_turns = dict(persisted.get("client_turns") or {})
+        trace = self.service.session_trace(session_id) if hasattr(self.service, "session_trace") else None
         runner = StructuredRunner(self.arm, self.service, self.llm, self.config,
                                   session_id=session_id,
+                                  trace=trace,
                                   dialogue=dialogue,
                                   dialogue_enabled=self.dialogue_enabled)
         runner._summaries = summaries  # noqa: SLF001 - same package boundary
@@ -218,9 +222,10 @@ class ConversationService:
                     self._by_turn.pop(tid, None)
             self.store.delete_session_turns(session_id, turn_ids=old_turn_ids)
             self.service.reset_session(session_id)
+            trace = self.service.session_trace(session_id) if hasattr(self.service, "session_trace") else None
             handle.runner = StructuredRunner(
                 self.arm, self.service, self.llm, self.config, session_id=session_id,
-                dialogue=DialogueState(), dialogue_enabled=self.dialogue_enabled)
+                trace=trace, dialogue=DialogueState(), dialogue_enabled=self.dialogue_enabled)
             handle.dialogue = handle.runner.dialogue
             handle.turns.clear()
             handle.client_turns.clear()
@@ -291,15 +296,17 @@ class ConversationService:
                 handle.client_turns[client_turn_id] = turn_id
             self._persist(handle)
             accepted = deepcopy(envelope)
+            queued_perf = time.perf_counter()
         with self._lock:
             self._by_turn[turn_id] = session_id
         # Snapshot before the worker starts: a fast turn (a clarification needs
         # no Module B call) would otherwise mutate the dict we are about to
         # return and the 202 body would already be terminal.
-        self._pool.submit(self._run_turn, session_id, turn_id, text)
+        self._pool.submit(self._run_turn, session_id, turn_id, text, queued_perf)
         return accepted
 
-    def _run_turn(self, session_id: str, turn_id: str, text: str) -> None:
+    def _run_turn(self, session_id: str, turn_id: str, text: str,
+                  queued_perf: float | None = None) -> None:
         handle = self.handle(session_id)
         with handle.lock:
             with handle.envelope_lock:
@@ -310,8 +317,13 @@ class ConversationService:
                     return
                 started = time.perf_counter()
                 envelope["timings"]["started_at"] = _now()
+                envelope["timings"]["queue_ms"] = (
+                    round(max(0.0, (started - queued_perf) * 1000), 1)
+                    if queued_perf is not None
+                    else 0.0
+                )
             try:
-                record = handle.runner.run_turn(text)
+                record = handle.runner.run_turn(text, turn_id=turn_id)
                 run = handle.runner.last_run
                 projected = self._project(handle, record, run)
                 projected["status"] = record.status
@@ -525,26 +537,34 @@ class ConversationService:
 
     # ------------------------------------------------------------------ #
     def _persist(self, handle: SessionHandle) -> None:
-        memory = {
-            "last_task_type": handle.runner._memory.last_task_type,  # noqa: SLF001
-            "last_options": list(handle.runner._memory.last_options),  # noqa: SLF001
-            "last_result_id": handle.runner._memory.last_result_id,  # noqa: SLF001
-            "last_changes": dict(handle.runner._memory.last_changes),  # noqa: SLF001
-            "actions": list(handle.runner._memory.actions[-20:]),  # noqa: SLF001
-        }
+        if hasattr(handle.runner, "persist_snapshot"):
+            dialogue, memory, summaries = handle.runner.persist_snapshot()
+        else:
+            dialogue = handle.dialogue.to_dict()
+            memory = {
+                "last_task_type": handle.runner._memory.last_task_type,  # noqa: SLF001
+                "last_options": list(handle.runner._memory.last_options),  # noqa: SLF001
+                "last_result_id": handle.runner._memory.last_result_id,  # noqa: SLF001
+                "last_changes": dict(handle.runner._memory.last_changes),  # noqa: SLF001
+                "actions": list(handle.runner._memory.actions[-20:]),  # noqa: SLF001
+            }
+            summaries = list(handle.runner._summaries)  # noqa: SLF001
         defaults = self.service.session_defaults(handle.session_id)
         self.store.save_session(
             handle.session_id,
             session=self.service.session_object(handle.session_id),
-            dialogue=handle.dialogue.to_dict(),
+            dialogue=dialogue,
             memory=memory,
-            summaries=list(handle.runner._summaries),  # noqa: SLF001
+            summaries=summaries,
             client_turns=dict(handle.client_turns),
             turn_ids=list(handle.turns.keys()),
             region_id=defaults.region_id,
         )
 
     def close(self) -> None:
+        if self._closed:
+            return
+        self._closed = True
         self._pool.shutdown(wait=False)
         if self._own_llm:
             self.llm.close()
@@ -642,12 +662,22 @@ def create_app(*, conversation: ConversationService | None = None,
                regions: RegionCatalog | None = None,
                dialogue_enabled: bool = True) -> FastAPI:
     config = config or HarnessConfig.from_env()
+    own_conversation = conversation is None
     conversation = conversation or ConversationService(
         config, service=service, llm=llm, store_dir=store_dir,
         regions=regions, dialogue_enabled=dialogue_enabled)
 
+    @asynccontextmanager
+    async def lifespan(_app: FastAPI):
+        try:
+            yield
+        finally:
+            if own_conversation:
+                conversation.close()
+
     app = FastAPI(title="ShelterPlan Module C application API", version="2.1.0",
-                  description="Stable entry point for the Module D web client.")
+                  description="Stable entry point for the Module D web client.",
+                  lifespan=lifespan)
     app.state.conversation = conversation
     app.add_middleware(
         CORSMiddleware,
@@ -673,10 +703,12 @@ def create_app(*, conversation: ConversationService | None = None,
 
     @app.get("/v1/capabilities")
     def capabilities() -> dict[str, Any]:
-        return {
+        caps = conversation.service.capabilities()
+        payload = {
             "statuses": [STATUS_NEEDS_CLARIFICATION, STATUS_RUNNING, STATUS_SUCCEEDED,
                          STATUS_FAILED, STATUS_CANCELLED],
-            "task_types": conversation.service.capabilities().get("task_types"),
+            "task_types": caps.get("task_types"),
+            "b_service_status": caps.get("b_service_status", "ok"),
             "data_version": config.data_version,
             "data_status": config.expected_data_status,
             "region_mode": conversation.regions.mode,
@@ -688,6 +720,9 @@ def create_app(*, conversation: ConversationService | None = None,
             },
             "disclosure": DEMO_NOTE,
         }
+        if caps.get("b_error"):
+            payload["b_error"] = caps["b_error"]
+        return payload
 
     @app.get("/v1/regions")
     @app.get("/api/regions")

@@ -48,7 +48,9 @@ SYSTEM_PROMPT = (
     '{"field":"population_demand_ratio","values":[0.2,0.4]},"confidence":0.9}\n'
     '用户：想优化但没说预算 -> {"intent":"optimize","ops":[],"clarify":["budget_units"]}\n'
     "规则：\n"
-    "1. 扩容候选只放 options，格式 {shelter_id, delta_capacity_persons, cost_units}；"
+    "1. 扩容候选只放 options，格式 {shelter_id, delta_capacity_persons, cost_units}"
+    "（如明确提及方案编号、可叠加或互斥组，可附带 option_id、"
+    "combination_policy=standalone|stackable|exclusive_group 及 exclusive_group）；"
     "不要写成 disabled_shelter_ids。\n"
     "2. 只有“关停/停用/关闭/禁用”才用 disabled_shelter_ids。\n"
     "3. 用户本轮没提到的参数不要写进 ops；“其它不变”等于什么都不写。\n"
@@ -271,6 +273,31 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
         if repaired:
             intent.options = repaired
             intent.warnings.append("options recovered by rule parser")
+    elif intent.options:
+        hinted = _rule_options(text)
+        if hinted:
+            enriched = False
+            for idx, row in enumerate(intent.options):
+                if not isinstance(row, dict):
+                    continue
+                sid = str(row.get("shelter_id") or "")
+                hint = (
+                    hinted[idx]
+                    if idx < len(hinted) and hinted[idx].get("shelter_id") == sid
+                    else next((item for item in hinted if item.get("shelter_id") == sid), None)
+                )
+                if not hint:
+                    continue
+                if not row.get("option_id") and hint.get("option_id"):
+                    row["option_id"] = hint["option_id"]
+                    enriched = True
+                if not row.get("combination_policy") and hint.get("combination_policy"):
+                    row["combination_policy"] = hint["combination_policy"]
+                    if hint.get("exclusive_group") and not row.get("exclusive_group"):
+                        row["exclusive_group"] = hint["exclusive_group"]
+                    enriched = True
+            if enriched:
+                intent.warnings.append("option metadata enriched by rule parser")
 
     # 2c. plans the model described but did not structure -------------------
     if intent.name == "sensitivity" and not intent.sensitivity:
@@ -467,6 +494,10 @@ RATIO_LITERAL_RE = re.compile(
 # The sign matters: "-1" must reach the guard as -1 and be rejected there.
 # Dropping the minus turned "cost -1" into a free expansion (V2.1 §4.4).
 OPTION_COST_RE = re.compile(r"成本\s*(-?\d+(?:\.\d+)?)")
+OPTION_ID_TOKEN_RE = re.compile(
+    r"(?:项目|方案|选项)\s*([A-Za-z0-9_-]{1,16})|\b((?:OPT|CAP)_[A-Za-z0-9_-]{1,20})\b"
+)
+EXCLUSIVE_GROUP_RE = re.compile(r"互斥组\s*([A-Za-z0-9_\u4e00-\u9fa5]{1,16})")
 # "预算2和预算5" repeats the field name between the conjunction and the number;
 # a short non-numeric gap keeps the pair in one clause without swallowing whole
 # sentences.
@@ -605,14 +636,79 @@ def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:
 
 
 def _rule_options(text: str) -> list[dict[str, Any]]:
-    rows = []
-    for index, match in enumerate(OPTION_RE.finditer(text)):
-        cost_match = OPTION_COST_RE.search(text[match.end():match.end() + 24]) or OPTION_COST_RE.search(text)
-        rows.append({
+    matches = list(OPTION_RE.finditer(text))
+    if not matches:
+        return []
+    splits = [0]
+    for idx in range(len(matches) - 1):
+        gap_start, gap_end = matches[idx].end(), matches[idx + 1].start()
+        gap = text[gap_start:gap_end]
+        delim_match = None
+        for cand in re.finditer(r"[，,；;。]\s*(?=(?:项目|方案|选项)\s*[A-Za-z0-9_-])", gap):
+            delim_match = cand
+        if delim_match is not None:
+            delim = delim_match.start() + 1
+        else:
+            last_sep = None
+            for cand in re.finditer(r"[，,；;。]", gap):
+                last_sep = cand.end()
+            if last_sep is not None:
+                delim = last_sep
+            else:
+                marker = re.search(r"(?:项目|方案|选项)\s*[A-Za-z0-9_-]{1,16}", gap)
+                delim = marker.start() if marker else len(gap)
+        splits.append(gap_start + delim)
+    splits.append(len(text))
+
+    global_stackable = bool(
+        re.search(r"(?:均|都|全部|所有候选[^。；;\n]{0,6})(?:可|允许|支持)叠加", text)
+        and not re.search(r"不可叠加|不能叠加", text)
+    )
+
+    rows: list[dict[str, Any]] = []
+    for index, match in enumerate(matches):
+        seg_start, seg_end = splits[index], splits[index + 1]
+        prefix = text[max(seg_start, match.start() - 28):match.start()]
+        local_prefix = re.split(r"[，,；;。]", prefix)[-1]
+        tail = text[match.end():min(len(text), seg_end)]
+        head_tail = re.split(r"[，,；;。]", tail)[0]
+        context_seg = f"{local_prefix} {tail}"
+
+        cost_match = (
+            OPTION_COST_RE.search(tail)
+            or OPTION_COST_RE.search(context_seg)
+            or OPTION_COST_RE.search(text)
+        )
+        row: dict[str, Any] = {
             "shelter_id": match.group(1),
             "delta_capacity_persons": float(match.group(2)),
             "cost_units": float(cost_match.group(1)) if cost_match else 1.0,
-        })
+        }
+
+        id_match = OPTION_ID_TOKEN_RE.search(local_prefix) or OPTION_ID_TOKEN_RE.search(head_tail)
+        if id_match:
+            explicit_id = id_match.group(2)
+            if explicit_id:
+                row["option_id"] = explicit_id
+            else:
+                short_tok = id_match.group(1).strip()
+                if short_tok:
+                    row["option_id"] = (
+                        short_tok
+                        if short_tok.upper().startswith(("OPT_", "CAP_"))
+                        else f"OPT_{short_tok}"
+                    )
+
+        group_match = EXCLUSIVE_GROUP_RE.search(context_seg)
+        if group_match:
+            row["combination_policy"] = "exclusive_group"
+            row["exclusive_group"] = group_match.group(1)
+        elif re.search(r"不可叠加|不能叠加|独立方案|standalone", context_seg, re.I):
+            row["combination_policy"] = "standalone"
+        elif re.search(r"可叠加|允许叠加|支持叠加|stackable", context_seg, re.I) or global_stackable:
+            row["combination_policy"] = "stackable"
+
+        rows.append(row)
     return rows[:12]
 
 

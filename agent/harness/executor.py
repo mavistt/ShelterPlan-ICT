@@ -12,7 +12,7 @@ import uuid
 
 from agent.b_client import BClient
 from agent.config import HarnessConfig
-from agent.contracts import TaskOutcome, ToolCall, utc_now
+from agent.contracts import TaskOutcome, ToolCall, digest, utc_now
 from agent.errors import (
     BError,
     BJobMissing,
@@ -23,7 +23,11 @@ from agent.errors import (
     HarnessError,
 )
 from agent.harness import guards
-from agent.harness.results import json_bytes, project
+from agent.harness.results import (
+    evaluate_pair_monotonicity,
+    json_bytes,
+    project,
+)
 from agent.harness.session import Session
 from agent.harness.trace import TraceRecorder
 
@@ -83,12 +87,71 @@ class HarnessExecutor:
                               claim=request.claim)
             summary = project(result, task_type=request.task_type, config=self.config,
                               scenario_params=state.params.business_fields())
+            if (request.task_type == "explain_result" and request.result_id
+                    and self.session.has_result(request.result_id)):
+                stored_target = self.session.get_result(request.result_id).get("summary") or {}
+                explanation = summary.setdefault("detail", {}).setdefault("explanation", {})
+                if isinstance(explanation, dict):
+                    target_snapshot: dict[str, Any] = {
+                        "result_id": stored_target.get("result_id"),
+                        "task_type": stored_target.get("task_type"),
+                        "solver_status": stored_target.get("solver_status"),
+                        "optimality_proven": stored_target.get("optimality_proven"),
+                        "verification_status": stored_target.get("verification_status"),
+                        "metrics": stored_target.get("metrics"),
+                        "detail": stored_target.get("detail"),
+                        "evidence": stored_target.get("evidence"),
+                        "warnings": stored_target.get("warnings"),
+                    }
+                    explanation["target_summary"] = target_snapshot
+                    if json_bytes(summary) > self.config.summary_max_bytes:
+                        target_snapshot.pop("detail", None)
+                    if json_bytes(summary) > self.config.summary_max_bytes:
+                        target_snapshot.pop("warnings", None)
+                        target_snapshot.pop("evidence", None)
+                    for _ in range(3):
+                        measured = json_bytes(summary)
+                        if summary.get("summary_bytes") == measured:
+                            break
+                        summary["summary_bytes"] = measured
             self._assert_summary_matches(result, summary)
+
+            options_digest = digest(checked.get("improvement_options") or [])
+            if (summary.get("monotonicity_check") is None
+                    and request.task_type in {"assess", "optimize"}
+                    and state.parent_scenario_id):
+                parent_state = self.session.find_scenario(state.parent_scenario_id)
+                if (parent_state is not None and parent_state.result_id
+                        and self.session.has_result(parent_state.result_id)):
+                    parent_record = self.session.get_result(parent_state.result_id)
+                    parent_summary = parent_record.get("summary")
+                    if isinstance(parent_summary, dict):
+                        same_opts = (
+                            request.task_type == "assess"
+                            or options_digest == parent_record.get("options_digest")
+                        )
+                        mono = evaluate_pair_monotonicity(
+                            parent_summary, summary, same_options=same_opts
+                        )
+                        summary["monotonicity_check"] = mono
+                        for _ in range(3):
+                            measured = json_bytes(summary)
+                            if summary.get("summary_bytes") == measured:
+                                break
+                            summary["summary_bytes"] = measured
+                        if json_bytes(summary) > self.config.summary_max_bytes:
+                            summary.pop("monotonicity_check", None)
+                            for _ in range(3):
+                                measured = json_bytes(summary)
+                                if summary.get("summary_bytes") == measured:
+                                    break
+                                summary["summary_bytes"] = measured
 
             self.session.remember_result(result["result_id"],
                                          scenario_id=result["scenario_id"],
                                          data_version=result["data_version"],
-                                         summary=summary)
+                                         summary=summary,
+                                         options_digest=options_digest)
             self.session.commit(state, result["result_id"])
 
             outcome.ok = True

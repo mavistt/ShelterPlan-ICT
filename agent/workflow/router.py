@@ -140,6 +140,12 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
             return _clarify(["improvement_options"], codes + ["options_missing"],
                             task_type=task_type, carry=plan)
 
+    elif task_type == "diagnose_intervene":
+        budget = plan.changes.get("budget_units", params.budget_units)
+        if not plan.options and memory.last_options and budget is not None:
+            plan.options = list(memory.last_options)
+            plan.reason_codes.append("options_reused_from_memory")
+
     elif task_type == "stress_test":
         disabled = plan.changes.get("disabled_shelter_ids", list(params.disabled_shelter_ids))
         if not disabled:

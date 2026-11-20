@@ -140,13 +140,14 @@ class Session:
     # Result registry (summaries only — full documents stay in B)
     # ------------------------------------------------------------------ #
     def remember_result(self, result_id: str, *, scenario_id: str, data_version: str,
-                        summary: dict[str, Any]) -> None:
+                        summary: dict[str, Any], options_digest: str | None = None) -> None:
         with self._lock:
             self._results[result_id] = {
                 "result_id": result_id,
                 "scenario_id": scenario_id,
                 "data_version": data_version,
                 "summary": summary,
+                "options_digest": options_digest,
                 "stored_at": utc_now(),
             }
 

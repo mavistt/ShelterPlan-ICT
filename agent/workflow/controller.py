@@ -150,6 +150,14 @@ def bind_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
         opt_walk = opt.get("weighted_walk_time_min")
         if opt_walk is None or (isinstance(opt_walk, (int, float)) and not isinstance(opt_walk, bool)):
             bindings["optimized_weighted_walk_time_min"] = opt_walk
+        bindings["primary_stage_optimal"] = opt.get("primary_stage_optimal")
+        bindings["greedy_comparison"] = opt.get("greedy_comparison")
+    mono = summary.get("monotonicity_check")
+    if mono is None and isinstance(detail, dict):
+        mono = ((detail.get("sensitivity") or {}).get("monotonicity_check")
+                or (detail.get("comparison") or {}).get("monotonicity_check"))
+    if mono is not None:
+        bindings["monotonicity_check"] = mono
     state = outcome.get("scenario") or {}
     bindings.update({
         "task_type": outcome.get("task_type"),

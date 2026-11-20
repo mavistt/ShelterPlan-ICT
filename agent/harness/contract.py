@@ -114,6 +114,11 @@ def protected_facts(config: Any) -> tuple[ProtectedFact, ...]:
             label="数据准入",
             reason="数据准入（demo / verified）是部署配置，不接受自然语言开关。",
             tokens=("准入", "数据质量", "数据状态", "verified", "VERIFIED")),
+        ProtectedFact(
+            key="hypothetical_assumption",
+            label="扩容假设声明",
+            reason="候选扩容容量与抽象成本（HYPOTHETICAL）仅为模型假设参数，不是真实工程报价或已批准财政预算，不能按对话删改或包装为真实工程造价。",
+            tokens=("HYPOTHETICAL", "hypothetical", "假设成本", "假设扩容", "工程报价", "真实工程造价", "真实财政预算")),
     )
 
 

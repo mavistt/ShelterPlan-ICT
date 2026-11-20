@@ -139,9 +139,12 @@ def _structured_runner(session_id: str):
         runner = _structured_runners.get(session_id)
         if runner is None:
             config = HarnessConfig.from_env()
+            service = get_service()
             runner = StructuredRunner(
-                "harness_opt", get_service(), _get_llm(), config,
-                session_id=session_id, dialogue_enabled=True)
+                "harness_opt", service, _get_llm(), config,
+                session_id=session_id,
+                trace=service.session_trace(session_id),
+                dialogue_enabled=True)
             _structured_runners[session_id] = runner
         return runner
 

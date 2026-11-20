@@ -7,7 +7,9 @@ number ever passes through the model on the way out.
 """
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, field
+import threading
 from typing import Any
 
 from agent.agent_loop import AgentRun, FORBIDDEN_DEMO_PHRASES, LLMCall, ToolExecution
@@ -141,6 +143,22 @@ class StructuredRunner:
         self.last_turn: TurnRecord | None = None
         self.last_run: AgentRun | None = None
         self._turn_no = 0
+        self._state_lock = threading.RLock()
+
+    def persist_snapshot(self) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
+        """Thread-safe shallow copy of runner dialogue, memory, and summaries for persistence."""
+        with self._state_lock:
+            return (
+                deepcopy(self.dialogue.to_dict()),
+                {
+                    "last_task_type": self._memory.last_task_type,
+                    "last_options": deepcopy(self._memory.last_options),
+                    "last_result_id": self._memory.last_result_id,
+                    "last_changes": dict(self._memory.last_changes),
+                    "actions": list(self._memory.actions[-20:]),
+                },
+                deepcopy(self._summaries[-5:]),
+            )
 
     # ------------------------------------------------------------------ #
     def run_case(self, case_id: str, turns: list[dict[str, Any]]) -> AgentRun:
@@ -175,12 +193,15 @@ class StructuredRunner:
         return self._finish(run)
 
     # ------------------------------------------------------------------ #
-    def run_turn(self, text: str) -> TurnRecord:
+    def run_turn(self, text: str, *, turn_id: str | None = None) -> TurnRecord:
         """One user utterance on a long-lived runner (application entry point)."""
         self._turn_no += 1
-        run = AgentRun(mode=self.arm, case_id=f"app-{self._turn_no}")
-        self.user_numbers.extend(extract_planning_numbers(text))
+        case_id = turn_id or f"app-{self._turn_no}"
+        run = AgentRun(mode=self.arm, case_id=case_id)
+        self.user_numbers = (self.user_numbers + extract_planning_numbers(text))[-100:]
         self._turn(self._turn_no, text, run)
+        with self._state_lock:
+            self._summaries = self._summaries[-20:]
         self.last_run = run
         assert self.last_turn is not None
         return self.last_turn
@@ -204,7 +225,8 @@ class StructuredRunner:
 
         # 0. an expired clarification must not silently resume a stale task.
         if self.dialogue_enabled and self.dialogue.expired():
-            self.dialogue.close("expired")
+            with self._state_lock:
+                self.dialogue.close("expired")
             plan = RoutePlan(
                 action="clarify", clarify_fields=["task"], task_type="assess",
                 question="上一轮需要补充的信息已超过有效期，请重新说明要做的分析。",
@@ -219,8 +241,9 @@ class StructuredRunner:
 
         # 1. explicit cancellation of the unfinished task.
         if self.dialogue_enabled and self.dialogue.pending and is_cancel(text):
-            pending = self.dialogue.pending
-            self.dialogue.close("cancelled")
+            with self._state_lock:
+                pending = self.dialogue.pending
+                self.dialogue.close("cancelled")
             plan = RoutePlan(action="cancel", task_type=pending.task_type,
                              reason_codes=["user_cancelled"])
             control = ControlResult(status="cancelled", plan=plan)
@@ -242,7 +265,8 @@ class StructuredRunner:
                     reason_codes=["undo_target_unclear"])
                 control = ControlResult(status="clarify", plan=plan)
                 if self.dialogue_enabled:
-                    self.dialogue.open(plan, params=params, text=text)
+                    with self._state_lock:
+                        self.dialogue.open(plan, params=params, text=text)
                 run.intents.append({"turn": index,
                                     "intent": {"intent": "clarify", "ops": [],
                                                "reason": "undo_target_unclear"},
@@ -254,7 +278,8 @@ class StructuredRunner:
                                   text=compose_clarification(plan, params), turn=index,
                                   control=control, plan=plan, params=params,
                                   clarification_fields=["undo_target"])
-            self.dialogue.close("undone")
+            with self._state_lock:
+                self.dialogue.close("undone")
             self._trace("dialogue", case_id=run.case_id, turn=index,
                         dialogue_event="undo", kind=undo.kind, evidence=undo.evidence)
             intent = undo_intent(undo, params, self.service.session_history(self.session_id),
@@ -272,11 +297,13 @@ class StructuredRunner:
             switch = detect_task_switch(text, pending.task_type)
             if switch:
                 switch_target = switch
-                self.dialogue.close("switched")
+                with self._state_lock:
+                    self.dialogue.close("switched")
                 self._trace("dialogue", case_id=run.case_id, turn=index,
                             dialogue_event="switched", from_task=pending.task_type, to_task=switch)
             elif filled.complete:
-                self.dialogue.close("resumed")
+                with self._state_lock:
+                    self.dialogue.close("resumed")
                 intent = resume_intent(pending, filled.values)
                 self._trace("dialogue", case_id=run.case_id, turn=index, dialogue_event="resumed",
                             task_type=pending.task_type, filled=sorted(filled.values),
@@ -285,7 +312,8 @@ class StructuredRunner:
             elif pending.attempts >= MAX_CLARIFY_ATTEMPTS:
                 # Stop asking. Three unproductive replies means the question is
                 # not working, and repeating it forever is worse than admitting it.
-                self.dialogue.close("abandoned")
+                with self._state_lock:
+                    self.dialogue.close("abandoned")
                 self._trace("dialogue", case_id=run.case_id, turn=index,
                             dialogue_event="abandoned", attempts=pending.attempts,
                             missing=list(pending.missing))
@@ -309,7 +337,8 @@ class StructuredRunner:
                                        for name in filled.remaining),
                     reason_codes=["clarification_incomplete"],
                     changes=dict(pending.changes))
-                self.dialogue.open(plan, params=params, text=text)
+                with self._state_lock:
+                    self.dialogue.open(plan, params=params, text=text)
                 control = ControlResult(status="clarify", plan=plan)
                 run.intents.append({"turn": index, "intent": {"intent": "clarify"},
                                     "mode": "dialogue", "llm_calls": 0,
@@ -358,9 +387,14 @@ class StructuredRunner:
             # reply), so re-checking them against this turn's text would reject
             # perfectly valid state.
             ground_text = text if getattr(intent, "source", "llm") in {"llm", "rules"} else None
+            session_defaults = (
+                self.service.session_defaults(self.session_id)
+                if hasattr(self.service, "session_defaults")
+                else self.service.defaults
+            )
             normalized = apply_ops(params, intent.ops,
                                    history=self.service.session_history(self.session_id),
-                                   defaults=self.service.defaults, text=ground_text)
+                                   defaults=session_defaults, text=ground_text)
             changes = dict(self._pending)
             changes.update(normalized.changes)
             plan = route(intent, params=normalized.params, changes=changes,
@@ -382,7 +416,8 @@ class StructuredRunner:
                 control = ControlResult(status="clarify", plan=plan)
                 self._record_control(run, index, control, params)
                 if self.dialogue_enabled:
-                    self.dialogue.open(plan, params=params, text=text)
+                    with self._state_lock:
+                        self.dialogue.open(plan, params=params, text=text)
                 else:
                     self._pending = {}
                 self._trace("dialogue", case_id=run.case_id, turn=index,
@@ -398,7 +433,8 @@ class StructuredRunner:
             control = ControlResult(status="error", plan=plan, error=exc.to_dict(),
                                     error_class="guard")
             self._record_control(run, index, control, params)
-            self._memory.remember_failure(plan, control.error_code)
+            with self._state_lock:
+                self._memory.remember_failure(plan, control.error_code)
             answer = self._respond(text, control, params, run, index)
             return TurnRecord(status="FAILED", text=answer, turn=index, control=control,
                               plan=plan, params=params, resumed=resumed,
@@ -427,17 +463,18 @@ class StructuredRunner:
             control = ControlResult(status=plan.action, plan=plan)
 
         self._record_control(run, index, control, params)
-        if control.ok:
-            self._memory.remember_success(plan, control.bindings.get("result_id"))
-            self._pending.clear()
-        elif control.status == "clarify":
-            self._memory.remember_failure(plan, "CLARIFY")
-            if self.dialogue_enabled:
-                self.dialogue.open(plan, params=params, text=text)
+        with self._state_lock:
+            if control.ok:
+                self._memory.remember_success(plan, control.bindings.get("result_id"))
+                self._pending.clear()
+            elif control.status == "clarify":
+                self._memory.remember_failure(plan, "CLARIFY")
+                if self.dialogue_enabled:
+                    self.dialogue.open(plan, params=params, text=text)
+                else:
+                    self._pending = dict(plan.changes)
             else:
-                self._pending = dict(plan.changes)
-        else:
-            self._memory.remember_failure(plan, control.error_code)
+                self._memory.remember_failure(plan, control.error_code)
         answer = self._respond(text, control, params, run, index)
         status = {"ok": "SUCCEEDED", "clarify": "NEEDS_CLARIFICATION",
                   "refuse": "FAILED"}.get(control.status, "FAILED")
@@ -497,14 +534,15 @@ class StructuredRunner:
     # ------------------------------------------------------------------ #
     def _respond(self, text: str, control: ControlResult, params: ScenarioParams,
                  run: AgentRun, index: int) -> str:
-        if control.status == "ok" and control.summary:
-            self._summaries.append(control.summary)
-        if control.status == "ok":
-            # Authoritative values = the summaries this conversation produced.
-            authoritative = {"summaries": list(self._summaries),
-                             "user_given": list(self.user_numbers)}
-        else:
-            authoritative = {"summaries": [], "user_given": list(self.user_numbers)}
+        with self._state_lock:
+            if control.status == "ok" and control.summary:
+                self._summaries.append(control.summary)
+            if control.status == "ok":
+                # Authoritative values = the bounded window of recent summaries this conversation produced.
+                authoritative = {"summaries": list(self._summaries[-10:]),
+                                 "user_given": list(self.user_numbers[-100:])}
+            else:
+                authoritative = {"summaries": [], "user_given": list(self.user_numbers[-100:])}
 
         if self.arm == "harness_opt":
             answer = compose_answer(control, params=params, memory=self._memory)

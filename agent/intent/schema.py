@@ -158,7 +158,7 @@ INTENT_SCHEMA_HINT = """{
   ],
   "compare": {"field": "参数名", "values": [数字, 数字]} 或 null,
   "sensitivity": {"parameter": "参数名", "values": [数字, ...]} 或 null,
-  "options": [{"shelter_id": "zs_x", "delta_capacity_persons": 300, "cost_units": 1}],
+  "options": [{"option_id": "可选方案ID", "shelter_id": "zs_x", "delta_capacity_persons": 300, "cost_units": 1, "combination_policy": "standalone|stackable|exclusive_group", "exclusive_group": "互斥组名或null"}],
   "confidence": 0.0,
   "clarify": ["缺少的字段名"]
 }"""

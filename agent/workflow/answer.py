@@ -58,6 +58,15 @@ def _params_line(params: dict[str, Any]) -> str:
     )
 
 
+def _has_hypothetical_option(bindings: dict[str, Any], optimization: dict[str, Any]) -> bool:
+    if any(isinstance(w, str) and "HYPOTHETICAL" in w for w in (bindings.get("warnings") or [])):
+        return True
+    for row in optimization.get("selected_options") or []:
+        if isinstance(row, dict) and row.get("hypothetical"):
+            return True
+    return False
+
+
 def compose_answer(control: ControlResult, *, params: ScenarioParams,
                    memory: Any | None = None) -> str:
     if control.status == "cancelled":
@@ -83,7 +92,7 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
         selected = optimization.get("selected_option_ids") or []
         lines.append(
             "【优化结果】选中措施：" + ("、".join(selected) if selected else "无（预算内没有可带来收益的措施）")
-            + f"；总成本 {_num(optimization.get('total_cost_units'), 2)} / "
+            + f"。总成本 {_num(optimization.get('total_cost_units'), 2)} / "
               f"预算 {_num(optimization.get('budget_units'), 2)}。")
         before = metrics.get("served_demand")
         after = optimization.get("served_demand")
@@ -93,6 +102,13 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
                 f"变化 {_num(after - before)} 人。")
         else:
             lines.append(f"【覆盖】优化后已服务 {_num(after)} 人。")
+        greedy = optimization.get("greedy_comparison") or {}
+        if greedy.get("status") == "available":
+            lines.append(
+                f"【Greedy对照】Greedy 已服务 {_num(greedy.get('greedy_served_demand'))} 人；"
+                f"MIP 差值 {_num(greedy.get('served_demand_gap'))} 人。")
+        if _has_hypothetical_option(bindings, optimization):
+            lines.append("【假设说明】HYPOTHETICAL — 扩容容量与成本为假设参数，非真实工程报价。")
     elif task_type == "compare":
         comparison = detail.get("comparison") or {}
         rows = comparison.get("scenarios") or []
@@ -129,6 +145,7 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
             lines.append(f"【自适应重规划】已服务 {_num(adaptive.get('served_demand'))} 人。")
     elif task_type == "diagnose_intervene":
         diagnosis = detail.get("diagnosis") or {}
+        optimization = detail.get("optimization") or {}
         intervention = detail.get("intervention")
         lines.append("【结论】瓶颈诊断完成。")
         if diagnosis:
@@ -138,9 +155,28 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
             if persons:
                 lines.append("【未服务人数（按原因）】" +
                              "；".join(f"{key}: {_num(value)} 人" for key, value in persons.items()))
-        if intervention:
-            selected = intervention.get("selected_option_ids") or []
-            lines.append("【干预建议】" + ("、".join(selected) if selected else "无"))
+        if optimization:
+            selected = optimization.get("selected_option_ids") or []
+            lines.append(
+                "【干预优化】选中措施：" + ("、".join(selected) if selected else "无（预算内没有可带来收益的措施）")
+                + f"。总成本 {_num(optimization.get('total_cost_units'), 2)} / "
+                  f"预算 {_num(optimization.get('budget_units'), 2)}。")
+            before = metrics.get("served_demand")
+            after = optimization.get("served_demand")
+            delta = optimization.get("served_demand_delta")
+            if isinstance(before, (int, float)) and isinstance(after, (int, float)):
+                d_val = delta if isinstance(delta, (int, float)) else (after - before)
+                lines.append(
+                    f"【覆盖变化】优化前基线已服务 {_num(before)} 人；优化后 {_num(after)} 人；"
+                    f"变化 {_num(d_val)} 人。")
+            if _has_hypothetical_option(bindings, optimization):
+                lines.append("【假设说明】HYPOTHETICAL — 扩容容量与成本为假设参数，非真实工程报价。")
+        elif intervention:
+            selected = intervention.get("selected_option_ids")
+            if isinstance(selected, list):
+                lines.append("【干预建议】" + ("、".join(selected) if selected else "无"))
+            elif intervention.get("status") == "NOT_APPLICABLE":
+                lines.append("【干预建议】未提供可用扩容候选，本次仅输出瓶颈诊断证据。")
     elif task_type == "explain_result":
         lines.append("【结论】对上一条结果的解释如下（全部来自该结果的投影，不含推断）。")
         lines.append(
@@ -148,13 +184,47 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
             f"total_demand={_num(metrics.get('total_demand'))}、"
             f"weighted_walk_time_min={_num(metrics.get('weighted_walk_time_min'), 2)} "
             "均由 Module B 的分配求解与业务 Verifier 计算，C 只做投影，不做二次计算。")
+        explanation = detail.get("explanation") or {}
+        target = explanation.get("target_summary") or {}
+        t_detail = target.get("detail") if isinstance(target.get("detail"), dict) else detail
+        t_opt = t_detail.get("optimization") if isinstance(t_detail, dict) else None
+        t_diag = t_detail.get("diagnosis") if isinstance(t_detail, dict) else None
+        if isinstance(t_opt, dict):
+            sel = t_opt.get("selected_option_ids") or []
+            opt_after = t_opt.get("served_demand")
+            opt_delta = t_opt.get("served_demand_delta")
+            lines.append(
+                "【优化方案解释】选中措施：" + ("、".join(sel) if sel else "无")
+                + f"。总成本 {_num(t_opt.get('total_cost_units'), 2)} / "
+                  f"预算 {_num(t_opt.get('budget_units'), 2)}；"
+                  f"优化后已服务 {_num(opt_after)} 人（相对基线变化 {_num(opt_delta)} 人）。")
+            p_status = t_opt.get("primary_stage_optimal") or "UNKNOWN"
+            g_comp = t_opt.get("greedy_comparison") or {}
+            g_status = g_comp.get("status") or "unavailable"
+            if g_status == "available":
+                lines.append(
+                    f"【阶段与对照证据】主目标阶段最优核验={p_status}；"
+                    f"Greedy对照=available（Greedy 已服务 {_num(g_comp.get('greedy_served_demand'))} 人，"
+                    f"MIP 差值 {_num(g_comp.get('served_demand_gap'))} 人）；"
+                    "HYPOTHETICAL 假设参数不代表真实工程报价。")
+            else:
+                lines.append(
+                    f"【阶段与对照证据】主目标阶段最优核验={p_status}；"
+                    "Greedy对照=unavailable（B 在线结果未提供 Greedy 基线，C 不自行重算）；"
+                    "HYPOTHETICAL 假设参数不代表真实工程报价。")
+        if isinstance(t_diag, dict) and t_diag.get("by_cause"):
+            lines.append(
+                f"【诊断证据】未服务节点 {_count(t_diag.get('unserved_node_count'))} 个；"
+                f"按原因分组 {t_diag.get('by_cause')}。")
     else:
         lines.append("【结论】现状评估完成。")
         diagnosis = detail.get("diagnosis") or {}
         if diagnosis:
             lines.append(f"【未服务节点】{_count(diagnosis.get('unserved_node_count'))} 个。")
 
-    if task_type == "optimize" and isinstance(bindings.get("optimized_coverage_ratio"), (int, float)):
+    if task_type in {"optimize", "diagnose_intervene"} and isinstance(
+        bindings.get("optimized_coverage_ratio"), (int, float)
+    ):
         opt_served = bindings.get("optimized_served_demand")
         if opt_served is None:
             opt_served = (detail.get("optimization") or {}).get("served_demand")
@@ -178,7 +248,10 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
             f"加权步行时间 {_num(metrics.get('weighted_walk_time_min'), 2)} 分钟。")
 
     lines.append(f"【参数】{_params_line(bindings.get('scenario_params') or params.to_dict())}")
-    lines.append(f"【求解与验证】{_solver_sentence(bindings.get('solver_status'), bindings.get('optimality_proven'))}"
+    solver_text = _solver_sentence(bindings.get("solver_status"), bindings.get("optimality_proven"))
+    if bindings.get("solver_status") == "FEASIBLE" and bindings.get("primary_stage_optimal") == "TRUE":
+        solver_text += "（主目标阶段最优核验=TRUE，次级词典序阶段未全部完成最优证明）"
+    lines.append(f"【求解与验证】{solver_text}"
                  f" verification_status={bindings.get('verification_status') or 'n/a'}。")
     lines.append(DEMO_LINE if bindings.get("data_status") == "DEMO_ONLY" else VERIFIED_LINE)
     lines.append(f"【结果编号】result_id={bindings.get('result_id') or 'n/a'}；"
