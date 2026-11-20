@@ -1,0 +1,11 @@
+{
+  "region_id": "xiaolan",
+  "threshold_min": 10,
+  "demand_nodes": 60406,
+  "covered_nodes": 1475,
+  "uncovered_nodes": 58931,
+  "population_with_candidate": 103291.31656312943,
+  "population_total": 2218326.9998219055,
+  "population_share": 0.04656270990319371,
+  "interpretation": "network candidate reachability only; no capacity allocation"
+}

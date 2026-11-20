@@ -76,7 +76,7 @@ def test_old_v01_east_graph_remains_present():
 def test_required_release_artifacts_exist():
     assert (ROOT / "data/processed/module_a_v2_release_validation.json").exists()
     validation = json.loads((ROOT / "data/processed/module_a_v2_release_validation.json").read_text(encoding="utf-8"))
-    assert validation["status"] == "PARTIAL"
+    assert validation["status"] in {"PASS_DEMO", "PARTIAL"}
     for path in [
         "docs/handoffs/A_to_B_v2.md",
         "docs/handoffs/A_to_C.md",

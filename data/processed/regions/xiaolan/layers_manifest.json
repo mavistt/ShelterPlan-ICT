@@ -46,6 +46,138 @@
         "active"
       ],
       "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "coverage_10min",
+      "layer_name": "10分钟步行覆盖",
+      "path": "data/processed/regions/xiaolan/map_layers/coverage_10min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "Demand-cell reachability before capacity allocation.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min",
+        "covered"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "access_gaps_10min",
+      "layer_name": "10分钟潜在服务缺口",
+      "path": "data/processed/regions/xiaolan/map_layers/access_gaps_10min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "No candidate shelter within the threshold; not capacity-unserved demand.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "coverage_15min",
+      "layer_name": "15分钟步行覆盖",
+      "path": "data/processed/regions/xiaolan/map_layers/coverage_15min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "Demand-cell reachability before capacity allocation.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min",
+        "covered"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "access_gaps_15min",
+      "layer_name": "15分钟潜在服务缺口",
+      "path": "data/processed/regions/xiaolan/map_layers/access_gaps_15min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "No candidate shelter within the threshold; not capacity-unserved demand.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "coverage_20min",
+      "layer_name": "20分钟步行覆盖",
+      "path": "data/processed/regions/xiaolan/map_layers/coverage_20min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "Demand-cell reachability before capacity allocation.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min",
+        "covered"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "access_gaps_20min",
+      "layer_name": "20分钟潜在服务缺口",
+      "path": "data/processed/regions/xiaolan/map_layers/access_gaps_20min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "No candidate shelter within the threshold; not capacity-unserved demand.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "coverage_30min",
+      "layer_name": "30分钟步行覆盖",
+      "path": "data/processed/regions/xiaolan/map_layers/coverage_30min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "Demand-cell reachability before capacity allocation.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min",
+        "covered"
+      ],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "access_gaps_30min",
+      "layer_name": "30分钟潜在服务缺口",
+      "path": "data/processed/regions/xiaolan/map_layers/access_gaps_30min.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "No candidate shelter within the threshold; not capacity-unserved demand.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "nearest_shelter_id",
+        "nearest_time_min"
+      ],
+      "data_status": "DEMO_ONLY"
     }
   ]
 }

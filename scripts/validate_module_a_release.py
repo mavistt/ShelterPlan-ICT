@@ -73,6 +73,12 @@ def main() -> int:
         if len(demand):
             check(set(demand["region_id"].astype(str)) == {region_id}, f"{region_id}: demand region leakage", failures)
             check(demand["demand_id"].is_unique, f"{region_id}: demand_id duplicate", failures)
+        demand_parquet = base / "demand_nodes.parquet"
+        check(demand_parquet.exists(), f"{region_id}: demand_nodes.parquet missing", failures)
+        if demand_parquet.exists() and len(demand):
+            demand_table = pd.read_parquet(demand_parquet)
+            check(len(demand_table) == len(demand), f"{region_id}: demand_nodes.parquet row mismatch", failures)
+            check(set(demand_table["demand_id"]) == set(demand["demand_id"]), f"{region_id}: demand_nodes.parquet ID mismatch", failures)
         check((base / "boundary.geojson").exists() and (base / "boundary_metadata.json").exists(), f"{region_id}: boundary products missing", failures)
         pop_stats = base / "map_layers" / "population_stats.json"
         check(pop_stats.exists(), f"{region_id}: population stats missing", failures)
@@ -135,12 +141,15 @@ def main() -> int:
     for doc in REQUIRED_DOCS:
         check((ROOT / doc).exists(), f"missing required deliverable {doc}", failures)
     check((ROOT / "data/processed/road_walk.graphml").exists(), "legacy v0.1 East graph was overwritten or is missing", failures)
+    if not all((ROOT / f"data/raw/portal_shelters_batch_{n}.xls").exists() for n in (1, 2)):
+        warnings.append("portal shelter batches are absent; source completeness is not fully reconciled")
+    warnings.append("official target administrative boundaries are absent; all regional results remain DEMO_ONLY")
     planning_scenarios_path = ROOT / "configs/planning_scenarios.yaml"
     if planning_scenarios_path.exists():
         planning_scenarios = yaml.safe_load(planning_scenarios_path.read_text(encoding="utf-8"))
         regional_items = [item for item in planning_scenarios.get("scenarios", []) if item.get("region_id") in EXPECTED]
         check(len(regional_items) == 18, f"planning_scenarios.yaml regional scenario count={len(regional_items)}", failures)
-    status = "FAIL" if failures else ("PARTIAL" if any_missing_matrix or warnings else "PASS")
+    status = "FAIL" if failures else ("PARTIAL" if any_missing_matrix else "PASS_DEMO")
     report = {
         "status": status,
         "data_version": cfg["project"]["data_version"],
@@ -151,7 +160,8 @@ def main() -> int:
         "external_dependencies": {
             "portal_batches_present": all((ROOT / f"data/raw/portal_shelters_batch_{n}.xls").exists() for n in (1, 2)),
             "official_target_boundaries_present": False,
-            "public_overpass_available_for_this_run": not any_missing_matrix,
+            "static_pbf_present": (ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path", ""))).is_file(),
+            "public_overpass_available_for_this_run": False,
         },
     }
     out = ROOT / "data/processed/module_a_v2_release_validation.json"

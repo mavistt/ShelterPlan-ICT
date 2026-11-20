@@ -1,11 +1,11 @@
 {
-  "status": "PARTIAL",
+  "status": "PASS_DEMO",
   "data_version": "shelterplan_module_a_v2.0-demo",
-  "generated_at_utc": "2026-11-20T14:02:08.789568+00:00",
+  "generated_at_utc": "2026-11-20T14:41:02.416293+00:00",
   "failures": [],
   "warnings": [
-    "shiqi: travel_matrix.parquet missing; network/OD remains blocked or not run",
-    "xiaolan: travel_matrix.parquet missing; network/OD remains blocked or not run"
+    "portal shelter batches are absent; source completeness is not fully reconciled",
+    "official target administrative boundaries are absent; all regional results remain DEMO_ONLY"
   ],
   "regions": {
     "east_district": {
@@ -18,18 +18,19 @@
       "source_rows": 25,
       "spatial_rows": 25,
       "demand_nodes": 7336,
-      "has_od": false
+      "has_od": true
     },
     "xiaolan": {
       "source_rows": 31,
       "spatial_rows": 31,
       "demand_nodes": 60406,
-      "has_od": false
+      "has_od": true
     }
   },
   "external_dependencies": {
     "portal_batches_present": false,
     "official_target_boundaries_present": false,
+    "static_pbf_present": true,
     "public_overpass_available_for_this_run": false
   }
 }
