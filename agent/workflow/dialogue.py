@@ -69,7 +69,9 @@ TASK_WORDS = (
 
 BARE_NUMBER_RE = re.compile(r"^\s*[¥￥]?\s*(-?\d+(?:\.\d+)?)\s*(?:个?\s*(?:单位|人|分钟|%))?\s*[。.!！]?\s*$")
 BUDGET_LOOSE_RE = re.compile(r"(?:预算|就用|用|改成|设为|给)\s*[¥￥]?\s*(-?\d+(?:\.\d+)?)")
-RESULT_ID_RE = re.compile(r"\b(?:r|res|result)[-_][0-9a-zA-Z-]{4,}\b")
+RESULT_ID_RE = re.compile(
+    r"(?<![0-9a-zA-Z_-])(?:r|res|result)[-_][0-9a-zA-Z-]{4,}(?![0-9a-zA-Z_-])"
+)
 RATIO_VERB_RE = re.compile(r"比例|需求")
 
 
@@ -268,7 +270,7 @@ def detect_undo(text: str, *, has_disabled: bool = False) -> UndoRequest | None:
 
     disable_match = UNDO_DISABLE_RE.search(text)
     if disable_match and (has_disabled or UNDO_EXPLICIT_DISABLE_RE.search(text)):
-        ids = re.findall(r"\bzs_[0-9a-z]{6,}\b", text, re.I)
+        ids = ID_RE.findall(text)
         return UndoRequest(kind="disable", fields=["disabled_shelter_ids"],
                            shelter_ids=list(dict.fromkeys(ids)),
                            evidence=disable_match.group(0))

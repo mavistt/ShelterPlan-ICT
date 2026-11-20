@@ -50,8 +50,11 @@ class SessionStore:
     # ------------------------------------------------------------------ #
     def save_session(self, session_id: str, *, session: Session,
                      dialogue: dict[str, Any], memory: dict[str, Any],
-                     summaries: list[dict[str, Any]]) -> None:
-        payload = {
+                     summaries: list[dict[str, Any]],
+                     client_turns: dict[str, str] | None = None,
+                     turn_ids: list[str] | None = None,
+                     region_id: str | None = None) -> None:
+        payload: dict[str, Any] = {
             "session_id": session_id,
             "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "session": session.dump(),
@@ -59,6 +62,12 @@ class SessionStore:
             "memory": memory,
             "summaries": summaries[-5:],
         }
+        if client_turns is not None:
+            payload["client_turns"] = dict(client_turns)
+        if turn_ids is not None:
+            payload["turn_ids"] = list(turn_ids)
+        if region_id is not None:
+            payload["region_id"] = region_id
         _atomic_write(self._session_path(session_id), payload)
 
     def load_session(self, session_id: str) -> dict[str, Any] | None:
@@ -76,12 +85,52 @@ class SessionStore:
 
     def load_turns(self, session_id: str, limit: int = 50) -> list[dict[str, Any]]:
         rows: list[dict[str, Any]] = []
+        session_payload = self.load_session(session_id)
+        if session_payload and isinstance(session_payload.get("turn_ids"), list):
+            for turn_id in session_payload["turn_ids"]:
+                if not isinstance(turn_id, str) or not turn_id:
+                    continue
+                payload = self.load_turn(turn_id)
+                if payload and payload.get("session_id") == session_id:
+                    rows.append(payload)
+        else:
+            for path in self.turns_dir.glob("*.json"):
+                payload = _read(path)
+                if payload and payload.get("session_id") == session_id:
+                    rows.append(payload)
+        rows.sort(key=lambda row: row.get("created_at") or "")
+        return rows[-limit:]
+
+    def delete_session_turns(self, session_id: str, *,
+                             turn_ids: list[str] | None = None) -> int:
+        deleted = 0
+        session_payload = self.load_session(session_id)
+        candidates: list[str] = []
+        if turn_ids:
+            candidates.extend(turn_ids)
+        if session_payload and isinstance(session_payload.get("turn_ids"), list):
+            for tid in session_payload["turn_ids"]:
+                if isinstance(tid, str) and tid not in candidates:
+                    candidates.append(tid)
+        if candidates:
+            for tid in candidates:
+                path = self._turn_path(tid)
+                if path.is_file():
+                    try:
+                        path.unlink()
+                        deleted += 1
+                    except OSError:
+                        pass
+            return deleted
         for path in self.turns_dir.glob("*.json"):
             payload = _read(path)
             if payload and payload.get("session_id") == session_id:
-                rows.append(payload)
-        rows.sort(key=lambda row: row.get("created_at") or "")
-        return rows[-limit:]
+                try:
+                    path.unlink()
+                    deleted += 1
+                except OSError:
+                    pass
+        return deleted
 
     def mark_interrupted(self) -> int:
         """Rewrite turns that were mid-flight when the process stopped."""

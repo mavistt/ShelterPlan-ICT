@@ -75,10 +75,15 @@ class HarnessConfig:
     evidence_page_max: int = 200
 
     trace_dir: Path = field(default_factory=lambda: PROJECT_ROOT / "outputs" / "module_c" / "trace")
+    project_root: Path = field(default_factory=lambda: PROJECT_ROOT)
+    send_region_id_to_b: bool = False
 
     @classmethod
     def from_env(cls) -> "HarnessConfig":
         pilot = defaults_from_pilot_config(os.environ.get("SHELTERPLAN_PILOT_CONFIG"))
+        send_region = os.environ.get("SHELTERPLAN_B_SEND_REGION_ID", "").strip().lower() in {
+            "1", "true", "yes",
+        }
         return cls(
             b_base_url=os.environ.get("SHELTERPLAN_B_BASE_URL", "http://127.0.0.1:8000").rstrip("/"),
             data_version=os.environ.get("SHELTERPLAN_DATA_VERSION", pilot["data_version"]),
@@ -101,4 +106,6 @@ class HarnessConfig:
             evidence_page_max=_env_int("SHELTERPLAN_EVIDENCE_PAGE_MAX", 200),
             trace_dir=Path(os.environ.get(
                 "SHELTERPLAN_TRACE_DIR", PROJECT_ROOT / "outputs" / "module_c" / "trace")),
+            project_root=Path(os.environ.get("SHELTERPLAN_PROJECT_ROOT", PROJECT_ROOT)),
+            send_region_id_to_b=send_region,
         )

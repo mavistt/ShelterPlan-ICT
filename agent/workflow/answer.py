@@ -154,7 +154,23 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
         if diagnosis:
             lines.append(f"【未服务节点】{_count(diagnosis.get('unserved_node_count'))} 个。")
 
-    if task_type not in {"compare", "sensitivity"}:
+    if task_type == "optimize" and isinstance(bindings.get("optimized_coverage_ratio"), (int, float)):
+        opt_served = bindings.get("optimized_served_demand")
+        if opt_served is None:
+            opt_served = (detail.get("optimization") or {}).get("served_demand")
+        opt_walk = (
+            bindings["optimized_weighted_walk_time_min"]
+            if "optimized_weighted_walk_time_min" in bindings
+            else metrics.get("weighted_walk_time_min")
+        )
+        lines.append(
+            f"【关键指标】优化前基线覆盖率 {_num((bindings.get('coverage_ratio') or 0) * 100, 1)}%；"
+            f"优化后已服务 {_num(opt_served)} 人 / "
+            f"总需求 {_num(metrics.get('total_demand'))} 人，"
+            f"覆盖率 {_num(bindings['optimized_coverage_ratio'] * 100, 1)}%；"
+            f"优化后加权步行时间 {_num(opt_walk, 2)} 分钟。"
+        )
+    elif task_type not in {"compare", "sensitivity"}:
         lines.append(
             f"【关键指标】已服务 {_num(metrics.get('served_demand'))} 人 / "
             f"总需求 {_num(metrics.get('total_demand'))} 人，"

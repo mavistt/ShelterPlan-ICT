@@ -450,7 +450,7 @@ def _compact(value: Any) -> str:
 # produce a valid envelope (or when running fully offline). Deliberately
 # conservative: it only fires on unambiguous lexical patterns.
 # --------------------------------------------------------------------------- #
-ID_RE = re.compile(r"\bzs_[0-9a-z]{6,}\b", re.I)
+ID_RE = re.compile(r"(?<![0-9a-zA-Z_])zs_[0-9a-z]{6,}(?![0-9a-zA-Z_])", re.I)
 BUDGET_RE = re.compile(r"预算\s*(?:设为|改成|调整为|为|是|=)?\s*(-?\d+(?:\.\d+)?)")
 BUDGET_HALF_RE = re.compile(r"预算[^。；，]*?(减半|翻倍|一半|两倍)")
 BUDGET_DELTA_RE = re.compile(r"预算\s*(?:再|又)?\s*(增加|加|减少|减|提高|降低)\s*(\d+(?:\.\d+)?)")
@@ -460,7 +460,7 @@ RATIO_DECIMAL_RE = re.compile(r"(?:需求)?比例[^0-9]{0,6}(\d*\.\d+|\d+)")
 WALK_RE = re.compile(r"步行[^0-9]{0,8}(\d+(?:\.\d+)?)\s*分钟")
 DISABLE_RE = re.compile(r"(关停|停用|关闭|禁用)")
 DISABLE_SEGMENT_RE = re.compile(r"(?:关停|停用|关闭|禁用)([^。；\n]*)")
-OPTION_RE = re.compile(r"(zs_[0-9a-z]+)[^。；，,]{0,12}?(?:扩容|增加|加)\s*(-?\d+)\s*人")
+OPTION_RE = re.compile(r"(zs_[0-9a-z]+)[^。；，,]{0,12}?(?:扩容|增加|加)\s*(-?\d+)\s*人", re.I)
 LITERAL_NEGATIVE_RE = re.compile(r"预算\s*(-\d+(?:\.\d+)?)")
 RATIO_LITERAL_RE = re.compile(
     r"(?:需求)?比例\s*(?:设为|改成|调整为|调成|按|为|是|=|:|：)?\s*(\d+(?:\.\d+)?)\s*%?")
@@ -591,6 +591,8 @@ def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:
         return "sensitivity"
     if re.search(r"诊断|瓶颈|原因|为什么.*没", text):
         return "diagnose"
+    if re.search(r"压力测试|模拟.*(关|停)", text) and not re.search(r"(?:做|进行|执行)优化", text):
+        return "stress_test"
     if re.search(r"优化|扩容", text) or re.search(r"预算.*(改善|提升)", text):
         return "optimize"
     if re.search(r"压力测试|模拟.*(关|停)", text) or _effective_disable(text):

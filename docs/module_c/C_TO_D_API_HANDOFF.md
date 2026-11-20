@@ -91,19 +91,22 @@ curl -s http://127.0.0.1:8080/v1/capabilities
 
 | 方法 | 路径 | 成功码 | 说明 |
 |---|---|---|---|
-| GET | `/healthz` | 200 | 存活、arm、会话数、`interrupted_turns_on_start`、`state_dir` |
-| GET | `/v1/capabilities` | 200 | 能力探测 + 数据声明 |
-| POST | `/v1/sessions` | 201 | 建会话，返回 `session_id` |
-| GET | `/v1/sessions/{sid}` | 200 | 参数快照、lineage、result_ids、pending_clarification、轮次列表 |
-| POST | `/v1/sessions/{sid}/reset` | 200 | 重置参数/结果/澄清状态 |
+| GET | `/healthz` | 200 | 存活、arm、会话数、`interrupted_turns_on_start`、`state_dir`、`region_mode` |
+| GET | `/v1/capabilities` | 200 | 能力探测 + 数据声明 + 可用区域摘要 |
+| GET | `/v1/regions`（兼容 `/api/regions`） | 200 | 区域目录（自动兼容 Module A v2 三区域与 v0.1 单区域） |
+| GET | `/v1/regions/{region_id}/layers`（兼容 `/api/regions/...`） | 200 / 404 | 区域图层清单（含 CRS/格式/状态；自动补齐 manifest 底图） |
+| GET | `/v1/regions/{region_id}/scenarios`（兼容 `/api/regions/...`） | 200 / 404 | 区域情景目录（附带 C 参数映射 `normalized_changes`） |
+| POST | `/v1/sessions` | 201 | 建会话，可传可选 `region_id` 绑定区域，返回 `session_id` |
+| GET | `/v1/sessions/{sid}` | 200 | 参数快照、`region_id`、lineage、result_ids、pending_clarification、轮次列表 |
+| POST | `/v1/sessions/{sid}/reset` | 200 | 重置参数/结果/澄清/幂等键/历史轮次（保留已绑定的 `region_id`） |
 | POST | `/v1/sessions/{sid}/turns` | **202** | 提交一轮，立即返回 `RUNNING` envelope |
 | GET | `/v1/turns/{turn_id}` | 200 | 轮询，返回五状态之一 |
 | POST | `/v1/turns/{turn_id}/cancel` | 200 / 409 | 取消（见 §9） |
-| GET | `/v1/results/{rid}/layers?session_id=` | 200 / 403 | 场所负载表（无几何） |
-| GET | `/v1/results/{rid}/evidence/{section}?session_id=&offset=&limit=` | 200 / 403 | 分页证据 |
+| GET | `/v1/results/{rid}/layers?session_id=&variant=auto` | 200 / 403 / 404 / 422 | 场所负载表（无几何；支持 `auto\|baseline\|optimized\|fixed\|adaptive`） |
+| GET | `/v1/results/{rid}/evidence/{section}?session_id=&offset=&limit=` | 200 / 403 / 404 / 422 | 分页证据 |
 
-错误码：`404` 未知 session/turn，`409` 会话已存在或轮次已结束，`403` 跨会话取结果，
-`422` 请求体不合法（如 `text` 为空或 >4000 字符）。
+错误码：`404` 未知 session/turn/region/result，`409` 会话已存在、区域 OD 不可用或轮次已结束，`403` 跨会话取结果，
+`422` 请求体或参数不合法（如 `text` 为空或 >4000 字符、非法 `variant`/`section`），`503` 上游 B 超时或不可达。
 
 ---
 
@@ -254,28 +257,33 @@ B 的结果文档是 5–11 MB，**C 只投影 ≤20 KB 的 summary**。D 拿到
 
 ```bash
 RID=<某次 SUCCEEDED 的 result_id>
-curl -s "$C/v1/results/$RID/layers?session_id=$SID" | python -m json.tool
+curl -s "$C/v1/results/$RID/layers?session_id=$SID&variant=auto" | python -m json.tool
 curl -s "$C/v1/results/$RID/evidence/diagnosis?session_id=$SID&offset=0&limit=20" \
   | python -m json.tool
 ```
 
-`/layers` 返回：
+`/layers` 返回（`optimize` / `stress_test` 在 `variant=auto` 下主图层 `layers[0]` 直接返回**优化后**或**固定方案承压后**的场所负载，并附带 `shelter_utilization_baseline` 与 `shelter_utilization_delta` 前后对比图层，以及 `shelter_utilization_adaptive`（若存在自适应重规划）；也可通过 `?variant=baseline|optimized|fixed|adaptive` 显式指定视角）：
 
 ```json
 {
   "result_id": "...",
+  "variant": "optimized",
   "layers": [{
     "layer_id": "shelter_utilization",
+    "variant": "optimized",
     "kind": "table",
     "geometry": null,
     "rows": [{"shelter_id": "zs_1b4df7920b", "load_persons": 0, "utilization": 0.0}, "..." ],
     "note": "Module B 的结果不含几何；本层以 shelter_id 为键，Module D 可用自己的底图关联。"
   }],
   "deficits": {"count": 0, "sample": []},
+  "selected_option_ids": ["CAP_1_FED820"],
   "data_version": "zhongshan_pilot_v0.1",
   "data_status": "DEMO_ONLY"
 }
 ```
+
+此外，`optimize` 任务的轮次结果 `metrics` 中除了 `served_demand`（优化前基线）、`total_demand`、`optimized_served_demand` 外，还会同步给出 `coverage_ratio`（优化前覆盖率）、`optimized_coverage_ratio`（优化后覆盖率）、`coverage_delta_persons`（覆盖增量人数）与 `optimized_weighted_walk_time_min`，供前端 KPI 卡片直接区分优化前后指标。
 
 要点：
 
@@ -310,7 +318,7 @@ curl -s "$C/v1/results/$RID/evidence/diagnosis?session_id=$SID&offset=0&limit=20
 
 | 场景 | 行为 | D 要做的事 |
 |---|---|---|
-| 进程重启 | 启动时 `mark_interrupted()` 把残留 `RUNNING` 改为 `FAILED` + `INTERRUPTED_BY_RESTART`；参数、result_ids、终态轮次从盘上恢复 | 轮询不会永远 404；看到该错误码提示"请重新发起" |
+| 进程重启 | 启动时 `mark_interrupted()` 把残留 `RUNNING` 改为 `FAILED` + `INTERRUPTED_BY_RESTART`；参数、result_ids、对话记忆 `memory`（`last_task_type`/`last_options`/`last_result_id`）、`client_turns` 幂等键、区域绑定与终态轮次从盘上恢复，且支持重启后直接 `GET /v1/sessions/{sid}` 或续发轮次懒加载恢复（无需先重调 `POST /v1/sessions`） | 轮询不会永远 404；看到该错误码提示"请重新发起" |
 | B 重启 | B 的 job 表是内存态，**计算不可续跑**；C 不假装恢复 | 重新提交，不要复用旧 `job_id` |
 | 取消（排队中） | `POST /v1/turns/{tid}/cancel` → `cancel_accepted=true`，状态变 `CANCELLED` | 显示已取消 |
 | 取消（已开始） | 返回 200 但 `cancel_accepted=false`，附"Module B 求解不可中断" | 继续轮询到终态 |

@@ -1,7 +1,8 @@
 """Application service shared by the MCP tools and the V0 evaluation runner."""
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from collections import OrderedDict
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 import threading
 from typing import Any
@@ -43,6 +44,8 @@ class HarnessService:
         self._defaults = defaults
         self._registry = SessionRegistry(defaults)
         self._runtimes: dict[str, SessionRuntime] = {}
+        self._result_cache: OrderedDict[str, dict[str, Any]] = OrderedDict()
+        self._result_cache_max = 16
         self._lock = threading.RLock()
 
     # ------------------------------------------------------------------ #
@@ -58,10 +61,34 @@ class HarnessService:
                 self._runtimes[session_id] = runtime
             return runtime
 
+    def configure_session(self, session_id: str | None = None, *,
+                          region_id: str | None = None,
+                          data_version: str | None = None,
+                          valid_shelter_ids: frozenset[str] | None = None) -> dict[str, Any]:
+        session_id = session_id or DEFAULT_SESSION_ID
+        session_defaults = replace(
+            self._defaults,
+            data_version=data_version or self._defaults.data_version,
+            region_id=region_id if region_id is not None else self._defaults.region_id,
+        )
+        with self._lock:
+            session = self._registry.configure(
+                session_id, session_defaults, valid_shelter_ids=valid_shelter_ids)
+            base = Path(self._trace_dir) if self._trace_dir else Path(self.config.trace_dir)
+            path = base / f"{session_id}.jsonl"
+            self._runtimes[session_id] = SessionRuntime(
+                session=session, trace=TraceRecorder(path, session_id))
+            return session.snapshot()
+
     def reset_session(self, session_id: str | None = None) -> dict[str, Any]:
         session_id = session_id or DEFAULT_SESSION_ID
         with self._lock:
-            session = self._registry.reset(session_id)
+            existing = self._runtimes.get(session_id)
+            session = self._registry.reset(
+                session_id,
+                defaults=(existing.session.defaults if existing is not None else None),
+                valid_shelter_ids=(existing.session.valid_shelter_ids if existing is not None else None),
+            )
             base = Path(self._trace_dir) if self._trace_dir else Path(self.config.trace_dir)
             path = base / f"{session_id}.jsonl"
             self._runtimes[session_id] = SessionRuntime(
@@ -70,6 +97,9 @@ class HarnessService:
 
     def session_state(self, session_id: str | None = None) -> dict[str, Any]:
         return self._runtime(session_id).session.snapshot()
+
+    def session_defaults(self, session_id: str | None = None) -> ScenarioParams:
+        return self._runtime(session_id).session.defaults
 
     def restore_session(self, session_id: str, snapshot: dict[str, Any]) -> dict[str, Any]:
         """Replace an in-memory session with a persisted one (restart recovery)."""
@@ -137,9 +167,23 @@ class HarnessService:
     def job_status(self, job_id: str) -> dict[str, Any]:
         return self.client.get_job(job_id)
 
+    def get_full_result(self, result_id: str) -> dict[str, Any]:
+        with self._lock:
+            cached = self._result_cache.get(result_id)
+            if cached is not None:
+                self._result_cache.move_to_end(result_id)
+                return cached
+        full = self.client.get_result(result_id)
+        with self._lock:
+            self._result_cache[result_id] = full
+            self._result_cache.move_to_end(result_id)
+            while len(self._result_cache) > self._result_cache_max:
+                self._result_cache.popitem(last=False)
+        return full
+
     def result(self, result_id: str, session_id: str | None = None) -> dict[str, Any]:
         runtime = self._runtime(session_id)
-        full = self.client.get_result(result_id)
+        full = self.get_full_result(result_id)
         task_type = _infer_task_type(full)
         summary = project(full, task_type=task_type, config=self.config)
         runtime.session.remember_result(result_id, scenario_id=full.get("scenario_id", ""),
@@ -149,7 +193,7 @@ class HarnessService:
 
     def evidence(self, result_id: str, section: str, offset: int = 0,
                  limit: int | None = None) -> dict[str, Any]:
-        full = self.client.get_result(result_id)
+        full = self.get_full_result(result_id)
         return paginate_evidence(full, section=section, offset=offset,
                                  limit=limit or self.config.evidence_page_default,
                                  config=self.config)

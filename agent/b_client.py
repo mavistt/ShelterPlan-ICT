@@ -69,20 +69,27 @@ class BClient:
         self.close()
 
     def _request(self, method: str, path: str, *, json_body: dict | None = None,
-                 retries: int | None = None) -> dict[str, Any]:
+                 retries: int | None = None, timeout_s: float | None = None) -> dict[str, Any]:
         retries = self.config.max_transport_retries if retries is None else retries
+        effective_timeout = self.config.read_timeout_s if timeout_s is None else timeout_s
+        is_test_client = type(self._client).__name__ == "TestClient"
         last_error: Exception | None = None
         for attempt in range(retries + 1):
             try:
                 self.call_count += 1
-                response = self._client.request(
-                    method, path, json=json_body,
-                    timeout=httpx.Timeout(self.config.submit_timeout_s,
-                                          connect=self.config.connect_timeout_s),
-                )
+                if is_test_client:
+                    response = self._client.request(method, path, json=json_body)
+                else:
+                    response = self._client.request(
+                        method, path, json=json_body,
+                        timeout=httpx.Timeout(
+                            effective_timeout,
+                            connect=self.config.connect_timeout_s,
+                            read=effective_timeout,
+                        ),
+                    )
             except TypeError:
                 # TestClient-like shims do not accept a per-call timeout object.
-                self.call_count += 1
                 response = self._client.request(method, path, json=json_body)
             except (httpx.TransportError, httpx.TimeoutException) as exc:
                 last_error = exc
@@ -143,13 +150,15 @@ class BClient:
         endpoint = ENDPOINTS.get(task_type)
         if endpoint is None:
             raise ValueError(f"unsupported task_type for submit: {task_type}")
-        return self._request("POST", endpoint, json_body=payload, retries=0)
+        return self._request("POST", endpoint, json_body=payload, retries=0,
+                             timeout_s=self.config.submit_timeout_s)
 
     def get_job(self, job_id: str) -> dict[str, Any]:
         return self._request("GET", f"/planning/jobs/{job_id}", retries=1)
 
     def get_result(self, result_id: str) -> dict[str, Any]:
-        return self._request("GET", f"/planning/results/{result_id}", retries=1)
+        return self._request("GET", f"/planning/results/{result_id}", retries=1,
+                             timeout_s=self.config.read_timeout_s)
 
     # ------------------------------------------------------------------ #
     # Polling

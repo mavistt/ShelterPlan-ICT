@@ -129,7 +129,7 @@ class HarnessExecutor:
         # scenario ledger. A scenario C planned but never executed is unknown to
         # B, so lineage is declared only once the parent has a stored result.
         parent = self._resolvable_parent(state)
-        scenario = state.to_b_scenario()
+        scenario = state.to_b_scenario(include_region_id=self.config.send_region_id_to_b)
         scenario["parent_scenario_id"] = parent
         payload: dict[str, Any] = {
             "task_id": task_id,
@@ -146,6 +146,8 @@ class HarnessExecutor:
             "idempotency_key": f"{self.session.session_id}:{state.turn}:{task_id}",
             "parameters": dict(checked.get("parameters") or {}),
         }
+        if self.config.send_region_id_to_b and state.params.region_id:
+            payload["region_id"] = state.params.region_id
         options = checked.get("improvement_options") or []
         if options:
             payload["improvement_options"] = options

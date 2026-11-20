@@ -38,6 +38,7 @@ class ScenarioParams:
     disabled_shelter_ids: tuple[str, ...]
     data_version: str
     analysis_mode: str = "demo"
+    region_id: str | None = None
 
     def merged(self, changes: dict[str, Any]) -> "ScenarioParams":
         unknown = set(changes) - set(SCENARIO_CHANGE_KEYS)
@@ -51,7 +52,7 @@ class ScenarioParams:
         return ScenarioParams(**payload)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload: dict[str, Any] = {
             "population_demand_ratio": self.population_demand_ratio,
             "max_walk_time_min": self.max_walk_time_min,
             "budget_units": self.budget_units,
@@ -59,6 +60,9 @@ class ScenarioParams:
             "data_version": self.data_version,
             "analysis_mode": self.analysis_mode,
         }
+        if self.region_id is not None:
+            payload["region_id"] = self.region_id
+        return payload
 
     @property
     def fingerprint(self) -> str:
@@ -95,13 +99,13 @@ class ScenarioState:
             "created_at": self.created_at,
         }
 
-    def to_b_scenario(self) -> dict[str, Any]:
+    def to_b_scenario(self, *, include_region_id: bool = False) -> dict[str, Any]:
         """Full scenario object for Module B.
 
         B rebuilds every scenario from its config defaults, so C must send the
         complete parameter set - never only the delta.
         """
-        return {
+        payload: dict[str, Any] = {
             "scenario_id": self.scenario_id,
             "parent_scenario_id": self.parent_scenario_id,
             "data_version": self.params.data_version,
@@ -112,6 +116,9 @@ class ScenarioState:
             "disabled_shelter_ids": list(self.params.disabled_shelter_ids),
             "changes": dict(self.changes),
         }
+        if include_region_id and self.params.region_id:
+            payload["region_id"] = self.params.region_id
+        return payload
 
     def with_result(self, result_id: str) -> "ScenarioState":
         return replace(self, result_id=result_id)

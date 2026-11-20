@@ -9,6 +9,7 @@ snapshot and resend it on every turn.
 from __future__ import annotations
 
 
+from dataclasses import replace
 import threading
 from typing import Any, Iterable
 
@@ -25,9 +26,11 @@ from agent.errors import GuardUnknownResult
 class Session:
     """One conversation. Scenarios are append-only."""
 
-    def __init__(self, session_id: str, defaults: ScenarioParams) -> None:
+    def __init__(self, session_id: str, defaults: ScenarioParams, *,
+                 valid_shelter_ids: frozenset[str] | None = None) -> None:
         self.session_id = session_id
         self._defaults = defaults
+        self._valid_shelter_ids = valid_shelter_ids
         self._lock = threading.RLock()
         self._history: list[ScenarioState] = []
         self._results: dict[str, dict[str, Any]] = {}
@@ -40,6 +43,14 @@ class Session:
         )
         self._history.append(first)
         self._current = first
+
+    @property
+    def defaults(self) -> ScenarioParams:
+        return self._defaults
+
+    @property
+    def valid_shelter_ids(self) -> frozenset[str] | None:
+        return self._valid_shelter_ids
 
     # ------------------------------------------------------------------ #
     # Scenario planning
@@ -160,13 +171,16 @@ class Session:
     # ------------------------------------------------------------------ #
     def snapshot(self) -> dict[str, Any]:
         with self._lock:
-            return {
+            payload = {
                 "session_id": self.session_id,
                 "turn": self._current.turn,
                 "current": self._current.to_dict(),
                 "lineage": self.lineage(),
                 "result_ids": list(self._results),
             }
+            if self._defaults.region_id is not None:
+                payload["region_id"] = self._defaults.region_id
+            return payload
 
     # ------------------------------------------------------------------ #
     def dump(self) -> dict[str, Any]:
@@ -202,6 +216,13 @@ class Session:
             self._history = states
             self._current = states[-1]
             self._results = dict(snapshot.get("results") or {})
+            first_params = states[0].params
+            if first_params.region_id is not None and self._defaults.region_id is None:
+                self._defaults = replace(
+                    self._defaults,
+                    region_id=first_params.region_id,
+                    data_version=first_params.data_version,
+                )
         return self
 
 
@@ -218,21 +239,40 @@ class SessionRegistry:
         self._lock = threading.RLock()
         self._sessions: dict[str, Session] = {}
 
-    def get_or_create(self, session_id: str) -> Session:
+    def get_or_create(self, session_id: str, *,
+                      defaults: ScenarioParams | None = None,
+                      valid_shelter_ids: frozenset[str] | None = None) -> Session:
         with self._lock:
             session = self._sessions.get(session_id)
             if session is None:
-                session = Session(session_id, self._defaults)
+                session = Session(session_id, defaults or self._defaults,
+                                  valid_shelter_ids=valid_shelter_ids)
                 self._sessions[session_id] = session
+            return session
+
+    def configure(self, session_id: str, defaults: ScenarioParams, *,
+                  valid_shelter_ids: frozenset[str] | None = None) -> Session:
+        with self._lock:
+            session = Session(session_id, defaults, valid_shelter_ids=valid_shelter_ids)
+            self._sessions[session_id] = session
             return session
 
     def get(self, session_id: str) -> Session | None:
         with self._lock:
             return self._sessions.get(session_id)
 
-    def reset(self, session_id: str) -> Session:
+    def reset(self, session_id: str, *,
+              defaults: ScenarioParams | None = None,
+              valid_shelter_ids: frozenset[str] | None = None) -> Session:
         with self._lock:
-            session = Session(session_id, self._defaults)
+            existing = self._sessions.get(session_id)
+            chosen_defaults = defaults or (existing.defaults if existing is not None else self._defaults)
+            chosen_shelters = (
+                valid_shelter_ids
+                if valid_shelter_ids is not None
+                else (existing.valid_shelter_ids if existing is not None else None)
+            )
+            session = Session(session_id, chosen_defaults, valid_shelter_ids=chosen_shelters)
             self._sessions[session_id] = session
             return session
 

@@ -136,8 +136,20 @@ def bind_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
         if isinstance(value, (int, float)) and not isinstance(value, bool)
     }
     served, total = metrics.get("served_demand"), metrics.get("total_demand")
-    if isinstance(served, (int, float)) and isinstance(total, (int, float)) and total:
+    if isinstance(served, (int, float)) and not isinstance(served, bool) and isinstance(total, (int, float)) and not isinstance(total, bool) and total:
         bindings["coverage_ratio"] = served / total
+    detail = summary.get("detail") or {}
+    opt = detail.get("optimization") if isinstance(detail, dict) else None
+    if isinstance(opt, dict):
+        opt_served = opt.get("served_demand")
+        if isinstance(opt_served, (int, float)) and not isinstance(opt_served, bool):
+            if isinstance(total, (int, float)) and not isinstance(total, bool) and total:
+                bindings["optimized_coverage_ratio"] = opt_served / total
+            if isinstance(served, (int, float)) and not isinstance(served, bool):
+                bindings["coverage_delta_persons"] = opt_served - served
+        opt_walk = opt.get("weighted_walk_time_min")
+        if opt_walk is None or (isinstance(opt_walk, (int, float)) and not isinstance(opt_walk, bool)):
+            bindings["optimized_weighted_walk_time_min"] = opt_walk
     state = outcome.get("scenario") or {}
     bindings.update({
         "task_type": outcome.get("task_type"),
@@ -151,7 +163,7 @@ def bind_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
         "verification_status": (summary.get("verification_status")
                                 or outcome.get("verification_status")),
         "scenario_params": summary.get("scenario_params") or (state.get("params") or {}),
-        "detail": summary.get("detail") or {},
+        "detail": detail,
         "warnings": summary.get("warnings") or [],
     })
     return bindings

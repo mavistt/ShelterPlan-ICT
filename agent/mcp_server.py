@@ -37,6 +37,7 @@ INSTRUCTIONS = (
 
 mcp = FastMCP("ShelterPlan", instructions=INSTRUCTIONS)
 _service: HarnessService | None = None
+_llm_adapter: Any | None = None
 _structured_runners: dict[str, Any] = {}
 _structured_lock = threading.RLock()
 
@@ -46,6 +47,16 @@ def get_service() -> HarnessService:
     if _service is None:
         _service = HarnessService(HarnessConfig.from_env())
     return _service
+
+
+def _get_llm():
+    from agent.llm_adapter import LLMAdapter, LLMConfig
+
+    global _llm_adapter
+    with _structured_lock:
+        if _llm_adapter is None:
+            _llm_adapter = LLMAdapter(LLMConfig.from_env())
+        return _llm_adapter
 
 
 def _error_payload(exc: Exception) -> dict[str, Any]:
@@ -123,15 +134,14 @@ def get_result(result_id: str, session_id: str = "default") -> dict[str, Any]:
 
 def _structured_runner(session_id: str):
     """One StructuredRunner per session so multi-turn memory survives MCP calls."""
-    from agent.llm_adapter import LLMAdapter, LLMConfig
     from agent.structured_runner import StructuredRunner
     with _structured_lock:
         runner = _structured_runners.get(session_id)
         if runner is None:
             config = HarnessConfig.from_env()
             runner = StructuredRunner(
-                "harness_opt", get_service(), LLMAdapter(LLMConfig.from_env()), config,
-                session_id=session_id)
+                "harness_opt", get_service(), _get_llm(), config,
+                session_id=session_id, dialogue_enabled=True)
             _structured_runners[session_id] = runner
         return runner
 
@@ -151,20 +161,27 @@ if os.environ.get("SHELTERPLAN_MCP_STRUCTURED") == "1":
             session_id: conversation id; reuse it for multi-turn parameter inheritance
         """
         try:
-            result = _structured_runner(session_id).run_case(
-                f"mcp-{session_id}", [{"user": text}])
-            plan = result.plans[-1] if result.plans else {}
+            runner = _structured_runner(session_id)
+            record = runner.run_turn(text)
+            run = runner.last_run
+            plan = record.plan or (record.control.plan if record.control else None)
+            error_info = None
+            if record.status == "FAILED" and record.control and record.control.error:
+                error_info = record.control.error
+            elif run and run.error:
+                error_info = run.error
             return {
                 "ok": True,
-                "answer": result.final_text,
-                "intent": (result.intents[-1]["intent"]["intent"] if result.intents else None),
-                "task_type": plan.get("task_type"),
-                "action": plan.get("action"),
-                "clarification_fields": list(result.clarification_fields),
-                "result_id": ((result.submitted[-1] or {}).get("result_id")
-                              if result.submitted else None),
-                "llm_calls": len(result.llm_calls),
-                "error": result.error,
+                "status": record.status,
+                "answer": record.text,
+                "intent": (record.intent or {}).get("intent"),
+                "task_type": plan.task_type if plan else None,
+                "action": plan.action if plan else None,
+                "clarification_fields": list(record.clarification_fields),
+                "result_id": (record.bindings or {}).get("result_id"),
+                "resumed_from_clarification": record.resumed,
+                "llm_calls": len(run.llm_calls) if run else 0,
+                "error": error_info,
             }
         except Exception as exc:  # noqa: BLE001
             return _error_payload(exc)

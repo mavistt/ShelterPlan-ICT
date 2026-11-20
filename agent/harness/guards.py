@@ -146,10 +146,23 @@ def preflight(
         )
 
     # Version and admission -------------------------------------------------
-    if state.params.data_version != config.data_version:
+    if session.defaults.region_id is not None or state.params.region_id is not None:
+        if state.params.region_id != session.defaults.region_id:
+            raise GuardVersionMismatch(
+                "Scenario region_id does not match the session's bound region.",
+                details={
+                    "expected_region_id": session.defaults.region_id,
+                    "received_region_id": state.params.region_id,
+                },
+            )
+        expected_version = session.defaults.data_version
+    else:
+        expected_version = config.data_version
+
+    if state.params.data_version != expected_version:
         raise GuardVersionMismatch(
             "Scenario data_version does not match the loaded Module A source.",
-            details={"expected": config.data_version, "received": state.params.data_version},
+            details={"expected": expected_version, "received": state.params.data_version},
         )
     if state.params.analysis_mode == "verified" and config.expected_data_status != "VERIFIED":
         raise GuardNotVerifiedSource(
@@ -218,6 +231,37 @@ def preflight(
     options = validate_improvement_options(improvement_options)
     if options and task_type not in {"optimize", "diagnose_intervene", "stress_test", "sensitivity"}:
         raise GuardInvalidOption(f"improvement_options are not used by task_type={task_type}.")
+
+    if session.valid_shelter_ids is not None:
+        disabled_check = list(state.params.disabled_shelter_ids)
+        for sid in parameters.get("disabled_shelter_ids") or []:
+            if sid not in disabled_check:
+                disabled_check.append(sid)
+        if task_type == "compare":
+            for row in parameters.get("scenarios") or []:
+                for sid in (row.get("disabled_shelter_ids") or []):
+                    if sid not in disabled_check:
+                        disabled_check.append(sid)
+        unknown_shelters = [sid for sid in disabled_check if sid not in session.valid_shelter_ids]
+        if unknown_shelters:
+            raise GuardInvalidParam(
+                "Shelter id does not belong to the bound region.",
+                details={
+                    "region_id": session.defaults.region_id,
+                    "unknown_shelter_ids": unknown_shelters,
+                },
+            )
+        for row in options:
+            sid = row.get("shelter_id")
+            if sid and sid not in session.valid_shelter_ids:
+                raise GuardInvalidOption(
+                    "Improvement option shelter_id does not belong to the bound region.",
+                    details={
+                        "region_id": session.defaults.region_id,
+                        "option_id": row.get("option_id"),
+                        "shelter_id": sid,
+                    },
+                )
 
     # Parent consistency ----------------------------------------------------
     if state.parent_scenario_id and session.find_scenario(state.parent_scenario_id) is None:

@@ -94,12 +94,16 @@ class LLMAdapter:
 
     def __init__(self, config: LLMConfig | None = None, *, transport: httpx.BaseTransport | None = None) -> None:
         self.config = config or LLMConfig.from_env()
+        local = any(token in self.config.base_url for token in ("127.0.0.1", "localhost", "::1"))
         self._client = httpx.Client(
             base_url=self.config.base_url,
-            trust_env=False,  # loopback model servers must bypass any proxy
+            trust_env=not local,  # loopback model servers must bypass any proxy
             timeout=httpx.Timeout(self.config.timeout_s, connect=10.0),
             transport=transport,
         )
+        self._supports_reasoning_effort = (self.config.reasoning_effort or "").lower() not in {
+            "off", "omit", "disabled",
+        }
         self.call_count = 0
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
@@ -125,7 +129,10 @@ class LLMAdapter:
         if response_format:
             payload["response_format"] = response_format
         effort = reasoning_effort if reasoning_effort is not None else self.config.reasoning_effort
-        if effort:
+        if (self._supports_reasoning_effort
+                and (self.config.reasoning_effort or "").lower() not in {"off", "omit", "disabled"}
+                and effort
+                and str(effort).lower() not in {"off", "omit", "disabled"}):
             payload["reasoning_effort"] = effort
         headers = {"Content-Type": "application/json"}
         if self.config.api_key:
@@ -133,6 +140,7 @@ class LLMAdapter:
 
         started = time.perf_counter()
         last_error: Exception | None = None
+        reasoning_downgraded = False
         for attempt in range(self.config.max_transport_retries + 1):
             try:
                 self.call_count += 1
@@ -146,6 +154,24 @@ class LLMAdapter:
                     ) from exc
                 time.sleep(self.config.retry_backoff_s)
                 continue
+            if ("reasoning_effort" in payload
+                    and not reasoning_downgraded
+                    and _is_reasoning_effort_unsupported(response.status_code, response.text)):
+                self._supports_reasoning_effort = False
+                payload.pop("reasoning_effort", None)
+                reasoning_downgraded = True
+                try:
+                    self.call_count += 1
+                    response = self._client.post("/chat/completions", json=payload, headers=headers)
+                except (httpx.TransportError, httpx.TimeoutException) as exc:
+                    last_error = exc
+                    if attempt >= self.config.max_transport_retries:
+                        raise HarnessError(
+                            f"LLM endpoint unreachable: {exc.__class__.__name__}",
+                            details={"base_url": self.config.base_url, "model": self.config.model},
+                        ) from exc
+                    time.sleep(self.config.retry_backoff_s)
+                    continue
             if response.status_code >= 500 and attempt < self.config.max_transport_retries:
                 last_error = HarnessError(f"LLM endpoint returned HTTP {response.status_code}")
                 time.sleep(self.config.retry_backoff_s)
@@ -192,6 +218,20 @@ class LLMAdapter:
             latency_ms=latency,
             raw_message=message,
         )
+
+
+def _is_reasoning_effort_unsupported(status_code: int, body_text: str) -> bool:
+    if status_code not in {400, 422}:
+        return False
+    text = (body_text or "").lower()
+    if "reasoning_effort" in text:
+        return True
+    if "reasoning" in text and any(
+        token in text
+        for token in ("unknown", "unrecognized", "extra_forbidden", "unexpected", "not supported", "invalid")
+    ):
+        return True
+    return False
 
 
 def _parse_arguments(raw: Any) -> dict[str, Any]:
