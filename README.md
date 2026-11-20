@@ -2,7 +2,7 @@
 
 面向城市应急避难场所规划的多模块项目，以中山市为示例，整合 GIS 空间数据、容量约束规划优化和自然语言 Agent 交互。
 
-> **当前状态：DEMO_ONLY / PARTIAL。** Module A v2 已完成三个区域的数据准备和部分空间分析；石岐、小榄尚未生成道路网络和 OD 矩阵。Module B、C 已在独立功能分支开发，但尚未完成与 A v2 的端到端集成。所有结果仅用于软件演示与算法测试，不代表经过现场核验的应急规划建议。
+> **当前状态：PASS_DEMO / DEMO_ONLY。** Module A v2 已完成三个区域的数据准备、固定 PBF 步行网络、OD 和空间分析；Module B、C 已在独立功能分支开发，但尚未完成与 A v2 的端到端集成。官方行政边界、门户附件和场所人工核验仍缺失。所有结果仅用于软件演示与算法测试，不代表经过现场核验的应急规划建议。
 
 ## 1. 项目架构
 
@@ -44,9 +44,9 @@ flowchart TD
 | 区域 | 场所记录 | 人口需求节点 | OD 矩阵 |
 |---|---:|---:|---:|
 | 东区街道 | 31 | 38,469 | 1,192,539 |
-| 石岐街道 | 25 | 7,336 | 未生成 |
-| 小榄镇 | 31 | 60,406 | 未生成 |
-| Total | 87 | 106,211 | 1,192,539 |
+| 石岐街道 | 25 | 7,336 | 183,400 |
+| 小榄镇 | 31 | 60,406 | 1,872,586 |
+| Total | 87 | 106,211 | 3,248,525 |
 
 人口数据来自 WorldPop 2025 100m 栅格。
 
@@ -65,10 +65,10 @@ flowchart TD
 |---|---|---|---|
 | 人口热力图 | 已完成 | 已完成 | 已完成 |
 | 场所容量分布 | 已完成 | 已完成 | 已完成 |
-| 步行覆盖 | 已完成 | 待 OD | 待 OD |
-| 服务缺口 | 已完成 | 待 OD | 待 OD |
+| 步行覆盖 | 已完成 | 已完成 | 已完成 |
+| 服务缺口 | 已完成 | 已完成 | 已完成 |
 
-覆盖和缺口目前基于人口网格点进行分类，不等同于完整等时圈多边形，也没有考虑场所容量分配。
+覆盖和缺口目前基于人口网格点及步行网络进行分类，不等同于完整等时圈多边形，也没有考虑场所容量分配。
 
 ### Spatial Analysis Workflow
 
@@ -124,9 +124,10 @@ scripts/
 
 - shelters.geojson
 - demand_nodes.geojson
+- demand_nodes.parquet
 - population.tif
 - road_walk.graphml（网络生成成功时）
-- travel_matrix.parquet（OD 生成成功时）
+- travel_matrix.parquet
 - map_layers/
 - manifest.json
 - quality_summary.json
@@ -216,7 +217,7 @@ python scripts/validate_module_a_release.py
 python -m pytest tests/ -q
 ~~~
 
-完整人口栅格通过 Git LFS 管理。没有获取 LFS 对象时，无法从原始数据完整重建人口裁剪结果。
+完整人口栅格和广东 OSM PBF 通过 Git LFS 管理。没有获取 LFS 对象时，无法从原始数据完整重建人口裁剪、路网和 OD 结果。
 
 ## 7. Data Limitations
 
@@ -226,8 +227,8 @@ python -m pytest tests/ -q
 - 2024 年登记容量不代表当前实际可用容量。
 - 默认开放状态属于 Demo 假设。
 - 当前分析边界不等于官方行政边界。
-- 东区 OD 复用了 v0.1 旧道路图，不能将其覆盖指标解释为真实覆盖率。
-- 石岐和小榄尚无道路网络和 OD。
+- 三个区域的路网由固定 Geofabrik Guangdong OSM PBF 快照独立生成；覆盖指标仍是网络候选可达性，不是容量分配后的真实覆盖率。
+- 三个区域均没有官方行政边界，当前使用 `demo_analysis_boundary` 凸包/缓冲范围。
 - 453 条源记录尚未与门户的 906 条记录完成完整对账。
 
 ## 8. Module Handoffs
@@ -240,6 +241,7 @@ python -m pytest tests/ -q
 | A Data Schema | [module_a_schema.md](docs/interfaces/module_a_schema.md) |
 | A Development Report | [module_a_v2_final_report.md](docs/module_a_v2_final_report.md) |
 | A Development Progress | [development_progress.md](docs/development_progress.md) |
+| A Implementation Research | [IMPLEMENTATION_RESEARCH.md](docs/module_a/IMPLEMENTATION_RESEARCH.md) |
 | B API → C | [API_HANDOFF_TO_C.md](https://github.com/mavistt/ShelterPlan-ICT/blob/feature/module-b/docs/module_b/API_HANDOFF_TO_C.md) |
 | C API → D | [C_TO_D_API_HANDOFF.md](https://github.com/mavistt/ShelterPlan-ICT/blob/feature/module-c/docs/module_c/C_TO_D_API_HANDOFF.md) |
 
