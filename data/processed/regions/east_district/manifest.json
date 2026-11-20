@@ -4,11 +4,19 @@
   "data_version": "shelterplan_module_a_v2.0-demo__east_district",
   "release_status": "PASS_DEMO",
   "quality_release_status": "PASS_DEMO",
-  "created_at_utc": "2026-11-20T14:34:20.248084+00:00",
+  "created_at_utc": "2026-11-20T14:59:59.208990+00:00",
   "source": {
     "shelter_clean": "data/processed/shelters_clean.csv",
     "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
-    "walking_network": "OpenStreetMap contributors via OSMnx"
+    "walking_network": "Geofabrik Guangdong OSM PBF (static snapshot)",
+    "walking_network_detail": {
+      "provider": "Geofabrik",
+      "format": "OSM PBF",
+      "path": "data/raw/guangdong-latest.osm.pbf",
+      "sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+      "status": "STATIC_PBF",
+      "license": "OpenStreetMap data, ODbL 1.0"
+    }
   },
   "assumptions": {
     "population_demand_ratio": "Scenario parameter; not baked into demand_nodes",

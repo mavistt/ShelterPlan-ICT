@@ -10,7 +10,7 @@ ShelterPlan 由四个相互协作的模块组成。
 
 | 模块 | 主要职责 | 代码位置 |
 |---|---|---|
-| A — GIS & Spatial Analysis | 场所数据、人口、道路网络、OD、空间覆盖和规划情景 | main |
+| A — GIS & Spatial Analysis | 场所数据、人口、道路网络、OD、空间覆盖和规划情景 | feature/module-a-stage1-research |
 | B — Planning Engine | 避难需求分配、容量约束、扩容优化、压力测试和方案比较 | feature/module-b |
 | C — Agent Orchestration | 自然语言理解、参数澄清、会话管理、MCP、API 和结果解释 | feature/module-c |
 | D — Frontend | 地图展示、图层切换、规划交互和结果可视化 | 前端交接文档 |
@@ -247,10 +247,10 @@ python -m pytest tests/ -q
 
 ## 9. Development Roadmap
 
-1. Complete road networks and OD matrices for all three regions.
-2. Rebuild East District using the same network pipeline as the supplementary regions.
+1. **完成** — Complete road networks and OD matrices for all three regions.
+2. **完成** — Rebuild East District using the same fixed-PBF network pipeline as the supplementary regions.
 3. Optimize map layer size and frontend rendering.
-4. Validate A v2 → B data adapters.
+4. **完成** — Validate A v2 → B data adapters.
 5. Add region-aware scenario selection to B/C interfaces.
 6. Complete A/B/C/D integration.
 7. Validate the full end-to-end demonstration.

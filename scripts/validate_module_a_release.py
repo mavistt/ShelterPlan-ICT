@@ -119,14 +119,25 @@ def main() -> int:
             any_missing_matrix = True
             warnings.append(f"{region_id}: travel_matrix.parquet missing; network/OD remains blocked or not run")
         else:
-            matrix = pd.read_parquet(matrix_path, columns=["region_id", "demand_id", "shelter_id", "time_min", "distance_m", "reachable", "reason", "data_version"])
+            matrix = pd.read_parquet(matrix_path, columns=["region_id", "demand_id", "shelter_id", "time_min", "distance_m", "reachable", "reason", "demand_snap_m", "shelter_snap_m", "data_version"])
             expected_rows = len(demand) * len(shelters)
             check(len(matrix) == expected_rows, f"{region_id}: OD rows {len(matrix)} != Cartesian {expected_rows}", failures)
+            check(not matrix.duplicated(["demand_id", "shelter_id"]).any(), f"{region_id}: duplicate OD key", failures)
             check(set(matrix["region_id"].astype(str)) == {region_id}, f"{region_id}: OD region leakage", failures)
             check(set(matrix["demand_id"]) == set(demand["demand_id"]), f"{region_id}: OD demand foreign-key mismatch", failures)
             check(set(matrix["shelter_id"]) == set(shelters["shelter_id"]), f"{region_id}: OD shelter foreign-key mismatch", failures)
-            accepted_versions = {cfg["project"]["data_version"], f"{cfg['project']['data_version']}__{region_id}"}
-            check(set(matrix["data_version"].astype(str)) <= accepted_versions, f"{region_id}: OD data_version mismatch", failures)
+            check(set(matrix["data_version"].astype(str)) == {expected_version}, f"{region_id}: OD data_version mismatch", failures)
+            allowed_reasons = {"ok", "demand_snap_too_far", "shelter_snap_too_far", "no_path"}
+            check(set(matrix["reason"].astype(str)) <= allowed_reasons, f"{region_id}: undocumented OD reason", failures)
+            reachable = matrix["reachable"].astype(bool)
+            reachable_rows = matrix[reachable]
+            unreachable_rows = matrix[~reachable]
+            check(reachable_rows["reason"].eq("ok").all(), f"{region_id}: reachable OD row has non-ok reason", failures)
+            check(reachable_rows["time_min"].notna().all() and reachable_rows["distance_m"].notna().all(), f"{region_id}: reachable OD row has null time/distance", failures)
+            check(pd.to_numeric(reachable_rows["time_min"], errors="coerce").ge(0).all() and pd.to_numeric(reachable_rows["distance_m"], errors="coerce").ge(0).all(), f"{region_id}: reachable OD row has negative/non-numeric time/distance", failures)
+            check(unreachable_rows["reason"].ne("ok").all(), f"{region_id}: unreachable OD row has ok reason", failures)
+            check(unreachable_rows["time_min"].isna().all() and unreachable_rows["distance_m"].isna().all(), f"{region_id}: unreachable OD row has non-null time/distance", failures)
+            check(pd.to_numeric(matrix["demand_snap_m"], errors="coerce").ge(0).all() and pd.to_numeric(matrix["shelter_snap_m"], errors="coerce").ge(0).all(), f"{region_id}: invalid OD snap distance", failures)
         check((base / "layers_manifest.json").exists(), f"{region_id}: layer manifest missing", failures)
         scenario_path = base / "scenario_catalog.json"
         check(scenario_path.exists(), f"{region_id}: scenario catalog missing", failures)

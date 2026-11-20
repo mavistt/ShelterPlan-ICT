@@ -113,3 +113,14 @@ def test_manifest_excludes_itself_and_hashes_artifacts():
         assert f"data/processed/regions/{region_id}/manifest.json" not in manifest["files"]
         assert manifest["files"]
         assert all(record.get("sha256") and record.get("bytes") is not None for record in manifest["files"].values())
+
+
+def test_manifest_records_fixed_pbf_source():
+    expected_hash = "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4"
+    for region_id in EXPECTED:
+        manifest = json.loads((ROOT / "data/processed/regions" / region_id / "manifest.json").read_text(encoding="utf-8"))
+        detail = manifest["source"]["walking_network_detail"]
+        assert manifest["source"]["walking_network"] == "Geofabrik Guangdong OSM PBF (static snapshot)"
+        assert detail["path"] == "data/raw/guangdong-latest.osm.pbf"
+        assert detail["sha256"] == expected_hash
+        assert detail["status"] == "STATIC_PBF"

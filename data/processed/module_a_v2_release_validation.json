@@ -1,7 +1,7 @@
 {
   "status": "PASS_DEMO",
   "data_version": "shelterplan_module_a_v2.0-demo",
-  "generated_at_utc": "2026-11-20T14:42:53.175309+00:00",
+  "generated_at_utc": "2026-11-20T15:04:57.044520+00:00",
   "failures": [],
   "warnings": [
     "portal shelter batches are absent; source completeness is not fully reconciled",

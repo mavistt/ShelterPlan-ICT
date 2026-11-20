@@ -862,7 +862,20 @@ def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dic
         "release_status": release_status,
         "quality_release_status": release_status,
         "created_at_utc": utc_now(),
-        "source": {"shelter_clean": cfg["project"]["source_clean"], "population": cfg["project"]["population_raster"], "walking_network": "OpenStreetMap contributors via OSMnx"},
+        "source": {
+            "shelter_clean": cfg["project"]["source_clean"],
+            "population": cfg["project"]["population_raster"],
+            # Keep the legacy string field for downstream compatibility.
+            "walking_network": "Geofabrik Guangdong OSM PBF (static snapshot)",
+            "walking_network_detail": {
+                "provider": cfg["project"].get("network_source", {}).get("provider", "Geofabrik"),
+                "format": "OSM PBF",
+                "path": cfg["project"].get("network_source", {}).get("pbf_path"),
+                "sha256": sha256(ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path"))) if (ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path", ""))).is_file() else None,
+                "status": "STATIC_PBF" if (ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path", ""))).is_file() else "MISSING",
+                "license": cfg["project"].get("network_source", {}).get("license", "OpenStreetMap data, ODbL 1.0"),
+            },
+        },
         "assumptions": {"population_demand_ratio": "Scenario parameter; not baked into demand_nodes", "walking_speed_m_per_s": cfg["project"]["walking_speed_m_per_s"], "max_snap_distance_m": cfg["project"]["max_snap_distance_m"], "current_open_status": "assumed_open", "coordinate_status": "approximate_or_unresolved"},
         "quality_summary": str(paths["quality"].relative_to(ROOT)),
         "b_adapter": {"path": adapter_rel, "sha256": files[adapter_rel]["sha256"], "bytes": files[adapter_rel]["bytes"]},
