@@ -1,7 +1,7 @@
 {
   "status": "PARTIAL",
   "data_version": "shelterplan_module_a_v2.0-demo",
-  "generated_at_utc": "2026-11-20T11:37:24.192187+00:00",
+  "generated_at_utc": "2026-11-20T14:02:08.789568+00:00",
   "failures": [],
   "warnings": [
     "shiqi: travel_matrix.parquet missing; network/OD remains blocked or not run",

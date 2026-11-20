@@ -2,8 +2,9 @@
   "schema_version": 1,
   "region_id": "east_district",
   "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-  "release_status": "DEMO_ONLY",
-  "created_at_utc": "2026-11-20T11:35:53.419674+00:00",
+  "release_status": "PASS_DEMO",
+  "quality_release_status": "PASS_DEMO",
+  "created_at_utc": "2026-11-20T14:00:18.017467+00:00",
   "source": {
     "shelter_clean": "data/processed/shelters_clean.csv",
     "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
@@ -17,6 +18,12 @@
     "coordinate_status": "approximate_or_unresolved"
   },
   "quality_summary": "data/processed/regions/east_district/quality_summary.json",
+  "b_adapter": {
+    "path": "configs/module_a_v2_b/east_district.yaml",
+    "sha256": "addfceed058e962fd3be05240a3924b2601d1410355d1189aca94f169191ae46",
+    "bytes": 565
+  },
+  "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/east_district/analysis_area.geojson": {
       "bytes": 6488,
@@ -28,7 +35,7 @@
     },
     "data/processed/regions/east_district/boundary_metadata.json": {
       "bytes": 566,
-      "sha256": "4f61ddad0b2aeb629feb6272bf2e97668cc276711d20b9180c76039929bc575a"
+      "sha256": "bf6224571d8379650adad1c60182592b3d908d852f74b14b80a1f5b464b3d043"
     },
     "data/processed/regions/east_district/demand_nodes.geojson": {
       "bytes": 15700688,
@@ -118,6 +125,10 @@
       "bytes": 203743,
       "sha256": "11b5d1f7c9c87b36510d80e8b4471a9ce853bdeee8fc237dc14dcac5c5ac0869"
     },
+    "data/processed/regions/east_district/quality_summary.json": {
+      "bytes": 3515,
+      "sha256": "bf1d1a57c76558853c8d2026aa8d3f84bf2de51118dfc5db83fff67e53e055f1"
+    },
     "data/processed/regions/east_district/road_graph_metadata.json": {
       "bytes": 497,
       "sha256": "3f51df4b56bf90736398b01d0a99217dd4424db590206aafdb26b6f490079985"
@@ -127,8 +138,8 @@
       "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be"
     },
     "data/processed/regions/east_district/scenario_catalog.json": {
-      "bytes": 2932,
-      "sha256": "baca17c5b20d071667126e2fafab03d533b9a6e3b772e09c5ecd4b9a3d49481a"
+      "bytes": 3294,
+      "sha256": "41ddb3a91b05879b4b595e6719e029648ca9e4ffdd67b9b562300a4d9c46a925"
     },
     "data/processed/regions/east_district/shelter_snap_audit.csv": {
       "bytes": 1551,
@@ -143,8 +154,12 @@
       "sha256": "6cc440d4338a44694eba5ea2043a099341f729a722e0e70d69d7c70323c68b9d"
     },
     "data/processed/regions/east_district/travel_matrix.parquet": {
-      "bytes": 8446338,
-      "sha256": "97d7f9b2f5b67eb443b3fb80b7184beca3454c82f96e229f657f0bf15ed362f8"
+      "bytes": 8290285,
+      "sha256": "daadeb8361b82826e040ee967e7f93461efa864f02ec54fcf6ed6d1c5113ed41"
+    },
+    "configs/module_a_v2_b/east_district.yaml": {
+      "bytes": 565,
+      "sha256": "addfceed058e962fd3be05240a3924b2601d1410355d1189aca94f169191ae46"
     }
   }
 }

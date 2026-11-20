@@ -12,6 +12,7 @@ import math
 import os
 import shutil
 import time
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -544,6 +545,8 @@ def _graph_node_key(value: Any, graph) -> Any:
 
 def build_od(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     import osmnx as ox
+    import pyarrow as pa
+    import pyarrow.parquet as pq
 
     paths = paths_for(region_id)
     demand = gpd.read_file(paths["demand"])
@@ -567,47 +570,71 @@ def build_od(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     lengths = {}
     for _, row in s_audit.iterrows():
         lengths[row["shelter_id"]] = nx.single_source_dijkstra_path_length(graph, row["network_node"], weight="length") if row["snap_ok"] else {}
-    records = []
-    for _, drow in d_audit.iterrows():
-        for _, srow in s_audit.iterrows():
-            distance = None
-            time_min = None
-            if not drow["snap_ok"]:
-                reason = "demand_snap_too_far"
-            elif not srow["snap_ok"]:
-                reason = "shelter_snap_too_far"
-            else:
-                network_distance = lengths[srow["shelter_id"]].get(drow["network_node"])
-                if network_distance is None:
-                    reason = "no_path"
-                else:
-                    access_distance = float(drow["snap_distance_m"]) + float(srow["snap_distance_m"])
-                    distance = float(network_distance) + access_distance
-                    time_min = distance / speed / 60
-                    reason = "ok"
-            records.append({
-                "region_id": region_id,
-                "demand_id": drow["demand_id"],
-                "shelter_id": srow["shelter_id"],
-                "distance_m": distance,
-                "travel_time_min": time_min,
-                "time_min": time_min,
-                "reachable": reason == "ok",
-                "reason": reason,
-                "demand_snap_m": float(drow["snap_distance_m"]),
-                "shelter_snap_m": float(srow["snap_distance_m"]),
-                "walking_speed_m_per_s": speed,
-                "data_version": f"{cfg['project']['data_version']}__{region_id}",
-            })
-    matrix = pd.DataFrame(records)
-    matrix.to_parquet(paths["matrix"], index=False)
+    data_version = f"{cfg['project']['data_version']}__{region_id}"
+    schema = pa.schema([
+        ("region_id", pa.string()), ("demand_id", pa.string()), ("shelter_id", pa.string()),
+        ("distance_m", pa.float64()), ("travel_time_min", pa.float64()), ("time_min", pa.float64()),
+        ("reachable", pa.bool_()), ("reason", pa.string()), ("demand_snap_m", pa.float64()),
+        ("shelter_snap_m", pa.float64()), ("walking_speed_m_per_s", pa.float64()), ("data_version", pa.string()),
+    ])
+    batch_size = int(cfg["project"].get("od_demand_batch_size", 1024))
+    temp_path = paths["matrix"].with_suffix(".parquet.tmp")
+    temp_path.unlink(missing_ok=True)
+    writer = None
+    row_count = 0
+    reachable_pairs = 0
+    reason_counts: Counter[str] = Counter()
+    try:
+        for start in range(0, len(d_audit), batch_size):
+            rows = {name: [] for name in schema.names}
+            for _, drow in d_audit.iloc[start:start + batch_size].iterrows():
+                for _, srow in s_audit.iterrows():
+                    distance = None
+                    time_min = None
+                    if not drow["snap_ok"]:
+                        reason = "demand_snap_too_far"
+                    elif not srow["snap_ok"]:
+                        reason = "shelter_snap_too_far"
+                    else:
+                        network_distance = lengths[srow["shelter_id"]].get(drow["network_node"])
+                        if network_distance is None:
+                            reason = "no_path"
+                        else:
+                            access_distance = float(drow["snap_distance_m"]) + float(srow["snap_distance_m"])
+                            distance = float(network_distance) + access_distance
+                            time_min = distance / speed / 60
+                            reason = "ok"
+                    rows["region_id"].append(region_id)
+                    rows["demand_id"].append(str(drow["demand_id"]))
+                    rows["shelter_id"].append(str(srow["shelter_id"]))
+                    rows["distance_m"].append(distance)
+                    rows["travel_time_min"].append(time_min)
+                    rows["time_min"].append(time_min)
+                    rows["reachable"].append(reason == "ok")
+                    rows["reason"].append(reason)
+                    rows["demand_snap_m"].append(float(drow["snap_distance_m"]))
+                    rows["shelter_snap_m"].append(float(srow["snap_distance_m"]))
+                    rows["walking_speed_m_per_s"].append(speed)
+                    rows["data_version"].append(data_version)
+                    row_count += 1
+                    reachable_pairs += int(reason == "ok")
+                    reason_counts[reason] += 1
+            table = pa.Table.from_pydict(rows, schema=schema)
+            if writer is None:
+                writer = pq.ParquetWriter(temp_path, schema=schema, compression="zstd")
+            writer.write_table(table)
+    finally:
+        if writer is not None:
+            writer.close()
+    temp_path.replace(paths["matrix"])
     return {
-        "rows": int(len(matrix)),
+        "rows": int(row_count),
         "expected_rows": int(len(demand) * len(shelters)),
-        "reachable_pairs": int(matrix["reachable"].sum()),
-        "reason_counts": {str(k): int(v) for k, v in matrix["reason"].value_counts().items()},
+        "reachable_pairs": int(reachable_pairs),
+        "reason_counts": dict(reason_counts),
         "demand_nodes": int(len(demand)),
         "spatial_shelters": int(len(shelters)),
+        "od_demand_batch_size": batch_size,
     }
 
 
@@ -671,14 +698,20 @@ def run_spatial_analysis(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
 
 def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dict[str, Any]) -> None:
     paths = paths_for(region_id)
-    files = {}
-    for path in sorted(paths["base"].rglob("*")):
-        if path.is_file() and path.name not in {"manifest.json", "quality_summary.json", "run_status.json"}:
-            rel = str(path.relative_to(ROOT)).replace("\\", "/")
-            files[rel] = {"bytes": path.stat().st_size, "sha256": sha256(path)}
+    data_version = f"{cfg['project']['data_version']}__{region_id}"
     status = "DEMO_ONLY"
+    release_status = "PASS_DEMO" if not results.get("errors") else "PARTIAL"
+    b_cfg = {
+        "project": {"name": "ShelterPlan Module A v2", "data_version": data_version, "region_id": region_id, "data_status": status},
+        "paths": {"shelters_geojson": str(paths["shelters"].relative_to(ROOT)), "demand_nodes": str(paths["demand"].relative_to(ROOT)), "travel_matrix": str(paths["matrix"].relative_to(ROOT)), "manifest": str(paths["manifest"].relative_to(ROOT)), "a7_quality_summary": str(paths["quality"].relative_to(ROOT))},
+        "network": {"max_snap_distance_m": cfg["project"]["max_snap_distance_m"]},
+    }
+    paths["b_config"].parent.mkdir(parents=True, exist_ok=True)
+    paths["b_config"].write_text(yaml.safe_dump(b_cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
     quality = {
         "region_id": region_id,
+        "data_version": data_version,
+        "release_status": release_status,
         "verdict": status,
         "data_status": status,
         "real_pilot_accepted": False,
@@ -692,25 +725,28 @@ def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dic
         "blockers": ["Demo coordinates are approximate or unresolved.", "2024 capacities are original or regional-median demo imputations.", "Boundary is public OSM or demo-derived, not an official government boundary.", "Current open status is assumed_open for demo only."],
     }
     paths["quality"].write_text(json.dumps(quality, ensure_ascii=False, indent=2), encoding="utf-8")
+    files = {}
+    for path in sorted(paths["base"].rglob("*")):
+        if path.is_file() and path.name not in {"manifest.json", "run_status.json"}:
+            rel = str(path.relative_to(ROOT)).replace("\\", "/")
+            files[rel] = {"bytes": path.stat().st_size, "sha256": sha256(path)}
+    adapter_rel = str(paths["b_config"].relative_to(ROOT)).replace("\\", "/")
+    files[adapter_rel] = {"bytes": paths["b_config"].stat().st_size, "sha256": sha256(paths["b_config"])}
     manifest = {
         "schema_version": 1,
         "region_id": region_id,
-        "data_version": f"{cfg['project']['data_version']}__{region_id}",
-        "release_status": status,
+        "data_version": data_version,
+        "release_status": release_status,
+        "quality_release_status": release_status,
         "created_at_utc": utc_now(),
         "source": {"shelter_clean": cfg["project"]["source_clean"], "population": cfg["project"]["population_raster"], "walking_network": "OpenStreetMap contributors via OSMnx"},
         "assumptions": {"population_demand_ratio": "Scenario parameter; not baked into demand_nodes", "walking_speed_m_per_s": cfg["project"]["walking_speed_m_per_s"], "max_snap_distance_m": cfg["project"]["max_snap_distance_m"], "current_open_status": "assumed_open", "coordinate_status": "approximate_or_unresolved"},
         "quality_summary": str(paths["quality"].relative_to(ROOT)),
+        "b_adapter": {"path": adapter_rel, "sha256": files[adapter_rel]["sha256"], "bytes": files[adapter_rel]["bytes"]},
+        "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
         "files": files,
     }
     paths["manifest"].write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    b_cfg = {
-        "project": {"name": "ShelterPlan Module A v2", "data_version": manifest["data_version"], "region_id": region_id, "data_status": status},
-        "paths": {"shelters_geojson": str(paths["shelters"].relative_to(ROOT)), "demand_nodes": str(paths["demand"].relative_to(ROOT)), "travel_matrix": str(paths["matrix"].relative_to(ROOT)), "manifest": str(paths["manifest"].relative_to(ROOT)), "a7_quality_summary": str(paths["quality"].relative_to(ROOT))},
-        "network": {"max_snap_distance_m": cfg["project"]["max_snap_distance_m"]},
-    }
-    paths["b_config"].parent.mkdir(parents=True, exist_ok=True)
-    paths["b_config"].write_text(yaml.safe_dump(b_cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 
 def run_region(region_id: str, force_legacy_network: bool = False, skip_network: bool = False) -> dict[str, Any]:

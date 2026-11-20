@@ -34,6 +34,7 @@ def make_scenarios(region_id: str, shelters: gpd.GeoDataFrame, data_version: str
             "closed_shelter_ids": [],
             "capacity_adjustments": {},
             "data_version": data_version,
+            "analysis_mode": "demo",
             "assumption_type": "illustrative_scenario",
             "notes": label,
         })
@@ -46,6 +47,7 @@ def make_scenarios(region_id: str, shelters: gpd.GeoDataFrame, data_version: str
         "closed_shelter_ids": [first_id] if first_id else [],
         "capacity_adjustments": {},
         "data_version": data_version,
+        "analysis_mode": "demo",
         "assumption_type": "illustrative_scenario",
         "notes": "Closes one spatial shelter candidate; replace the ID after human facility review.",
     })
@@ -58,7 +60,9 @@ def make_scenarios(region_id: str, shelters: gpd.GeoDataFrame, data_version: str
         "closed_shelter_ids": [],
         "capacity_adjustments": {first_id: {"delta_persons": round(capacity * 0.25, 2), "basis": "illustrative_25_percent_increase"}} if first_id else {},
         "data_version": data_version,
+        "analysis_mode": "demo",
         "assumption_type": "illustrative_scenario",
+        "capacity_adjustment_status": "parameter_only_not_optimization",
         "notes": "Illustrative capacity increase; does not assert current operational capacity.",
     })
     return scenarios
@@ -75,14 +79,15 @@ def main() -> int:
     for region_id in cfg["regions"]:
         shelter_path = catalog_dir / region_id / "shelters.geojson"
         shelters = gpd.read_file(shelter_path)
-        scenarios = make_scenarios(region_id, shelters, cfg["project"]["data_version"])
+        region_version = f"{cfg['project']['data_version']}__{region_id}"
+        scenarios = make_scenarios(region_id, shelters, region_version)
         ids = set(shelters["shelter_id"].astype(str))
         for item in scenarios:
             unknown = (set(item["closed_shelter_ids"]) | set(item["capacity_adjustments"])) - ids
             if unknown:
                 raise ValueError(f"{region_id}: scenario references unknown shelter IDs: {sorted(unknown)}")
         (catalog_dir / region_id / "scenario_catalog.json").write_text(
-            json.dumps({"region_id": region_id, "data_version": cfg["project"]["data_version"], "scenarios": scenarios}, ensure_ascii=False, indent=2),
+            json.dumps({"region_id": region_id, "data_version": region_version, "scenarios": scenarios}, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
         all_scenarios.extend(scenarios)
@@ -94,7 +99,9 @@ def main() -> int:
         "max_walk_time_min": 15,
         "closed_shelter_ids": [],
         "capacity_adjustments": {},
-        "data_version": cfg["project"]["data_version"],
+        "data_version": None,
+        "region_data_versions": {region_id: f"{cfg['project']['data_version']}__{region_id}" for region_id in cfg["regions"]},
+        "analysis_mode": "demo",
         "assumption_type": "illustrative_scenario",
         "notes": "Compare region-level outputs; do not combine OD matrices across regions.",
     })

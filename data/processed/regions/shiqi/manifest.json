@@ -2,8 +2,9 @@
   "schema_version": 1,
   "region_id": "shiqi",
   "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-  "release_status": "DEMO_ONLY",
-  "created_at_utc": "2026-11-20T11:35:54.185719+00:00",
+  "release_status": "PARTIAL",
+  "quality_release_status": "PARTIAL",
+  "created_at_utc": "2026-11-20T14:00:49.168396+00:00",
   "source": {
     "shelter_clean": "data/processed/shelters_clean.csv",
     "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
@@ -17,6 +18,12 @@
     "coordinate_status": "approximate_or_unresolved"
   },
   "quality_summary": "data/processed/regions/shiqi/quality_summary.json",
+  "b_adapter": {
+    "path": "configs/module_a_v2_b/shiqi.yaml",
+    "sha256": "5d5bc015688665f56f9a7d2ac30b0c345fdb4c5112bd6880d587210335c07ea3",
+    "bytes": 509
+  },
+  "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/shiqi/analysis_area.geojson": {
       "bytes": 6475,
@@ -28,7 +35,7 @@
     },
     "data/processed/regions/shiqi/boundary_metadata.json": {
       "bytes": 558,
-      "sha256": "9664f95326f324ad5212e88f55832edf556809490d814e3f35664b053cae02cd"
+      "sha256": "244f29b7eb489507ae0da6fafa2cc02757f72a64040f56e69fba9438f9c0831d"
     },
     "data/processed/regions/shiqi/demand_nodes.geojson": {
       "bytes": 2866203,
@@ -58,9 +65,13 @@
       "bytes": 35424,
       "sha256": "c74148a470d7098aa330c4bd28e877d1ed14d9e696740024a9e0e3cff74aa853"
     },
+    "data/processed/regions/shiqi/quality_summary.json": {
+      "bytes": 943,
+      "sha256": "08350188f2bc83a46c4019daf73351d931060756adf81bcd07d3146ee38a9e54"
+    },
     "data/processed/regions/shiqi/scenario_catalog.json": {
-      "bytes": 2826,
-      "sha256": "f316c2b209708c974ca86dea1f3c1183e4ad626b268e33b5a72c9a06c005eb0f"
+      "bytes": 3132,
+      "sha256": "55543a1a770b9a57458409f03177ebd201e13d8aceedd7b6da0b6d212a575a04"
     },
     "data/processed/regions/shiqi/shelters.geojson": {
       "bytes": 79789,
@@ -69,6 +80,10 @@
     "data/processed/regions/shiqi/shelters_all.csv": {
       "bytes": 27234,
       "sha256": "f2e5bc85a7a9f211d9f0b0743205a8662b6a53c230f66444b522d3b167e016ed"
+    },
+    "configs/module_a_v2_b/shiqi.yaml": {
+      "bytes": 509,
+      "sha256": "5d5bc015688665f56f9a7d2ac30b0c345fdb4c5112bd6880d587210335c07ea3"
     }
   }
 }

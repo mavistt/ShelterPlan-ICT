@@ -1,5 +1,7 @@
 {
   "region_id": "east_district",
+  "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+  "release_status": "PASS_DEMO",
   "verdict": "DEMO_ONLY",
   "data_status": "DEMO_ONLY",
   "real_pilot_accepted": false,
@@ -38,7 +40,8 @@
       "no_path": 2726
     },
     "demand_nodes": 38469,
-    "spatial_shelters": 31
+    "spatial_shelters": 31,
+    "od_demand_batch_size": 1024
   },
   "spatial_analysis": {
     "layers": 11,

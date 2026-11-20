@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T11:35:58.452533+00:00",
+  "generated_at_utc": "2026-11-20T14:01:24.399863+00:00",
   "data_version": "shelterplan_module_a_v2.0-demo",
   "regions": [
     {
@@ -24,7 +24,7 @@
         "geometry_valid": true,
         "boundary_sha256": "72ec98a79ddf930d91a2f5e92b0a1b6dbf8b99a4080385a3ae3eb31d942deeff",
         "analysis_area_sha256": "382baa4596cbc6ae2972e86cd1e083f245a3a384e208a30c6ab8a48c2f77a78d",
-        "retrieved_at_utc": "2026-11-20T11:34:44.779368+00:00"
+        "retrieved_at_utc": "2026-11-20T13:58:58.151524+00:00"
       },
       "population": {
         "region_id": "east_district",
@@ -58,7 +58,8 @@
           "no_path": 2726
         },
         "demand_nodes": 38469,
-        "spatial_shelters": 31
+        "spatial_shelters": 31,
+        "od_demand_batch_size": 1024
       },
       "spatial": {
         "layers": 11,
@@ -141,7 +142,7 @@
         "geometry_valid": true,
         "boundary_sha256": "ce21246535b277cf525e881af46a10edb229b7b1c7629f82ff9275081c966769",
         "analysis_area_sha256": "633936f2c2b5cd13ad70b548f1b60f5bb75e7433de7fcdae6ca11fdebfa75dba",
-        "retrieved_at_utc": "2026-11-20T11:35:53.764934+00:00"
+        "retrieved_at_utc": "2026-11-20T14:00:48.544899+00:00"
       },
       "population": {
         "region_id": "shiqi",
@@ -189,7 +190,7 @@
         "geometry_valid": true,
         "boundary_sha256": "cf4c94cad20d16a7e7420ebd5b00df8f6c55b7cd259aa2b00c5403bf9de6bdcf",
         "analysis_area_sha256": "db8daf56e9828aff4c68c6ccb39a4cf17ce5e2d9b7aea46687ea4baf8a05ffee",
-        "retrieved_at_utc": "2026-11-20T11:35:54.530982+00:00"
+        "retrieved_at_utc": "2026-11-20T14:01:19.662606+00:00"
       },
       "population": {
         "region_id": "xiaolan",

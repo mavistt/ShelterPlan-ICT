@@ -2,8 +2,9 @@
   "schema_version": 1,
   "region_id": "xiaolan",
   "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
-  "release_status": "DEMO_ONLY",
-  "created_at_utc": "2026-11-20T11:35:57.636613+00:00",
+  "release_status": "PARTIAL",
+  "quality_release_status": "PARTIAL",
+  "created_at_utc": "2026-11-20T14:01:23.453578+00:00",
   "source": {
     "shelter_clean": "data/processed/shelters_clean.csv",
     "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
@@ -17,6 +18,12 @@
     "coordinate_status": "approximate_or_unresolved"
   },
   "quality_summary": "data/processed/regions/xiaolan/quality_summary.json",
+  "b_adapter": {
+    "path": "configs/module_a_v2_b/xiaolan.yaml",
+    "sha256": "42845aedc5674aeba8db158bdaa4db08acf8162b676cf7c442c6175156bc3cc7",
+    "bytes": 523
+  },
+  "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/xiaolan/analysis_area.geojson": {
       "bytes": 6658,
@@ -28,7 +35,7 @@
     },
     "data/processed/regions/xiaolan/boundary_metadata.json": {
       "bytes": 557,
-      "sha256": "9f6f0151f064e0727f3b3655fd8678861105a91a9f223fa9e704063b2ecf32f0"
+      "sha256": "714738d1c6634f0734bcb863d5d0a425613570830e602fee75875c0373f2a987"
     },
     "data/processed/regions/xiaolan/demand_nodes.geojson": {
       "bytes": 23936958,
@@ -58,9 +65,13 @@
       "bytes": 308896,
       "sha256": "f521379ecee9f772205f6978e0d40324d664483a81284f4e73c02298fe149cea"
     },
+    "data/processed/regions/xiaolan/quality_summary.json": {
+      "bytes": 953,
+      "sha256": "adbded66d99308a727b5cbc1af06f9de481e0cd23b74dbf6d7c85ed7a1bdd702"
+    },
     "data/processed/regions/xiaolan/scenario_catalog.json": {
-      "bytes": 2854,
-      "sha256": "378bd84eea86c953b1dfcc1b9b1c8592f270b135172a6d9c30eaadc04b95fe9c"
+      "bytes": 3174,
+      "sha256": "8fd10087d3cb6a8da684675a6ccabde0d426e902cc43aa2fa75c9c84344110ab"
     },
     "data/processed/regions/xiaolan/shelters.geojson": {
       "bytes": 100548,
@@ -69,6 +80,10 @@
     "data/processed/regions/xiaolan/shelters_all.csv": {
       "bytes": 35162,
       "sha256": "57d53cc723225749ad3a510f63a28511494b8d68080647762f9c229baf0b00c2"
+    },
+    "configs/module_a_v2_b/xiaolan.yaml": {
+      "bytes": 523,
+      "sha256": "42845aedc5674aeba8db158bdaa4db08acf8162b676cf7c442c6175156bc3cc7"
     }
   }
 }

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 
 import geopandas as gpd
@@ -23,6 +24,14 @@ REQUIRED_DOCS = [
 def check(cond: bool, message: str, failures: list[str], warnings: list[str] | None = None) -> None:
     if not cond:
         (warnings if warnings is not None else failures).append(message)
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def main() -> int:
@@ -71,6 +80,34 @@ def main() -> int:
             stats = json.loads(pop_stats.read_text(encoding="utf-8"))
             if len(demand):
                 check(abs(float(stats.get("population_sum", -1)) - float(demand["pop_est"].astype(float).sum())) <= 1e-3, f"{region_id}: population totals do not reconcile", failures)
+        quality_path = base / "quality_summary.json"
+        manifest_path = base / "manifest.json"
+        expected_version = f"{cfg['project']['data_version']}__{region_id}"
+        check(quality_path.exists(), f"{region_id}: quality summary missing", failures)
+        check(manifest_path.exists(), f"{region_id}: manifest missing", failures)
+        if quality_path.exists():
+            quality = json.loads(quality_path.read_text(encoding="utf-8"))
+            check(quality.get("region_id") == region_id, f"{region_id}: quality region_id mismatch", failures)
+            check(quality.get("data_version") == expected_version, f"{region_id}: quality data_version mismatch", failures)
+            check(quality.get("verdict") in {"DEMO_ONLY", "VERIFIED"}, f"{region_id}: invalid quality verdict", failures)
+        if manifest_path.exists():
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            check(manifest.get("region_id") == region_id, f"{region_id}: manifest region_id mismatch", failures)
+            check(manifest.get("data_version") == expected_version, f"{region_id}: manifest data_version mismatch", failures)
+            check(manifest.get("release_status") in {"PASS_DEMO", "PARTIAL", "FAIL"}, f"{region_id}: invalid manifest release_status", failures)
+            for rel, record in manifest.get("files", {}).items():
+                artifact = ROOT / rel
+                check(artifact.is_file(), f"{region_id}: manifest artifact missing: {rel}", failures)
+                if artifact.is_file():
+                    check(record.get("bytes") == artifact.stat().st_size, f"{region_id}: manifest byte mismatch: {rel}", failures)
+                    check(record.get("sha256") == sha256(artifact), f"{region_id}: manifest SHA mismatch: {rel}", failures)
+            adapter_record = manifest.get("b_adapter") or {}
+            adapter_path = ROOT / str(adapter_record.get("path", ""))
+            check(adapter_path.is_file(), f"{region_id}: B adapter referenced by manifest is missing", failures)
+            if adapter_path.is_file():
+                check(adapter_record.get("sha256") == sha256(adapter_path), f"{region_id}: B adapter SHA mismatch", failures)
+                adapter = yaml.safe_load(adapter_path.read_text(encoding="utf-8"))
+                check(adapter.get("project", {}).get("data_version") == expected_version, f"{region_id}: B adapter data_version mismatch", failures)
         matrix_path = base / "travel_matrix.parquet"
         if not matrix_path.exists():
             any_missing_matrix = True
@@ -85,12 +122,24 @@ def main() -> int:
             accepted_versions = {cfg["project"]["data_version"], f"{cfg['project']['data_version']}__{region_id}"}
             check(set(matrix["data_version"].astype(str)) <= accepted_versions, f"{region_id}: OD data_version mismatch", failures)
         check((base / "layers_manifest.json").exists(), f"{region_id}: layer manifest missing", failures)
-        check((base / "scenario_catalog.json").exists(), f"{region_id}: scenario catalog missing", failures)
+        scenario_path = base / "scenario_catalog.json"
+        check(scenario_path.exists(), f"{region_id}: scenario catalog missing", failures)
+        if scenario_path.exists():
+            scenario_catalog = json.loads(scenario_path.read_text(encoding="utf-8"))
+            scenarios = scenario_catalog.get("scenarios", [])
+            check(scenario_catalog.get("data_version") == expected_version, f"{region_id}: scenario catalog data_version mismatch", failures)
+            check(len(scenarios) == 6, f"{region_id}: expected six regional scenarios, found {len(scenarios)}", failures)
+            check(all(item.get("data_version") == expected_version for item in scenarios), f"{region_id}: scenario item data_version mismatch", failures)
         check((ROOT / "configs/module_a_v2_b" / f"{region_id}.yaml").exists(), f"{region_id}: B adapter config missing", failures)
         region_reports[region_id] = {"source_rows": len(all_rows), "spatial_rows": len(shelters), "demand_nodes": len(demand), "has_od": matrix_path.exists()}
     for doc in REQUIRED_DOCS:
         check((ROOT / doc).exists(), f"missing required deliverable {doc}", failures)
     check((ROOT / "data/processed/road_walk.graphml").exists(), "legacy v0.1 East graph was overwritten or is missing", failures)
+    planning_scenarios_path = ROOT / "configs/planning_scenarios.yaml"
+    if planning_scenarios_path.exists():
+        planning_scenarios = yaml.safe_load(planning_scenarios_path.read_text(encoding="utf-8"))
+        regional_items = [item for item in planning_scenarios.get("scenarios", []) if item.get("region_id") in EXPECTED]
+        check(len(regional_items) == 18, f"planning_scenarios.yaml regional scenario count={len(regional_items)}", failures)
     status = "FAIL" if failures else ("PARTIAL" if any_missing_matrix or warnings else "PASS")
     report = {
         "status": status,

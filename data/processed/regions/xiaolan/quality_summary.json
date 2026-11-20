@@ -1,5 +1,7 @@
 {
   "region_id": "xiaolan",
+  "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+  "release_status": "PARTIAL",
   "verdict": "DEMO_ONLY",
   "data_status": "DEMO_ONLY",
   "real_pilot_accepted": false,

@@ -85,3 +85,31 @@ def test_required_release_artifacts_exist():
         "docs/module_a_v2_final_report.md",
     ]:
         assert (ROOT / path).exists()
+
+
+def test_region_versions_manifest_and_adapter_are_aligned():
+    base_version = "shelterplan_module_a_v2.0-demo"
+    for region_id in EXPECTED:
+        region_version = f"{base_version}__{region_id}"
+        base = ROOT / "data/processed/regions" / region_id
+        quality = json.loads((base / "quality_summary.json").read_text(encoding="utf-8"))
+        manifest = json.loads((base / "manifest.json").read_text(encoding="utf-8"))
+        adapter = yaml.safe_load((ROOT / "configs/module_a_v2_b" / f"{region_id}.yaml").read_text(encoding="utf-8"))
+        catalog = json.loads((base / "scenario_catalog.json").read_text(encoding="utf-8"))
+        assert quality["data_version"] == region_version
+        assert manifest["data_version"] == region_version
+        assert adapter["project"]["data_version"] == region_version
+        assert catalog["data_version"] == region_version
+        assert len(catalog["scenarios"]) == 6
+        assert all(item["data_version"] == region_version for item in catalog["scenarios"])
+        adapter_rel = manifest["b_adapter"]["path"]
+        assert adapter_rel == f"configs/module_a_v2_b/{region_id}.yaml"
+        assert manifest["files"][adapter_rel]["sha256"] == manifest["b_adapter"]["sha256"]
+
+
+def test_manifest_excludes_itself_and_hashes_artifacts():
+    for region_id in EXPECTED:
+        manifest = json.loads((ROOT / "data/processed/regions" / region_id / "manifest.json").read_text(encoding="utf-8"))
+        assert f"data/processed/regions/{region_id}/manifest.json" not in manifest["files"]
+        assert manifest["files"]
+        assert all(record.get("sha256") and record.get("bytes") is not None for record in manifest["files"].values())
