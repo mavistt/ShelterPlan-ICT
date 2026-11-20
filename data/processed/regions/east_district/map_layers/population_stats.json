@@ -2,6 +2,8 @@
   "region_id": "east_district",
   "population_sum": 1675977.056945986,
   "demand_nodes": 38469,
-  "cell_area_km2": 0.01,
+  "cell_area_km2_min": 0.00790511395457387,
+  "cell_area_km2_max": 0.007921457117050886,
+  "cell_area_km2_mean": 0.007911339278042948,
   "population_status": "modelled_estimate"
 }

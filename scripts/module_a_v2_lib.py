@@ -12,6 +12,7 @@ import math
 import os
 import shutil
 import time
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -77,6 +78,7 @@ def paths_for(region_id: str) -> dict[str, Path]:
         "population": base / "population.tif",
         "population_heatmap": layers / "population_density.tif",
         "demand": base / "demand_nodes.geojson",
+        "demand_parquet": base / "demand_nodes.parquet",
         "graph": base / "road_walk.graphml",
         "graph_metadata": base / "road_graph_metadata.json",
         "road_edges": layers / "road_edges.geojson",
@@ -393,6 +395,27 @@ def build_boundary(region_id: str, cfg: dict[str, Any], shelters: pd.DataFrame) 
     return metadata
 
 
+def _cell_area_km2(transform, width: int, height: int, crs: Any) -> np.ndarray:
+    """Return per-cell area in km²; geographic rasters are not constant-area."""
+    try:
+        from pyproj import CRS, Geod
+        raster_crs = CRS.from_user_input(crs)
+    except Exception:
+        raster_crs = None
+    if raster_crs is not None and raster_crs.is_geographic:
+        geod = Geod(ellps="WGS84")
+        areas = np.empty(height, dtype="float64")
+        for row in range(height):
+            x0, y0 = transform * (0, row)
+            x1, y1 = transform * (1, row + 1)
+            lons = [x0, x1, x1, x0]
+            lats = [y0, y0, y1, y1]
+            areas[row] = abs(geod.polygon_area_perimeter(lons, lats)[0]) / 1_000_000.0
+        return np.repeat(areas[:, None], width, axis=1)
+    unit_area = abs(float(transform.a) * float(transform.e)) / 1_000_000.0
+    return np.full((height, width), unit_area, dtype="float64")
+
+
 def clip_population(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     paths = paths_for(region_id)
     area = gpd.read_file(paths["analysis_area"]).geometry.iloc[0]
@@ -408,6 +431,7 @@ def clip_population(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
         array = clipped[0].astype("float64")
         valid = np.isfinite(array) & (array != nodata) & (array >= 0)
         positive = valid & (array > 0)
+        cell_areas = _cell_area_km2(transform, array.shape[1], array.shape[0], source.crs)
         rows, cols = np.where(positive)
         xs, ys = xy(transform, rows, cols, offset="center")
         values = array[rows, cols]
@@ -418,6 +442,7 @@ def clip_population(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
                 "row": rows.astype(int),
                 "col": cols.astype(int),
                 "pop_est": values.astype(float),
+                "cell_area_km2": cell_areas[rows, cols].astype(float),
                 "population_year": int(cfg["project"]["population_year"]),
                 "population_source": "WorldPop Global2 R2025A v1",
                 "population_status": "modelled_estimate",
@@ -426,6 +451,7 @@ def clip_population(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
             geometry=[Point(x, y) for x, y in zip(xs, ys)], crs=source.crs,
         ).to_crs("EPSG:4326")
     demand.to_file(paths["demand"], driver="GeoJSON", index=False)
+    demand.drop(columns=["geometry"]).to_parquet(paths["demand_parquet"], index=False)
     stats = {
         "region_id": region_id,
         "raster_crs": str(metadata.get("crs")),
@@ -434,16 +460,109 @@ def clip_population(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
         "positive_cells": int(len(demand)),
         "population_sum": float(values.sum()),
         "demand_node_sum": float(demand["pop_est"].sum()),
+        "cell_area_km2_min": float(cell_areas[valid].min()),
+        "cell_area_km2_max": float(cell_areas[valid].max()),
+        "cell_area_km2_mean": float(cell_areas[valid].mean()),
         "totals_reconcile": bool(np.isclose(float(values.sum()), float(demand["pop_est"].sum()), rtol=1e-6, atol=1e-3)),
     }
     paths["population_stats"].write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
     return stats
 
 
+def _build_network_from_pbf(region_id: str, cfg: dict[str, Any], pbf_path: Path) -> dict[str, Any]:
+    import osmnx as ox
+    import pyogrio
+
+    paths = paths_for(region_id)
+    area = gpd.read_file(paths["analysis_area"]).geometry.iloc[0]
+    area_gdf = gpd.GeoDataFrame(geometry=[area], crs="EPSG:4326")
+    metric_crs = area_gdf.estimate_utm_crs()
+    area_metric = area_gdf.to_crs(metric_crs).geometry.iloc[0]
+    buffered_metric = area_metric.buffer(float(cfg["project"]["network_buffer_m"]))
+    buffered_wgs84 = gpd.GeoSeries([buffered_metric], crs=metric_crs).to_crs("EPSG:4326").iloc[0]
+    layers = pyogrio.list_layers(str(pbf_path))
+    layer_names = [str(row[0]) for row in layers]
+    line_layer = next((name for name in layer_names if name.lower() in {"lines", "linestrings"}), None)
+    if line_layer is None:
+        raise RuntimeError(f"PBF has no OSM line layer; available layers={layer_names}")
+    lines = pyogrio.read_dataframe(str(pbf_path), layer=line_layer, bbox=tuple(buffered_wgs84.bounds), use_arrow=True)
+    if "highway" not in lines.columns:
+        raise RuntimeError("PBF line layer has no highway tag")
+    walkable = {"footway", "path", "pedestrian", "steps", "living_street", "residential", "service", "unclassified", "tertiary", "secondary", "primary", "trunk", "cycleway", "track", "bridleway", "road"}
+
+    def is_walkable(value: Any) -> bool:
+        values = value if isinstance(value, (list, tuple, set)) else str(value or "").split(";")
+        return any(str(item).strip().lower() in walkable for item in values)
+
+    lines = lines[lines["highway"].map(is_walkable) & lines.geometry.notna()].copy()
+    if lines.empty:
+        raise RuntimeError(f"No walkable OSM lines intersect {region_id} analysis area")
+    lines = lines.to_crs(metric_crs)
+    graph = nx.MultiDiGraph()
+    node_ids: dict[tuple[float, float], int] = {}
+    next_node = 0
+
+    def node_for(x: float, y: float) -> int:
+        nonlocal next_node
+        key = (round(float(x), 3), round(float(y), 3))
+        if key not in node_ids:
+            node_ids[key] = next_node
+            graph.add_node(next_node, x=key[0], y=key[1])
+            next_node += 1
+        return node_ids[key]
+
+    for geometry in lines.geometry:
+        geometries = list(geometry.geoms) if geometry.geom_type == "MultiLineString" else [geometry]
+        for line in geometries:
+            coords = list(line.coords)
+            for start, end in zip(coords, coords[1:]):
+                u = node_for(start[0], start[1])
+                v = node_for(end[0], end[1])
+                length = float(Point(start).distance(Point(end)))
+                if length <= 0:
+                    continue
+                graph.add_edge(u, v, length=length)
+                graph.add_edge(v, u, length=length)
+    graph.graph["crs"] = metric_crs.to_string()
+    if graph.number_of_nodes() == 0 or graph.number_of_edges() == 0:
+        raise RuntimeError(f"Generated empty walk graph for {region_id}")
+    projected = graph
+    ox.save_graphml(projected, filepath=paths["graph"])
+    _, edges = ox.graph_to_gdfs(graph, nodes=True, edges=True, fill_edge_geometry=True)
+    edges.to_crs("EPSG:4326").to_file(paths["road_edges"], driver="GeoJSON", index=False)
+    gpd.GeoDataFrame([{"region_id": region_id, "network_source": "geofabrik_osm_pbf"}], geometry=[buffered_wgs84], crs="EPSG:4326").to_file(paths["network_buffer"], driver="GeoJSON", index=False)
+    components = list(nx.connected_components(graph.to_undirected()))
+    metadata = {
+        "region_id": region_id,
+        "source": "Geofabrik Guangdong OSM PBF / OpenStreetMap contributors",
+        "source_status": "STATIC_PBF",
+        "source_path": str(pbf_path.relative_to(ROOT)),
+        "source_sha256": sha256(pbf_path),
+        "retrieved_at_utc": utc_now(),
+        "network_type": "walk",
+        "walkable_highway_tags": sorted(walkable),
+        "network_buffer_m": float(cfg["project"]["network_buffer_m"]),
+        "graph_nodes": int(len(graph.nodes)),
+        "graph_edges_directed": int(len(graph.edges)),
+        "connected_components": int(len(components)),
+        "largest_component_share": len(max(components, key=len)) / max(len(graph.nodes), 1),
+        "projected_crs": str(metric_crs),
+        "graphml_sha256": sha256(paths["graph"]),
+        "pbf_layer": line_layer,
+        "pbf_line_features_read": int(len(lines)),
+    }
+    paths["graph_metadata"].write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    return metadata
+
+
 def build_network(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     import osmnx as ox
 
     paths = paths_for(region_id)
+    network_source = cfg["project"].get("network_source", {})
+    pbf_path = ROOT / str(network_source.get("pbf_path", ""))
+    if pbf_path.is_file():
+        return _build_network_from_pbf(region_id, cfg, pbf_path)
     area = gpd.read_file(paths["analysis_area"]).geometry.iloc[0]
     area_gdf = gpd.GeoDataFrame(geometry=[area], crs="EPSG:4326")
     metric_crs = area_gdf.estimate_utm_crs()
@@ -544,6 +663,8 @@ def _graph_node_key(value: Any, graph) -> Any:
 
 def build_od(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     import osmnx as ox
+    import pyarrow as pa
+    import pyarrow.parquet as pq
 
     paths = paths_for(region_id)
     demand = gpd.read_file(paths["demand"])
@@ -567,47 +688,71 @@ def build_od(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     lengths = {}
     for _, row in s_audit.iterrows():
         lengths[row["shelter_id"]] = nx.single_source_dijkstra_path_length(graph, row["network_node"], weight="length") if row["snap_ok"] else {}
-    records = []
-    for _, drow in d_audit.iterrows():
-        for _, srow in s_audit.iterrows():
-            distance = None
-            time_min = None
-            if not drow["snap_ok"]:
-                reason = "demand_snap_too_far"
-            elif not srow["snap_ok"]:
-                reason = "shelter_snap_too_far"
-            else:
-                network_distance = lengths[srow["shelter_id"]].get(drow["network_node"])
-                if network_distance is None:
-                    reason = "no_path"
-                else:
-                    access_distance = float(drow["snap_distance_m"]) + float(srow["snap_distance_m"])
-                    distance = float(network_distance) + access_distance
-                    time_min = distance / speed / 60
-                    reason = "ok"
-            records.append({
-                "region_id": region_id,
-                "demand_id": drow["demand_id"],
-                "shelter_id": srow["shelter_id"],
-                "distance_m": distance,
-                "travel_time_min": time_min,
-                "time_min": time_min,
-                "reachable": reason == "ok",
-                "reason": reason,
-                "demand_snap_m": float(drow["snap_distance_m"]),
-                "shelter_snap_m": float(srow["snap_distance_m"]),
-                "walking_speed_m_per_s": speed,
-                "data_version": f"{cfg['project']['data_version']}__{region_id}",
-            })
-    matrix = pd.DataFrame(records)
-    matrix.to_parquet(paths["matrix"], index=False)
+    data_version = f"{cfg['project']['data_version']}__{region_id}"
+    schema = pa.schema([
+        ("region_id", pa.string()), ("demand_id", pa.string()), ("shelter_id", pa.string()),
+        ("distance_m", pa.float64()), ("travel_time_min", pa.float64()), ("time_min", pa.float64()),
+        ("reachable", pa.bool_()), ("reason", pa.string()), ("demand_snap_m", pa.float64()),
+        ("shelter_snap_m", pa.float64()), ("walking_speed_m_per_s", pa.float64()), ("data_version", pa.string()),
+    ])
+    batch_size = int(cfg["project"].get("od_demand_batch_size", 1024))
+    temp_path = paths["matrix"].with_suffix(".parquet.tmp")
+    temp_path.unlink(missing_ok=True)
+    writer = None
+    row_count = 0
+    reachable_pairs = 0
+    reason_counts: Counter[str] = Counter()
+    try:
+        for start in range(0, len(d_audit), batch_size):
+            rows = {name: [] for name in schema.names}
+            for _, drow in d_audit.iloc[start:start + batch_size].iterrows():
+                for _, srow in s_audit.iterrows():
+                    distance = None
+                    time_min = None
+                    if not drow["snap_ok"]:
+                        reason = "demand_snap_too_far"
+                    elif not srow["snap_ok"]:
+                        reason = "shelter_snap_too_far"
+                    else:
+                        network_distance = lengths[srow["shelter_id"]].get(drow["network_node"])
+                        if network_distance is None:
+                            reason = "no_path"
+                        else:
+                            access_distance = float(drow["snap_distance_m"]) + float(srow["snap_distance_m"])
+                            distance = float(network_distance) + access_distance
+                            time_min = distance / speed / 60
+                            reason = "ok"
+                    rows["region_id"].append(region_id)
+                    rows["demand_id"].append(str(drow["demand_id"]))
+                    rows["shelter_id"].append(str(srow["shelter_id"]))
+                    rows["distance_m"].append(distance)
+                    rows["travel_time_min"].append(time_min)
+                    rows["time_min"].append(time_min)
+                    rows["reachable"].append(reason == "ok")
+                    rows["reason"].append(reason)
+                    rows["demand_snap_m"].append(float(drow["snap_distance_m"]))
+                    rows["shelter_snap_m"].append(float(srow["snap_distance_m"]))
+                    rows["walking_speed_m_per_s"].append(speed)
+                    rows["data_version"].append(data_version)
+                    row_count += 1
+                    reachable_pairs += int(reason == "ok")
+                    reason_counts[reason] += 1
+            table = pa.Table.from_pydict(rows, schema=schema)
+            if writer is None:
+                writer = pq.ParquetWriter(temp_path, schema=schema, compression="zstd")
+            writer.write_table(table)
+    finally:
+        if writer is not None:
+            writer.close()
+    temp_path.replace(paths["matrix"])
     return {
-        "rows": int(len(matrix)),
+        "rows": int(row_count),
         "expected_rows": int(len(demand) * len(shelters)),
-        "reachable_pairs": int(matrix["reachable"].sum()),
-        "reason_counts": {str(k): int(v) for k, v in matrix["reason"].value_counts().items()},
+        "reachable_pairs": int(reachable_pairs),
+        "reason_counts": dict(reason_counts),
         "demand_nodes": int(len(demand)),
         "spatial_shelters": int(len(shelters)),
+        "od_demand_batch_size": batch_size,
     }
 
 
@@ -622,19 +767,24 @@ def run_spatial_analysis(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
     paths = paths_for(region_id)
     layers = []
     demand = gpd.read_file(paths["demand"])
-    demand["pop_density_persons_per_km2"] = demand["pop_est"].astype(float) / 0.01
+    if "cell_area_km2" not in demand.columns:
+        with rasterio.open(paths["population"]) as source:
+            areas = _cell_area_km2(source.transform, source.width, source.height, source.crs)
+            demand["cell_area_km2"] = areas[demand["row"].astype(int), demand["col"].astype(int)]
+    demand["pop_density_persons_per_km2"] = demand["pop_est"].astype(float) / demand["cell_area_km2"].astype(float)
     demand["population_class"] = pd.qcut(demand["pop_est"].rank(method="first"), 3, labels=["low", "medium", "high"]).astype(str) if len(demand) >= 3 else "medium"
     demand.to_file(paths["layers"] / "population_heatmap.geojson", driver="GeoJSON", index=False)
     layers.append({"layer_id": "population_heatmap", "layer_name": "人口热力图", "path": str((paths["layers"] / "population_heatmap.geojson").relative_to(ROOT)), "format": "GeoJSON", "crs": "EPSG:4326", "geometry_type": "Point", "description": "WorldPop modeled population per 100m cell; not observed evacuees.", "fields": ["demand_id", "pop_est", "pop_density_persons_per_km2", "population_class"], "data_status": "original_modelled_estimate"})
     with rasterio.open(paths["population"]) as source:
         array = source.read(1).astype("float32")
         nodata = source.nodata if source.nodata is not None else -99999
-        density = np.where(array == nodata, nodata, array / 0.01).astype("float32")
+        cell_areas = _cell_area_km2(source.transform, source.width, source.height, source.crs)
+        density = np.where(array == nodata, nodata, array / cell_areas).astype("float32")
         meta = source.meta.copy()
         meta.update(dtype="float32", nodata=nodata, compress="lzw")
         with rasterio.open(paths["population_heatmap"], "w", **meta) as target:
             target.write(density, 1)
-    paths["population_stats"].write_text(json.dumps({"region_id": region_id, "population_sum": float(demand["pop_est"].sum()), "demand_nodes": int(len(demand)), "cell_area_km2": 0.01, "population_status": "modelled_estimate"}, ensure_ascii=False, indent=2), encoding="utf-8")
+    paths["population_stats"].write_text(json.dumps({"region_id": region_id, "population_sum": float(demand["pop_est"].sum()), "demand_nodes": int(len(demand)), "cell_area_km2_min": float(demand["cell_area_km2"].min()), "cell_area_km2_max": float(demand["cell_area_km2"].max()), "cell_area_km2_mean": float(demand["cell_area_km2"].mean()), "population_status": "modelled_estimate"}, ensure_ascii=False, indent=2), encoding="utf-8")
     layers.append({"layer_id": "population_density_raster", "layer_name": "人口密度栅格", "path": str(paths["population_heatmap"].relative_to(ROOT)), "format": "GeoTIFF", "crs": "EPSG:4326", "geometry_type": "Raster", "description": "Population per km2 derived from 100m WorldPop cell totals.", "fields": [], "data_status": "original_modelled_estimate"})
 
     shelters = gpd.read_file(paths["shelters"])
@@ -671,14 +821,20 @@ def run_spatial_analysis(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
 
 def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dict[str, Any]) -> None:
     paths = paths_for(region_id)
-    files = {}
-    for path in sorted(paths["base"].rglob("*")):
-        if path.is_file() and path.name not in {"manifest.json", "quality_summary.json", "run_status.json"}:
-            rel = str(path.relative_to(ROOT)).replace("\\", "/")
-            files[rel] = {"bytes": path.stat().st_size, "sha256": sha256(path)}
+    data_version = f"{cfg['project']['data_version']}__{region_id}"
     status = "DEMO_ONLY"
+    release_status = "PASS_DEMO" if not results.get("errors") else "PARTIAL"
+    b_cfg = {
+        "project": {"name": "ShelterPlan Module A v2", "data_version": data_version, "region_id": region_id, "data_status": status},
+        "paths": {"shelters_geojson": str(paths["shelters"].relative_to(ROOT)), "demand_nodes": str(paths["demand"].relative_to(ROOT)), "demand_nodes_parquet": str(paths["demand_parquet"].relative_to(ROOT)), "travel_matrix": str(paths["matrix"].relative_to(ROOT)), "manifest": str(paths["manifest"].relative_to(ROOT)), "a7_quality_summary": str(paths["quality"].relative_to(ROOT))},
+        "network": {"max_snap_distance_m": cfg["project"]["max_snap_distance_m"]},
+    }
+    paths["b_config"].parent.mkdir(parents=True, exist_ok=True)
+    paths["b_config"].write_text(yaml.safe_dump(b_cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
     quality = {
         "region_id": region_id,
+        "data_version": data_version,
+        "release_status": release_status,
         "verdict": status,
         "data_status": status,
         "real_pilot_accepted": False,
@@ -692,25 +848,41 @@ def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dic
         "blockers": ["Demo coordinates are approximate or unresolved.", "2024 capacities are original or regional-median demo imputations.", "Boundary is public OSM or demo-derived, not an official government boundary.", "Current open status is assumed_open for demo only."],
     }
     paths["quality"].write_text(json.dumps(quality, ensure_ascii=False, indent=2), encoding="utf-8")
+    files = {}
+    for path in sorted(paths["base"].rglob("*")):
+        if path.is_file() and path.name not in {"manifest.json", "run_status.json"}:
+            rel = str(path.relative_to(ROOT)).replace("\\", "/")
+            files[rel] = {"bytes": path.stat().st_size, "sha256": sha256(path)}
+    adapter_rel = str(paths["b_config"].relative_to(ROOT)).replace("\\", "/")
+    files[adapter_rel] = {"bytes": paths["b_config"].stat().st_size, "sha256": sha256(paths["b_config"])}
     manifest = {
         "schema_version": 1,
         "region_id": region_id,
-        "data_version": f"{cfg['project']['data_version']}__{region_id}",
-        "release_status": status,
+        "data_version": data_version,
+        "release_status": release_status,
+        "quality_release_status": release_status,
         "created_at_utc": utc_now(),
-        "source": {"shelter_clean": cfg["project"]["source_clean"], "population": cfg["project"]["population_raster"], "walking_network": "OpenStreetMap contributors via OSMnx"},
+        "source": {
+            "shelter_clean": cfg["project"]["source_clean"],
+            "population": cfg["project"]["population_raster"],
+            # Keep the legacy string field for downstream compatibility.
+            "walking_network": "Geofabrik Guangdong OSM PBF (static snapshot)",
+            "walking_network_detail": {
+                "provider": cfg["project"].get("network_source", {}).get("provider", "Geofabrik"),
+                "format": "OSM PBF",
+                "path": cfg["project"].get("network_source", {}).get("pbf_path"),
+                "sha256": sha256(ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path"))) if (ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path", ""))).is_file() else None,
+                "status": "STATIC_PBF" if (ROOT / str(cfg["project"].get("network_source", {}).get("pbf_path", ""))).is_file() else "MISSING",
+                "license": cfg["project"].get("network_source", {}).get("license", "OpenStreetMap data, ODbL 1.0"),
+            },
+        },
         "assumptions": {"population_demand_ratio": "Scenario parameter; not baked into demand_nodes", "walking_speed_m_per_s": cfg["project"]["walking_speed_m_per_s"], "max_snap_distance_m": cfg["project"]["max_snap_distance_m"], "current_open_status": "assumed_open", "coordinate_status": "approximate_or_unresolved"},
         "quality_summary": str(paths["quality"].relative_to(ROOT)),
+        "b_adapter": {"path": adapter_rel, "sha256": files[adapter_rel]["sha256"], "bytes": files[adapter_rel]["bytes"]},
+        "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
         "files": files,
     }
     paths["manifest"].write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    b_cfg = {
-        "project": {"name": "ShelterPlan Module A v2", "data_version": manifest["data_version"], "region_id": region_id, "data_status": status},
-        "paths": {"shelters_geojson": str(paths["shelters"].relative_to(ROOT)), "demand_nodes": str(paths["demand"].relative_to(ROOT)), "travel_matrix": str(paths["matrix"].relative_to(ROOT)), "manifest": str(paths["manifest"].relative_to(ROOT)), "a7_quality_summary": str(paths["quality"].relative_to(ROOT))},
-        "network": {"max_snap_distance_m": cfg["project"]["max_snap_distance_m"]},
-    }
-    paths["b_config"].parent.mkdir(parents=True, exist_ok=True)
-    paths["b_config"].write_text(yaml.safe_dump(b_cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 
 def run_region(region_id: str, force_legacy_network: bool = False, skip_network: bool = False) -> dict[str, Any]:

@@ -6,6 +6,7 @@ project:
 paths:
   shelters_geojson: data/processed/regions/xiaolan/shelters.geojson
   demand_nodes: data/processed/regions/xiaolan/demand_nodes.geojson
+  demand_nodes_parquet: data/processed/regions/xiaolan/demand_nodes.parquet
   travel_matrix: data/processed/regions/xiaolan/travel_matrix.parquet
   manifest: data/processed/regions/xiaolan/manifest.json
   a7_quality_summary: data/processed/regions/xiaolan/quality_summary.json

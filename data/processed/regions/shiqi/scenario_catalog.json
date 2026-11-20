@@ -1,6 +1,6 @@
 {
   "region_id": "shiqi",
-  "data_version": "shelterplan_module_a_v2.0-demo",
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
   "scenarios": [
     {
       "scenario_id": "shiqi__base",
@@ -10,7 +10,8 @@
       "max_walk_time_min": 15,
       "closed_shelter_ids": [],
       "capacity_adjustments": {},
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
       "notes": "baseline demonstration"
     },
@@ -22,7 +23,8 @@
       "max_walk_time_min": 15,
       "closed_shelter_ids": [],
       "capacity_adjustments": {},
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
       "notes": "higher demand assumption"
     },
@@ -34,7 +36,8 @@
       "max_walk_time_min": 10,
       "closed_shelter_ids": [],
       "capacity_adjustments": {},
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
       "notes": "strict walking threshold"
     },
@@ -46,7 +49,8 @@
       "max_walk_time_min": 30,
       "closed_shelter_ids": [],
       "capacity_adjustments": {},
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
       "notes": "relaxed walking threshold"
     },
@@ -60,7 +64,8 @@
         "zs_eb8b69df7b"
       ],
       "capacity_adjustments": {},
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
       "notes": "Closes one spatial shelter candidate; replace the ID after human facility review."
     },
@@ -77,8 +82,10 @@
           "basis": "illustrative_25_percent_increase"
         }
       },
-      "data_version": "shelterplan_module_a_v2.0-demo",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
       "assumption_type": "illustrative_scenario",
+      "capacity_adjustment_status": "parameter_only_not_optimization",
       "notes": "Illustrative capacity increase; does not assert current operational capacity."
     }
   ]

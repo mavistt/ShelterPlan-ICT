@@ -10,6 +10,12 @@ project:
   walking_speed_m_per_s: 1.1
   max_snap_distance_m: 200
   network_buffer_m: 1000
+  od_demand_batch_size: 1024
+  network_source:
+    provider: Geofabrik
+    pbf_path: data/raw/guangdong-latest.osm.pbf
+    pbf_url: https://download.geofabrik.de/asia/china/guangdong-latest.osm.pbf
+    license: OpenStreetMap data, ODbL 1.0
   geocoding_rate_limit_seconds: 0.35
   overpass_endpoints:
     - https://overpass-api.de/api/interpreter

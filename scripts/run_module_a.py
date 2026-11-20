@@ -52,12 +52,12 @@ def main() -> int:
         "scenario_generator_returncode": scenario_run.returncode,
         "scenario_generator_stdout": scenario_run.stdout.strip(),
         "scenario_generator_stderr": scenario_run.stderr.strip(),
-        "status": "PASS" if all(item.get("status") == "DEMO_ONLY" for item in results) and scenario_run.returncode == 0 else "PARTIAL",
+        "status": "PASS_DEMO" if all(item.get("status") == "DEMO_ONLY" for item in results) and scenario_run.returncode == 0 else "PARTIAL",
     }
     progress_path = ROOT / "docs" / "development_progress.json"
     progress_path.write_text(json.dumps(progress, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"status": progress["status"], "regions": [item.get("region_id") for item in results], "progress": str(progress_path)}, ensure_ascii=False))
-    return 0 if progress["status"] in {"PASS", "PARTIAL"} else 1
+    return 0 if progress["status"] in {"PASS_DEMO", "PARTIAL"} else 1
 
 
 if __name__ == "__main__":

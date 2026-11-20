@@ -2,6 +2,8 @@
   "region_id": "shiqi",
   "population_sum": 601716.8144463282,
   "demand_nodes": 7336,
-  "cell_area_km2": 0.01,
+  "cell_area_km2_min": 0.007908576482504606,
+  "cell_area_km2_max": 0.00791352053642273,
+  "cell_area_km2_mean": 0.00791120782220013,
   "population_status": "modelled_estimate"
 }

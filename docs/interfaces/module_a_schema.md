@@ -12,7 +12,7 @@
 
 ## 需求与 OD
 
-需求节点至少包含 `demand_id`、`region_id`、`pop_est`、`population_status`。OD 采用区域内需求节点 × 空间场所的完整笛卡尔键，至少包含 `demand_id`、`shelter_id`、`time_min`、`distance_m`、`reachable`、`reason`、`data_version`。不可达记录保留在矩阵中，时间和距离可为空，并用 `reason` 区分 snap 距离过远、无路径等情况。
+需求节点至少包含 `demand_id`、`region_id`、`pop_est`、`cell_area_km2`、`population_status`。同时提供 `demand_nodes.geojson`（EPSG:4326 Point）和 `demand_nodes.parquet`（非几何分析表）。`cell_area_km2` 按 WGS84 Geodesic 像元面积计算，不把 EPSG:4326 像元简单当成固定面积。OD 采用区域内需求节点 × 空间场所的完整笛卡尔键，至少包含 `demand_id`、`shelter_id`、`time_min`、`distance_m`、`reachable`、`reason`、`data_version`。不可达记录保留在矩阵中，时间和距离可为空，并用 `reason` 区分 snap 距离过远、无路径等情况。
 
 ## 状态
 

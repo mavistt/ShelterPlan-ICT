@@ -2,10 +2,10 @@
   "region_id": "east_district",
   "threshold_min": 15,
   "demand_nodes": 38469,
-  "covered_nodes": 2428,
-  "uncovered_nodes": 36041,
-  "population_with_candidate": 220187.6124855457,
+  "covered_nodes": 2641,
+  "uncovered_nodes": 35828,
+  "population_with_candidate": 237564.03629404306,
   "population_total": 1675977.056945986,
-  "population_share": 0.13137865555676395,
+  "population_share": 0.14174659212038326,
   "interpretation": "network candidate reachability only; no capacity allocation"
 }

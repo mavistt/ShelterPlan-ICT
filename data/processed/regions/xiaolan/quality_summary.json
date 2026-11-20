@@ -1,5 +1,7 @@
 {
   "region_id": "xiaolan",
+  "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+  "release_status": "PASS_DEMO",
   "verdict": "DEMO_ONLY",
   "data_status": "DEMO_ONLY",
   "real_pilot_accepted": false,
@@ -14,13 +16,109 @@
     "positive_cells": 60406,
     "population_sum": 2218326.9998219055,
     "demand_node_sum": 2218326.9998219055,
+    "cell_area_km2_min": 0.007899479796141386,
+    "cell_area_km2_max": 0.007925845400691033,
+    "cell_area_km2_mean": 0.007909271234088607,
     "totals_reconcile": true
   },
-  "network": {},
-  "travel_matrix": {},
+  "network": {
+    "region_id": "xiaolan",
+    "source": "Geofabrik Guangdong OSM PBF / OpenStreetMap contributors",
+    "source_status": "STATIC_PBF",
+    "source_path": "data/raw/guangdong-latest.osm.pbf",
+    "source_sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+    "retrieved_at_utc": "2026-11-20T14:35:18.473485+00:00",
+    "network_type": "walk",
+    "walkable_highway_tags": [
+      "bridleway",
+      "cycleway",
+      "footway",
+      "living_street",
+      "path",
+      "pedestrian",
+      "primary",
+      "residential",
+      "road",
+      "secondary",
+      "service",
+      "steps",
+      "tertiary",
+      "track",
+      "trunk",
+      "unclassified"
+    ],
+    "network_buffer_m": 1000.0,
+    "graph_nodes": 82524,
+    "graph_edges_directed": 182926,
+    "connected_components": 109,
+    "largest_component_share": 0.8363991081382386,
+    "projected_crs": "EPSG:32649",
+    "graphml_sha256": "9fb47be7e383ea66860757f60e923c63dbe5b611222cd2e9ecbb7df7ec13fd65",
+    "pbf_layer": "lines",
+    "pbf_line_features_read": 15489
+  },
+  "travel_matrix": {
+    "rows": 1872586,
+    "expected_rows": 1872586,
+    "reachable_pairs": 1485360,
+    "reason_counts": {
+      "ok": 1485360,
+      "shelter_snap_too_far": 50129,
+      "demand_snap_too_far": 318587,
+      "no_path": 18510
+    },
+    "demand_nodes": 60406,
+    "spatial_shelters": 31,
+    "od_demand_batch_size": 1024
+  },
   "spatial_analysis": {
-    "layers": 3,
-    "coverage": {}
+    "layers": 11,
+    "coverage": {
+      "10": {
+        "region_id": "xiaolan",
+        "threshold_min": 10,
+        "demand_nodes": 60406,
+        "covered_nodes": 1475,
+        "uncovered_nodes": 58931,
+        "population_with_candidate": 103291.31656312943,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.04656270990319371,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "15": {
+        "region_id": "xiaolan",
+        "threshold_min": 15,
+        "demand_nodes": 60406,
+        "covered_nodes": 3363,
+        "uncovered_nodes": 57043,
+        "population_with_candidate": 220215.42613282008,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.09927094885041732,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "20": {
+        "region_id": "xiaolan",
+        "threshold_min": 20,
+        "demand_nodes": 60406,
+        "covered_nodes": 6056,
+        "uncovered_nodes": 54350,
+        "population_with_candidate": 386448.5716705925,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.17420721638496842,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "30": {
+        "region_id": "xiaolan",
+        "threshold_min": 30,
+        "demand_nodes": 60406,
+        "covered_nodes": 11967,
+        "uncovered_nodes": 48439,
+        "population_with_candidate": 695260.9547337221,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.31341680229719965,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      }
+    }
   },
   "blockers": [
     "Demo coordinates are approximate or unresolved.",
