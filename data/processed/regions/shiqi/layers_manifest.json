@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "region_id": "shiqi",
+  "layers": [
+    {
+      "layer_id": "population_heatmap",
+      "layer_name": "人口热力图",
+      "path": "data/processed/regions/shiqi/map_layers/population_heatmap.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "WorldPop modeled population per 100m cell; not observed evacuees.",
+      "fields": [
+        "demand_id",
+        "pop_est",
+        "pop_density_persons_per_km2",
+        "population_class"
+      ],
+      "data_status": "original_modelled_estimate"
+    },
+    {
+      "layer_id": "population_density_raster",
+      "layer_name": "人口密度栅格",
+      "path": "data/processed/regions/shiqi/map_layers/population_density.tif",
+      "format": "GeoTIFF",
+      "crs": "EPSG:4326",
+      "geometry_type": "Raster",
+      "description": "Population per km2 derived from 100m WorldPop cell totals.",
+      "fields": [],
+      "data_status": "original_modelled_estimate"
+    },
+    {
+      "layer_id": "shelter_capacity",
+      "layer_name": "避难场所容量分布",
+      "path": "data/processed/regions/shiqi/map_layers/shelter_capacity.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Point",
+      "description": "Effective demo capacity with original/imputed provenance.",
+      "fields": [
+        "shelter_id",
+        "capacity_persons_effective",
+        "capacity_level",
+        "capacity_source_status",
+        "verified_status",
+        "active"
+      ],
+      "data_status": "DEMO_ONLY"
+    }
+  ]
+}

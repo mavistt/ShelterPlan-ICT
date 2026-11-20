@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "region_id": "shiqi",
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+  "release_status": "DEMO_ONLY",
+  "created_at_utc": "2026-11-20T11:35:54.185719+00:00",
+  "source": {
+    "shelter_clean": "data/processed/shelters_clean.csv",
+    "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+    "walking_network": "OpenStreetMap contributors via OSMnx"
+  },
+  "assumptions": {
+    "population_demand_ratio": "Scenario parameter; not baked into demand_nodes",
+    "walking_speed_m_per_s": 1.1,
+    "max_snap_distance_m": 200,
+    "current_open_status": "assumed_open",
+    "coordinate_status": "approximate_or_unresolved"
+  },
+  "quality_summary": "data/processed/regions/shiqi/quality_summary.json",
+  "files": {
+    "data/processed/regions/shiqi/analysis_area.geojson": {
+      "bytes": 6475,
+      "sha256": "633936f2c2b5cd13ad70b548f1b60f5bb75e7433de7fcdae6ca11fdebfa75dba"
+    },
+    "data/processed/regions/shiqi/boundary.geojson": {
+      "bytes": 3543,
+      "sha256": "ce21246535b277cf525e881af46a10edb229b7b1c7629f82ff9275081c966769"
+    },
+    "data/processed/regions/shiqi/boundary_metadata.json": {
+      "bytes": 558,
+      "sha256": "9664f95326f324ad5212e88f55832edf556809490d814e3f35664b053cae02cd"
+    },
+    "data/processed/regions/shiqi/demand_nodes.geojson": {
+      "bytes": 2866203,
+      "sha256": "260053338b7c97800da82cd9fac0c9d111b91ee7b3ba375b9ae8151a8b26f400"
+    },
+    "data/processed/regions/shiqi/layers_manifest.json": {
+      "bytes": 1594,
+      "sha256": "281c43e40724cfcd3fbcb45b0223c0cd42805e67911fc65d83aee65e6ddbf490"
+    },
+    "data/processed/regions/shiqi/map_layers/population_density.tif": {
+      "bytes": 35507,
+      "sha256": "b704d5ab2826ce60f5f030af20416737e15230f84806f5412f70407a37c4e178"
+    },
+    "data/processed/regions/shiqi/map_layers/population_heatmap.geojson": {
+      "bytes": 3446892,
+      "sha256": "ad6251bee706d3cad8934e7247993e8e7f81c9c2f0751a8e9e8200703ffd4911"
+    },
+    "data/processed/regions/shiqi/map_layers/population_stats.json": {
+      "bytes": 158,
+      "sha256": "9820b175829dbb5be6f1d9da2f9a4c89c14358fd5fcb10f32717c9d259c669f4"
+    },
+    "data/processed/regions/shiqi/map_layers/shelter_capacity.geojson": {
+      "bytes": 80455,
+      "sha256": "44ec93119c095e0a4a0c5a4c4a3be379e572f6553a7b63d5ca2880b3a6586580"
+    },
+    "data/processed/regions/shiqi/population.tif": {
+      "bytes": 35424,
+      "sha256": "c74148a470d7098aa330c4bd28e877d1ed14d9e696740024a9e0e3cff74aa853"
+    },
+    "data/processed/regions/shiqi/scenario_catalog.json": {
+      "bytes": 2826,
+      "sha256": "f316c2b209708c974ca86dea1f3c1183e4ad626b268e33b5a72c9a06c005eb0f"
+    },
+    "data/processed/regions/shiqi/shelters.geojson": {
+      "bytes": 79789,
+      "sha256": "6b81357d68ff9177cd4b448d7475c8b0995e23046a92c4f779340ab6cb950a06"
+    },
+    "data/processed/regions/shiqi/shelters_all.csv": {
+      "bytes": 27234,
+      "sha256": "f2e5bc85a7a9f211d9f0b0743205a8662b6a53c230f66444b522d3b167e016ed"
+    }
+  }
+}

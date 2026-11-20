@@ -1,0 +1,11 @@
+{
+  "region_id": "east_district",
+  "source_status": "legacy_v0_1_reused_due_to_overpass_outage",
+  "source_path": "data/processed/road_walk.graphml",
+  "graph_nodes": 9040,
+  "graph_edges_directed": 26822,
+  "connected_components": 19,
+  "largest_component_share": 0.9911504424778761,
+  "graphml_sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+  "note": "The old East demo graph was reused locally; it was not regenerated for the v2 boundary and remains DEMO_ONLY."
+}

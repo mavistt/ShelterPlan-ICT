@@ -1,0 +1,49 @@
+{
+  "region_id": "shiqi",
+  "status": "PARTIAL",
+  "steps": {
+    "shelters": "PASS",
+    "boundary": "PASS",
+    "population": "PASS",
+    "network": "BLOCKED_EXTERNAL_OVERPASS",
+    "od": "BLOCKED_EXTERNAL_OVERPASS",
+    "spatial": "PASS"
+  },
+  "errors": [
+    "network_or_od: skipped after repeated public Overpass endpoint timeouts"
+  ],
+  "shelters": {
+    "source_rows": 25,
+    "spatial_rows": 25,
+    "unresolved_rows": 0,
+    "capacity_imputed_rows": 1,
+    "capacity_region_median": 100.0,
+    "shelters": "   region_id     shelter_id  ... geocode_level geocode_count\n0      shiqi  zs_eb8b69df7b  ...            门址             1\n1      shiqi  zs_7c10257791  ...            道路             2\n2      shiqi  zs_f1e6d13f73  ...            门址             2\n3      shiqi  zs_ba9e4c3236  ...            门址             1\n4      shiqi  zs_9886d2ef6a  ...            门址             2\n5      shiqi  zs_b4877c9de8  ...           兴趣点             1\n6      shiqi  zs_59c4ec7386  ...           兴趣点             1\n7      shiqi  zs_93b853ea3f  ...            门址             1\n8      shiqi  zs_7968f48965  ...            门址             3\n9      shiqi  zs_04ec8cb884  ...            门址             4\n10     shiqi  zs_1654dda235  ...            门址             1\n11     shiqi  zs_ef12b22ef1  ...            门址             1\n12     shiqi  zs_c9d5429d03  ...            门址             1\n13     shiqi  zs_0ea6eea145  ...            小巷             2\n14     shiqi  zs_9ae03a468b  ...            门址             1\n15     shiqi  zs_5f2c91e5ad  ...            门址             1\n16     shiqi  zs_16e73eb7d2  ...            门址             1\n17     shiqi  zs_c8867d526a  ...            门址             2\n18     shiqi  zs_d2948c3ad8  ...            门址             1\n19     shiqi  zs_68d933c3a3  ...            门址             1\n20     shiqi  zs_c7b8f8436b  ...            门址             2\n21     shiqi  zs_5418f17c8e  ...            门址             1\n22     shiqi  zs_4f00bd0879  ...            门址             1\n23     shiqi  zs_a0d74bfdf1  ...            门址             2\n24     shiqi  zs_3fa8ce2b1e  ...            门址             3\n\n[25 rows x 82 columns]"
+  },
+  "boundary": {
+    "region_id": "shiqi",
+    "boundary_status": "demo_analysis_boundary",
+    "source_url": "",
+    "source_note": "Convex hull of geocoded candidate shelters plus configured buffer; not an administrative boundary.",
+    "query": "石岐街道, 中山市, 广东省, 中国",
+    "crs": "EPSG:4326",
+    "geometry_valid": true,
+    "boundary_sha256": "ce21246535b277cf525e881af46a10edb229b7b1c7629f82ff9275081c966769",
+    "analysis_area_sha256": "633936f2c2b5cd13ad70b548f1b60f5bb75e7433de7fcdae6ca11fdebfa75dba",
+    "retrieved_at_utc": "2026-11-20T11:35:53.764934+00:00"
+  },
+  "population": {
+    "region_id": "shiqi",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 7382,
+    "positive_cells": 7336,
+    "population_sum": 601716.8144463282,
+    "demand_node_sum": 601716.8144463282,
+    "totals_reconcile": true
+  },
+  "spatial": {
+    "layers": 3,
+    "coverage": {}
+  }
+}

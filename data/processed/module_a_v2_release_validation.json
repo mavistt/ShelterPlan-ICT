@@ -1,0 +1,35 @@
+{
+  "status": "PARTIAL",
+  "data_version": "shelterplan_module_a_v2.0-demo",
+  "generated_at_utc": "2026-11-20T11:37:24.192187+00:00",
+  "failures": [],
+  "warnings": [
+    "shiqi: travel_matrix.parquet missing; network/OD remains blocked or not run",
+    "xiaolan: travel_matrix.parquet missing; network/OD remains blocked or not run"
+  ],
+  "regions": {
+    "east_district": {
+      "source_rows": 31,
+      "spatial_rows": 31,
+      "demand_nodes": 38469,
+      "has_od": true
+    },
+    "shiqi": {
+      "source_rows": 25,
+      "spatial_rows": 25,
+      "demand_nodes": 7336,
+      "has_od": false
+    },
+    "xiaolan": {
+      "source_rows": 31,
+      "spatial_rows": 31,
+      "demand_nodes": 60406,
+      "has_od": false
+    }
+  },
+  "external_dependencies": {
+    "portal_batches_present": false,
+    "official_target_boundaries_present": false,
+    "public_overpass_available_for_this_run": false
+  }
+}

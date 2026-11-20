@@ -1,0 +1,31 @@
+{
+  "region_id": "xiaolan",
+  "verdict": "DEMO_ONLY",
+  "data_status": "DEMO_ONLY",
+  "real_pilot_accepted": false,
+  "source_rows": 31,
+  "spatial_shelters": 31,
+  "unresolved_shelters": 0,
+  "population": {
+    "region_id": "xiaolan",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 61486,
+    "positive_cells": 60406,
+    "population_sum": 2218326.9998219055,
+    "demand_node_sum": 2218326.9998219055,
+    "totals_reconcile": true
+  },
+  "network": {},
+  "travel_matrix": {},
+  "spatial_analysis": {
+    "layers": 3,
+    "coverage": {}
+  },
+  "blockers": [
+    "Demo coordinates are approximate or unresolved.",
+    "2024 capacities are original or regional-median demo imputations.",
+    "Boundary is public OSM or demo-derived, not an official government boundary.",
+    "Current open status is assumed_open for demo only."
+  ]
+}

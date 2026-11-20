@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "region_id": "east_district",
+  "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+  "release_status": "DEMO_ONLY",
+  "created_at_utc": "2026-11-20T11:35:53.419674+00:00",
+  "source": {
+    "shelter_clean": "data/processed/shelters_clean.csv",
+    "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+    "walking_network": "OpenStreetMap contributors via OSMnx"
+  },
+  "assumptions": {
+    "population_demand_ratio": "Scenario parameter; not baked into demand_nodes",
+    "walking_speed_m_per_s": 1.1,
+    "max_snap_distance_m": 200,
+    "current_open_status": "assumed_open",
+    "coordinate_status": "approximate_or_unresolved"
+  },
+  "quality_summary": "data/processed/regions/east_district/quality_summary.json",
+  "files": {
+    "data/processed/regions/east_district/analysis_area.geojson": {
+      "bytes": 6488,
+      "sha256": "382baa4596cbc6ae2972e86cd1e083f245a3a384e208a30c6ab8a48c2f77a78d"
+    },
+    "data/processed/regions/east_district/boundary.geojson": {
+      "bytes": 3556,
+      "sha256": "72ec98a79ddf930d91a2f5e92b0a1b6dbf8b99a4080385a3ae3eb31d942deeff"
+    },
+    "data/processed/regions/east_district/boundary_metadata.json": {
+      "bytes": 566,
+      "sha256": "4f61ddad0b2aeb629feb6272bf2e97668cc276711d20b9180c76039929bc575a"
+    },
+    "data/processed/regions/east_district/demand_nodes.geojson": {
+      "bytes": 15700688,
+      "sha256": "7753ba3c25402efb25c6361991129898b3e9ec32188d852e7f22afe2524c8e5f"
+    },
+    "data/processed/regions/east_district/demand_snap_audit.csv": {
+      "bytes": 2478134,
+      "sha256": "b675d896965b5b90db6d2ba6b6f505d7103cac07010e1308297af9c33c3f210a"
+    },
+    "data/processed/regions/east_district/layers_manifest.json": {
+      "bytes": 5830,
+      "sha256": "7c8f78f96baa3e239c41d2da70be8fc7cdb0e3b6ee7328e766309c217425a445"
+    },
+    "data/processed/regions/east_district/map_layers/access_gaps_10min.geojson": {
+      "bytes": 23313373,
+      "sha256": "f1c00bdb68643cfbc373d61e59f4507fd16dc1d754b7d82eac295d30bb18bdf6"
+    },
+    "data/processed/regions/east_district/map_layers/access_gaps_15min.geojson": {
+      "bytes": 22530659,
+      "sha256": "4161996d960e8099d1d59b9a367ae3f4a9c77706d4379c286be87dfaceb5cb0d"
+    },
+    "data/processed/regions/east_district/map_layers/access_gaps_20min.geojson": {
+      "bytes": 21884663,
+      "sha256": "ca7d32ed209dfbb4423a3d23db61330efe5079aacb8d8cd8a78fbb1bb5c4a218"
+    },
+    "data/processed/regions/east_district/map_layers/access_gaps_30min.geojson": {
+      "bytes": 20732304,
+      "sha256": "61fcc2f9f856a496138be64ad16282be3461ecafe5efa9721dc4ce921f7a02ba"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_10min.geojson": {
+      "bytes": 24123636,
+      "sha256": "d02d3317c0749b5afcea38053d3cec001441099852fab0c46fe5e250ece9ad15"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_10min_stats.json": {
+      "bytes": 353,
+      "sha256": "d05659d3f2f1ae17099eecf9a455d0f18a86978064388badfdc38f2855000dc4"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_15min.geojson": {
+      "bytes": 24122444,
+      "sha256": "a8d4277deb6db55d5ee1a4bb806cc4ad40de33e675994b2d69773423b797459f"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_15min_stats.json": {
+      "bytes": 352,
+      "sha256": "460dc2e80889c1cda39279657fb1a82fd8ecf778dcc815b9a6ece3a04ecfdde7"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_20min.geojson": {
+      "bytes": 24121460,
+      "sha256": "2b5576eea9ed7bacf720cbcdf41783c8dfe13cbb0822a6afa8394ffe9b4b8fc7"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_20min_stats.json": {
+      "bytes": 352,
+      "sha256": "8234a90bf75113d29227e4c4b00ea81411871f69f31720805c6c12e99fb9a35a"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_30min.geojson": {
+      "bytes": 24119705,
+      "sha256": "f345812c1b7e1f38d4b0e5d915523a1c77e1d546ee3b9c018379f881407a9834"
+    },
+    "data/processed/regions/east_district/map_layers/coverage_30min_stats.json": {
+      "bytes": 352,
+      "sha256": "3237017ccd87b37854ff9063d6ad93a23d24715721efbd9ac1a71e53591acfea"
+    },
+    "data/processed/regions/east_district/map_layers/network_buffer.geojson": {
+      "bytes": 3433,
+      "sha256": "d26d19397d21cbe22bcea5f35ebe4e4e61fb3e8986db5aa6f3e01f383644b27e"
+    },
+    "data/processed/regions/east_district/map_layers/population_density.tif": {
+      "bytes": 204151,
+      "sha256": "0fa8f5cb872ffeddd5a4bac6865e80af19ddc32bd24268ed9524f44aa444bc4c"
+    },
+    "data/processed/regions/east_district/map_layers/population_heatmap.geojson": {
+      "bytes": 18747002,
+      "sha256": "ee1834b30ce1ce79ef16d52c037fd4527e1c9c9a4ed98dd0db2f5167521df708"
+    },
+    "data/processed/regions/east_district/map_layers/population_stats.json": {
+      "bytes": 167,
+      "sha256": "17541ad511c8629983e3a5c78b60cb52a05cb4fce6dd8526bcd049694f5ce30f"
+    },
+    "data/processed/regions/east_district/map_layers/road_edges.geojson": {
+      "bytes": 13715042,
+      "sha256": "bd484a3ec32643205ec36196804fac81ad69cd080f2c37bf4bdfeed429e0b4f1"
+    },
+    "data/processed/regions/east_district/map_layers/shelter_capacity.geojson": {
+      "bytes": 100991,
+      "sha256": "b46b474b34bbf9f0a7afd0b327b31b7180229292425ad79969548cf07a526f0e"
+    },
+    "data/processed/regions/east_district/population.tif": {
+      "bytes": 203743,
+      "sha256": "11b5d1f7c9c87b36510d80e8b4471a9ce853bdeee8fc237dc14dcac5c5ac0869"
+    },
+    "data/processed/regions/east_district/road_graph_metadata.json": {
+      "bytes": 497,
+      "sha256": "3f51df4b56bf90736398b01d0a99217dd4424db590206aafdb26b6f490079985"
+    },
+    "data/processed/regions/east_district/road_walk.graphml": {
+      "bytes": 12352967,
+      "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be"
+    },
+    "data/processed/regions/east_district/scenario_catalog.json": {
+      "bytes": 2932,
+      "sha256": "baca17c5b20d071667126e2fafab03d533b9a6e3b772e09c5ecd4b9a3d49481a"
+    },
+    "data/processed/regions/east_district/shelter_snap_audit.csv": {
+      "bytes": 1551,
+      "sha256": "29f4eaebb4a637131a800e87cf3220963b3293e0cf3834add799462557682116"
+    },
+    "data/processed/regions/east_district/shelters.geojson": {
+      "bytes": 100167,
+      "sha256": "70724dd168be655967b696c07e973fc9494fd9e2cd35c3f7b85070dca62e9ed2"
+    },
+    "data/processed/regions/east_district/shelters_all.csv": {
+      "bytes": 34742,
+      "sha256": "6cc440d4338a44694eba5ea2043a099341f729a722e0e70d69d7c70323c68b9d"
+    },
+    "data/processed/regions/east_district/travel_matrix.parquet": {
+      "bytes": 8446338,
+      "sha256": "97d7f9b2f5b67eb443b3fb80b7184beca3454c82f96e229f657f0bf15ed362f8"
+    }
+  }
+}

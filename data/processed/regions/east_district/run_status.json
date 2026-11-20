@@ -1,0 +1,116 @@
+{
+  "region_id": "east_district",
+  "status": "DEMO_ONLY",
+  "steps": {
+    "shelters": "PASS",
+    "boundary": "PASS",
+    "population": "PASS",
+    "network": "FALLBACK_LEGACY_V0_1",
+    "od": "PASS",
+    "spatial": "PASS"
+  },
+  "errors": [],
+  "shelters": {
+    "source_rows": 31,
+    "spatial_rows": 31,
+    "unresolved_rows": 0,
+    "capacity_imputed_rows": 0,
+    "capacity_region_median": 44.0,
+    "shelters": "        region_id     shelter_id  ... geocode_level geocode_count\n0   east_district  zs_1b4df7920b  ...            门址             1\n1   east_district  zs_60213118ec  ...            门址             1\n2   east_district  zs_6358642b6f  ...            门址             3\n3   east_district  zs_e016bde4b3  ...            门址             2\n4   east_district  zs_251667c58b  ...            道路             3\n5   east_district  zs_737caba8e8  ...            门址             2\n6   east_district  zs_ff435768ca  ...            门址             1\n7   east_district  zs_a4eac8200b  ...            门址             1\n8   east_district  zs_78f8de70a3  ...            门址             1\n9   east_district  zs_c801e944f6  ...            门址             1\n10  east_district  zs_1a562fd2ec  ...            门址             2\n11  east_district  zs_740e2a0ec1  ...            门址             1\n12  east_district  zs_a947248455  ...            门址             3\n13  east_district  zs_528407a207  ...           门牌号             1\n14  east_district  zs_0705291eaf  ...            门址             1\n15  east_district  zs_63f1d8e4ef  ...            门址             3\n16  east_district  zs_54cbb64815  ...            门址             1\n17  east_district  zs_e434541fb3  ...            门址             1\n18  east_district  zs_4213304fee  ...            门址             2\n19  east_district  zs_e9f476cdd6  ...            门址             2\n20  east_district  zs_5151e10626  ...            门址             2\n21  east_district  zs_58fc306a1f  ...           门牌号             2\n22  east_district  zs_587a20a7af  ...           门牌号             2\n23  east_district  zs_b8ca9544d3  ...           门牌号             1\n24  east_district  zs_26835a8daa  ...            门址             3\n25  east_district  zs_574714482d  ...            道路             1\n26  east_district  zs_fed820d94e  ...            门址             2\n27  east_district  zs_f7d567aca2  ...            门址             2\n28  east_district  zs_b69995549d  ...           门牌号             2\n29  east_district  zs_d58044b4d4  ...           兴趣点             1\n30  east_district  zs_9445e74744  ...            门址             1\n\n[31 rows x 82 columns]"
+  },
+  "boundary": {
+    "region_id": "east_district",
+    "boundary_status": "demo_analysis_boundary",
+    "source_url": "",
+    "source_note": "Convex hull of geocoded candidate shelters plus configured buffer; not an administrative boundary.",
+    "query": "东区街道, 中山市, 广东省, 中国",
+    "crs": "EPSG:4326",
+    "geometry_valid": true,
+    "boundary_sha256": "72ec98a79ddf930d91a2f5e92b0a1b6dbf8b99a4080385a3ae3eb31d942deeff",
+    "analysis_area_sha256": "382baa4596cbc6ae2972e86cd1e083f245a3a384e208a30c6ab8a48c2f77a78d",
+    "retrieved_at_utc": "2026-11-20T11:34:44.779368+00:00"
+  },
+  "population": {
+    "region_id": "east_district",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 39244,
+    "positive_cells": 38469,
+    "population_sum": 1675977.056945986,
+    "demand_node_sum": 1675977.056945986,
+    "totals_reconcile": true
+  },
+  "network": {
+    "region_id": "east_district",
+    "source_status": "legacy_v0_1_reused_due_to_overpass_outage",
+    "source_path": "data/processed/road_walk.graphml",
+    "graph_nodes": 9040,
+    "graph_edges_directed": 26822,
+    "connected_components": 19,
+    "largest_component_share": 0.9911504424778761,
+    "graphml_sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+    "note": "The old East demo graph was reused locally; it was not regenerated for the v2 boundary and remains DEMO_ONLY."
+  },
+  "od": {
+    "rows": 1192539,
+    "expected_rows": 1192539,
+    "reachable_pairs": 281851,
+    "reason_counts": {
+      "demand_snap_too_far": 888336,
+      "ok": 281851,
+      "shelter_snap_too_far": 19626,
+      "no_path": 2726
+    },
+    "demand_nodes": 38469,
+    "spatial_shelters": 31
+  },
+  "spatial": {
+    "layers": 11,
+    "coverage": {
+      "10": {
+        "region_id": "east_district",
+        "threshold_min": 10,
+        "demand_nodes": 38469,
+        "covered_nodes": 1236,
+        "uncovered_nodes": 37233,
+        "population_with_candidate": 120084.38669276237,
+        "population_total": 1675977.056945986,
+        "population_share": 0.07165037623580815,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "15": {
+        "region_id": "east_district",
+        "threshold_min": 15,
+        "demand_nodes": 38469,
+        "covered_nodes": 2428,
+        "uncovered_nodes": 36041,
+        "population_with_candidate": 220187.6124855457,
+        "population_total": 1675977.056945986,
+        "population_share": 0.13137865555676395,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "20": {
+        "region_id": "east_district",
+        "threshold_min": 20,
+        "demand_nodes": 38469,
+        "covered_nodes": 3412,
+        "uncovered_nodes": 35057,
+        "population_with_candidate": 291089.3352204998,
+        "population_total": 1675977.056945986,
+        "population_share": 0.17368336518337021,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "30": {
+        "region_id": "east_district",
+        "threshold_min": 30,
+        "demand_nodes": 38469,
+        "covered_nodes": 5167,
+        "uncovered_nodes": 33302,
+        "population_with_candidate": 399773.1811269218,
+        "population_total": 1675977.056945986,
+        "population_share": 0.23853141632821637,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "region_id": "xiaolan",
+  "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+  "release_status": "DEMO_ONLY",
+  "created_at_utc": "2026-11-20T11:35:57.636613+00:00",
+  "source": {
+    "shelter_clean": "data/processed/shelters_clean.csv",
+    "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+    "walking_network": "OpenStreetMap contributors via OSMnx"
+  },
+  "assumptions": {
+    "population_demand_ratio": "Scenario parameter; not baked into demand_nodes",
+    "walking_speed_m_per_s": 1.1,
+    "max_snap_distance_m": 200,
+    "current_open_status": "assumed_open",
+    "coordinate_status": "approximate_or_unresolved"
+  },
+  "quality_summary": "data/processed/regions/xiaolan/quality_summary.json",
+  "files": {
+    "data/processed/regions/xiaolan/analysis_area.geojson": {
+      "bytes": 6658,
+      "sha256": "db8daf56e9828aff4c68c6ccb39a4cf17ce5e2d9b7aea46687ea4baf8a05ffee"
+    },
+    "data/processed/regions/xiaolan/boundary.geojson": {
+      "bytes": 3637,
+      "sha256": "cf4c94cad20d16a7e7420ebd5b00df8f6c55b7cd259aa2b00c5403bf9de6bdcf"
+    },
+    "data/processed/regions/xiaolan/boundary_metadata.json": {
+      "bytes": 557,
+      "sha256": "9f6f0151f064e0727f3b3655fd8678861105a91a9f223fa9e704063b2ecf32f0"
+    },
+    "data/processed/regions/xiaolan/demand_nodes.geojson": {
+      "bytes": 23936958,
+      "sha256": "59f0b966ed56a376978757e67aa606e404e615451457c78bad746cc809bd3d6c"
+    },
+    "data/processed/regions/xiaolan/layers_manifest.json": {
+      "bytes": 1602,
+      "sha256": "a7c63a0166089bbc6033dbc11d1646b9c628905400ae51087e33fc29fc7bf50c"
+    },
+    "data/processed/regions/xiaolan/map_layers/population_density.tif": {
+      "bytes": 309135,
+      "sha256": "be36478209e997353e9f40f47b68e4bb8090bd03342787397d5593142818e1cb"
+    },
+    "data/processed/regions/xiaolan/map_layers/population_heatmap.geojson": {
+      "bytes": 28721064,
+      "sha256": "524377ae26ce1ba8545819d3c7faa86850da690831e1dc0771c86490a06c2f80"
+    },
+    "data/processed/regions/xiaolan/map_layers/population_stats.json": {
+      "bytes": 162,
+      "sha256": "87276307d4342930c2ff6c75b99290a282c34adfe30db36c32de5edcc60b26fe"
+    },
+    "data/processed/regions/xiaolan/map_layers/shelter_capacity.geojson": {
+      "bytes": 101372,
+      "sha256": "741ad24788fe0d0ca3b5ce4bd2f22e8b08738aecb0f01ac55ccf0d0c271cea62"
+    },
+    "data/processed/regions/xiaolan/population.tif": {
+      "bytes": 308896,
+      "sha256": "f521379ecee9f772205f6978e0d40324d664483a81284f4e73c02298fe149cea"
+    },
+    "data/processed/regions/xiaolan/scenario_catalog.json": {
+      "bytes": 2854,
+      "sha256": "378bd84eea86c953b1dfcc1b9b1c8592f270b135172a6d9c30eaadc04b95fe9c"
+    },
+    "data/processed/regions/xiaolan/shelters.geojson": {
+      "bytes": 100548,
+      "sha256": "146c30a931ba7b7804f7739ab3f366e9ebeb50d17c7ec9e90fbf753883c6be93"
+    },
+    "data/processed/regions/xiaolan/shelters_all.csv": {
+      "bytes": 35162,
+      "sha256": "57d53cc723225749ad3a510f63a28511494b8d68080647762f9c229baf0b00c2"
+    }
+  }
+}
