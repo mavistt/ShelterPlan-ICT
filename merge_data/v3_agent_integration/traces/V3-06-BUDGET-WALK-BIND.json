@@ -1,0 +1,281 @@
+{
+  "task_id": "V3-06-BUDGET-WALK-BIND",
+  "run_id": "20261114T140856Z-74d06f73",
+  "user_intent": "评估现状，预算上限30，步行阈值15分钟。",
+  "accepted": {
+    "turn_id": "t-82aebe4e64aa",
+    "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+    "status": "RUNNING",
+    "user_text": "评估现状，预算上限30，步行阈值15分钟。",
+    "created_at": "2026-11-14T14:09:00Z",
+    "updated_at": "2026-11-14T14:09:00Z",
+    "scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+    "task_id": null,
+    "job_id": null,
+    "result_id": null,
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY",
+    "metrics": {},
+    "map": null,
+    "warnings": [],
+    "message": "正在处理请求。",
+    "clarification": null,
+    "error": null,
+    "timings": {
+      "queued_at": "2026-11-14T14:09:00Z",
+      "queue_ms": null,
+      "run_ms": null
+    },
+    "llm": {
+      "calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0
+    },
+    "cancel_requested": false,
+    "state_persisted": true
+  },
+  "final_turn": {
+    "turn_id": "t-82aebe4e64aa",
+    "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+    "status": "SUCCEEDED",
+    "user_text": "评估现状，预算上限30，步行阈值15分钟。",
+    "created_at": "2026-11-14T14:09:00Z",
+    "updated_at": "2026-11-14T14:09:06Z",
+    "scenario_id": "c-v3-v3-06-t02-08e58591",
+    "task_id": "c-1e99a25f-55ba-407c-a9ae-46d08b9f4553",
+    "job_id": "035827f8-55a5-4c0d-bc5d-8c1c9e76e64b",
+    "result_id": "3e5979d2-1637-4772-be5b-31c98e8507d1",
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY",
+    "metrics": {
+      "served_demand": 6456.103026929056,
+      "total_demand": 110205.74056775225,
+      "weighted_walk_time_min": 9.037615807901064,
+      "diagnosed_unserved_nodes": 7634,
+      "coverage_ratio": 0.05858227523964575
+    },
+    "map": {
+      "available": false,
+      "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+      "layers_href": "/v1/results/3e5979d2-1637-4772-be5b-31c98e8507d1/layers"
+    },
+    "warnings": [
+      "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+      "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+    ],
+    "message": "【结论】现状评估完成。\n【未服务节点】7,634 个。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 30.00；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=3e5979d2-1637-4772-be5b-31c98e8507d1；scenario_id=c-v3-v3-06-t02-08e58591",
+    "clarification": null,
+    "error": null,
+    "timings": {
+      "queued_at": "2026-11-14T14:09:00Z",
+      "queue_ms": null,
+      "run_ms": 5734.1,
+      "started_at": "2026-11-14T14:09:00Z"
+    },
+    "llm": {
+      "calls": 1,
+      "prompt_tokens": 10,
+      "completion_tokens": 5
+    },
+    "cancel_requested": false,
+    "state_persisted": true,
+    "intent": "assess",
+    "task_type": "assess"
+  },
+  "session_state": {
+    "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+    "created_at": "2026-11-14T14:09:00Z",
+    "turn": 2,
+    "params": {
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15.0,
+      "budget_units": 30.0,
+      "disabled_shelter_ids": [],
+      "data_version": "zhongshan_pilot_v0.1",
+      "analysis_mode": "demo"
+    },
+    "scenario_id": "c-v3-v3-06-t02-08e58591",
+    "lineage": [
+      {
+        "scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "result_id": null
+      },
+      {
+        "scenario_id": "c-v3-v3-06-t02-08e58591",
+        "parent_scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+        "turn": 2,
+        "changes": {
+          "budget_units": 30.0
+        },
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": 30.0,
+          "disabled_shelter_ids": [],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "result_id": "3e5979d2-1637-4772-be5b-31c98e8507d1"
+      }
+    ],
+    "result_ids": [
+      "3e5979d2-1637-4772-be5b-31c98e8507d1"
+    ],
+    "pending_clarification": null,
+    "turns": [
+      {
+        "turn_id": "t-82aebe4e64aa",
+        "status": "SUCCEEDED",
+        "created_at": "2026-11-14T14:09:00Z"
+      }
+    ],
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY"
+  },
+  "rule_llm_calls": 1,
+  "c_harness_tool_calls": [
+    {
+      "ts": "2026-11-14T14:09:00.720+00:00",
+      "event": "tool_call",
+      "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+      "task_id": "c-1e99a25f-55ba-407c-a9ae-46d08b9f4553",
+      "tool_name": "submit_task",
+      "started_at": "2026-11-14T14:09:00.705+00:00",
+      "finished_at": "2026-11-14T14:09:00.720+00:00",
+      "duration_ms": 14.826,
+      "status": "ok",
+      "attempt": 1,
+      "attempts": 1,
+      "retries": 0,
+      "scenario_id": "c-v3-v3-06-t02-08e58591",
+      "parent_scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+      "data_version": "zhongshan_pilot_v0.1",
+      "args_digest": "4bf63b6424e6a5a8",
+      "args_summary": {
+        "tool": "submit_task"
+      },
+      "job_id": "035827f8-55a5-4c0d-bc5d-8c1c9e76e64b",
+      "result_id": null,
+      "execution_trace_id": null,
+      "error_type": null,
+      "detail": {}
+    },
+    {
+      "ts": "2026-11-14T14:09:05.796+00:00",
+      "event": "tool_call",
+      "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+      "task_id": "c-1e99a25f-55ba-407c-a9ae-46d08b9f4553",
+      "tool_name": "get_job",
+      "started_at": "2026-11-14T14:09:00.720+00:00",
+      "finished_at": "2026-11-14T14:09:05.796+00:00",
+      "duration_ms": 5075.555,
+      "status": "ok",
+      "attempt": 1,
+      "attempts": 1,
+      "retries": 0,
+      "scenario_id": "c-v3-v3-06-t02-08e58591",
+      "parent_scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+      "data_version": "zhongshan_pilot_v0.1",
+      "args_digest": "e1fed9fd80523fa1",
+      "args_summary": {
+        "tool": "get_job"
+      },
+      "job_id": "035827f8-55a5-4c0d-bc5d-8c1c9e76e64b",
+      "result_id": "3e5979d2-1637-4772-be5b-31c98e8507d1",
+      "execution_trace_id": null,
+      "error_type": null,
+      "detail": {}
+    },
+    {
+      "ts": "2026-11-14T14:09:06.429+00:00",
+      "event": "tool_call",
+      "session_id": "v3-v3-06-budget-walk-bind-20261114T140856Z-74d06f73",
+      "task_id": "c-1e99a25f-55ba-407c-a9ae-46d08b9f4553",
+      "tool_name": "get_result",
+      "started_at": "2026-11-14T14:09:05.797+00:00",
+      "finished_at": "2026-11-14T14:09:06.429+00:00",
+      "duration_ms": 631.692,
+      "status": "ok",
+      "attempt": 1,
+      "attempts": 1,
+      "retries": 0,
+      "scenario_id": "c-v3-v3-06-t02-08e58591",
+      "parent_scenario_id": "c-v3-v3-06-t01-9adb3cf6",
+      "data_version": "zhongshan_pilot_v0.1",
+      "args_digest": "389bce4a0dfa5004",
+      "args_summary": {
+        "tool": "get_result"
+      },
+      "job_id": null,
+      "result_id": "3e5979d2-1637-4772-be5b-31c98e8507d1",
+      "execution_trace_id": null,
+      "error_type": null,
+      "detail": {}
+    }
+  ],
+  "c_harness_tool_call_count": 3,
+  "observer_result_fetch_excluded_from_agent_tool_count": true,
+  "b_result_audit": {
+    "result_id": "3e5979d2-1637-4772-be5b-31c98e8507d1",
+    "solver_status": "OPTIMAL",
+    "verification_status": "PASS_DEMO",
+    "data_status": "DEMO_ONLY",
+    "result_summary": {
+      "served_demand": 6456.103026929056,
+      "total_demand": 110205.74056775225,
+      "weighted_walk_time_min": 9.037615807901064,
+      "optimized_served_demand": null,
+      "diagnosed_unserved_nodes": 7634
+    },
+    "graph_trace": [
+      {
+        "skill_id": "S01",
+        "cache_hit": false,
+        "duration_ms": 0.089
+      },
+      {
+        "skill_id": "S02",
+        "cache_hit": false,
+        "duration_ms": 0.02
+      },
+      {
+        "skill_id": "S03",
+        "cache_hit": false,
+        "duration_ms": 20.257
+      },
+      {
+        "skill_id": "S04",
+        "cache_hit": false,
+        "duration_ms": 205.338
+      },
+      {
+        "skill_id": "S05",
+        "cache_hit": false,
+        "duration_ms": 64.499
+      },
+      {
+        "skill_id": "S12",
+        "cache_hit": false,
+        "duration_ms": 0.057
+      }
+    ]
+  },
+  "expected_state": {
+    "budget_units": 30.0,
+    "max_walk_time_min": 15.0,
+    "data_status": "DEMO_ONLY"
+  },
+  "pass": true,
+  "path_note": "fresh unique Session and store; direct C RuleLLM application API; actual B app; no paid API"
+}

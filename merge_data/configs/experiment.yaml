@@ -1,0 +1,15 @@
+schema: grounded-planning-experiment/v1
+seed: 20261113
+generator_version: grounded-exp-0.1.0
+source_manifest: ../source_manifest.json
+scenario_manifest: ../scenarios/SCENARIO_MANIFEST.json
+data_version: zhongshan_pilot_v0.1
+data_status: DEMO_ONLY
+budgets:
+  max_options: 64
+  mip_time_limit_seconds: 10
+oracle:
+  algorithm: NetworkX Dinitz integer max-flow
+  scale_person_units: 1000000
+ground_truth_c_status: NOT_VALIDATED
+all_expansion_options_hypothetical: true

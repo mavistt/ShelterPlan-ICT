@@ -1,0 +1,773 @@
+{
+  "schema_version": "v3.1",
+  "independent_of_v3_outputs": true,
+  "tasks": [
+    {
+      "task_id": "V3-01-REAL000-OPT",
+      "family": "single_round_budget_optimization",
+      "turns": [
+        {
+          "user_intent": "预算20，按 REAL-000 三个 GIS 锚定扩容候选做预算优化。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "task_type": "optimize",
+            "candidate_count": 3,
+            "session_scope": "same"
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 20.0,
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO"
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle",
+        "objective_served_demand": 6556.103034,
+        "rounding_error_upper_bound_persons": 0.0039945,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ],
+        "greedy_served_demand": 6516.103026929056,
+        "greedy_selected_option_ids": [
+          "V2_TRAP_A"
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "budget absent",
+          "candidate count >12",
+          "candidate not explicitly supplied"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO; DEMO_ONLY disclosure and hypothetical-option warning remain",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "A GIS demand/OD/capacity unchanged",
+        "option costs and capacity deltas are hypothetical"
+      ]
+    },
+    {
+      "task_id": "V3-02-REAL081-OPT",
+      "family": "single_round_budget_optimization",
+      "turns": [
+        {
+          "user_intent": "预算26.64，优化 REAL-081 的8个GIS锚定候选。",
+          "expected_params": {
+            "budget_units": 26.64
+          },
+          "expected_tool_constraints": {
+            "task_type": "optimize",
+            "candidate_count": 8
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 26.64,
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO"
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle",
+        "objective_served_demand": 6846.103034,
+        "rounding_error_upper_bound_persons": 0.0039945,
+        "selected_option_ids": [
+          "R081_O00",
+          "R081_O01",
+          "R081_O03",
+          "R081_O04",
+          "R081_O05"
+        ],
+        "greedy_served_demand": 6826.103026929056,
+        "greedy_selected_option_ids": [
+          "R081_O04",
+          "R081_O00",
+          "R081_O06",
+          "R081_O03",
+          "R081_O01"
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "budget absent",
+          "candidate count >12"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO; data source stays DEMO_ONLY",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-081.json",
+      "assumptions": [
+        "A GIS is unchanged",
+        "all 8 option costs and capacity deltas are hypothetical"
+      ]
+    },
+    {
+      "task_id": "V3-03-SYN8-TRAP",
+      "family": "fully_synthetic_greedy_vs_mip",
+      "turns": [
+        {
+          "user_intent": "在V2全合成8候选反例上比较Greedy与MIP。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "candidate_count": 8,
+            "must_not_increase_limit": true
+          },
+          "expected_status": "NOT_RUN"
+        }
+      ],
+      "expected_final_state": {
+        "solver_status": "NOT_RUN"
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_exhaustive_maxflow_oracle",
+        "objective_served_demand": 100.0,
+        "rounding_error_upper_bound_persons": 4e-06,
+        "selected_option_ids": [
+          "B",
+          "C"
+        ],
+        "greedy_served_demand": 65.999999999,
+        "greedy_selected_option_ids": [
+          "A",
+          "D4",
+          "D3",
+          "D2",
+          "D1",
+          "D0"
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "public API does not accept synthetic demand/shelter/OD payload injection"
+        ]
+      },
+      "verifier_expected": "V2 PASS_DEMO fixture; no V3 C/B claim",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\synthetic_stress\\SYN-greedy-counterexample.json",
+      "assumptions": [
+        "fully synthetic fixture",
+        "V3 route is not run because public TaskRequest only accepts task parameters/options, not arbitrary planning graph"
+      ]
+    },
+    {
+      "task_id": "V3-04-GREEDY-MIP-EXPLAIN",
+      "family": "greedy_vs_mip_explanation",
+      "turns": [
+        {
+          "user_intent": "解释 REAL-000 中 Greedy 6516.103 与 MIP 6556.103 的差异。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "task_type": "explain_result",
+            "result_id_must_belong_to_session": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO"
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle",
+        "objective_served_demand": 6556.103034,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ],
+        "greedy_served_demand": 6516.103026929056,
+        "greedy_selected_option_ids": [
+          "V2_TRAP_A"
+        ],
+        "gap_persons": 39.999999999092324
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "result belongs to a different session",
+          "explanation claims numbers not in result summary"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO; numeric claims must be result-bound",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "explain only V2 measured result; it must not call the optimizer again"
+      ]
+    },
+    {
+      "task_id": "V3-05-MULTITURN-BUDGET",
+      "family": "multi_turn_budget_adjustment_and_resume",
+      "turns": [
+        {
+          "user_intent": "第1轮：预算15，做扩容优化但不提供候选。",
+          "expected_params": {
+            "budget_units": 15.0
+          },
+          "expected_tool_constraints": {
+            "no_B_call": true
+          },
+          "expected_status": "NEEDS_CLARIFICATION"
+        },
+        {
+          "user_intent": "第2轮：预算改为20并补充REAL-000三个候选，继续优化。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "candidate_count": 3,
+            "pending_task_must_resume": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 20.0,
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "selected_shelter_ids": [
+          "zs_737caba8e8",
+          "zs_fed820d94e"
+        ]
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle_for_resumed_final_turn",
+        "objective_served_demand": 6556.103034,
+        "rounding_error_upper_bound_persons": 0.0039945,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ],
+        "selected_shelter_ids": [
+          "zs_737caba8e8",
+          "zs_fed820d94e"
+        ],
+        "per_turn_state_is_gt": true
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "first turn calls B without candidates",
+          "second turn loses candidate table or retains budget15"
+        ]
+      },
+      "verifier_expected": "first turn no certificate; resumed final PASS_DEMO",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "second-turn natural language explicitly supplies all three hypothetical options"
+      ]
+    },
+    {
+      "task_id": "V3-06-BUDGET-WALK-BIND",
+      "family": "multi_parameter_numeric_binding",
+      "turns": [
+        {
+          "user_intent": "评估现状，预算上限30，步行阈值15分钟。",
+          "expected_params": {
+            "budget_units": 30.0,
+            "max_walk_time_min": 15.0
+          },
+          "expected_tool_constraints": {
+            "task_type": "assess",
+            "both_numbers_must_bind_to_named_fields": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 30.0,
+        "max_walk_time_min": 15.0,
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO"
+      },
+      "mathematical_or_reference": {
+        "kind": "prior_v1_baseline_reference",
+        "served_demand": 6456.103026929056,
+        "note": "budget does not change the pure assess baseline"
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "budget is set to15 from the walk-time literal",
+          "either stated value is silently dropped"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO; exact scenario fields equal text",
+      "source": "merge_data\\runs\\01_structure_audit.json",
+      "assumptions": [
+        "RuleLLM deterministic adapter only; no claim about real LLM"
+      ]
+    },
+    {
+      "task_id": "V3-07-REVISE-PLAN",
+      "family": "user_revises_plan_and_reoptimizes",
+      "turns": [
+        {
+          "user_intent": "先用REAL-000预算20完整候选求解，之后删除A，只保留B/C并重新优化。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "second_call_options": [
+              "V2_TRAP_B",
+              "V2_TRAP_C"
+            ],
+            "reoptimize": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 20.0,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ],
+        "solver_status": "OPTIMAL"
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle_restricted_candidate_subset",
+        "objective_served_demand": 6556.103034,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "removed A reappears",
+          "request reuses stale result without a new B call"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "removing an option cannot improve over the 3-option optimum; original Oracle optimum remains feasible in B/C subset"
+      ]
+    },
+    {
+      "task_id": "V3-08-DISABLE-BOTTLENECK",
+      "family": "site_shutdown_counterfactual",
+      "turns": [
+        {
+          "user_intent": "评估15分钟基线，然后停用瓶颈场所 zs_1b4df7920b 并比较影响。",
+          "expected_params": {
+            "max_walk_time_min": 15.0,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ]
+          },
+          "expected_tool_constraints": {
+            "two_scenarios": [
+              "baseline",
+              "disabled"
+            ],
+            "candidate_count": 0
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "verification_status": "PASS_DEMO",
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ]
+      },
+      "mathematical_or_reference": {
+        "kind": "v1_historical_reference",
+        "baseline_served_demand": 6456.103026929056,
+        "closure_loss_persons": 3130.9577,
+        "closure_served_demand_reference": 3325.145326929056,
+        "oracle": false
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "service reports no scenario change",
+          "closure increases service with no other changes"
+        ]
+      },
+      "verifier_expected": "both results PASS_DEMO; historical V1 numeric reference is directional, not a fresh independent oracle",
+      "source": "merge_data\\runs\\01_structure_audit.json",
+      "assumptions": [
+        "closure is a hypothetical scenario",
+        "capacity data are DEMO_ONLY and unverified"
+      ]
+    },
+    {
+      "task_id": "V3-09-RESTORE-BUDGET",
+      "family": "parameter_undo_restore",
+      "turns": [
+        {
+          "user_intent": "预算设20；下一轮预算设25；然后撤销最近的预算修改。",
+          "expected_params": {
+            "budget_units_sequence": [
+              20.0,
+              25.0,
+              20.0
+            ]
+          },
+          "expected_tool_constraints": {
+            "restore_is_field_scoped": true,
+            "no_solver_call_required": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "budget_units": 20.0
+      },
+      "mathematical_or_reference": {
+        "kind": "state_transition_gt",
+        "expected_budget_history": [
+          20.0,
+          25.0,
+          20.0
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "restore changes walking ratio or disabled list",
+          "history value is missing"
+        ]
+      },
+      "verifier_expected": "no B certificate expected; parameter history only",
+      "source": "V3-created deterministic transition from C Session/normalizer contract",
+      "assumptions": [
+        "no live planning call is part of this state-only task"
+      ]
+    },
+    {
+      "task_id": "V3-10-ASK-MISSING-BUDGET",
+      "family": "clarify_missing_budget",
+      "turns": [
+        {
+          "user_intent": "帮我做扩容优化。",
+          "expected_params": {
+            "budget_units": null
+          },
+          "expected_tool_constraints": {
+            "no_B_call": true
+          },
+          "expected_status": "NEEDS_CLARIFICATION"
+        }
+      ],
+      "expected_final_state": {
+        "status": "NEEDS_CLARIFICATION",
+        "clarification_fields": [
+          "budget_units"
+        ]
+      },
+      "mathematical_or_reference": {
+        "kind": "clarification_contract",
+        "no_math_result": true
+      },
+      "refusal_or_clarification": {
+        "ask_for": [
+          "budget_units"
+        ],
+        "do_not_infer": true
+      },
+      "verifier_expected": "not run; no B result",
+      "source": "C public application API contract",
+      "assumptions": [
+        "RuleLLM deterministic adapter"
+      ]
+    },
+    {
+      "task_id": "V3-11-ASK-MISSING-CANDIDATES",
+      "family": "clarify_missing_candidates",
+      "turns": [
+        {
+          "user_intent": "预算20，帮我做扩容优化。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "no_B_call": true
+          },
+          "expected_status": "NEEDS_CLARIFICATION"
+        }
+      ],
+      "expected_final_state": {
+        "status": "NEEDS_CLARIFICATION",
+        "clarification_fields": [
+          "improvement_options"
+        ]
+      },
+      "mathematical_or_reference": {
+        "kind": "clarification_contract",
+        "no_math_result": true
+      },
+      "refusal_or_clarification": {
+        "ask_for": [
+          "improvement_options"
+        ],
+        "do_not_invent": true
+      },
+      "verifier_expected": "not run; no B result",
+      "source": "C public application API contract",
+      "assumptions": [
+        "RuleLLM deterministic adapter"
+      ]
+    },
+    {
+      "task_id": "V3-12-DEMO-ONLY-DISCLOSURE",
+      "family": "demo_only_status_explanation",
+      "turns": [
+        {
+          "user_intent": "说明REAL-000方案的数据状态和能否作为现场应急指引。",
+          "expected_params": {
+            "data_status": "DEMO_ONLY"
+          },
+          "expected_tool_constraints": {
+            "must_not_call_verified_mode": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "data_status": "DEMO_ONLY",
+        "verified_for_real_planning": false
+      },
+      "mathematical_or_reference": {
+        "kind": "source_status_contract",
+        "result_id_from": "V3-01"
+      },
+      "refusal_or_clarification": {
+        "refuse_claims": [
+          "现场验证",
+          "可直接执行",
+          "verified emergency guidance"
+        ]
+      },
+      "verifier_expected": "PASS_DEMO plus explicit disclosure",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "all V2 option costs are hypothetical"
+      ]
+    },
+    {
+      "task_id": "V3-13-FEASIBLE-WORDING",
+      "family": "feasible_status_wording",
+      "turns": [
+        {
+          "user_intent": "使用FEASIBLE结果作答，说明是否已证明最优。",
+          "expected_params": {
+            "solver_status": "FEASIBLE",
+            "optimality_proven": false
+          },
+          "expected_tool_constraints": {
+            "must_not_claim_proven_optimal": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "phrase_contains": [
+          "FEASIBLE",
+          "未证明最优",
+          "不得表述为"
+        ],
+        "semantic_rule": "the answer may quote '已证明最优' only inside an explicit prohibition; it must not assert optimality"
+      },
+      "mathematical_or_reference": {
+        "kind": "existing_v1_feasible_contract",
+        "source": "merge_data\\runs\\full-20261113-main\\gt\\D03.json"
+      },
+      "refusal_or_clarification": {
+        "refuse_claims": [
+          "optimality proven when false"
+        ]
+      },
+      "verifier_expected": "FEASIBLE accepted without optimal claim; claim='optimal' rejected",
+      "source": "merge_data\\runs\\full-20261113-main\\gt\\D03.json",
+      "assumptions": [
+        "formatter/guard path only; no deterministic live timeout or FEASIBLE plan is exposed"
+      ]
+    },
+    {
+      "task_id": "V3-14-VERIFIER-RECOVERY",
+      "family": "verifier_rejects_then_recovers",
+      "turns": [
+        {
+          "user_intent": "验证器收到FAIL结果时不得发布；修复后用原场景安全重试。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "first_injected_status": "FAIL",
+            "one_clean_retry": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "first_status": "REJECTED_RESULT_MISMATCH",
+        "recovery_solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO"
+      },
+      "mathematical_or_reference": {
+        "kind": "same_v2_independent_oracle_as_v3_01",
+        "objective_served_demand": 6556.103034,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ]
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "verification_status != PASS_DEMO/PASS_VERIFIED",
+          "retry mutates user parameters"
+        ]
+      },
+      "verifier_expected": "reject injected FAIL, accept fresh B PASS_DEMO",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "fault injection changes only returned verifier status, not source B result"
+      ]
+    },
+    {
+      "task_id": "V3-15-CROSS-SESSION-RESULT",
+      "family": "cross_session_result_denial",
+      "turns": [
+        {
+          "user_intent": "另一Session请求读取owner Session的result_id。",
+          "expected_params": {},
+          "expected_tool_constraints": {
+            "deny_before_B_get_result": true
+          },
+          "expected_status": "REFUSED"
+        }
+      ],
+      "expected_final_state": {
+        "error_code": "GUARD_UNKNOWN_RESULT",
+        "attacker_B_get_result_calls": 0
+      },
+      "mathematical_or_reference": {
+        "kind": "session_ownership_security_invariant",
+        "no_math_result": true
+      },
+      "refusal_or_clarification": {
+        "must_refuse": true
+      },
+      "verifier_expected": "no result published or fetched",
+      "source": "C service membership contract and V3 security regression",
+      "assumptions": [
+        "spy BClient records upstream access attempts"
+      ]
+    },
+    {
+      "task_id": "V3-16-CANDIDATE-LIMIT",
+      "family": "candidate_limit_boundary",
+      "turns": [
+        {
+          "user_intent": "校验12候选可被接纳、13候选在C/B边界前拒绝。",
+          "expected_params": {
+            "candidate_limit": 12
+          },
+          "expected_tool_constraints": {
+            "12_count_allowed_by_schema": true,
+            "13_count_rejected_before_B": true
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "max_candidates": 12,
+        "13_candidate_calls_to_B": 0
+      },
+      "mathematical_or_reference": {
+        "kind": "public_contract",
+        "source": "backend\\models.py"
+      },
+      "refusal_or_clarification": {
+        "refuse_if": [
+          "candidate_count >12"
+        ],
+        "do_not": [
+          "raise limit to64"
+        ]
+      },
+      "verifier_expected": "not run for 13 candidates; schema/guard refusal",
+      "source": "backend.models.TaskRequest and C guards.validate_improvement_options",
+      "assumptions": [
+        "12-item Pydantic contract validation only; no duplicate-option solver semantics claimed"
+      ]
+    },
+    {
+      "task_id": "V3-17-ORDINARY-AGENT-BASELINE",
+      "family": "architecture_baseline",
+      "turns": [
+        {
+          "user_intent": "same prompts through an ordinary independent tool agent",
+          "expected_params": {
+            "model": "same as other arms"
+          },
+          "expected_tool_constraints": {
+            "paid_api": false
+          },
+          "expected_status": "NOT_RUN"
+        }
+      ],
+      "expected_final_state": {
+        "status": "NOT_RUN"
+      },
+      "mathematical_or_reference": {
+        "kind": "not_applicable_without_agent",
+        "no_math_result": true
+      },
+      "refusal_or_clarification": {
+        "must_not_fabricate_result": true
+      },
+      "verifier_expected": "NOT_RUN",
+      "source": "V3 architecture availability audit",
+      "assumptions": [
+        "no real LLM configured; RuleLLM is not an ordinary tool agent"
+      ]
+    },
+    {
+      "task_id": "V3-18-SKILL-CACHE-REPEAT",
+      "family": "skill_graph_cache_repeat",
+      "turns": [
+        {
+          "user_intent": "重复相同REAL-000任务，检查Skill Graph依赖缓存和结果一致性。",
+          "expected_params": {
+            "budget_units": 20.0
+          },
+          "expected_tool_constraints": {
+            "same_scenario_and_options": true,
+            "candidate_count": 3
+          },
+          "expected_status": "SUCCEEDED"
+        }
+      ],
+      "expected_final_state": {
+        "both_solver_status": "OPTIMAL",
+        "both_verification_status": "PASS_DEMO",
+        "same_selected_options": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ]
+      },
+      "mathematical_or_reference": {
+        "kind": "independent_v2_oracle",
+        "objective_served_demand": 6556.103034,
+        "rounding_error_upper_bound_persons": 0.0039945,
+        "selected_option_ids": [
+          "V2_TRAP_B",
+          "V2_TRAP_C"
+        ]
+      },
+      "refusal_or_clarification": {
+        "must_not_claim_no_graph_ablation": true
+      },
+      "verifier_expected": "both PASS_DEMO; B trace cache_hit rows inspected",
+      "source": "merge_data\\v2_difficulty_discovery\\runs\\real_gis_search\\REAL-000-TARGETED-TRAP.json",
+      "assumptions": [
+        "cache behavior is measured by B trace rows; not a no-Skill-Graph ablation"
+      ]
+    }
+  ]
+}

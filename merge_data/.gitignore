@@ -1,0 +1,32 @@
+# Benchmark output trees; only allowlisted historical inputs are tracked.
+/runs/*
+!/runs/01_structure_audit.json
+!/runs/full-20261113-main/
+/runs/full-20261113-main/*
+!/runs/full-20261113-main/gt/
+/runs/full-20261113-main/gt/*
+!/runs/full-20261113-main/gt/*.json
+
+/v2_difficulty_discovery/runs/*
+!/v2_difficulty_discovery/runs/real_gis_search/
+/v2_difficulty_discovery/runs/real_gis_search/*
+!/v2_difficulty_discovery/runs/real_gis_search/REAL-000-TARGETED-TRAP.json
+!/v2_difficulty_discovery/runs/real_gis_search/REAL-081.json
+!/v2_difficulty_discovery/runs/synthetic_stress/
+/v2_difficulty_discovery/runs/synthetic_stress/*
+!/v2_difficulty_discovery/runs/synthetic_stress/SYN-greedy-counterexample.json
+!/v2_difficulty_discovery/runs/ablation/
+!/v2_difficulty_discovery/runs/ablation/*
+
+# Re-running V2 writes this large aggregate; the curated compact summary is tracked.
+/v2_difficulty_discovery/oracles/phase_b_grounded_search.json
+
+# Local B/C solver outputs and session state are never part of the benchmark upload.
+/v3_agent_integration/outputs/
+/v3_agent_integration/artifacts/
+/v3_agent_integration/state/
+/v3_agent_integration/workspaces/
+/v3_agent_integration/runs/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]

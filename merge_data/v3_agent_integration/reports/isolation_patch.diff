@@ -1,0 +1,222 @@
+--- formal/agent/harness/guards.py
++++ v3-isolated/agent/harness/guards.py
+@@ -340,7 +340,10 @@
+         return
+     if full_result.get("data_status") != "DEMO_ONLY":
+         return
+-    forbidden = ("真实验证", "已核验", "现场核实", "可执行建议", "operationally verified")
++    forbidden = (
++        "真实验证", "已核验", "现场核实", "现场核验", "可执行建议",
++        "可直接执行", "现场应急指引", "operationally verified",
++    )
+     hits = [token for token in forbidden if token in text]
+     if hits:
+         raise GuardClaimViolation(
+--- formal/agent/intent/extractor.py
++++ v3-isolated/agent/intent/extractor.py
+@@ -451,7 +451,7 @@
+ # conservative: it only fires on unambiguous lexical patterns.
+ # --------------------------------------------------------------------------- #
+ ID_RE = re.compile(r"\bzs_[0-9a-z]{6,}\b", re.I)
+-BUDGET_RE = re.compile(r"预算\s*(?:设为|改成|调整为|为|是|=)?\s*(-?\d+(?:\.\d+)?)")
++BUDGET_RE = re.compile(r"预算\s*(?:上限(?:为)?|设为|改成|调整为|为|是|=)?\s*(-?\d+(?:\.\d+)?)")
+ BUDGET_HALF_RE = re.compile(r"预算[^。；，]*?(减半|翻倍|一半|两倍)")
+ BUDGET_DELTA_RE = re.compile(r"预算\s*(?:再|又)?\s*(增加|加|减少|减|提高|降低)\s*(\d+(?:\.\d+)?)")
+ RATIO_PCT_RE = re.compile(r"(?:需求)?比例[^0-9]{0,6}(\d+(?:\.\d+)?)\s*%")
+--- formal/agent/intent/quantities.py
++++ v3-isolated/agent/intent/quantities.py
+@@ -329,7 +329,8 @@
+     because the sentence is the authority, not the extraction.
+     """
+     text = text or ""
+-    typed = numbers(text)
++    field_clauses = [clause for clause in clauses(text) if _field_of(clause) == field]
++    typed = [number for clause in field_clauses for number in numbers(clause)]
+ 
+     if op == "restore":
+         if RESTORE_VERB_RE.search(text) or history_reference(text):
+@@ -337,7 +338,8 @@
+         return False, "撤销/恢复/历史引用类操作在句子里没有依据", None
+ 
+     if op == "scale":
+-        found = multiplier(text)
++        found = next((found for clause in field_clauses
++                      if (found := multiplier(clause)) is not None), None)
+         if found is None:
+             return False, "倍数类操作在句子里没有依据（没有“翻倍/减半/N倍/X%”）", None
+         factor, _evidence, _rule = found
+@@ -357,22 +359,26 @@
+         # "需求比例再提高 5 个百分点" reaches the normaliser as 0.05 while the
+         # sentence literally contains 5. A ratio delta is *stated* in percentage
+         # points, so both spellings are legitimate evidence for the same op.
+-        candidates = (abs(numeric), abs(numeric) * 100.0)
++        candidates = ((abs(numeric), abs(numeric) * 100.0)
++                      if field == "population_demand_ratio" else (abs(numeric),))
+         base = min((abs(number) for number in typed),
+                    key=lambda n: min(abs(n - candidate) for candidate in candidates),
+                    default=None)
+         # "再放宽半小时" contains no literal 30, but the phrase unambiguously
+         # means 30 minutes. The derived duration is therefore valid evidence
+         # for a delta of the same magnitude.
+-        duration = duration_minutes(text)
+-        duration_ok = (duration is not None
+-                       and abs(duration[0] - abs(numeric)) < 1e-9
+-                       and duration_delta(text) is not None)
++        duration_ok = any(
++            duration is not None
++            and abs(duration[0] - abs(numeric)) < 1e-9
++            and duration_delta(clause) is not None
++            for clause in field_clauses
++            for duration in [duration_minutes(clause)]
++        )
+         literal_ok = (base is not None
+                       and min(abs(base - candidate) for candidate in candidates) <= 1e-9)
+         if not (literal_ok or duration_ok):
+             return False, "增量数值在句子里找不到", None
+-        if not DELTA_VERB_RE.search(text) and not duration_ok:
++        if not any(DELTA_VERB_RE.search(clause) for clause in field_clauses) and not duration_ok:
+             return False, "句子里没有增加/减少类动词", None
+         return True, "", None
+ 
+@@ -383,16 +389,22 @@
+             numeric = float(value)
+         except (TypeError, ValueError):
+             return True, "", None
+-        candidates = {round(numeric, 6), round(numeric * 100.0, 6), round(numeric * 60.0, 6)}
++        candidates = {round(numeric, 6)}
++        if field == "population_demand_ratio":
++            candidates.add(round(numeric * 100.0, 6))
++        elif field == "max_walk_time_min":
++            candidates.add(round(numeric * 60.0, 6))
+         if any(abs(number - candidate) < 1e-6 for number in typed for candidate in candidates):
+             return True, "", None
+         # A value derived from a percentage/成 phrase is supported even though the
+         # literal "0.3" never appears ("30%" and "三成" both produce it).
+-        ratio = ratio_value(text)
+-        if field == "population_demand_ratio" and ratio and abs(ratio[0] - numeric) < 1e-9:
+-            return True, "", None
+-        duration = duration_minutes(text)
+-        if field == "max_walk_time_min" and duration and abs(duration[0] - numeric) < 1e-9:
++        ratios = [ratio_value(clause) for clause in field_clauses]
++        if field == "population_demand_ratio" and any(
++                ratio and abs(ratio[0] - numeric) < 1e-9 for ratio in ratios):
++            return True, "", None
++        durations = [duration_minutes(clause) for clause in field_clauses]
++        if field == "max_walk_time_min" and any(
++                duration and abs(duration[0] - numeric) < 1e-9 for duration in durations):
+             return True, "", None
+         return False, f"数值 {numeric:g} 在句子里找不到", None
+ 
+--- formal/agent/service.py
++++ v3-isolated/agent/service.py
+@@ -10,7 +10,7 @@
+ from agent.b_client import BClient
+ from agent.config import HarnessConfig
+ from agent.contracts import ScenarioParams
+-from agent.errors import HarnessError
++from agent.errors import GuardUnknownResult, HarnessError
+ from agent.harness.executor import ExecuteRequest, HarnessExecutor
+ from agent.harness.results import paginate_evidence, project
+ from agent.harness.session import Session, SessionRegistry
+@@ -139,6 +139,11 @@
+ 
+     def result(self, result_id: str, session_id: str | None = None) -> dict[str, Any]:
+         runtime = self._runtime(session_id)
++        if not runtime.session.has_result(result_id):
++            raise GuardUnknownResult(
++                "result_id was not produced by this session; refusing to read it.",
++                details={"result_id": result_id},
++            )
+         full = self.client.get_result(result_id)
+         task_type = _infer_task_type(full)
+         summary = project(full, task_type=task_type, config=self.config)
+--- /dev/null
++++ v3-isolated/tests/module_c/test_v3_regressions.py
+@@ -0,0 +1,87 @@
++from __future__ import annotations
++
++from pathlib import Path
++import pytest
++
++from agent.config import HarnessConfig
++from agent.contracts import ScenarioParams
++from agent.errors import GuardClaimViolation, GuardUnclearOperation, GuardUnknownResult
++from agent.harness.guards import assert_demo_disclosure
++from agent.intent import quantities
++from agent.intent.normalizer import apply_ops
++from agent.intent.schema import ParamOp
++from agent.intent.extractor import rule_extract
++from agent import service as service_module
++from agent.service import HarnessService
++
++
++def test_numeric_evidence_is_bound_to_its_field():
++    text = "预算上限30，步行阈值15分钟"
++    ok, _reason, override = quantities.supports(
++        text, "budget_units", "set", 15
++    )
++    assert not ok
++    assert override is None
++
++    params = ScenarioParams(
++        data_version="test",
++        population_demand_ratio=0.2,
++        max_walk_time_min=10.0,
++        budget_units=3.0,
++        disabled_shelter_ids=(),
++    )
++    turn = apply_ops(
++        params,
++        [ParamOp("budget_units", "set", 30),
++         ParamOp("max_walk_time_min", "set", 15)],
++        text=text,
++    )
++    assert turn.params.budget_units == 30
++    assert turn.params.max_walk_time_min == 15
++
++    with pytest.raises(GuardUnclearOperation):
++        apply_ops(params, [ParamOp("budget_units", "set", 15)], text=text)
++
++
++def test_budget_upper_bound_and_walk_minutes_parse_as_two_named_fields():
++    intent = rule_extract("评估现状，预算上限30，步行阈值15分钟。")
++    ops = {(op.field, op.op): op.value for op in intent.ops}
++    assert ops[("budget_units", "set")] == 30
++    assert ops[("max_walk_time_min", "set")] == 15
++
++
++def test_demo_disclosure_rejects_field_verification_synonyms():
++    full = {"data_status": "DEMO_ONLY"}
++    with pytest.raises(GuardClaimViolation):
++        assert_demo_disclosure(full, "该方案已现场核验，可直接执行。")
++
++
++def test_result_fetch_checks_session_membership_before_calling_b(monkeypatch):
++    class SpyClient:
++        calls = []
++
++        def get_result(self, result_id):
++            self.calls.append(result_id)
++            return {"result_detail": {"optimization": {}}, "result_id": result_id}
++
++    client = SpyClient()
++    trace_dir = Path(__file__).resolve().parents[4] / "traces" / "result-service-test"
++    config = HarnessConfig(trace_dir=trace_dir)
++    monkeypatch.setattr(
++        service_module, "project", lambda full, **_kwargs: {"result_id": full["result_id"]}
++    )
++    service = HarnessService(config, client=client, trace_dir=str(trace_dir))
++    owner = service.session_object("owner")
++    owner.remember_result(
++        "result-owned",
++        scenario_id="scenario-1",
++        data_version=config.data_version,
++        summary={"result_id": "result-owned"},
++    )
++
++    assert service.result("result-owned", session_id="owner")["result_id"] == "result-owned"
++    assert client.calls == ["result-owned"]
++
++    with pytest.raises(GuardUnknownResult):
++        service.result("result-owned", session_id="attacker")
++    assert client.calls == ["result-owned"]

@@ -1,0 +1,2335 @@
+{
+  "result": {
+    "case_id": "ABL-LOOSEN_BUDGET",
+    "provenance": "FULLY_SYNTHETIC_STRESS",
+    "case_kind": "competitive",
+    "candidate_count": 16,
+    "time_limit_seconds": 10.0,
+    "solver_status": "OPTIMAL",
+    "optimality_proven": true,
+    "best_feasible_served_demand": 723.000000002,
+    "primary_best_bound_served_demand": 723.0,
+    "primary_relative_gap": 0.0,
+    "runtime_seconds": 0.05359530000714585,
+    "stage_trace": [
+      {
+        "stage_index": 1,
+        "runtime_seconds": 0.011355900001944974,
+        "status_code": 0,
+        "success": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "objective_value_minimization": -723.0,
+        "best_bound_minimization": -723.0,
+        "relative_gap": 0.0,
+        "node_count": 1,
+        "time_limit_seconds": 10.0,
+        "variable_count": 144
+      },
+      {
+        "stage_index": 2,
+        "runtime_seconds": 0.014178000012179837,
+        "status_code": 0,
+        "success": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "objective_value_minimization": 3990.999999991,
+        "best_bound_minimization": 3990.999999991,
+        "relative_gap": 0.0,
+        "node_count": 1,
+        "time_limit_seconds": 9.985000000000582,
+        "variable_count": 144
+      },
+      {
+        "stage_index": 3,
+        "runtime_seconds": 0.009691300001577474,
+        "status_code": 0,
+        "success": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "objective_value_minimization": 62.999999997500026,
+        "best_bound_minimization": 62.999999997500026,
+        "relative_gap": 0.0,
+        "node_count": 1,
+        "time_limit_seconds": 9.968999999997322,
+        "variable_count": 144
+      },
+      {
+        "stage_index": 4,
+        "runtime_seconds": 0.010842600007890724,
+        "status_code": 0,
+        "success": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "objective_value_minimization": 7.999999999969697,
+        "best_bound_minimization": 7.999999999969697,
+        "relative_gap": 0.0,
+        "node_count": 1,
+        "time_limit_seconds": 9.968999999997322,
+        "variable_count": 144
+      }
+    ],
+    "lexicographic_stages": [
+      {
+        "stage": "maximize_served_demand",
+        "status": 0,
+        "optimality_proven": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "mip_gap": 0.0,
+        "mip_node_count": 1
+      },
+      {
+        "stage": "minimize_weighted_walk_time",
+        "status": 0,
+        "optimality_proven": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "mip_gap": 0.0,
+        "mip_node_count": 1
+      },
+      {
+        "stage": "minimize_option_cost",
+        "status": 0,
+        "optimality_proven": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "mip_gap": 0.0,
+        "mip_node_count": 1
+      },
+      {
+        "stage": "minimize_option_count",
+        "status": 0,
+        "optimality_proven": true,
+        "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "mip_gap": 0.0,
+        "mip_node_count": 1
+      }
+    ],
+    "memory": {
+      "rss_before_bytes": 111562752,
+      "rss_after_bytes": 111575040,
+      "peak_rss_sampled_bytes": 111599616,
+      "python_heap_peak_bytes": 92146,
+      "measurement": "psutil 10ms RSS sampling and tracemalloc; native HiGHS allocations captured only by RSS sampling"
+    },
+    "verifier": {
+      "verification_status": "PASS_DEMO",
+      "checks": [
+        {
+          "check_id": "OPTION_IDS",
+          "passed": true,
+          "observed": [
+            "O000",
+            "O003",
+            "O006",
+            "O009",
+            "O010",
+            "O012",
+            "O013",
+            "O015"
+          ],
+          "limit": "known unique options"
+        },
+        {
+          "check_id": "OPTION_ELIGIBILITY",
+          "passed": true,
+          "observed": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "limit": true
+        },
+        {
+          "check_id": "BUDGET",
+          "passed": true,
+          "observed": 63.0,
+          "limit": 108.0
+        },
+        {
+          "check_id": "COMBINATION_POLICY",
+          "passed": true,
+          "observed": [
+            "O000",
+            "O003",
+            "O006",
+            "O009",
+            "O010",
+            "O012",
+            "O013",
+            "O015"
+          ],
+          "limit": "explicit stacking/standalone/exclusive rules"
+        },
+        {
+          "check_id": "DATA_VERSION",
+          "object_id": "ablation-loosen_budget",
+          "passed": true,
+          "observed": "synthetic-v2-competitive-16-20262731-loosen_budget",
+          "limit": "synthetic-v2-competitive-16-20262731-loosen_budget",
+          "tolerance": 1e-06,
+          "evidence_ref": "scenario:data_version",
+          "message": "Scenario uses the loaded data version."
+        },
+        {
+          "check_id": "DATA_QUALITY",
+          "object_id": "ablation-loosen_budget",
+          "passed": true,
+          "observed": "SYNTHETIC_FIXTURE",
+          "limit": "demo",
+          "tolerance": 1e-06,
+          "evidence_ref": "source:data_status",
+          "message": "Data mode is permitted for this result scope."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0000",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S002",
+            "persons": 63.0,
+            "time_min": 4.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0000:S002",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0001",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S005",
+            "persons": 30.0,
+            "time_min": 8.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0001:S005",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0003",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S006",
+            "persons": 41.0,
+            "time_min": 8.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0003:S006",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0003",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S005",
+            "persons": 17.0,
+            "time_min": 9.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0003:S005",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0005",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S000",
+            "persons": 27.0,
+            "time_min": 2.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0005:S000",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0007",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S004",
+            "persons": 60.0,
+            "time_min": 6.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0007:S004",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0010",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S006",
+            "persons": 32.0,
+            "time_min": 8.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0010:S006",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0012",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S002",
+            "persons": 15.0,
+            "time_min": 4.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0012:S002",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0015",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S000",
+            "persons": 51.0,
+            "time_min": 2.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0015:S000",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0016",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S003",
+            "persons": 9.99999999900001,
+            "time_min": 5.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0016:S003",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0018",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S007",
+            "persons": 42.99999999700003,
+            "time_min": 9.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0018:S007",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0019",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S001",
+            "persons": 32.0,
+            "time_min": 3.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0019:S001",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0021",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S006",
+            "persons": 24.00000000299997,
+            "time_min": 8.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0021:S006",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0022",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S004",
+            "persons": 42.0,
+            "time_min": 6.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0022:S004",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0025",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S003",
+            "persons": 47.0,
+            "time_min": 5.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0025:S003",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0026",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S007",
+            "persons": 39.00000000299997,
+            "time_min": 9.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0026:S007",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0027",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S000",
+            "persons": 28.0,
+            "time_min": 2.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0027:S000",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0028",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S005",
+            "persons": 52.0,
+            "time_min": 7.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0028:S005",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0030",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S001",
+            "persons": 63.0,
+            "time_min": 3.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0030:S001",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "LEGAL_NONNEGATIVE_ASSIGNMENT",
+          "object_id": "D0031",
+          "passed": true,
+          "observed": {
+            "shelter_id": "S000",
+            "persons": 7.0,
+            "time_min": 2.0
+          },
+          "limit": "eligible OD edge; persons>=0",
+          "tolerance": 1e-06,
+          "evidence_ref": "assignment:D0031:S000",
+          "message": "Assignment must use a legal edge and finite nonnegative values."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0000",
+          "passed": true,
+          "observed": {
+            "served": 63.0,
+            "deficit": 0.0,
+            "demand": 63.0
+          },
+          "limit": 63.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0000",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0001",
+          "passed": true,
+          "observed": {
+            "served": 30.0,
+            "deficit": 0.0,
+            "demand": 30.0
+          },
+          "limit": 30.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0001",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0002",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 28.0,
+            "demand": 28.0
+          },
+          "limit": 28.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0002",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0003",
+          "passed": true,
+          "observed": {
+            "served": 58.0,
+            "deficit": 0.0,
+            "demand": 58.0
+          },
+          "limit": 58.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0003",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0004",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 55.0,
+            "demand": 55.0
+          },
+          "limit": 55.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0004",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0005",
+          "passed": true,
+          "observed": {
+            "served": 27.0,
+            "deficit": 0.0,
+            "demand": 27.0
+          },
+          "limit": 27.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0005",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0006",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 25.0,
+            "demand": 25.0
+          },
+          "limit": 25.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0006",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0007",
+          "passed": true,
+          "observed": {
+            "served": 60.0,
+            "deficit": 2.0,
+            "demand": 62.0
+          },
+          "limit": 62.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0007",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0008",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 52.0,
+            "demand": 52.0
+          },
+          "limit": 52.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0008",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0009",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 59.0,
+            "demand": 59.0
+          },
+          "limit": 59.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0009",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0010",
+          "passed": true,
+          "observed": {
+            "served": 32.0,
+            "deficit": 0.0,
+            "demand": 32.0
+          },
+          "limit": 32.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0010",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0011",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 33.0,
+            "demand": 33.0
+          },
+          "limit": 33.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0011",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0012",
+          "passed": true,
+          "observed": {
+            "served": 15.0,
+            "deficit": 32.0,
+            "demand": 47.0
+          },
+          "limit": 47.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0012",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0013",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 57.0,
+            "demand": 57.0
+          },
+          "limit": 57.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0013",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0014",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 51.0,
+            "demand": 51.0
+          },
+          "limit": 51.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0014",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0015",
+          "passed": true,
+          "observed": {
+            "served": 51.0,
+            "deficit": 0.0,
+            "demand": 51.0
+          },
+          "limit": 51.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0015",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0016",
+          "passed": true,
+          "observed": {
+            "served": 9.99999999900001,
+            "deficit": 50.00000000099999,
+            "demand": 60.0
+          },
+          "limit": 60.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0016",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0017",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 43.0,
+            "demand": 43.0
+          },
+          "limit": 43.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0017",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0018",
+          "passed": true,
+          "observed": {
+            "served": 42.99999999700003,
+            "deficit": 13.000000002999968,
+            "demand": 56.0
+          },
+          "limit": 56.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0018",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0019",
+          "passed": true,
+          "observed": {
+            "served": 32.0,
+            "deficit": 0.0,
+            "demand": 32.0
+          },
+          "limit": 32.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0019",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0020",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 61.0,
+            "demand": 61.0
+          },
+          "limit": 61.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0020",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0021",
+          "passed": true,
+          "observed": {
+            "served": 24.00000000299997,
+            "deficit": 8.999999997000032,
+            "demand": 33.0
+          },
+          "limit": 33.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0021",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0022",
+          "passed": true,
+          "observed": {
+            "served": 42.0,
+            "deficit": 0.0,
+            "demand": 42.0
+          },
+          "limit": 42.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0022",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0023",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 48.0,
+            "demand": 48.0
+          },
+          "limit": 48.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0023",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0024",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 55.0,
+            "demand": 55.0
+          },
+          "limit": 55.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0024",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0025",
+          "passed": true,
+          "observed": {
+            "served": 47.0,
+            "deficit": 0.0,
+            "demand": 47.0
+          },
+          "limit": 47.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0025",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0026",
+          "passed": true,
+          "observed": {
+            "served": 39.00000000299997,
+            "deficit": 0.0,
+            "demand": 39.0
+          },
+          "limit": 39.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0026",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0027",
+          "passed": true,
+          "observed": {
+            "served": 28.0,
+            "deficit": 0.0,
+            "demand": 28.0
+          },
+          "limit": 28.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0027",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0028",
+          "passed": true,
+          "observed": {
+            "served": 52.0,
+            "deficit": 0.0,
+            "demand": 52.0
+          },
+          "limit": 52.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0028",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0029",
+          "passed": true,
+          "observed": {
+            "served": 0.0,
+            "deficit": 53.0,
+            "demand": 53.0
+          },
+          "limit": 53.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0029",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0030",
+          "passed": true,
+          "observed": {
+            "served": 63.0,
+            "deficit": 0.0,
+            "demand": 63.0
+          },
+          "limit": 63.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0030",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "DEMAND_CONSERVATION",
+          "object_id": "D0031",
+          "passed": true,
+          "observed": {
+            "served": 7.0,
+            "deficit": 45.0,
+            "demand": 52.0
+          },
+          "limit": 52.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "demand:D0031",
+          "message": "Served plus unserved demand must equal scenario demand."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S000",
+          "passed": true,
+          "observed": 113.0,
+          "limit": 113.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S000/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S001",
+          "passed": true,
+          "observed": 95.0,
+          "limit": 95.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S001/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S002",
+          "passed": true,
+          "observed": 78.0,
+          "limit": 78.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S002/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S003",
+          "passed": true,
+          "observed": 56.99999999900001,
+          "limit": 57.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S003/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S004",
+          "passed": true,
+          "observed": 102.0,
+          "limit": 102.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S004/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S005",
+          "passed": true,
+          "observed": 99.0,
+          "limit": 99.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S005/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S006",
+          "passed": true,
+          "observed": 97.00000000299997,
+          "limit": 97.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S006/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "SHELTER_CAPACITY",
+          "object_id": "S007",
+          "passed": true,
+          "observed": 82.0,
+          "limit": 82.0,
+          "tolerance": 1e-06,
+          "evidence_ref": "shelter:S007/capacity",
+          "message": "Assigned load must fit the active shelter capacity."
+        },
+        {
+          "check_id": "NUMERICAL_RECOMPUTATION",
+          "object_id": "result",
+          "passed": true,
+          "observed": {
+            "served": 723.000000002,
+            "weighted_walk_time": 5.520055325045588,
+            "loads_match": true,
+            "deficits_match": true
+          },
+          "limit": {
+            "served": 723.000000002,
+            "weighted_walk_time": 5.520055325045588
+          },
+          "tolerance": 1e-06,
+          "evidence_ref": "result:assignments",
+          "message": "Summary values are recomputed from assignments."
+        }
+      ],
+      "verified_for_real_planning": false,
+      "verified_for_demo": true
+    },
+    "greedy": {
+      "served_demand": 671.999999999,
+      "selected_option_ids": [
+        "O000",
+        "O014",
+        "O002",
+        "O003",
+        "O009",
+        "O013",
+        "O004",
+        "O015"
+      ],
+      "cost_units": 47.0,
+      "verification_status": "PASS_DEMO",
+      "engine": "same primary gain/cost/tie-break and policy rules; independent max-flow evaluates primary gains",
+      "exact_b_primary_greedy": false,
+      "selection_trace": [
+        {
+          "option_id": "O000",
+          "marginal_gain_persons": 89.0,
+          "gain_per_cost": 44.5,
+          "served_after": 248.0
+        },
+        {
+          "option_id": "O014",
+          "marginal_gain_persons": 63.0,
+          "gain_per_cost": 15.75,
+          "served_after": 311.0
+        },
+        {
+          "option_id": "O002",
+          "marginal_gain_persons": 40.0,
+          "gain_per_cost": 13.333333333333334,
+          "served_after": 351.0
+        },
+        {
+          "option_id": "O003",
+          "marginal_gain_persons": 33.0,
+          "gain_per_cost": 11.0,
+          "served_after": 384.0
+        },
+        {
+          "option_id": "O009",
+          "marginal_gain_persons": 78.0,
+          "gain_per_cost": 8.666666666666666,
+          "served_after": 462.0
+        },
+        {
+          "option_id": "O013",
+          "marginal_gain_persons": 76.0,
+          "gain_per_cost": 8.444444444444445,
+          "served_after": 538.0
+        },
+        {
+          "option_id": "O004",
+          "marginal_gain_persons": 76.0,
+          "gain_per_cost": 8.444444444444445,
+          "served_after": 614.0
+        },
+        {
+          "option_id": "O015",
+          "marginal_gain_persons": 58.0,
+          "gain_per_cost": 7.25,
+          "served_after": 672.0
+        }
+      ]
+    },
+    "mip_minus_greedy_persons": 51.00000000299997,
+    "oracle": {
+      "oracle_status": "VALID_UPPER_BOUND_ALL_OPTIONS_IGNORE_BUDGET_AND_EXCLUSIVITY",
+      "objective_upper_bound_served_demand": 1167.0,
+      "rounding_error_upper_bound_persons": 1.6e-05,
+      "method": "independent NetworkX Dinitz max-flow with all expansions; ignores budget and option exclusions, so it is a valid upper bound"
+    },
+    "error": null,
+    "metadata": {
+      "case_kind": "competitive",
+      "candidate_count": 16,
+      "demand_nodes": 32,
+      "shelters": 8,
+      "od_edges": 96,
+      "mean_od_degree": 3.0,
+      "overlap": "random multi-shelter demand neighborhoods with 2 alternatives per shelter",
+      "budget": 108.0,
+      "exclusive_groups": 8,
+      "generation_seed": 20262731,
+      "data_status": "SYNTHETIC_FIXTURE",
+      "source_label": "FULLY_SYNTHETIC_STRESS",
+      "option_provenance": "all options, costs and capacities are hypothetical synthetic values",
+      "ablation_dimension": "loosen_budget",
+      "change_description": "Budget increased by 80%; all graph and option values fixed."
+    }
+  },
+  "fixture": {
+    "provenance": "FULLY_SYNTHETIC_STRESS",
+    "metadata": {
+      "case_kind": "competitive",
+      "candidate_count": 16,
+      "demand_nodes": 32,
+      "shelters": 8,
+      "od_edges": 96,
+      "mean_od_degree": 3.0,
+      "overlap": "random multi-shelter demand neighborhoods with 2 alternatives per shelter",
+      "budget": 108.0,
+      "exclusive_groups": 8,
+      "generation_seed": 20262731,
+      "data_status": "SYNTHETIC_FIXTURE",
+      "source_label": "FULLY_SYNTHETIC_STRESS",
+      "option_provenance": "all options, costs and capacities are hypothetical synthetic values",
+      "ablation_dimension": "loosen_budget",
+      "change_description": "Budget increased by 80%; all graph and option values fixed."
+    },
+    "planning_input": {
+      "data_version": "synthetic-v2-competitive-16-20262731-loosen_budget",
+      "data_status": "SYNTHETIC_FIXTURE",
+      "demands": [
+        {
+          "demand_id": "D0000",
+          "pop_est": 63.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0001",
+          "pop_est": 30.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0002",
+          "pop_est": 28.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0003",
+          "pop_est": 58.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0004",
+          "pop_est": 55.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0005",
+          "pop_est": 27.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0006",
+          "pop_est": 25.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0007",
+          "pop_est": 62.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0008",
+          "pop_est": 52.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0009",
+          "pop_est": 59.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0010",
+          "pop_est": 32.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0011",
+          "pop_est": 33.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0012",
+          "pop_est": 47.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0013",
+          "pop_est": 57.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0014",
+          "pop_est": 51.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0015",
+          "pop_est": 51.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0016",
+          "pop_est": 60.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0017",
+          "pop_est": 43.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0018",
+          "pop_est": 56.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0019",
+          "pop_est": 32.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0020",
+          "pop_est": 61.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0021",
+          "pop_est": 33.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0022",
+          "pop_est": 42.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0023",
+          "pop_est": 48.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0024",
+          "pop_est": 55.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0025",
+          "pop_est": 47.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0026",
+          "pop_est": 39.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0027",
+          "pop_est": 28.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0028",
+          "pop_est": 52.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0029",
+          "pop_est": 53.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0030",
+          "pop_est": 63.0,
+          "population_status": "synthetic"
+        },
+        {
+          "demand_id": "D0031",
+          "pop_est": 52.0,
+          "population_status": "synthetic"
+        }
+      ],
+      "shelters": [
+        {
+          "shelter_id": "S000",
+          "capacity_persons": 24.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S001",
+          "capacity_persons": 17.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S002",
+          "capacity_persons": 12.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S003",
+          "capacity_persons": 24.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S004",
+          "capacity_persons": 24.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S005",
+          "capacity_persons": 23.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S006",
+          "capacity_persons": 11.0,
+          "verified_status": "synthetic",
+          "active": true
+        },
+        {
+          "shelter_id": "S007",
+          "capacity_persons": 24.0,
+          "verified_status": "synthetic",
+          "active": true
+        }
+      ],
+      "od_edges": [
+        {
+          "demand_id": "D0000",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0000",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0000",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0001",
+          "shelter_id": "S003",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0001",
+          "shelter_id": "S005",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0001",
+          "shelter_id": "S007",
+          "time_min": 11.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0002",
+          "shelter_id": "S007",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0002",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0002",
+          "shelter_id": "S005",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0003",
+          "shelter_id": "S006",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0003",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0003",
+          "shelter_id": "S005",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0004",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0004",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0004",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0005",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0005",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0005",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0006",
+          "shelter_id": "S007",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0006",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0006",
+          "shelter_id": "S006",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0007",
+          "shelter_id": "S004",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0007",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0007",
+          "shelter_id": "S000",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0008",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0008",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0008",
+          "shelter_id": "S002",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0009",
+          "shelter_id": "S007",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0009",
+          "shelter_id": "S001",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0009",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0010",
+          "shelter_id": "S006",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0010",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0010",
+          "shelter_id": "S007",
+          "time_min": 11.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0011",
+          "shelter_id": "S001",
+          "time_min": 3.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0011",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0011",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0012",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0012",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0012",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0013",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0013",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0013",
+          "shelter_id": "S006",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0014",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0014",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0014",
+          "shelter_id": "S007",
+          "time_min": 11.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0015",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0015",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0015",
+          "shelter_id": "S007",
+          "time_min": 11.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0016",
+          "shelter_id": "S003",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0016",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0016",
+          "shelter_id": "S002",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0017",
+          "shelter_id": "S004",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0017",
+          "shelter_id": "S001",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0017",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0018",
+          "shelter_id": "S007",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0018",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0018",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0019",
+          "shelter_id": "S001",
+          "time_min": 3.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0019",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0019",
+          "shelter_id": "S006",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0020",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0020",
+          "shelter_id": "S001",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0020",
+          "shelter_id": "S004",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0021",
+          "shelter_id": "S006",
+          "time_min": 8.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0021",
+          "shelter_id": "S002",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0021",
+          "shelter_id": "S000",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0022",
+          "shelter_id": "S004",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0022",
+          "shelter_id": "S003",
+          "time_min": 6.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0022",
+          "shelter_id": "S000",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0023",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0023",
+          "shelter_id": "S000",
+          "time_min": 3.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0023",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0024",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0024",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0024",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0025",
+          "shelter_id": "S003",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0025",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0025",
+          "shelter_id": "S006",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0026",
+          "shelter_id": "S007",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0026",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0026",
+          "shelter_id": "S005",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0027",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0027",
+          "shelter_id": "S002",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0027",
+          "shelter_id": "S001",
+          "time_min": 5.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0028",
+          "shelter_id": "S005",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0028",
+          "shelter_id": "S000",
+          "time_min": 3.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0028",
+          "shelter_id": "S006",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0029",
+          "shelter_id": "S002",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0029",
+          "shelter_id": "S004",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0029",
+          "shelter_id": "S000",
+          "time_min": 4.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0030",
+          "shelter_id": "S001",
+          "time_min": 3.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0030",
+          "shelter_id": "S006",
+          "time_min": 9.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0030",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0031",
+          "shelter_id": "S000",
+          "time_min": 2.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0031",
+          "shelter_id": "S007",
+          "time_min": 10.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        },
+        {
+          "demand_id": "D0031",
+          "shelter_id": "S003",
+          "time_min": 7.0,
+          "distance_m": 100.0,
+          "reachable": true,
+          "reason": "ok"
+        }
+      ],
+      "source_manifest_hash": null,
+      "source_label": "FULLY_SYNTHETIC_STRESS"
+    },
+    "scenario": {
+      "scenario_id": "ablation-loosen_budget",
+      "parent_scenario_id": null,
+      "data_version": "synthetic-v2-competitive-16-20262731-loosen_budget",
+      "analysis_mode": "demo",
+      "population_demand_ratio": 1.0,
+      "max_walk_time_min": 15.0,
+      "budget_units": 108.0,
+      "disabled_shelter_ids": [],
+      "changes": {}
+    },
+    "options": [
+      {
+        "option_id": "O000",
+        "shelter_id": "S000",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 89.0,
+        "cost_units": 2.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S000"
+      },
+      {
+        "option_id": "O001",
+        "shelter_id": "S001",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 52.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S001"
+      },
+      {
+        "option_id": "O002",
+        "shelter_id": "S002",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 40.0,
+        "cost_units": 3.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S002"
+      },
+      {
+        "option_id": "O003",
+        "shelter_id": "S003",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 33.0,
+        "cost_units": 3.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S003"
+      },
+      {
+        "option_id": "O004",
+        "shelter_id": "S004",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 76.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S004"
+      },
+      {
+        "option_id": "O005",
+        "shelter_id": "S005",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 61.0,
+        "cost_units": 8.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S005"
+      },
+      {
+        "option_id": "O006",
+        "shelter_id": "S006",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 86.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S006"
+      },
+      {
+        "option_id": "O007",
+        "shelter_id": "S007",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 53.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S007"
+      },
+      {
+        "option_id": "O008",
+        "shelter_id": "S000",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 70.0,
+        "cost_units": 13.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S000"
+      },
+      {
+        "option_id": "O009",
+        "shelter_id": "S001",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 78.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S001"
+      },
+      {
+        "option_id": "O010",
+        "shelter_id": "S002",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 66.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S002"
+      },
+      {
+        "option_id": "O011",
+        "shelter_id": "S003",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 29.0,
+        "cost_units": 15.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S003"
+      },
+      {
+        "option_id": "O012",
+        "shelter_id": "S004",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 78.0,
+        "cost_units": 14.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S004"
+      },
+      {
+        "option_id": "O013",
+        "shelter_id": "S005",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 76.0,
+        "cost_units": 9.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S005"
+      },
+      {
+        "option_id": "O014",
+        "shelter_id": "S006",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 63.0,
+        "cost_units": 4.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S006"
+      },
+      {
+        "option_id": "O015",
+        "shelter_id": "S007",
+        "action": "synthetic_capacity_expansion",
+        "delta_capacity_persons": 58.0,
+        "cost_units": 8.0,
+        "eligible": true,
+        "source_status": "FULLY_SYNTHETIC_STRESS",
+        "hypothetical": true,
+        "human_confirmed": false,
+        "combination_policy": "exclusive_group",
+        "exclusive_group": "ALT_S007"
+      }
+    ]
+  }
+}

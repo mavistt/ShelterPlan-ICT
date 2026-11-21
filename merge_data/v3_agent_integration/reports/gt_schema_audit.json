@@ -1,0 +1,17 @@
+{
+  "task_count": 18,
+  "required_keys": [
+    "assumptions",
+    "expected_final_state",
+    "family",
+    "mathematical_or_reference",
+    "refusal_or_clarification",
+    "source",
+    "task_id",
+    "turns",
+    "verifier_expected"
+  ],
+  "missing_fields": [],
+  "independent_of_v3_outputs": true,
+  "result": "PASS"
+}

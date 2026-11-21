@@ -1,0 +1,18 @@
+{
+  "task_id": "V3-15-CROSS-SESSION-RESULT",
+  "owner_allowed": true,
+  "attacker_refused": true,
+  "B_get_result_calls_total_including_owner": [
+    "owned-result"
+  ],
+  "attacker_B_get_result_calls": 0,
+  "error": {
+    "code": "GUARD_UNKNOWN_RESULT",
+    "message": "result_id was not produced by this session; refusing to read it.",
+    "details": {
+      "result_id": "owned-result"
+    },
+    "retryable": false,
+    "user_action": "Reference a result_id produced by this session."
+  }
+}

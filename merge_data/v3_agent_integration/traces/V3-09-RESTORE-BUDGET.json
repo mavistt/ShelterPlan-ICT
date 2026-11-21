@@ -1,0 +1,31 @@
+{
+  "task_id": "V3-09-RESTORE-BUDGET",
+  "parameter_turns": [
+    {
+      "budget_units": 20.0,
+      "changes": {
+        "budget_units": 20.0
+      }
+    },
+    {
+      "budget_units": 25.0,
+      "changes": {
+        "budget_units": 25.0
+      }
+    },
+    {
+      "budget_units": 20.0,
+      "changes": {
+        "budget_units": 20.0
+      }
+    }
+  ],
+  "restore_result": {
+    "budget_units": 20.0,
+    "changes": {
+      "budget_units": 20.0
+    },
+    "restored_from": "turn:2"
+  },
+  "b_api_calls": 0
+}

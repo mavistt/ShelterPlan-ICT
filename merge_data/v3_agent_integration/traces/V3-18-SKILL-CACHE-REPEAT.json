@@ -1,0 +1,376 @@
+{
+  "task_id": "V3-18-SKILL-CACHE-REPEAT",
+  "first": {
+    "wall_ms": 9702.940500006662,
+    "result": {
+      "result_id": "96cbf715-a218-488b-a3bb-479789c39a5c",
+      "scenario_id": "c-v3-skill-t02-c809dbdd",
+      "solver_status": "OPTIMAL",
+      "verification_status": "PASS_DEMO",
+      "data_status": "DEMO_ONLY",
+      "result_summary": {
+        "served_demand": 6456.103026929056,
+        "total_demand": 110205.74056775225,
+        "weighted_walk_time_min": 9.037615807901064,
+        "optimized_served_demand": 6556.103026928148,
+        "diagnosed_unserved_nodes": 7634
+      },
+      "selected_option_ids": [
+        "V2_TRAP_B",
+        "V2_TRAP_C"
+      ],
+      "selected_shelter_ids": [
+        "zs_737caba8e8",
+        "zs_fed820d94e"
+      ],
+      "total_cost_units": 20.0,
+      "objective_value": 6556.103026928148,
+      "graph_trace": [
+        {
+          "skill_id": "S01",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.075
+        },
+        {
+          "skill_id": "S02",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.02
+        },
+        {
+          "skill_id": "S03",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 18.923
+        },
+        {
+          "skill_id": "S04",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 174.917
+        },
+        {
+          "skill_id": "S06",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.162
+        },
+        {
+          "skill_id": "S07",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 399.674
+        },
+        {
+          "skill_id": "S08",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 17.262
+        },
+        {
+          "skill_id": "S12",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.268
+        }
+      ],
+      "cache_hit": false,
+      "recomputed_nodes": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S06",
+        "S07",
+        "S08",
+        "S12"
+      ],
+      "plan_decision": {
+        "status": "fallback",
+        "reason_codes": [
+          "DETERMINISTIC_FALLBACK"
+        ],
+        "composite_id": "C02",
+        "nodes": [
+          {
+            "node_id": "n1",
+            "skill_id": "S01",
+            "depends_on": [],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n2",
+            "skill_id": "S02",
+            "depends_on": [
+              "n1"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n3",
+            "skill_id": "S03",
+            "depends_on": [
+              "n2"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n4",
+            "skill_id": "S04",
+            "depends_on": [
+              "n3"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n5",
+            "skill_id": "S06",
+            "depends_on": [
+              "n4"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n6",
+            "skill_id": "S07",
+            "depends_on": [
+              "n4",
+              "n5"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n7",
+            "skill_id": "S08",
+            "depends_on": [
+              "n6"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n8",
+            "skill_id": "S12",
+            "depends_on": [
+              "n4",
+              "n7"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          }
+        ]
+      },
+      "elapsed_ms": 1655.234
+    }
+  },
+  "second": {
+    "wall_ms": 6127.4164999922505,
+    "result": {
+      "result_id": "3ae15d36-5a0d-4118-8068-7e310ab3d08e",
+      "scenario_id": "c-v3-skill-t02-c809dbdd",
+      "solver_status": "OPTIMAL",
+      "verification_status": "PASS_DEMO",
+      "data_status": "DEMO_ONLY",
+      "result_summary": {
+        "served_demand": 6456.103026929056,
+        "total_demand": 110205.74056775225,
+        "weighted_walk_time_min": 9.037615807901064,
+        "optimized_served_demand": 6556.103026928148,
+        "diagnosed_unserved_nodes": 7634
+      },
+      "selected_option_ids": [
+        "V2_TRAP_B",
+        "V2_TRAP_C"
+      ],
+      "selected_shelter_ids": [
+        "zs_737caba8e8",
+        "zs_fed820d94e"
+      ],
+      "total_cost_units": 20.0,
+      "objective_value": 6556.103026928148,
+      "graph_trace": [
+        {
+          "skill_id": "S01",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.065
+        },
+        {
+          "skill_id": "S02",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.019
+        },
+        {
+          "skill_id": "S03",
+          "cache_hit": true,
+          "status": "SUCCEEDED",
+          "duration_ms": 3.921
+        },
+        {
+          "skill_id": "S04",
+          "cache_hit": true,
+          "status": "SUCCEEDED",
+          "duration_ms": 18.145
+        },
+        {
+          "skill_id": "S06",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.121
+        },
+        {
+          "skill_id": "S07",
+          "cache_hit": true,
+          "status": "SUCCEEDED",
+          "duration_ms": 15.077
+        },
+        {
+          "skill_id": "S08",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 18.001
+        },
+        {
+          "skill_id": "S12",
+          "cache_hit": false,
+          "status": "SUCCEEDED",
+          "duration_ms": 0.069
+        }
+      ],
+      "cache_hit": true,
+      "recomputed_nodes": [
+        "S01",
+        "S02",
+        "S06",
+        "S08",
+        "S12"
+      ],
+      "plan_decision": {
+        "status": "fallback",
+        "reason_codes": [
+          "DETERMINISTIC_FALLBACK"
+        ],
+        "composite_id": "C02",
+        "nodes": [
+          {
+            "node_id": "n1",
+            "skill_id": "S01",
+            "depends_on": [],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n2",
+            "skill_id": "S02",
+            "depends_on": [
+              "n1"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n3",
+            "skill_id": "S03",
+            "depends_on": [
+              "n2"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n4",
+            "skill_id": "S04",
+            "depends_on": [
+              "n3"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n5",
+            "skill_id": "S06",
+            "depends_on": [
+              "n4"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n6",
+            "skill_id": "S07",
+            "depends_on": [
+              "n4",
+              "n5"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n7",
+            "skill_id": "S08",
+            "depends_on": [
+              "n6"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          },
+          {
+            "node_id": "n8",
+            "skill_id": "S12",
+            "depends_on": [
+              "n4",
+              "n7"
+            ],
+            "skill_version": "1.0.0",
+            "condition": "always"
+          }
+        ]
+      },
+      "elapsed_ms": 1380.325
+    }
+  },
+  "cache_hit_rows_first": [],
+  "cache_hit_rows_second": [
+    {
+      "skill_id": "S03",
+      "skill_version": "1.0.0",
+      "input_hash": "a037a503419458a8bdce13575bde6b393a7bf0795d172c45a0c1186d92ef1ee7",
+      "output_hash": "10bbeed9fd9781fa7a37debc9d8bf50e0f66d74271b3c800684a48d73cbc76e7",
+      "duration_ms": 3.921,
+      "status": "SUCCEEDED",
+      "error_code": null,
+      "cache_hit": true
+    },
+    {
+      "skill_id": "S04",
+      "skill_version": "1.0.0",
+      "input_hash": "2a52442b988b3c1eb3392a27453da49212557f3e676fba457e21fe52c6f59365",
+      "output_hash": "3b9ad5a88898ae8a55b56d0db706d84b99790ce2b43928266b3eeb0359985d45",
+      "duration_ms": 18.145,
+      "status": "SUCCEEDED",
+      "error_code": null,
+      "cache_hit": true
+    },
+    {
+      "skill_id": "S07",
+      "skill_version": "1.0.0",
+      "input_hash": "1244194f313c4ef5b5ff7ff0c9460b616a6dbdf37ddbb00f980763365d2d7c31",
+      "output_hash": "fa151f6a73f61221c14f7c593890d63a20f483e4bd7e3f1ae8d4e3adae30de83",
+      "duration_ms": 15.077,
+      "status": "SUCCEEDED",
+      "error_code": null,
+      "cache_hit": true
+    }
+  ],
+  "cache_saved_wall_ms": 3575.5240000144113,
+  "same_result_semantics": true,
+  "causality_limit": "Repeat run measures cache use in B traces; it is not a Skill-Graph-off ablation."
+}

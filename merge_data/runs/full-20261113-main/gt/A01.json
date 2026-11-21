@@ -1,0 +1,55 @@
+{
+  "case_id": "A01",
+  "data_version": "zhongshan_pilot_v0.1",
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "scenario": {
+    "scenario_id": "scenario-A01",
+    "parent_scenario_id": null,
+    "data_version": "zhongshan_pilot_v0.1",
+    "analysis_mode": "demo",
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15.0,
+    "budget_units": null,
+    "disabled_shelter_ids": [],
+    "changes": {
+      "grounded_case_id": "scenario-A01",
+      "source_overlay": true
+    }
+  },
+  "candidate_options": [],
+  "oracle": {
+    "served_demand": 140.0,
+    "scaled_flow_units": 140000000,
+    "scale": 1000000,
+    "rounding_error_upper_bound_persons": 3.15e-05,
+    "legal_edges": 126,
+    "oracle_status": "MAXFLOW_OPTIMAL",
+    "evaluated_feasible_subsets": 1
+  },
+  "gt_b": {
+    "required_operations": [
+      "A adapter load",
+      "overlay validation",
+      "assignment",
+      "diagnosis",
+      "independent verification"
+    ],
+    "forbidden_operations": [
+      "promote DEMO_ONLY to verified",
+      "alter source OD",
+      "treat HYPOTHETICAL expansion as measured capacity",
+      "bypass invalid option rejection"
+    ],
+    "expected_rejection": false,
+    "expected_fault_status": null,
+    "cache_contract": "graph and assignment dependencies reuse only when their keyed inputs match"
+  },
+  "expected_behavior": {
+    "required_behavior": "preserve original 63 demand IDs and 126 original pair OD rows; show capacity-limited allocation and PASS_DEMO"
+  },
+  "gt_c_status": "NOT_VALIDATED",
+  "assumptions": [
+    "population ratio and cutoffs are scenario overlays",
+    "all capacity projects are HYPOTHETICAL"
+  ]
+}

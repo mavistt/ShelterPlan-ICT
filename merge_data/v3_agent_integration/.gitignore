@@ -1,0 +1,8 @@
+outputs/
+artifacts/
+state/
+workspaces/
+runs/
+__pycache__/
+.pytest_cache/
+*.py[cod]

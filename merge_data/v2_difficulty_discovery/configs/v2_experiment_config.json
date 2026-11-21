@@ -1,0 +1,54 @@
+{
+  "experiment": "ShelterPlan Module B V2 difficulty discovery",
+  "schema_version": "1.0.0",
+  "generator_versions": {
+    "phase_a": "real-structure-v2-0.1.0",
+    "phase_b": "v2-grounded-0.1.0",
+    "phase_c_d": "v2-synthetic-0.1.0"
+  },
+  "random_seeds": {
+    "real_gis_search": 20261114,
+    "synthetic_stress": 20261114
+  },
+  "grounded_search": {
+    "source_data_status": "DEMO_ONLY",
+    "source_graph_mutable": false,
+    "hypothetical_capacity_and_costs_only": true,
+    "cheap_prefilter_limit": 100,
+    "full_mip_limit": 30,
+    "full_mip_count_run": 9,
+    "per_instance_total_time_limit_seconds": 10,
+    "candidate_counts_generated": [8, 16, 24, 32],
+    "targeted_counterexample_included": true,
+    "independent_enumeration_option_limit": 12,
+    "oracle_method": "NetworkX Dinitz max-flow after exact removal of isolated demand nodes and aggregation of degree-one demand nodes by their only eligible shelter"
+  },
+  "synthetic_stress": {
+    "provenance": "FULLY_SYNTHETIC_STRESS",
+    "candidate_counts": [8, 16, 32, 48, 64],
+    "structures": ["simple_disjoint", "competitive_overlapping_with_exclusive_alternatives"],
+    "time_limits_seconds": [2, 10],
+    "mip_runs": 20,
+    "counterexample_candidates": 8,
+    "counterexample_oracle": "exhaustive option subset enumeration and NetworkX Dinitz maximum flow"
+  },
+  "difficulty_ablation": {
+    "baseline": "competitive synthetic, 16 candidates",
+    "mip_time_limit_seconds": 10,
+    "one_factor_variants": [
+      "loosen_budget",
+      "reduce_exclusivity",
+      "increase_overlap",
+      "increase_candidates",
+      "increase_demand_nodes",
+      "increase_od_density"
+    ]
+  },
+  "constraints": {
+    "production_backend_modified": false,
+    "module_a_source_modified": false,
+    "module_c_source_modified": false,
+    "git_commit_merge_push": false,
+    "previous_v1_outputs_overwritten": false
+  }
+}

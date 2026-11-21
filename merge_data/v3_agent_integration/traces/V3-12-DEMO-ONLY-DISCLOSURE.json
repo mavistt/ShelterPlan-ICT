@@ -1,0 +1,176 @@
+{
+  "task_id": "V3-12-DEMO-ONLY-DISCLOSURE",
+  "result": {
+    "result_id": "2d2481af-e15c-4825-9128-6a6a006a6d61",
+    "scenario_id": "c-v3-v3-01-t02-cba409f1",
+    "solver_status": "OPTIMAL",
+    "verification_status": "PASS_DEMO",
+    "data_status": "DEMO_ONLY",
+    "result_summary": {
+      "served_demand": 6456.103026929056,
+      "total_demand": 110205.74056775225,
+      "weighted_walk_time_min": 9.037615807901064,
+      "optimized_served_demand": 6556.103026928148,
+      "diagnosed_unserved_nodes": 7634
+    },
+    "selected_option_ids": [
+      "V2_TRAP_B",
+      "V2_TRAP_C"
+    ],
+    "selected_shelter_ids": [
+      "zs_737caba8e8",
+      "zs_fed820d94e"
+    ],
+    "total_cost_units": 20.0,
+    "objective_value": 6556.103026928148,
+    "graph_trace": [
+      {
+        "skill_id": "S01",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.066
+      },
+      {
+        "skill_id": "S02",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.019
+      },
+      {
+        "skill_id": "S03",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 18.509
+      },
+      {
+        "skill_id": "S04",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 237.095
+      },
+      {
+        "skill_id": "S06",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.117
+      },
+      {
+        "skill_id": "S07",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 413.738
+      },
+      {
+        "skill_id": "S08",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 21.463
+      },
+      {
+        "skill_id": "S12",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.091
+      }
+    ],
+    "cache_hit": false,
+    "recomputed_nodes": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S06",
+      "S07",
+      "S08",
+      "S12"
+    ],
+    "plan_decision": {
+      "status": "fallback",
+      "reason_codes": [
+        "DETERMINISTIC_FALLBACK"
+      ],
+      "composite_id": "C02",
+      "nodes": [
+        {
+          "node_id": "n1",
+          "skill_id": "S01",
+          "depends_on": [],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n2",
+          "skill_id": "S02",
+          "depends_on": [
+            "n1"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n3",
+          "skill_id": "S03",
+          "depends_on": [
+            "n2"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n4",
+          "skill_id": "S04",
+          "depends_on": [
+            "n3"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n5",
+          "skill_id": "S06",
+          "depends_on": [
+            "n4"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n6",
+          "skill_id": "S07",
+          "depends_on": [
+            "n4",
+            "n5"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n7",
+          "skill_id": "S08",
+          "depends_on": [
+            "n6"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n8",
+          "skill_id": "S12",
+          "depends_on": [
+            "n4",
+            "n7"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        }
+      ]
+    },
+    "elapsed_ms": 2088.345
+  },
+  "c_harness_summary_disclosure": {
+    "demo_only": true,
+    "verified_for_real_planning": false,
+    "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+  },
+  "unsupported_field_verified_claim_rejected": true
+}

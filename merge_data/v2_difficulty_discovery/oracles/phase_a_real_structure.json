@@ -1,0 +1,2764 @@
+{
+  "phase": "A1_A2",
+  "seed": 20261114,
+  "data_version": "zhongshan_pilot_v0.1",
+  "data_status": "DEMO_ONLY",
+  "source_data_unchanged": true,
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "graph": {
+    "demand_nodes": 7965,
+    "shelters": 24,
+    "eligible_edges": 3272,
+    "connected_components_with_edges": 2,
+    "isolated_demand_nodes": 5599,
+    "nontrivial_components": [
+      {
+        "demand_nodes": 2214,
+        "shelters": 23,
+        "vertices": 2237
+      },
+      {
+        "demand_nodes": 152,
+        "shelters": 1,
+        "vertices": 153
+      }
+    ]
+  },
+  "default_scenario": {
+    "scenario_id": "v2-phase-a-full-a-reference",
+    "parent_scenario_id": null,
+    "data_version": "zhongshan_pilot_v0.1",
+    "analysis_mode": "demo",
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15.0,
+    "budget_units": 5.0,
+    "disabled_shelter_ids": [],
+    "changes": {}
+  },
+  "baseline": {
+    "served_demand": 6456.103026929056,
+    "total_demand": 110205.74056775225,
+    "unserved_demand": 103749.6375408232,
+    "solver_status": "OPTIMAL"
+  },
+  "sites": [
+    {
+      "shelter_id": "zs_0705291eaf",
+      "capacity_unverified": 20.0,
+      "base_load": 20.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 96,
+      "eligible_demand_persons_upper_bound": 1208.7686053276063
+    },
+    {
+      "shelter_id": "zs_1a562fd2ec",
+      "capacity_unverified": 80.0,
+      "base_load": 80.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 98,
+      "eligible_demand_persons_upper_bound": 1488.7843700408937
+    },
+    {
+      "shelter_id": "zs_1b4df7920b",
+      "capacity_unverified": 8000.0,
+      "base_load": 3130.957737317239,
+      "utilization": 0.3913697171646549,
+      "unused_capacity_unverified": 4869.04226268276,
+      "eligible_demand_nodes": 145,
+      "eligible_demand_persons_upper_bound": 3130.95773731824
+    },
+    {
+      "shelter_id": "zs_26835a8daa",
+      "capacity_unverified": 30.0,
+      "base_load": 30.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 152,
+      "eligible_demand_persons_upper_bound": 1183.3321067333222
+    },
+    {
+      "shelter_id": "zs_4213304fee",
+      "capacity_unverified": 80.0,
+      "base_load": 80.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 135,
+      "eligible_demand_persons_upper_bound": 2317.27898273468
+    },
+    {
+      "shelter_id": "zs_5151e10626",
+      "capacity_unverified": 60.0,
+      "base_load": 60.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 124,
+      "eligible_demand_persons_upper_bound": 1900.8719254255295
+    },
+    {
+      "shelter_id": "zs_528407a207",
+      "capacity_unverified": 60.0,
+      "base_load": 60.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 84,
+      "eligible_demand_persons_upper_bound": 1282.9493650436402
+    },
+    {
+      "shelter_id": "zs_54cbb64815",
+      "capacity_unverified": 60.0,
+      "base_load": 60.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 116,
+      "eligible_demand_persons_upper_bound": 1629.1953690290452
+    },
+    {
+      "shelter_id": "zs_58fc306a1f",
+      "capacity_unverified": 20.0,
+      "base_load": 20.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 94,
+      "eligible_demand_persons_upper_bound": 2289.5183334350586
+    },
+    {
+      "shelter_id": "zs_60213118ec",
+      "capacity_unverified": 2000.0,
+      "base_load": 1993.1452896118162,
+      "utilization": 0.9965726448059081,
+      "unused_capacity_unverified": 6.854710388183776,
+      "eligible_demand_nodes": 123,
+      "eligible_demand_persons_upper_bound": 1993.1452896118165
+    },
+    {
+      "shelter_id": "zs_6358642b6f",
+      "capacity_unverified": 100.0,
+      "base_load": 100.00000000000003,
+      "utilization": 1.0000000000000002,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 95,
+      "eligible_demand_persons_upper_bound": 1207.9947132587433
+    },
+    {
+      "shelter_id": "zs_737caba8e8",
+      "capacity_unverified": 200.0,
+      "base_load": 200.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 122,
+      "eligible_demand_persons_upper_bound": 2055.2110744476317
+    },
+    {
+      "shelter_id": "zs_740e2a0ec1",
+      "capacity_unverified": 10.0,
+      "base_load": 10.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 160,
+      "eligible_demand_persons_upper_bound": 3984.196490478516
+    },
+    {
+      "shelter_id": "zs_78f8de70a3",
+      "capacity_unverified": 10.0,
+      "base_load": 10.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 153,
+      "eligible_demand_persons_upper_bound": 3642.891220855713
+    },
+    {
+      "shelter_id": "zs_9445e74744",
+      "capacity_unverified": 44.0,
+      "base_load": 44.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 167,
+      "eligible_demand_persons_upper_bound": 4293.414515686035
+    },
+    {
+      "shelter_id": "zs_a947248455",
+      "capacity_unverified": 20.0,
+      "base_load": 20.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 134,
+      "eligible_demand_persons_upper_bound": 2576.1501491546633
+    },
+    {
+      "shelter_id": "zs_b8ca9544d3",
+      "capacity_unverified": 20.0,
+      "base_load": 20.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 153,
+      "eligible_demand_persons_upper_bound": 1795.0925466537476
+    },
+    {
+      "shelter_id": "zs_c801e944f6",
+      "capacity_unverified": 8.0,
+      "base_load": 8.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 185,
+      "eligible_demand_persons_upper_bound": 4219.72373328209
+    },
+    {
+      "shelter_id": "zs_e016bde4b3",
+      "capacity_unverified": 300.0,
+      "base_load": 300.00000000000006,
+      "utilization": 1.0000000000000002,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 154,
+      "eligible_demand_persons_upper_bound": 3130.331997060776
+    },
+    {
+      "shelter_id": "zs_e434541fb3",
+      "capacity_unverified": 10.0,
+      "base_load": 10.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 210,
+      "eligible_demand_persons_upper_bound": 5976.9585433959965
+    },
+    {
+      "shelter_id": "zs_e9f476cdd6",
+      "capacity_unverified": 30.0,
+      "base_load": 30.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 154,
+      "eligible_demand_persons_upper_bound": 2615.701799106598
+    },
+    {
+      "shelter_id": "zs_f7d567aca2",
+      "capacity_unverified": 50.0,
+      "base_load": 50.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 50,
+      "eligible_demand_persons_upper_bound": 765.5555940628052
+    },
+    {
+      "shelter_id": "zs_fed820d94e",
+      "capacity_unverified": 100.0,
+      "base_load": 100.00000000000001,
+      "utilization": 1.0000000000000002,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 184,
+      "eligible_demand_persons_upper_bound": 3214.062218987942
+    },
+    {
+      "shelter_id": "zs_ff435768ca",
+      "capacity_unverified": 20.0,
+      "base_load": 20.0,
+      "utilization": 1.0,
+      "unused_capacity_unverified": 0.0,
+      "eligible_demand_nodes": 184,
+      "eligible_demand_persons_upper_bound": 4541.248207473755
+    }
+  ],
+  "service_overlap_pairs": [
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 119,
+      "jaccard": 0.6611111111111111
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 43,
+      "jaccard": 0.4215686274509804
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 63,
+      "jaccard": 0.41721854304635764
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 74,
+      "jaccard": 0.4111111111111111
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 91,
+      "jaccard": 0.3684210526315789
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 64,
+      "jaccard": 0.24334600760456274
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 59,
+      "jaccard": 0.22692307692307692
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 51,
+      "jaccard": 0.21518987341772153
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 48,
+      "jaccard": 0.2077922077922078
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 32,
+      "jaccard": 0.14814814814814814
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 38,
+      "jaccard": 0.1444866920152091
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 44,
+      "jaccard": 0.14285714285714285
+    },
+    {
+      "shelter_i": "zs_e434541fb3",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 44,
+      "jaccard": 0.12571428571428572
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 27,
+      "jaccard": 0.12
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 24,
+      "jaccard": 0.10126582278481013
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 23,
+      "jaccard": 0.09745762711864407
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 16,
+      "jaccard": 0.09090909090909091
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 21,
+      "jaccard": 0.08267716535433071
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 20,
+      "jaccard": 0.07604562737642585
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 18,
+      "jaccard": 0.06896551724137931
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 13,
+      "jaccard": 0.06372549019607843
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 18,
+      "jaccard": 0.059602649006622516
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 14,
+      "jaccard": 0.059322033898305086
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 10,
+      "jaccard": 0.05813953488372093
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 17,
+      "jaccard": 0.05723905723905724
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 18,
+      "jaccard": 0.05642633228840126
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 12,
+      "jaccard": 0.04878048780487805
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 11,
+      "jaccard": 0.03985507246376811
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 10,
+      "jaccard": 0.038910505836575876
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 6,
+      "jaccard": 0.03614457831325301
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 6,
+      "jaccard": 0.030927835051546393
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 8,
+      "jaccard": 0.02909090909090909
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 6,
+      "jaccard": 0.028169014084507043
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 9,
+      "jaccard": 0.024456521739130436
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 4,
+      "jaccard": 0.022727272727272728
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 6,
+      "jaccard": 0.022222222222222223
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 6,
+      "jaccard": 0.02
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 5,
+      "jaccard": 0.016891891891891893
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 4,
+      "jaccard": 0.015873015873015872
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 5,
+      "jaccard": 0.015384615384615385
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 4,
+      "jaccard": 0.015037593984962405
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 5,
+      "jaccard": 0.014970059880239521
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 5,
+      "jaccard": 0.014705882352941176
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 5,
+      "jaccard": 0.013736263736263736
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 3,
+      "jaccard": 0.01098901098901099
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 3,
+      "jaccard": 0.009868421052631578
+    },
+    {
+      "shelter_i": "zs_f7d567aca2",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 2,
+      "jaccard": 0.008620689655172414
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 2,
+      "jaccard": 0.0076045627376425855
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 1,
+      "jaccard": 0.004784688995215311
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 1,
+      "jaccard": 0.003472222222222222
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_1a562fd2ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_1b4df7920b",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_26835a8daa",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_4213304fee",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_0705291eaf",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_1b4df7920b",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_26835a8daa",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_4213304fee",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_26835a8daa",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_4213304fee",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_4213304fee",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_26835a8daa",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_528407a207",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_5151e10626",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_528407a207",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_60213118ec",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_6358642b6f",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_737caba8e8",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_60213118ec",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_b8ca9544d3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_b8ca9544d3",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_c801e944f6",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e016bde4b3",
+      "shelter_j": "zs_e434541fb3",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e016bde4b3",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e016bde4b3",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e016bde4b3",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e016bde4b3",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e434541fb3",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e434541fb3",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e434541fb3",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e9f476cdd6",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e9f476cdd6",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_e9f476cdd6",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_f7d567aca2",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    },
+    {
+      "shelter_i": "zs_fed820d94e",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 0,
+      "jaccard": 0.0
+    }
+  ],
+  "top_service_overlap_pairs": [
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 119,
+      "jaccard": 0.6611111111111111
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_f7d567aca2",
+      "shared_demand_nodes": 43,
+      "jaccard": 0.4215686274509804
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_54cbb64815",
+      "shared_demand_nodes": 63,
+      "jaccard": 0.41721854304635764
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_740e2a0ec1",
+      "shared_demand_nodes": 74,
+      "jaccard": 0.4111111111111111
+    },
+    {
+      "shelter_i": "zs_78f8de70a3",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 91,
+      "jaccard": 0.3684210526315789
+    },
+    {
+      "shelter_i": "zs_740e2a0ec1",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 64,
+      "jaccard": 0.24334600760456274
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 59,
+      "jaccard": 0.22692307692307692
+    },
+    {
+      "shelter_i": "zs_a947248455",
+      "shelter_j": "zs_e016bde4b3",
+      "shared_demand_nodes": 51,
+      "jaccard": 0.21518987341772153
+    },
+    {
+      "shelter_i": "zs_1b4df7920b",
+      "shelter_j": "zs_a947248455",
+      "shared_demand_nodes": 48,
+      "jaccard": 0.2077922077922078
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 32,
+      "jaccard": 0.14814814814814814
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 38,
+      "jaccard": 0.1444866920152091
+    },
+    {
+      "shelter_i": "zs_9445e74744",
+      "shelter_j": "zs_c801e944f6",
+      "shared_demand_nodes": 44,
+      "jaccard": 0.14285714285714285
+    },
+    {
+      "shelter_i": "zs_e434541fb3",
+      "shelter_j": "zs_ff435768ca",
+      "shared_demand_nodes": 44,
+      "jaccard": 0.12571428571428572
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_e9f476cdd6",
+      "shared_demand_nodes": 27,
+      "jaccard": 0.12
+    },
+    {
+      "shelter_i": "zs_58fc306a1f",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 24,
+      "jaccard": 0.10126582278481013
+    },
+    {
+      "shelter_i": "zs_4213304fee",
+      "shelter_j": "zs_5151e10626",
+      "shared_demand_nodes": 23,
+      "jaccard": 0.09745762711864407
+    },
+    {
+      "shelter_i": "zs_1a562fd2ec",
+      "shelter_j": "zs_58fc306a1f",
+      "shared_demand_nodes": 16,
+      "jaccard": 0.09090909090909091
+    },
+    {
+      "shelter_i": "zs_737caba8e8",
+      "shelter_j": "zs_78f8de70a3",
+      "shared_demand_nodes": 21,
+      "jaccard": 0.08267716535433071
+    },
+    {
+      "shelter_i": "zs_54cbb64815",
+      "shelter_j": "zs_9445e74744",
+      "shared_demand_nodes": 20,
+      "jaccard": 0.07604562737642585
+    },
+    {
+      "shelter_i": "zs_6358642b6f",
+      "shelter_j": "zs_fed820d94e",
+      "shared_demand_nodes": 18,
+      "jaccard": 0.06896551724137931
+    }
+  ],
+  "reference_options": [
+    {
+      "option_id": "HYP_B08-01_zs_e016bde4b3_1",
+      "shelter_id": "zs_e016bde4b3",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 30.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_737caba8e8_2",
+      "shelter_id": "zs_737caba8e8",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 50.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_fed820d94e_3",
+      "shelter_id": "zs_fed820d94e",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 50.0,
+      "cost_units": 6.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_6358642b6f_4",
+      "shelter_id": "zs_6358642b6f",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 100.0,
+      "cost_units": 7.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_1a562fd2ec_1",
+      "shelter_id": "zs_1a562fd2ec",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 8.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_4213304fee_2",
+      "shelter_id": "zs_4213304fee",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 20.0,
+      "cost_units": 2.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_528407a207_3",
+      "shelter_id": "zs_528407a207",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 30.0,
+      "cost_units": 4.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-01_zs_5151e10626_4",
+      "shelter_id": "zs_5151e10626",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 60.0,
+      "cost_units": 7.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    }
+  ],
+  "single_option_gains": [
+    {
+      "option_id": "HYP_B08-01_zs_e016bde4b3_1",
+      "shelter_id": "zs_e016bde4b3",
+      "cost_units": 3.0,
+      "delta_capacity_persons_hypothetical": 30.0,
+      "gain_persons": 29.99999999999909,
+      "gain_per_cost": 9.999999999999696,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_737caba8e8_2",
+      "shelter_id": "zs_737caba8e8",
+      "cost_units": 5.0,
+      "delta_capacity_persons_hypothetical": 50.0,
+      "gain_persons": 49.99999999999909,
+      "gain_per_cost": 9.999999999999819,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_fed820d94e_3",
+      "shelter_id": "zs_fed820d94e",
+      "cost_units": 6.0,
+      "delta_capacity_persons_hypothetical": 50.0,
+      "gain_persons": 50.0,
+      "gain_per_cost": 8.333333333333334,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_6358642b6f_4",
+      "shelter_id": "zs_6358642b6f",
+      "cost_units": 7.0,
+      "delta_capacity_persons_hypothetical": 100.0,
+      "gain_persons": 99.99999999999909,
+      "gain_per_cost": 14.285714285714155,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_1a562fd2ec_1",
+      "shelter_id": "zs_1a562fd2ec",
+      "cost_units": 3.0,
+      "delta_capacity_persons_hypothetical": 8.0,
+      "gain_persons": 7.9999999999990905,
+      "gain_per_cost": 2.6666666666663636,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_4213304fee_2",
+      "shelter_id": "zs_4213304fee",
+      "cost_units": 2.0,
+      "delta_capacity_persons_hypothetical": 20.0,
+      "gain_persons": 20.0,
+      "gain_per_cost": 10.0,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_528407a207_3",
+      "shelter_id": "zs_528407a207",
+      "cost_units": 4.0,
+      "delta_capacity_persons_hypothetical": 30.0,
+      "gain_persons": 30.0,
+      "gain_per_cost": 7.5,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "option_id": "HYP_B08-01_zs_5151e10626_4",
+      "shelter_id": "zs_5151e10626",
+      "cost_units": 7.0,
+      "delta_capacity_persons_hypothetical": 60.0,
+      "gain_persons": 60.0,
+      "gain_per_cost": 8.571428571428571,
+      "solver_status": "OPTIMAL"
+    }
+  ],
+  "pairwise_interactions": [
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_737caba8e8_2",
+      "gain_i": 29.99999999999909,
+      "gain_j": 49.99999999999909,
+      "gain_ij": 79.99999999999818,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_fed820d94e_3",
+      "gain_i": 29.99999999999909,
+      "gain_j": 50.0,
+      "gain_ij": 79.99999999999818,
+      "interaction_persons": -9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_6358642b6f_4",
+      "gain_i": 29.99999999999909,
+      "gain_j": 99.99999999999909,
+      "gain_ij": 129.9999999999991,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_1a562fd2ec_1",
+      "gain_i": 29.99999999999909,
+      "gain_j": 7.9999999999990905,
+      "gain_ij": 37.99999999999909,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_4213304fee_2",
+      "gain_i": 29.99999999999909,
+      "gain_j": 20.0,
+      "gain_ij": 50.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 29.99999999999909,
+      "gain_j": 30.0,
+      "gain_ij": 60.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_e016bde4b3_1",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 29.99999999999909,
+      "gain_j": 60.0,
+      "gain_ij": 90.00000000000091,
+      "interaction_persons": 1.8189894035458565e-12,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_fed820d94e_3",
+      "gain_i": 49.99999999999909,
+      "gain_j": 50.0,
+      "gain_ij": 99.99999999999818,
+      "interaction_persons": -9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_6358642b6f_4",
+      "gain_i": 49.99999999999909,
+      "gain_j": 99.99999999999909,
+      "gain_ij": 149.9999999999991,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_1a562fd2ec_1",
+      "gain_i": 49.99999999999909,
+      "gain_j": 7.9999999999990905,
+      "gain_ij": 57.99999999999818,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_4213304fee_2",
+      "gain_i": 49.99999999999909,
+      "gain_j": 20.0,
+      "gain_ij": 69.99999999999818,
+      "interaction_persons": -9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 49.99999999999909,
+      "gain_j": 30.0,
+      "gain_ij": 79.99999999999818,
+      "interaction_persons": -9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_737caba8e8_2",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 49.99999999999909,
+      "gain_j": 60.0,
+      "gain_ij": 110.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_fed820d94e_3",
+      "option_j": "HYP_B08-01_zs_6358642b6f_4",
+      "gain_i": 50.0,
+      "gain_j": 99.99999999999909,
+      "gain_ij": 149.9999999999991,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_fed820d94e_3",
+      "option_j": "HYP_B08-01_zs_1a562fd2ec_1",
+      "gain_i": 50.0,
+      "gain_j": 7.9999999999990905,
+      "gain_ij": 57.99999999999818,
+      "interaction_persons": -9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_fed820d94e_3",
+      "option_j": "HYP_B08-01_zs_4213304fee_2",
+      "gain_i": 50.0,
+      "gain_j": 20.0,
+      "gain_ij": 69.99999999999818,
+      "interaction_persons": -1.8189894035458565e-12,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_fed820d94e_3",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 50.0,
+      "gain_j": 30.0,
+      "gain_ij": 79.99999999999818,
+      "interaction_persons": -1.8189894035458565e-12,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_fed820d94e_3",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 50.0,
+      "gain_j": 60.0,
+      "gain_ij": 110.00000000000091,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_6358642b6f_4",
+      "option_j": "HYP_B08-01_zs_1a562fd2ec_1",
+      "gain_i": 99.99999999999909,
+      "gain_j": 7.9999999999990905,
+      "gain_ij": 107.99999999999909,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_6358642b6f_4",
+      "option_j": "HYP_B08-01_zs_4213304fee_2",
+      "gain_i": 99.99999999999909,
+      "gain_j": 20.0,
+      "gain_ij": 119.99999999999909,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_6358642b6f_4",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 99.99999999999909,
+      "gain_j": 30.0,
+      "gain_ij": 129.9999999999991,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_6358642b6f_4",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 99.99999999999909,
+      "gain_j": 60.0,
+      "gain_ij": 160.0000000000009,
+      "interaction_persons": 1.8189894035458565e-12,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_1a562fd2ec_1",
+      "option_j": "HYP_B08-01_zs_4213304fee_2",
+      "gain_i": 7.9999999999990905,
+      "gain_j": 20.0,
+      "gain_ij": 28.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_1a562fd2ec_1",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 7.9999999999990905,
+      "gain_j": 30.0,
+      "gain_ij": 38.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_1a562fd2ec_1",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 7.9999999999990905,
+      "gain_j": 60.0,
+      "gain_ij": 68.0,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_4213304fee_2",
+      "option_j": "HYP_B08-01_zs_528407a207_3",
+      "gain_i": 20.0,
+      "gain_j": 30.0,
+      "gain_ij": 50.0,
+      "interaction_persons": 0.0,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_4213304fee_2",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 20.0,
+      "gain_j": 60.0,
+      "gain_ij": 80.00000000000091,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    },
+    {
+      "option_i": "HYP_B08-01_zs_528407a207_3",
+      "option_j": "HYP_B08-01_zs_5151e10626_4",
+      "gain_i": 30.0,
+      "gain_j": 60.0,
+      "gain_ij": 90.00000000000091,
+      "interaction_persons": 9.094947017729282e-13,
+      "interaction_status": "within_tolerance"
+    }
+  ],
+  "reference_budget_feasible_subsets_including_empty": {
+    "5": 8,
+    "10": 35,
+    "20": 155,
+    "50": 256,
+    "100": 256
+  },
+  "v1_greedy_vs_mip": {
+    "cases_with_both": 18,
+    "same_primary_service_count": 18,
+    "same_selected_portfolio_count": 15,
+    "cases": [
+      {
+        "case_id": "B08-01",
+        "num_options": 8,
+        "greedy_served": 1029.9999999990005,
+        "mip_served": 1029.999999999,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": false,
+        "greedy_selected": [
+          "HYP_B08-01_zs_737caba8e8_2"
+        ],
+        "mip_selected": [
+          "HYP_B08-01_zs_e016bde4b3_1",
+          "HYP_B08-01_zs_4213304fee_2"
+        ]
+      },
+      {
+        "case_id": "B08-02",
+        "num_options": 8,
+        "greedy_served": 3770.9577373162474,
+        "mip_served": 3770.95773731724,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B08-02_zs_1a562fd2ec_2"
+        ],
+        "mip_selected": [
+          "HYP_B08-02_zs_1a562fd2ec_2"
+        ]
+      },
+      {
+        "case_id": "B08-03",
+        "num_options": 8,
+        "greedy_served": 5666.436605976356,
+        "mip_served": 5666.436606451028,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B08-03_zs_6358642b6f_3"
+        ],
+        "mip_selected": [
+          "HYP_B08-03_zs_6358642b6f_3"
+        ]
+      },
+      {
+        "case_id": "B08-04",
+        "num_options": 8,
+        "greedy_served": 2341.2046248296765,
+        "mip_served": 2341.2046248306765,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B08-04_zs_fed820d94e_2",
+          "HYP_B08-04_zs_f7d567aca2_3"
+        ],
+        "mip_selected": [
+          "HYP_B08-04_zs_fed820d94e_2",
+          "HYP_B08-04_zs_f7d567aca2_3"
+        ]
+      },
+      {
+        "case_id": "B16-01",
+        "num_options": 16,
+        "greedy_served": 997.9999999990002,
+        "mip_served": 997.9999999990001,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B16-01_zs_fed820d94e_1",
+          "HYP_B16-01_zs_4213304fee_1"
+        ],
+        "mip_selected": [
+          "HYP_B16-01_zs_fed820d94e_1",
+          "HYP_B16-01_zs_4213304fee_1"
+        ]
+      },
+      {
+        "case_id": "B16-02",
+        "num_options": 16,
+        "greedy_served": 3780.9577373162465,
+        "mip_served": 3780.9577373172406,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B16-02_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B16-02_zs_e016bde4b3_1"
+        ]
+      },
+      {
+        "case_id": "B16-03",
+        "num_options": 16,
+        "greedy_served": 5666.436605976356,
+        "mip_served": 5666.436605976361,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B16-03_zs_6358642b6f_3"
+        ],
+        "mip_selected": [
+          "HYP_B16-03_zs_6358642b6f_3"
+        ]
+      },
+      {
+        "case_id": "B16-04",
+        "num_options": 16,
+        "greedy_served": 2321.2046248296765,
+        "mip_served": 2321.2046248306765,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B16-04_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B16-04_zs_e016bde4b3_1"
+        ]
+      },
+      {
+        "case_id": "B32-01",
+        "num_options": 32,
+        "greedy_served": 1029.9999999990005,
+        "mip_served": 1030.000000016971,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B32-01_zs_737caba8e8_2"
+        ],
+        "mip_selected": [
+          "HYP_B32-01_zs_737caba8e8_2"
+        ]
+      },
+      {
+        "case_id": "B32-02",
+        "num_options": 32,
+        "greedy_served": 3775.9577373162474,
+        "mip_served": 3775.95773738633,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B32-02_zs_6358642b6f_2"
+        ],
+        "mip_selected": [
+          "HYP_B32-02_zs_6358642b6f_2"
+        ]
+      },
+      {
+        "case_id": "B32-03",
+        "num_options": 32,
+        "greedy_served": 5666.436605976354,
+        "mip_served": 5666.43660597636,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B32-03_zs_737caba8e8_1",
+          "HYP_B32-03_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B32-03_zs_e016bde4b3_1",
+          "HYP_B32-03_zs_737caba8e8_1"
+        ]
+      },
+      {
+        "case_id": "B32-04",
+        "num_options": 32,
+        "greedy_served": 2321.2046248296765,
+        "mip_served": 2321.2046251041334,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B32-04_zs_737caba8e8_1",
+          "HYP_B32-04_zs_6358642b6f_1"
+        ],
+        "mip_selected": [
+          "HYP_B32-04_zs_737caba8e8_1",
+          "HYP_B32-04_zs_6358642b6f_1"
+        ]
+      },
+      {
+        "case_id": "C01",
+        "num_options": 8,
+        "greedy_served": 3375.145289610815,
+        "mip_served": 3375.145289610817,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B08-01_zs_4213304fee_2",
+          "HYP_B08-01_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B08-01_zs_e016bde4b3_1",
+          "HYP_B08-01_zs_4213304fee_2"
+        ]
+      },
+      {
+        "case_id": "C02",
+        "num_options": 16,
+        "greedy_served": 6129.176040305915,
+        "mip_served": 6129.176040305921,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B16-02_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B16-02_zs_e016bde4b3_1"
+        ]
+      },
+      {
+        "case_id": "C03",
+        "num_options": 32,
+        "greedy_served": 1749.9636998633414,
+        "mip_served": 1749.9636999336162,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [
+          "HYP_B32-02_zs_6358642b6f_2"
+        ],
+        "mip_selected": [
+          "HYP_B32-02_zs_6358642b6f_2"
+        ]
+      },
+      {
+        "case_id": "C06",
+        "num_options": 8,
+        "greedy_served": 6506.103026929056,
+        "mip_served": 6506.103026929057,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": false,
+        "greedy_selected": [
+          "HYP_B08-01_zs_4213304fee_2",
+          "HYP_B08-01_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B08-01_zs_737caba8e8_2"
+        ]
+      },
+      {
+        "case_id": "D01",
+        "num_options": 8,
+        "greedy_served": 0.0,
+        "mip_served": 0.0,
+        "mip_status": "OPTIMAL",
+        "selected_sets_equal": true,
+        "greedy_selected": [],
+        "mip_selected": []
+      },
+      {
+        "case_id": "D03",
+        "num_options": 8,
+        "greedy_served": 6506.103026929056,
+        "mip_served": 6506.103026930057,
+        "mip_status": "FEASIBLE",
+        "selected_sets_equal": false,
+        "greedy_selected": [
+          "HYP_B08-01_zs_4213304fee_2",
+          "HYP_B08-01_zs_e016bde4b3_1"
+        ],
+        "mip_selected": [
+          "HYP_B08-01_zs_737caba8e8_2"
+        ]
+      }
+    ]
+  },
+  "elapsed_seconds": 11.844390700003714,
+  "interpretation": {
+    "proven_from_code": [
+      "Greedy recomputes each feasible trial's assignment and marginal served gain every round.",
+      "Greedy and MIP use the same budget, eligibility, shelter-stacking and exclusive-group rules.",
+      "Greedy's local gain/cost choice is not an exhaustive global search.",
+      "MIP optimizes four lexicographic stages; Greedy only directly targets primary served volume."
+    ],
+    "measured_not_proven_structural": [
+      "V1's curated portfolios produced essentially equal first-stage service.",
+      "The budgeted option sets had few feasible subsets; capacity gains were often additive or diminishing on the selected A graph."
+    ]
+  }
+}

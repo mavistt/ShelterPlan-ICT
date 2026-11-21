@@ -1,0 +1,189 @@
+{
+  "phase": "F_REGRESSION_AND_SOURCE_INTEGRITY",
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "source_hashes_before_experiment": {
+    "configs/pilot.yaml": {
+      "exists": true,
+      "sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146",
+      "bytes": 2037
+    },
+    "configs/pilot_analysis_area.geojson": {
+      "exists": true,
+      "sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+      "bytes": 948
+    },
+    "data/manifests/pilot_manifest.json": {
+      "exists": true,
+      "sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+      "bytes": 13722
+    },
+    "data/processed/shelters_geocoded.geojson": {
+      "exists": true,
+      "sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318",
+      "bytes": 28304
+    },
+    "data/processed/demand_nodes.geojson": {
+      "exists": true,
+      "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46",
+      "bytes": 2633782
+    },
+    "data/processed/travel_matrix.parquet": {
+      "exists": true,
+      "sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c",
+      "bytes": 6077300
+    },
+    "data/processed/a7_quality_summary.json": {
+      "exists": true,
+      "sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c",
+      "bytes": 4457
+    },
+    "data/processed/osm_graph_metadata.json": {
+      "exists": true,
+      "sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d",
+      "bytes": 692
+    },
+    "data/processed/road_walk.graphml": {
+      "exists": true,
+      "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+      "bytes": 12352967
+    },
+    "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif": {
+      "exists": true,
+      "sha256": "9403c4f51ab98c2b22262b6ded208fac2155d64808ae0172db796ed62cb35be5",
+      "bytes": 134
+    }
+  },
+  "source_hashes_after_grounded_search": {
+    "configs/pilot.yaml": {
+      "exists": true,
+      "sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146",
+      "bytes": 2037
+    },
+    "configs/pilot_analysis_area.geojson": {
+      "exists": true,
+      "sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+      "bytes": 948
+    },
+    "data/manifests/pilot_manifest.json": {
+      "exists": true,
+      "sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+      "bytes": 13722
+    },
+    "data/processed/shelters_geocoded.geojson": {
+      "exists": true,
+      "sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318",
+      "bytes": 28304
+    },
+    "data/processed/demand_nodes.geojson": {
+      "exists": true,
+      "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46",
+      "bytes": 2633782
+    },
+    "data/processed/travel_matrix.parquet": {
+      "exists": true,
+      "sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c",
+      "bytes": 6077300
+    },
+    "data/processed/a7_quality_summary.json": {
+      "exists": true,
+      "sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c",
+      "bytes": 4457
+    },
+    "data/processed/osm_graph_metadata.json": {
+      "exists": true,
+      "sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d",
+      "bytes": 692
+    },
+    "data/processed/road_walk.graphml": {
+      "exists": true,
+      "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+      "bytes": 12352967
+    },
+    "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif": {
+      "exists": true,
+      "sha256": "9403c4f51ab98c2b22262b6ded208fac2155d64808ae0172db796ed62cb35be5",
+      "bytes": 134
+    }
+  },
+  "source_hashes_after_all_v2_work": {
+    "configs/pilot.yaml": {
+      "exists": true,
+      "sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146",
+      "bytes": 2037
+    },
+    "configs/pilot_analysis_area.geojson": {
+      "exists": true,
+      "sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+      "bytes": 948
+    },
+    "data/manifests/pilot_manifest.json": {
+      "exists": true,
+      "sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+      "bytes": 13722
+    },
+    "data/processed/shelters_geocoded.geojson": {
+      "exists": true,
+      "sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318",
+      "bytes": 28304
+    },
+    "data/processed/demand_nodes.geojson": {
+      "exists": true,
+      "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46",
+      "bytes": 2633782
+    },
+    "data/processed/travel_matrix.parquet": {
+      "exists": true,
+      "sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c",
+      "bytes": 6077300
+    },
+    "data/processed/a7_quality_summary.json": {
+      "exists": true,
+      "sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c",
+      "bytes": 4457
+    },
+    "data/processed/osm_graph_metadata.json": {
+      "exists": true,
+      "sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d",
+      "bytes": 692
+    },
+    "data/processed/road_walk.graphml": {
+      "exists": true,
+      "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+      "bytes": 12352967
+    },
+    "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif": {
+      "exists": true,
+      "sha256": "9403c4f51ab98c2b22262b6ded208fac2155d64808ae0172db796ed62cb35be5",
+      "bytes": 134
+    }
+  },
+  "unchanged_before_after_search": true,
+  "unchanged_after_all_v2_work": true,
+  "regression_runs": {
+    "module_b": "30 passed",
+    "v2": "3 passed",
+    "compileall": "passed",
+    "warning": "pytest emitted one existing RequestsDependencyWarning about urllib3/chardet/charset_normalizer versions; no test failed."
+  },
+  "v1_negative_control_observations": {
+    "D02_unknown_shelter_option": "rejected as invalid candidate",
+    "D03_injected_incumbent_status_1": "returned FEASIBLE, optimality_proven=false, verifier PASS_DEMO; simulated status, not a natural timeout",
+    "D04_tampered_served_summary": "Verifier returned FAIL on numerical recomputation"
+  },
+  "v2_oracles": {
+    "real_gis_confirmed_failures": [
+      "REAL-000-TARGETED-TRAP",
+      "REAL-081"
+    ],
+    "synthetic_greedy_counterexample": "OPTIMAL MIP and exhaustive independent NetworkX Dinitz proof",
+    "stress_runs": 20,
+    "stress_optimal": 20,
+    "ablation_runs": 7
+  },
+  "v2_tool_sha256": {
+    "analyze_real_structure.py": "5a1565305d20c1eadd95e64c0a11c3bf3fdfb23970abab525da78ecd34c19b6c",
+    "generate_reports.py": "36238c223a9e4b6b1876e26feae5dd34ad9820b14a677dd49f928433cb859bee",
+    "run_grounded_search.py": "c6ccb52c80977fb7a1e7e24287d6429ca52a0a6088f49089e130705ebb3b6582",
+    "run_synthetic_stress.py": "d15d18dc43c35574f9241b3ebd1c8c830b5ae57efdf0e0da53b3e403a23d2468"
+  }
+}

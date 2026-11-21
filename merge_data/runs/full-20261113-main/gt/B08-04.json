@@ -1,0 +1,188 @@
+{
+  "case_id": "B08-04",
+  "data_version": "zhongshan_pilot_v0.1",
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "scenario": {
+    "scenario_id": "scenario-B08-04",
+    "parent_scenario_id": null,
+    "data_version": "zhongshan_pilot_v0.1",
+    "analysis_mode": "demo",
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 10.0,
+    "budget_units": 5.0,
+    "disabled_shelter_ids": [],
+    "changes": {
+      "grounded_case_id": "scenario-B08-04",
+      "source_overlay": true
+    }
+  },
+  "candidate_options": [
+    {
+      "option_id": "HYP_B08-04_zs_e016bde4b3_4",
+      "shelter_id": "zs_e016bde4b3",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 300.0,
+      "cost_units": 16.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_737caba8e8_1",
+      "shelter_id": "zs_737caba8e8",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 20.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_fed820d94e_2",
+      "shelter_id": "zs_fed820d94e",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 25.0,
+      "cost_units": 2.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_6358642b6f_3",
+      "shelter_id": "zs_6358642b6f",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 50.0,
+      "cost_units": 7.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_1a562fd2ec_4",
+      "shelter_id": "zs_1a562fd2ec",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 80.0,
+      "cost_units": 9.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_4213304fee_1",
+      "shelter_id": "zs_4213304fee",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 8.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_1b4df7920b_2",
+      "shelter_id": "zs_1b4df7920b",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 50.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "HYP_B08-04_zs_f7d567aca2_3",
+      "shelter_id": "zs_f7d567aca2",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 25.0,
+      "cost_units": 3.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_ABSTRACT_COST_AND_CAPACITY",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    }
+  ],
+  "oracle": {
+    "oracle_status": "ENUMERATED_MAXFLOW_PROVEN",
+    "objective_served_demand": 2341.204623,
+    "scaled_flow_units": 2341204623,
+    "scale": 1000000,
+    "rounding_error_upper_bound_persons": 0.0039825,
+    "selected_option_ids": [
+      "HYP_B08-04_zs_fed820d94e_2",
+      "HYP_B08-04_zs_f7d567aca2_3"
+    ],
+    "evaluated_feasible_subsets": 10,
+    "enumeration_limit": 2,
+    "method": "NetworkX Dinitz integer maximum flow; independent of Module B SciPy LP/MIP"
+  },
+  "gt_b": {
+    "required_operations": [
+      "A adapter load",
+      "overlay validation",
+      "assignment",
+      "diagnosis",
+      "independent verification",
+      "candidate audit",
+      "Greedy baseline",
+      "budget MIP",
+      "independent oracle"
+    ],
+    "forbidden_operations": [
+      "promote DEMO_ONLY to verified",
+      "alter source OD",
+      "treat HYPOTHETICAL expansion as measured capacity",
+      "bypass invalid option rejection"
+    ],
+    "expected_rejection": false,
+    "expected_fault_status": null,
+    "cache_contract": "graph and assignment dependencies reuse only when their keyed inputs match"
+  },
+  "expected_behavior": {
+    "required_behavior": "select only eligible projects within abstract budget and explicit exclusive groups; verify assignments independently",
+    "difficulty_profile": "tight_budget_threshold",
+    "hypothetical_cost_capacity": true,
+    "candidate_budget_construction": {
+      "grouping_mode": "site_budget",
+      "group_count": 8,
+      "group_minimum_costs": [
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        7.0,
+        9.0,
+        16.0
+      ],
+      "budget_rule": "sum of the two lowest exclusive-group minimum costs",
+      "budget_units": 5.0,
+      "candidate_cost_units_are_abstract": true
+    }
+  },
+  "gt_c_status": "NOT_VALIDATED",
+  "assumptions": [
+    "population ratio and cutoffs are scenario overlays",
+    "all capacity projects are HYPOTHETICAL"
+  ]
+}

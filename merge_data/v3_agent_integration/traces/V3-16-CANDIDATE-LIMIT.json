@@ -1,0 +1,18 @@
+{
+  "task_id": "V3-16-CANDIDATE-LIMIT",
+  "c_12_accepted": 12,
+  "b_schema_12_accepted": 12,
+  "c_13_rejected": true,
+  "c_error": {
+    "code": "GUARD_INVALID_OPTION",
+    "message": "Module B accepts at most 12 improvement options per task.",
+    "details": {
+      "count": 13
+    },
+    "retryable": false,
+    "user_action": "Fix the improvement option table and resubmit."
+  },
+  "b_schema_13_rejected": true,
+  "b_error": "ValidationError: 1 validation error for TaskRequest\nimprovement_options\n  List should have at most 12 items after validation, not 13 [type=too_long, input_value=[{'option_id': 'V3_LIMIT_...exclusive_group': None}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.12/v/too_long",
+  "calls_to_b_for_13": 0
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "V3-03-SYN8-TRAP",
+  "status": "NOT_RUN",
+  "reason": "TaskRequest accepts scenario parameters and improvement options but no arbitrary synthetic demands/shelters/OD graph. Reusing a different live A graph would not be the V2 synthetic task.",
+  "v2_oracle": {
+    "kind": "independent_v2_exhaustive_maxflow_oracle",
+    "objective_served_demand": 100.0,
+    "rounding_error_upper_bound_persons": 4e-06,
+    "selected_option_ids": [
+      "B",
+      "C"
+    ],
+    "greedy_served_demand": 65.999999999,
+    "greedy_selected_option_ids": [
+      "A",
+      "D4",
+      "D3",
+      "D2",
+      "D1",
+      "D0"
+    ]
+  }
+}

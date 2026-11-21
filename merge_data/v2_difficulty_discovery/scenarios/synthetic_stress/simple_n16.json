@@ -1,0 +1,762 @@
+{
+  "provenance": "FULLY_SYNTHETIC_STRESS",
+  "metadata": {
+    "case_kind": "simple",
+    "candidate_count": 16,
+    "demand_nodes": 32,
+    "shelters": 16,
+    "od_edges": 32,
+    "overlap": "none; each demand has degree 1",
+    "budget": 40.0,
+    "exclusive_groups": 0,
+    "generation_seed": 20261130,
+    "data_status": "SYNTHETIC_FIXTURE",
+    "source_label": "FULLY_SYNTHETIC_STRESS",
+    "option_provenance": "all options, costs and capacities are hypothetical synthetic values"
+  },
+  "planning_input": {
+    "data_version": "synthetic-v2-simple-16-20261130",
+    "data_status": "SYNTHETIC_FIXTURE",
+    "demands": [
+      {
+        "demand_id": "D0000",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0001",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0002",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0003",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0004",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0005",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0006",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0007",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0008",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0009",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0010",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0011",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0012",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0013",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0014",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0015",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0016",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0017",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0018",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0019",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0020",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0021",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0022",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0023",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0024",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0025",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0026",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0027",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0028",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0029",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0030",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      },
+      {
+        "demand_id": "D0031",
+        "pop_est": 100.0,
+        "population_status": "synthetic"
+      }
+    ],
+    "shelters": [
+      {
+        "shelter_id": "S000",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S001",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S002",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S003",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S004",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S005",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S006",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S007",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S008",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S009",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S010",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S011",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S012",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S013",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S014",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      },
+      {
+        "shelter_id": "S015",
+        "capacity_persons": 20.0,
+        "verified_status": "synthetic",
+        "active": true
+      }
+    ],
+    "od_edges": [
+      {
+        "demand_id": "D0000",
+        "shelter_id": "S000",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0001",
+        "shelter_id": "S000",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0002",
+        "shelter_id": "S001",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0003",
+        "shelter_id": "S001",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0004",
+        "shelter_id": "S002",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0005",
+        "shelter_id": "S002",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0006",
+        "shelter_id": "S003",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0007",
+        "shelter_id": "S003",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0008",
+        "shelter_id": "S004",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0009",
+        "shelter_id": "S004",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0010",
+        "shelter_id": "S005",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0011",
+        "shelter_id": "S005",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0012",
+        "shelter_id": "S006",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0013",
+        "shelter_id": "S006",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0014",
+        "shelter_id": "S007",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0015",
+        "shelter_id": "S007",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0016",
+        "shelter_id": "S008",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0017",
+        "shelter_id": "S008",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0018",
+        "shelter_id": "S009",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0019",
+        "shelter_id": "S009",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0020",
+        "shelter_id": "S010",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0021",
+        "shelter_id": "S010",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0022",
+        "shelter_id": "S011",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0023",
+        "shelter_id": "S011",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0024",
+        "shelter_id": "S012",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0025",
+        "shelter_id": "S012",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0026",
+        "shelter_id": "S013",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0027",
+        "shelter_id": "S013",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0028",
+        "shelter_id": "S014",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0029",
+        "shelter_id": "S014",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0030",
+        "shelter_id": "S015",
+        "time_min": 2.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      },
+      {
+        "demand_id": "D0031",
+        "shelter_id": "S015",
+        "time_min": 3.0,
+        "distance_m": 100.0,
+        "reachable": true,
+        "reason": "ok"
+      }
+    ],
+    "source_manifest_hash": null,
+    "source_label": "FULLY_SYNTHETIC_STRESS"
+  },
+  "scenario": {
+    "scenario_id": "simple-16-20261130",
+    "parent_scenario_id": null,
+    "data_version": "synthetic-v2-simple-16-20261130",
+    "analysis_mode": "demo",
+    "population_demand_ratio": 1.0,
+    "max_walk_time_min": 15.0,
+    "budget_units": 40.0,
+    "disabled_shelter_ids": [],
+    "changes": {}
+  },
+  "options": [
+    {
+      "option_id": "O000",
+      "shelter_id": "S000",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 32.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O001",
+      "shelter_id": "S001",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 22.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O002",
+      "shelter_id": "S002",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 57.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O003",
+      "shelter_id": "S003",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 59.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O004",
+      "shelter_id": "S004",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 53.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O005",
+      "shelter_id": "S005",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 26.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O006",
+      "shelter_id": "S006",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 36.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O007",
+      "shelter_id": "S007",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 54.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O008",
+      "shelter_id": "S008",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 15.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O009",
+      "shelter_id": "S009",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 41.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O010",
+      "shelter_id": "S010",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 27.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O011",
+      "shelter_id": "S011",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 45.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O012",
+      "shelter_id": "S012",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 58.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O013",
+      "shelter_id": "S013",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 63.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O014",
+      "shelter_id": "S014",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 48.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    },
+    {
+      "option_id": "O015",
+      "shelter_id": "S015",
+      "action": "synthetic_capacity_expansion",
+      "delta_capacity_persons": 24.0,
+      "cost_units": 5.0,
+      "eligible": true,
+      "source_status": "FULLY_SYNTHETIC_STRESS",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    }
+  ]
+}

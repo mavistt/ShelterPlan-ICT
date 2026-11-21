@@ -1,0 +1,5 @@
+{
+  "task_id": "V3-17-ORDINARY-AGENT-BASELINE",
+  "status": "NOT_RUN",
+  "reason": "No real model configured and no paid API authorized; RuleLLM is a deterministic adapter, not an ordinary tool agent."
+}

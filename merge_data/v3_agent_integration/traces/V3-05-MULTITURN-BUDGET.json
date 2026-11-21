@@ -1,0 +1,621 @@
+{
+  "task_id": "V3-05-MULTITURN-BUDGET",
+  "turns": [
+    {
+      "user_text": "预算15，帮我做扩容优化。",
+      "accepted": {
+        "turn_id": "t-5e8afb73a8ed",
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "status": "RUNNING",
+        "user_text": "预算15，帮我做扩容优化。",
+        "created_at": "2026-11-14T14:03:19Z",
+        "updated_at": "2026-11-14T14:03:19Z",
+        "scenario_id": "c-v3-v3-05-t01-9adb3cf6",
+        "task_id": null,
+        "job_id": null,
+        "result_id": null,
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY",
+        "metrics": {},
+        "map": null,
+        "warnings": [],
+        "message": "正在处理请求。",
+        "clarification": null,
+        "error": null,
+        "timings": {
+          "queued_at": "2026-11-14T14:03:19Z",
+          "queue_ms": null,
+          "run_ms": null
+        },
+        "llm": {
+          "calls": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "cancel_requested": false,
+        "state_persisted": true
+      },
+      "final": {
+        "turn_id": "t-5e8afb73a8ed",
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "status": "NEEDS_CLARIFICATION",
+        "user_text": "预算15，帮我做扩容优化。",
+        "created_at": "2026-11-14T14:03:19Z",
+        "updated_at": "2026-11-14T14:03:19Z",
+        "scenario_id": "c-v3-v3-05-t02-73556af2",
+        "task_id": null,
+        "job_id": null,
+        "result_id": null,
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY",
+        "metrics": {},
+        "map": null,
+        "warnings": [
+          "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+        ],
+        "message": "请提供至少一个扩容候选：场所 ID、可增加容量、成本，例如“zs_xxx 扩容 300 人，成本 1”。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+        "clarification": {
+          "fields": [
+            "improvement_options"
+          ],
+          "question": "请提供至少一个扩容候选：场所 ID、可增加容量、成本，例如“zs_xxx 扩容 300 人，成本 1”。",
+          "pending_task_type": "optimize",
+          "resume_hint": "下一轮只需补充这些字段，任务会自动续跑。"
+        },
+        "error": null,
+        "timings": {
+          "queued_at": "2026-11-14T14:03:19Z",
+          "queue_ms": null,
+          "run_ms": 1.6,
+          "started_at": "2026-11-14T14:03:19Z"
+        },
+        "llm": {
+          "calls": 1,
+          "prompt_tokens": 10,
+          "completion_tokens": 5
+        },
+        "cancel_requested": false,
+        "state_persisted": true,
+        "intent": "optimize",
+        "task_type": "optimize"
+      },
+      "session": {
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "created_at": "2026-11-14T14:03:19Z",
+        "turn": 2,
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": 15.0,
+          "disabled_shelter_ids": [],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "scenario_id": "c-v3-v3-05-t02-73556af2",
+        "lineage": [
+          {
+            "scenario_id": "c-v3-v3-05-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": [],
+              "data_version": "zhongshan_pilot_v0.1",
+              "analysis_mode": "demo"
+            },
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v3-v3-05-t02-73556af2",
+            "parent_scenario_id": "c-v3-v3-05-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 15.0
+            },
+            "params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": 15.0,
+              "disabled_shelter_ids": [],
+              "data_version": "zhongshan_pilot_v0.1",
+              "analysis_mode": "demo"
+            },
+            "result_id": null
+          }
+        ],
+        "result_ids": [],
+        "pending_clarification": {
+          "task_type": "optimize",
+          "changes": {
+            "budget_units": 15.0
+          },
+          "options": [],
+          "parameters": {},
+          "missing": [
+            "improvement_options"
+          ],
+          "question": "请提供至少一个扩容候选：场所 ID、可增加容量、成本，例如“zs_xxx 扩容 300 人，成本 1”。",
+          "original_text": "预算15，帮我做扩容优化。",
+          "asked_at": 1794664999.0899875,
+          "expires_at": 1794666799.0899875,
+          "attempts": 1
+        },
+        "turns": [
+          {
+            "turn_id": "t-5e8afb73a8ed",
+            "status": "NEEDS_CLARIFICATION",
+            "created_at": "2026-11-14T14:03:19Z"
+          }
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY"
+      },
+      "llm_calls_total": 1,
+      "b_client_call_count_delta": 0,
+      "c_harness_tool_call_count": 0,
+      "c_harness_trace_events": []
+    },
+    {
+      "user_text": "预算20，并用方案：zs_5151e10626 扩容60人，成本11；zs_737caba8e8 扩容50人，成本10；zs_fed820d94e 扩容50人，成本10，做扩容优化。",
+      "accepted": {
+        "turn_id": "t-243dd73074bd",
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "status": "RUNNING",
+        "user_text": "预算20，并用方案：zs_5151e10626 扩容60人，成本11；zs_737caba8e8 扩容50人，成本10；zs_fed820d94e 扩容50人，成本10，做扩容优化。",
+        "created_at": "2026-11-14T14:03:19Z",
+        "updated_at": "2026-11-14T14:03:19Z",
+        "scenario_id": "c-v3-v3-05-t02-73556af2",
+        "task_id": null,
+        "job_id": null,
+        "result_id": null,
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY",
+        "metrics": {},
+        "map": null,
+        "warnings": [],
+        "message": "正在处理请求。",
+        "clarification": null,
+        "error": null,
+        "timings": {
+          "queued_at": "2026-11-14T14:03:19Z",
+          "queue_ms": null,
+          "run_ms": null
+        },
+        "llm": {
+          "calls": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "cancel_requested": false,
+        "state_persisted": true
+      },
+      "final": {
+        "turn_id": "t-243dd73074bd",
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "status": "SUCCEEDED",
+        "user_text": "预算20，并用方案：zs_5151e10626 扩容60人，成本11；zs_737caba8e8 扩容50人，成本10；zs_fed820d94e 扩容50人，成本10，做扩容优化。",
+        "created_at": "2026-11-14T14:03:19Z",
+        "updated_at": "2026-11-14T14:03:27Z",
+        "scenario_id": "c-v3-v3-05-t03-cba409f1",
+        "task_id": "c-af9d94de-9f91-472d-92a1-7e8f603d219d",
+        "job_id": "5e0afabe-97d6-4d7e-b331-9cfdcd70d18a",
+        "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a",
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY",
+        "metrics": {
+          "served_demand": 6456.103026929056,
+          "total_demand": 110205.74056775225,
+          "weighted_walk_time_min": 9.037615807901064,
+          "optimized_served_demand": 6556.103026928148,
+          "diagnosed_unserved_nodes": 7634,
+          "coverage_ratio": 0.05858227523964575
+        },
+        "map": {
+          "available": false,
+          "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+          "layers_href": "/v1/results/f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a/layers"
+        },
+        "warnings": [
+          "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+          "HYPOTHETICAL_IMPROVEMENT: selected option costs/capacity are user-supplied assumptions, not Module A or engineering facts.",
+          "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+        ],
+        "message": "【结论】预算约束下的扩容优化已完成。\n【优化结果】选中措施：CAP_2_ABA8E8、CAP_3_20D94E；总成本 20.00 / 预算 20.00。\n【覆盖变化】优化前基线已服务 6,456.10 人；优化后 6,556.10 人；变化 100.00 人。\n【关键指标】已服务 6,456.10 人 / 总需求 110,205.74 人，覆盖率 5.9%；加权步行时间 9.04 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 20.00；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a；scenario_id=c-v3-v3-05-t03-cba409f1",
+        "clarification": null,
+        "error": null,
+        "timings": {
+          "queued_at": "2026-11-14T14:03:19Z",
+          "queue_ms": null,
+          "run_ms": 8251.4,
+          "started_at": "2026-11-14T14:03:19Z"
+        },
+        "llm": {
+          "calls": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "cancel_requested": false,
+        "state_persisted": true,
+        "intent": "optimize",
+        "task_type": "optimize",
+        "resumed_from_clarification": true
+      },
+      "session": {
+        "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+        "created_at": "2026-11-14T14:03:19Z",
+        "turn": 3,
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": 20.0,
+          "disabled_shelter_ids": [],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "scenario_id": "c-v3-v3-05-t03-cba409f1",
+        "lineage": [
+          {
+            "scenario_id": "c-v3-v3-05-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": [],
+              "data_version": "zhongshan_pilot_v0.1",
+              "analysis_mode": "demo"
+            },
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v3-v3-05-t02-73556af2",
+            "parent_scenario_id": "c-v3-v3-05-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "budget_units": 15.0
+            },
+            "params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": 15.0,
+              "disabled_shelter_ids": [],
+              "data_version": "zhongshan_pilot_v0.1",
+              "analysis_mode": "demo"
+            },
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v3-v3-05-t03-cba409f1",
+            "parent_scenario_id": "c-v3-v3-05-t02-73556af2",
+            "turn": 3,
+            "changes": {
+              "budget_units": 20.0
+            },
+            "params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": 20.0,
+              "disabled_shelter_ids": [],
+              "data_version": "zhongshan_pilot_v0.1",
+              "analysis_mode": "demo"
+            },
+            "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a"
+          }
+        ],
+        "result_ids": [
+          "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a"
+        ],
+        "pending_clarification": null,
+        "turns": [
+          {
+            "turn_id": "t-5e8afb73a8ed",
+            "status": "NEEDS_CLARIFICATION",
+            "created_at": "2026-11-14T14:03:19Z"
+          },
+          {
+            "turn_id": "t-243dd73074bd",
+            "status": "SUCCEEDED",
+            "created_at": "2026-11-14T14:03:19Z"
+          }
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "data_status": "DEMO_ONLY"
+      },
+      "llm_calls_total": 1,
+      "b_client_call_count_delta": 9,
+      "c_harness_tool_call_count": 3,
+      "c_harness_trace_events": [
+        {
+          "ts": "2026-11-14T14:03:19.106+00:00",
+          "event": "tool_call",
+          "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+          "task_id": "c-af9d94de-9f91-472d-92a1-7e8f603d219d",
+          "tool_name": "submit_task",
+          "started_at": "2026-11-14T14:03:19.101+00:00",
+          "finished_at": "2026-11-14T14:03:19.106+00:00",
+          "duration_ms": 5.484,
+          "status": "ok",
+          "attempt": 1,
+          "attempts": 1,
+          "retries": 0,
+          "scenario_id": "c-v3-v3-05-t03-cba409f1",
+          "parent_scenario_id": "c-v3-v3-05-t02-73556af2",
+          "data_version": "zhongshan_pilot_v0.1",
+          "args_digest": "4bf63b6424e6a5a8",
+          "args_summary": {
+            "tool": "submit_task"
+          },
+          "job_id": "5e0afabe-97d6-4d7e-b331-9cfdcd70d18a",
+          "result_id": null,
+          "execution_trace_id": null,
+          "error_type": null,
+          "detail": {}
+        },
+        {
+          "ts": "2026-11-14T14:03:26.127+00:00",
+          "event": "tool_call",
+          "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+          "task_id": "c-af9d94de-9f91-472d-92a1-7e8f603d219d",
+          "tool_name": "get_job",
+          "started_at": "2026-11-14T14:03:19.107+00:00",
+          "finished_at": "2026-11-14T14:03:26.127+00:00",
+          "duration_ms": 7020.351,
+          "status": "ok",
+          "attempt": 1,
+          "attempts": 1,
+          "retries": 0,
+          "scenario_id": "c-v3-v3-05-t03-cba409f1",
+          "parent_scenario_id": "c-v3-v3-05-t02-73556af2",
+          "data_version": "zhongshan_pilot_v0.1",
+          "args_digest": "e1fed9fd80523fa1",
+          "args_summary": {
+            "tool": "get_job"
+          },
+          "job_id": "5e0afabe-97d6-4d7e-b331-9cfdcd70d18a",
+          "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a",
+          "execution_trace_id": null,
+          "error_type": null,
+          "detail": {}
+        },
+        {
+          "ts": "2026-11-14T14:03:27.343+00:00",
+          "event": "tool_call",
+          "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+          "task_id": "c-af9d94de-9f91-472d-92a1-7e8f603d219d",
+          "tool_name": "get_result",
+          "started_at": "2026-11-14T14:03:26.128+00:00",
+          "finished_at": "2026-11-14T14:03:27.343+00:00",
+          "duration_ms": 1214.477,
+          "status": "ok",
+          "attempt": 1,
+          "attempts": 1,
+          "retries": 0,
+          "scenario_id": "c-v3-v3-05-t03-cba409f1",
+          "parent_scenario_id": "c-v3-v3-05-t02-73556af2",
+          "data_version": "zhongshan_pilot_v0.1",
+          "args_digest": "389bce4a0dfa5004",
+          "args_summary": {
+            "tool": "get_result"
+          },
+          "job_id": null,
+          "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a",
+          "execution_trace_id": null,
+          "error_type": null,
+          "detail": {}
+        },
+        {
+          "ts": "2026-11-14T14:03:27.343+00:00",
+          "event": "task",
+          "session_id": "v3-v3-05-multiturn-budget-20261114T140232Z-358588df",
+          "task_id": "c-af9d94de-9f91-472d-92a1-7e8f603d219d",
+          "ok": true,
+          "task_type": "optimize",
+          "turn": 3,
+          "scenario_id": "c-v3-v3-05-t03-cba409f1",
+          "parent_scenario_id": "c-v3-v3-05-t02-73556af2",
+          "data_version": "zhongshan_pilot_v0.1",
+          "job_id": "5e0afabe-97d6-4d7e-b331-9cfdcd70d18a",
+          "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a",
+          "execution_trace_id": "0ed958e4-526d-4cbd-a17d-cefd8ea84e9f",
+          "status": "ok",
+          "error_type": null,
+          "retries": 0,
+          "duration_ms": 8243.174,
+          "summary_bytes": 1812,
+          "tool_call_count": 3
+        }
+      ]
+    }
+  ],
+  "B_result": {
+    "result_id": "f6badf0b-cbcc-4c03-bf77-b1aaf2ad624a",
+    "scenario_id": "c-v3-v3-05-t03-cba409f1",
+    "solver_status": "OPTIMAL",
+    "verification_status": "PASS_DEMO",
+    "data_status": "DEMO_ONLY",
+    "result_summary": {
+      "served_demand": 6456.103026929056,
+      "total_demand": 110205.74056775225,
+      "weighted_walk_time_min": 9.037615807901064,
+      "optimized_served_demand": 6556.103026928148,
+      "diagnosed_unserved_nodes": 7634
+    },
+    "selected_option_ids": [
+      "CAP_2_ABA8E8",
+      "CAP_3_20D94E"
+    ],
+    "selected_shelter_ids": [
+      "zs_737caba8e8",
+      "zs_fed820d94e"
+    ],
+    "total_cost_units": 20.0,
+    "objective_value": 6556.103026928148,
+    "graph_trace": [
+      {
+        "skill_id": "S01",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.065
+      },
+      {
+        "skill_id": "S02",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.019
+      },
+      {
+        "skill_id": "S03",
+        "cache_hit": true,
+        "status": "SUCCEEDED",
+        "duration_ms": 4.085
+      },
+      {
+        "skill_id": "S04",
+        "cache_hit": true,
+        "status": "SUCCEEDED",
+        "duration_ms": 24.511
+      },
+      {
+        "skill_id": "S06",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.119
+      },
+      {
+        "skill_id": "S07",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 466.13
+      },
+      {
+        "skill_id": "S08",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 17.003
+      },
+      {
+        "skill_id": "S12",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.066
+      }
+    ],
+    "cache_hit": true,
+    "recomputed_nodes": [
+      "S01",
+      "S02",
+      "S06",
+      "S07",
+      "S08",
+      "S12"
+    ],
+    "plan_decision": {
+      "status": "fallback",
+      "reason_codes": [
+        "DETERMINISTIC_FALLBACK"
+      ],
+      "composite_id": "C02",
+      "nodes": [
+        {
+          "node_id": "n1",
+          "skill_id": "S01",
+          "depends_on": [],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n2",
+          "skill_id": "S02",
+          "depends_on": [
+            "n1"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n3",
+          "skill_id": "S03",
+          "depends_on": [
+            "n2"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n4",
+          "skill_id": "S04",
+          "depends_on": [
+            "n3"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n5",
+          "skill_id": "S06",
+          "depends_on": [
+            "n4"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n6",
+          "skill_id": "S07",
+          "depends_on": [
+            "n4",
+            "n5"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n7",
+          "skill_id": "S08",
+          "depends_on": [
+            "n6"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n8",
+          "skill_id": "S12",
+          "depends_on": [
+            "n4",
+            "n7"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        }
+      ]
+    },
+    "elapsed_ms": 1935.392
+  },
+  "ground_truth": {
+    "kind": "independent_v2_oracle_for_resumed_final_turn",
+    "objective_served_demand": 6556.103034,
+    "rounding_error_upper_bound_persons": 0.0039945,
+    "selected_option_ids": [
+      "V2_TRAP_B",
+      "V2_TRAP_C"
+    ],
+    "selected_shelter_ids": [
+      "zs_737caba8e8",
+      "zs_fed820d94e"
+    ],
+    "per_turn_state_is_gt": true
+  },
+  "check": {
+    "turn1_asked_candidates": true,
+    "turn1_no_B_tools": true,
+    "turn2_budget20": true,
+    "final_selected_shelters_match_oracle": true,
+    "final_objective_within_oracle_error": true
+  }
+}

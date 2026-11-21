@@ -1,0 +1,71 @@
+{
+  "case_id": "D02",
+  "data_version": "zhongshan_pilot_v0.1",
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "scenario": {
+    "scenario_id": "scenario-D02",
+    "parent_scenario_id": null,
+    "data_version": "zhongshan_pilot_v0.1",
+    "analysis_mode": "demo",
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15.0,
+    "budget_units": 1.0,
+    "disabled_shelter_ids": [],
+    "changes": {
+      "grounded_case_id": "scenario-D02",
+      "source_overlay": true
+    }
+  },
+  "candidate_options": [
+    {
+      "option_id": "INVALID_UNKNOWN_SHELTER",
+      "shelter_id": "synthetic_not_an_a_shelter",
+      "action": "abstract_capacity_increment",
+      "delta_capacity_persons": 25.0,
+      "cost_units": 1.0,
+      "eligible": true,
+      "source_status": "HYPOTHETICAL_INVALID_INPUT_TEST",
+      "hypothetical": true,
+      "human_confirmed": false,
+      "combination_policy": "standalone",
+      "exclusive_group": null
+    }
+  ],
+  "oracle": {
+    "oracle_status": "INVALID_INPUT_REJECTED",
+    "error": "Improvement option references unknown shelter",
+    "details": {
+      "option_id": "INVALID_UNKNOWN_SHELTER"
+    }
+  },
+  "gt_b": {
+    "required_operations": [
+      "A adapter load",
+      "overlay validation",
+      "assignment",
+      "diagnosis",
+      "independent verification",
+      "candidate audit",
+      "Greedy baseline",
+      "budget MIP",
+      "independent oracle"
+    ],
+    "forbidden_operations": [
+      "promote DEMO_ONLY to verified",
+      "alter source OD",
+      "treat HYPOTHETICAL expansion as measured capacity",
+      "bypass invalid option rejection"
+    ],
+    "expected_rejection": true,
+    "expected_fault_status": null,
+    "cache_contract": "graph and assignment dependencies reuse only when their keyed inputs match"
+  },
+  "expected_behavior": {
+    "required_behavior": "B must reject before optimization; no result is publishable; this is a deliberate invalid-input fixture"
+  },
+  "gt_c_status": "NOT_VALIDATED",
+  "assumptions": [
+    "population ratio and cutoffs are scenario overlays",
+    "all capacity projects are HYPOTHETICAL"
+  ]
+}

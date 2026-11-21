@@ -1,0 +1,6 @@
+# Hash-manifested benchmark snapshots keep their exact archived line endings.
+* -text whitespace=cr-at-eol
+# Preserve whitespace in immutable historical evidence while retaining diff checks elsewhere.
+v2_difficulty_discovery/reports/05_PUBLIC_API_COMPATIBILITY.md whitespace=cr-at-eol,-blank-at-eof
+v2_difficulty_discovery/reports/07_FINAL_RECOMMENDATIONS.md whitespace=cr-at-eol,-blank-at-eof
+v3_agent_integration/reports/isolation_patch.diff whitespace=cr-at-eol,-blank-at-eol

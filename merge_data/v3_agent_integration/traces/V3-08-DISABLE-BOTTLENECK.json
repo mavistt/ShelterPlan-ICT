@@ -1,0 +1,309 @@
+{
+  "task_id": "V3-08-DISABLE-BOTTLENECK",
+  "baseline": {
+    "ok": true,
+    "task_type": "assess",
+    "task_id": "c-20ff7eae-e2a3-410e-bd27-310f0b2782ed",
+    "session_id": "v3-v1-closure",
+    "scenario": {
+      "scenario_id": "c-v3-v1-cl-t02-9adb3cf6",
+      "parent_scenario_id": "c-v3-v1-cl-t01-9adb3cf6",
+      "turn": 2,
+      "changes": {
+        "max_walk_time_min": 15.0
+      },
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "result_id": null,
+      "created_at": "2026-11-14T14:03:47.744+00:00"
+    },
+    "job_id": "575a6995-9d5e-4d8b-a39a-078c654623e2",
+    "result_id": "aeb4d26e-91b3-43fa-ad5c-63813ffee0d4",
+    "execution_trace_id": "f7c9aebc-8d54-477d-8e5b-5204c964764b",
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY",
+    "solver_status": "OPTIMAL",
+    "optimality_proven": true,
+    "verification_status": "PASS_DEMO",
+    "summary": {
+      "result_id": "aeb4d26e-91b3-43fa-ad5c-63813ffee0d4",
+      "task_id": "c-20ff7eae-e2a3-410e-bd27-310f0b2782ed",
+      "task_type": "assess",
+      "scenario_id": "c-v3-v1-cl-t02-9adb3cf6",
+      "parent_scenario_id": null,
+      "scenario_changes": {
+        "max_walk_time_min": 15.0
+      },
+      "data_version": "zhongshan_pilot_v0.1",
+      "data_status": "DEMO_ONLY",
+      "analysis_mode": "demo",
+      "solver_status": "OPTIMAL",
+      "optimality_proven": true,
+      "verification_status": "PASS_DEMO",
+      "metrics": {
+        "served_demand": 6456.103026929056,
+        "total_demand": 110205.74056775225,
+        "weighted_walk_time_min": 9.037615807901064,
+        "optimized_served_demand": null,
+        "diagnosed_unserved_nodes": 7634
+      },
+      "scenario_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": []
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+      ],
+      "evidence": {
+        "assignments": 354,
+        "deficits": 7965,
+        "diagnosis_rows": 7634,
+        "certificate_checks": 8346,
+        "trace_rows": 6
+      },
+      "provenance": {
+        "skill_graph_version": "module-b-skillgraph-0.1.0",
+        "execution_trace_id": "f7c9aebc-8d54-477d-8e5b-5204c964764b",
+        "scenario_hash": "4a69814319a3c4fa",
+        "solver_version": "SciPy 1.16.2 HiGHS",
+        "source_hash": "9f65287506b36cda"
+      },
+      "disclosure": {
+        "demo_only": true,
+        "verified_for_real_planning": false,
+        "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+      },
+      "detail": {
+        "diagnosis": {
+          "unserved_node_count": 7634,
+          "by_cause": {
+            "NO_LEGAL_CONNECTION": 5599,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2035
+          },
+          "unserved_persons_by_cause": {
+            "NO_LEGAL_CONNECTION": 67097.311,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 36652.338
+          },
+          "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+        }
+      },
+      "summary_bytes": 1705
+    },
+    "warnings": [
+      "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+    ],
+    "error": null,
+    "attempts": 1,
+    "retries": 0,
+    "duration_ms": 7576.822,
+    "summary_bytes": 1705,
+    "tool_calls": [
+      {
+        "tool_name": "submit_task",
+        "started_at": "2026-11-14T14:03:47.744+00:00",
+        "finished_at": "2026-11-14T14:03:47.756+00:00",
+        "duration_ms": 11.674,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "575a6995-9d5e-4d8b-a39a-078c654623e2",
+        "result_id": null,
+        "detail": {}
+      },
+      {
+        "tool_name": "get_job",
+        "started_at": "2026-11-14T14:03:47.761+00:00",
+        "finished_at": "2026-11-14T14:03:54.604+00:00",
+        "duration_ms": 6843.521,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "575a6995-9d5e-4d8b-a39a-078c654623e2",
+        "result_id": "aeb4d26e-91b3-43fa-ad5c-63813ffee0d4",
+        "detail": {}
+      },
+      {
+        "tool_name": "get_result",
+        "started_at": "2026-11-14T14:03:54.605+00:00",
+        "finished_at": "2026-11-14T14:03:55.314+00:00",
+        "duration_ms": 708.158,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": null,
+        "result_id": "aeb4d26e-91b3-43fa-ad5c-63813ffee0d4",
+        "detail": {}
+      }
+    ]
+  },
+  "closure": {
+    "ok": true,
+    "task_type": "assess",
+    "task_id": "c-0d5c6b8f-361a-44f6-839a-447f831861c9",
+    "session_id": "v3-v1-closure",
+    "scenario": {
+      "scenario_id": "c-v3-v1-cl-t03-afdd1f84",
+      "parent_scenario_id": "c-v3-v1-cl-t02-9adb3cf6",
+      "turn": 3,
+      "changes": {
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "max_walk_time_min": 15.0
+      },
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "result_id": null,
+      "created_at": "2026-11-14T14:03:55.325+00:00"
+    },
+    "job_id": "f8285221-15ff-4b9d-a2a8-48dad6fdd7c0",
+    "result_id": "c9e897cb-78f7-44f4-a533-d5bf54e0e42a",
+    "execution_trace_id": "84c27b8e-8c06-46e6-b522-af7d62c579e2",
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY",
+    "solver_status": "OPTIMAL",
+    "optimality_proven": true,
+    "verification_status": "PASS_DEMO",
+    "summary": {
+      "result_id": "c9e897cb-78f7-44f4-a533-d5bf54e0e42a",
+      "task_id": "c-0d5c6b8f-361a-44f6-839a-447f831861c9",
+      "task_type": "assess",
+      "scenario_id": "c-v3-v1-cl-t03-afdd1f84",
+      "parent_scenario_id": "c-v3-v1-cl-t02-9adb3cf6",
+      "scenario_changes": {
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ],
+        "max_walk_time_min": 15.0
+      },
+      "data_version": "zhongshan_pilot_v0.1",
+      "data_status": "DEMO_ONLY",
+      "analysis_mode": "demo",
+      "solver_status": "OPTIMAL",
+      "optimality_proven": true,
+      "verification_status": "PASS_DEMO",
+      "metrics": {
+        "served_demand": 3325.1452896108144,
+        "total_demand": 110205.74056775225,
+        "weighted_walk_time_min": 6.631830214809353,
+        "optimized_served_demand": null,
+        "diagnosed_unserved_nodes": 7780
+      },
+      "scenario_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_1b4df7920b"
+        ]
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+      ],
+      "evidence": {
+        "assignments": 208,
+        "deficits": 7965,
+        "diagnosis_rows": 7780,
+        "certificate_checks": 8200,
+        "trace_rows": 6
+      },
+      "provenance": {
+        "skill_graph_version": "module-b-skillgraph-0.1.0",
+        "execution_trace_id": "84c27b8e-8c06-46e6-b522-af7d62c579e2",
+        "scenario_hash": "f1f0c9545b77eded",
+        "solver_version": "SciPy 1.16.2 HiGHS",
+        "source_hash": "9f65287506b36cda"
+      },
+      "disclosure": {
+        "demo_only": true,
+        "verified_for_real_planning": false,
+        "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+      },
+      "detail": {
+        "diagnosis": {
+          "unserved_node_count": 7780,
+          "by_cause": {
+            "NO_LEGAL_CONNECTION": 5618,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2162
+          },
+          "unserved_persons_by_cause": {
+            "NO_LEGAL_CONNECTION": 67495.118,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 39385.489
+          },
+          "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+        }
+      },
+      "summary_bytes": 1783
+    },
+    "warnings": [
+      "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+    ],
+    "error": null,
+    "attempts": 1,
+    "retries": 0,
+    "duration_ms": 7611.509,
+    "summary_bytes": 1783,
+    "tool_calls": [
+      {
+        "tool_name": "submit_task",
+        "started_at": "2026-11-14T14:03:55.325+00:00",
+        "finished_at": "2026-11-14T14:03:55.335+00:00",
+        "duration_ms": 10.607,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "f8285221-15ff-4b9d-a2a8-48dad6fdd7c0",
+        "result_id": null,
+        "detail": {}
+      },
+      {
+        "tool_name": "get_job",
+        "started_at": "2026-11-14T14:03:55.341+00:00",
+        "finished_at": "2026-11-14T14:04:02.022+00:00",
+        "duration_ms": 6681.679,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "f8285221-15ff-4b9d-a2a8-48dad6fdd7c0",
+        "result_id": "c9e897cb-78f7-44f4-a533-d5bf54e0e42a",
+        "detail": {}
+      },
+      {
+        "tool_name": "get_result",
+        "started_at": "2026-11-14T14:04:02.024+00:00",
+        "finished_at": "2026-11-14T14:04:02.925+00:00",
+        "duration_ms": 901.488,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": null,
+        "result_id": "c9e897cb-78f7-44f4-a533-d5bf54e0e42a",
+        "detail": {}
+      }
+    ]
+  },
+  "historical_v1_reference": {
+    "kind": "v1_historical_reference",
+    "baseline_served_demand": 6456.103026929056,
+    "closure_loss_persons": 3130.9577,
+    "closure_served_demand_reference": 3325.145326929056,
+    "oracle": false
+  },
+  "observed_loss": 3130.9577373182415
+}

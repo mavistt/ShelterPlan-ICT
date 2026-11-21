@@ -1,0 +1,141 @@
+{
+  "required_outputs": {
+    "README.md": true,
+    "TASK_MANIFEST.csv": true,
+    "TASK_GT.json": true,
+    "BC_INTEGRATION_REPORT.md": true,
+    "AGENT_BASELINE_COMPARISON.md": true,
+    "SKILL_GRAPH_ABLATION.md": true,
+    "FAILURE_ANALYSIS.md": true,
+    "FINAL_RECOMMENDATIONS.md": true
+  },
+  "all_required_outputs_exist": true,
+  "task_count": 18,
+  "status_counts": {
+    "PASS": 15,
+    "NOT_RUN": 2,
+    "FAIL": 1
+  },
+  "all_task_traces_exist": true,
+  "trace_checks": [
+    {
+      "task_id": "V3-01-REAL000-OPT",
+      "exists": true
+    },
+    {
+      "task_id": "V3-02-REAL081-OPT",
+      "exists": true
+    },
+    {
+      "task_id": "V3-03-SYN8-TRAP",
+      "exists": true
+    },
+    {
+      "task_id": "V3-04-GREEDY-MIP-EXPLAIN",
+      "exists": true
+    },
+    {
+      "task_id": "V3-05-MULTITURN-BUDGET",
+      "exists": true
+    },
+    {
+      "task_id": "V3-06-BUDGET-WALK-BIND",
+      "exists": true
+    },
+    {
+      "task_id": "V3-07-REVISE-PLAN",
+      "exists": true
+    },
+    {
+      "task_id": "V3-08-DISABLE-BOTTLENECK",
+      "exists": true
+    },
+    {
+      "task_id": "V3-09-RESTORE-BUDGET",
+      "exists": true
+    },
+    {
+      "task_id": "V3-10-ASK-MISSING-BUDGET",
+      "exists": true
+    },
+    {
+      "task_id": "V3-11-ASK-MISSING-CANDIDATES",
+      "exists": true
+    },
+    {
+      "task_id": "V3-12-DEMO-ONLY-DISCLOSURE",
+      "exists": true
+    },
+    {
+      "task_id": "V3-13-FEASIBLE-WORDING",
+      "exists": true
+    },
+    {
+      "task_id": "V3-14-VERIFIER-RECOVERY",
+      "exists": true
+    },
+    {
+      "task_id": "V3-15-CROSS-SESSION-RESULT",
+      "exists": true
+    },
+    {
+      "task_id": "V3-16-CANDIDATE-LIMIT",
+      "exists": true
+    },
+    {
+      "task_id": "V3-17-ORDINARY-AGENT-BASELINE",
+      "exists": true
+    },
+    {
+      "task_id": "V3-18-SKILL-CACHE-REPEAT",
+      "exists": true
+    }
+  ],
+  "independent_oracle_checks": [
+    {
+      "task_id": "V3-01-REAL000-OPT",
+      "observed": 6556.103026928148,
+      "expected_independent_oracle": 6556.103034,
+      "absolute_error": 7.071851541695651e-06,
+      "within_0_004_persons": true
+    },
+    {
+      "task_id": "V3-02-REAL081-OPT",
+      "observed": 6846.103026929058,
+      "expected_independent_oracle": 6846.103034,
+      "absolute_error": 7.070942046993878e-06,
+      "within_0_004_persons": true
+    },
+    {
+      "task_id": "V3-05-MULTITURN-BUDGET",
+      "observed": 6556.103026928148,
+      "expected_independent_oracle": 6556.103034,
+      "absolute_error": 7.071851541695651e-06,
+      "within_0_004_persons": true
+    },
+    {
+      "task_id": "V3-07-REVISE-PLAN",
+      "observed": 6556.103026929057,
+      "expected_independent_oracle": 6556.103034,
+      "absolute_error": 7.0709429564885795e-06,
+      "within_0_004_persons": true
+    },
+    {
+      "task_id": "V3-14-VERIFIER-RECOVERY",
+      "observed": 6556.103026928148,
+      "expected_independent_oracle": 6556.103034,
+      "absolute_error": 7.071851541695651e-06,
+      "within_0_004_persons": true
+    },
+    {
+      "task_id": "V3-18-SKILL-CACHE-REPEAT",
+      "observed": 6556.103026928148,
+      "expected_independent_oracle": 6556.103034,
+      "absolute_error": 7.071851541695651e-06,
+      "within_0_004_persons": true
+    }
+  ],
+  "all_oracle_checks_within_0_004": true,
+  "gt_schema_result": "PASS",
+  "overall": "PASS"
+}

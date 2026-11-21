@@ -1,0 +1,14 @@
+{
+  "result": "62 passed",
+  "command": "pytest -q -p no:cacheprovider tests/module_c/test_v3_regressions.py tests/module_c/test_quantities.py tests/module_c/test_guards.py tests/module_c/test_workflow.py::test_answer_marks_feasible_as_not_proven",
+  "scope": [
+    "isolated Module C V3 regressions",
+    "quantities and numeric field binding",
+    "session/result guards",
+    "workflow FEASIBLE wording"
+  ],
+  "warning": "one unrelated requests dependency warning",
+  "mcp_transport_tests": "NOT_RUN: MCP SDK unavailable in configured package index; installation attempt returned no matching versions",
+  "mcp_install_attempt": "pip install --target workspaces/mcp_vendor 'mcp>=1.2,<2'; configured index returned no matching versions",
+  "formal_checkout_modified": false
+}

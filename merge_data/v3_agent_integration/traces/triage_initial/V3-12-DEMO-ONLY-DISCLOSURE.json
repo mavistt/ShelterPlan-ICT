@@ -1,0 +1,168 @@
+{
+  "task_id": "V3-12-DEMO-ONLY-DISCLOSURE",
+  "result": {
+    "result_id": "e318ae56-21e7-4aa4-90c7-391ea665ebbc",
+    "scenario_id": "c-v3-v3-01-t02-cba409f1",
+    "solver_status": "OPTIMAL",
+    "verification_status": "PASS_DEMO",
+    "data_status": "DEMO_ONLY",
+    "result_summary": {
+      "served_demand": 6456.103026929056,
+      "total_demand": 110205.74056775225,
+      "weighted_walk_time_min": 9.037615807901064,
+      "optimized_served_demand": 6556.103026928148,
+      "diagnosed_unserved_nodes": 7634
+    },
+    "selected_option_ids": [
+      "V2_TRAP_B",
+      "V2_TRAP_C"
+    ],
+    "total_cost_units": 20.0,
+    "objective_value": 6556.103026928148,
+    "graph_trace": [
+      {
+        "skill_id": "S01",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.069
+      },
+      {
+        "skill_id": "S02",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.02
+      },
+      {
+        "skill_id": "S03",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 22.231
+      },
+      {
+        "skill_id": "S04",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 178.626
+      },
+      {
+        "skill_id": "S06",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.112
+      },
+      {
+        "skill_id": "S07",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 470.374
+      },
+      {
+        "skill_id": "S08",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 19.84
+      },
+      {
+        "skill_id": "S12",
+        "cache_hit": false,
+        "status": "SUCCEEDED",
+        "duration_ms": 0.091
+      }
+    ],
+    "cache_hit": false,
+    "recomputed_nodes": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S06",
+      "S07",
+      "S08",
+      "S12"
+    ],
+    "plan_decision": {
+      "status": "fallback",
+      "reason_codes": [
+        "DETERMINISTIC_FALLBACK"
+      ],
+      "composite_id": "C02",
+      "nodes": [
+        {
+          "node_id": "n1",
+          "skill_id": "S01",
+          "depends_on": [],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n2",
+          "skill_id": "S02",
+          "depends_on": [
+            "n1"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n3",
+          "skill_id": "S03",
+          "depends_on": [
+            "n2"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n4",
+          "skill_id": "S04",
+          "depends_on": [
+            "n3"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n5",
+          "skill_id": "S06",
+          "depends_on": [
+            "n4"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n6",
+          "skill_id": "S07",
+          "depends_on": [
+            "n5",
+            "n4"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n7",
+          "skill_id": "S08",
+          "depends_on": [
+            "n6"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        },
+        {
+          "node_id": "n8",
+          "skill_id": "S12",
+          "depends_on": [
+            "n4",
+            "n7"
+          ],
+          "skill_version": "1.0.0",
+          "condition": "always"
+        }
+      ]
+    },
+    "elapsed_ms": 1954.108
+  },
+  "disclosure": null,
+  "unsupported_field_verified_claim_rejected": false
+}

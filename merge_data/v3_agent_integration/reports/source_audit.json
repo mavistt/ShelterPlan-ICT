@@ -1,0 +1,28 @@
+{
+  "source_manifest_entries": 78,
+  "formal_hash_drift_vs_manifest": [
+    {
+      "path": "tests/__init__.py",
+      "manifest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "formal_sha256": "fbe798f70411e239e848eab920310072bcd82a19873317bf88927e97f6706e51",
+      "isolated_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "isolated_matches_formal": false
+    }
+  ],
+  "formal_missing_files": [],
+  "isolated_diff_files_vs_formal": [
+    "agent/harness/guards.py",
+    "agent/intent/extractor.py",
+    "agent/intent/quantities.py",
+    "agent/service.py",
+    "tests/__init__.py"
+  ],
+  "known_v3_code_patch_files": [
+    "agent/harness/guards.py",
+    "agent/intent/extractor.py",
+    "agent/intent/quantities.py",
+    "agent/service.py"
+  ],
+  "added_regression_test": "tests/module_c/test_v3_regressions.py",
+  "scope_note": "V3 edits were made only under the isolated workspace; formal checkout was only read. tests/__init__.py has a manifest/hash discrepancy and is not a V3 patch."
+}

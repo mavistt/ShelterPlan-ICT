@@ -1,0 +1,255 @@
+{
+  "manifest_schema": "grounded-scenario-source-manifest/v1",
+  "generator_version": "grounded-exp-0.1.0",
+  "seed": 20261113,
+  "data_version": "zhongshan_pilot_v0.1",
+  "data_status": "DEMO_ONLY",
+  "a7_verdict": "DEMO_ONLY",
+  "source_manifest_path": "data/manifests/pilot_manifest.json",
+  "source_manifest_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+  "environment": {
+    "python": "3.12.11",
+    "numpy": "1.26.4",
+    "scipy": "1.16.2",
+    "pyarrow": "18.1.0"
+  },
+  "source_files": [
+    {
+      "path": "configs/pilot.yaml",
+      "actual_bytes": 2037,
+      "actual_sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146",
+      "manifest_record": {
+        "bytes": 2037,
+        "sha256": "49e1c5e46bfdca119b2d5248ad4902fd642fe21ffc93dfde34475adf54933146"
+      },
+      "manifest_hash_matches": true,
+      "role": "loaded_by_B"
+    },
+    {
+      "path": "configs/pilot_analysis_area.geojson",
+      "actual_bytes": 948,
+      "actual_sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec",
+      "manifest_record": {
+        "bytes": 948,
+        "sha256": "ed787dc6440a2160755bd506edfd3fe8f50e923cfe54c05218a95402195b84ec"
+      },
+      "manifest_hash_matches": true,
+      "role": "audit_reference"
+    },
+    {
+      "path": "data/manifests/pilot_manifest.json",
+      "actual_bytes": 13722,
+      "actual_sha256": "4b4b58e246c7b98ac9a76069420557500dd325df422f8e6a43285d17b57c02e4",
+      "manifest_record": null,
+      "manifest_hash_matches": true,
+      "role": "version_manifest"
+    },
+    {
+      "path": "data/processed/shelters_geocoded.geojson",
+      "actual_bytes": 28304,
+      "actual_sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318",
+      "manifest_record": {
+        "bytes": 28304,
+        "sha256": "879babf9a3f5c59336809f06ee7ee16d527b767e6a8fdc35a3132055fd572318"
+      },
+      "manifest_hash_matches": true,
+      "role": "loaded_by_B"
+    },
+    {
+      "path": "data/processed/demand_nodes.geojson",
+      "actual_bytes": 2633782,
+      "actual_sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46",
+      "manifest_record": {
+        "bytes": 2633782,
+        "sha256": "b313e0376ca41664c16b4a01baf323c29fbdd54a19380b49036eb025816b6c46"
+      },
+      "manifest_hash_matches": true,
+      "role": "loaded_by_B"
+    },
+    {
+      "path": "data/processed/travel_matrix.parquet",
+      "actual_bytes": 6077300,
+      "actual_sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c",
+      "manifest_record": {
+        "bytes": 6077300,
+        "sha256": "e651edf6eb3a17e7ed556b100add03d7d44bf5367b2e6f2d639f8d514a163f9c"
+      },
+      "manifest_hash_matches": true,
+      "role": "loaded_by_B"
+    },
+    {
+      "path": "data/processed/a7_quality_summary.json",
+      "actual_bytes": 4457,
+      "actual_sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c",
+      "manifest_record": {
+        "bytes": 4457,
+        "sha256": "50e2aa158c9e91cef1d6b42c8317141b81410c2cd088c3312c0d0451a773086c"
+      },
+      "manifest_hash_matches": true,
+      "role": "quality_gate"
+    },
+    {
+      "path": "data/processed/osm_graph_metadata.json",
+      "actual_bytes": 692,
+      "actual_sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d",
+      "manifest_record": {
+        "bytes": 692,
+        "sha256": "ae6e9ab68c005d96c0826a3f445ee52f59ce80a829d2e6bc4eb905f2cc543c6d"
+      },
+      "manifest_hash_matches": true,
+      "role": "audit_reference"
+    },
+    {
+      "path": "data/processed/road_walk.graphml",
+      "actual_bytes": 12352967,
+      "actual_sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be",
+      "manifest_record": {
+        "bytes": 12352967,
+        "sha256": "a83ac46a6925a491b2cb86c27bb7746df2f9a788b975e582e180db91ebca36be"
+      },
+      "manifest_hash_matches": true,
+      "role": "audit_reference"
+    },
+    {
+      "path": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+      "actual_bytes": 134,
+      "actual_sha256": "9403c4f51ab98c2b22262b6ded208fac2155d64808ae0172db796ed62cb35be5",
+      "manifest_record": {
+        "bytes": 922251437,
+        "sha256": "99b2bcebaf173d0d9f9fc43b45a122e896bcd0ac2190d1882a1b6f2ab0941913"
+      },
+      "manifest_hash_matches": false,
+      "role": "audit_reference"
+    }
+  ],
+  "generated_scenario_policy": "A IDs and original OD edges are referenced through overlays; source coordinates, capacities, OD times, and A files are not rewritten. Synthetic expansion options use abstract cost_units and HYPOTHETICAL labels. GT-C is NOT_VALIDATED.",
+  "experiment_code_artifacts": [
+    {
+      "path": "merge_data/tools/grounded_difficulty.py",
+      "bytes": 11679,
+      "sha256": "e8b2b670eab46751ebbc3d398bdd26a47032f70ab9774ca772b629e61414895f"
+    },
+    {
+      "path": "merge_data/tools/grounded_scenario_generator.py",
+      "bytes": 21874,
+      "sha256": "2d0a393870cf9c038209b86c3bb6956466acc7bb445779df98de5e1fcd90e6d8"
+    },
+    {
+      "path": "merge_data/tools/grounded_experiment_runner.py",
+      "bytes": 39524,
+      "sha256": "a9bccc403bf8ce775e5d04fe5dda84e53949ce279add206b20d6b48e4c93ba6e"
+    },
+    {
+      "path": "merge_data/tools/grounded_report_writer.py",
+      "bytes": 17291,
+      "sha256": "6387c294f71312d56b0082e91e295757765bc633470e5b714aeae2835f29d777"
+    }
+  ],
+  "scenario_manifest_artifact": {
+    "path": "merge_data/scenarios/SCENARIO_MANIFEST.json",
+    "bytes": 58937,
+    "sha256": "26b33601a9e537b5156fdb23595494ab3b7ce8d3e85a1094563b88eb1bc91a4d"
+  },
+  "candidate_artifacts": [
+    {
+      "path": "merge_data/candidates/B08-01.json",
+      "bytes": 3349,
+      "sha256": "09b11b8e18b5a24b19034b41297e85c99784ea4a21ec3409607a57dc9de0a3a9"
+    },
+    {
+      "path": "merge_data/candidates/B08-02.json",
+      "bytes": 3573,
+      "sha256": "0d30dededbc2d977d4b5485fbceb4a644ac78ff38300ddd993784b0a708b9268"
+    },
+    {
+      "path": "merge_data/candidates/B08-03.json",
+      "bytes": 3575,
+      "sha256": "0d6df7fec026e0623ba107fced19d0b2680cc9c7bbafc0d242a830fc241392db"
+    },
+    {
+      "path": "merge_data/candidates/B08-04.json",
+      "bytes": 3350,
+      "sha256": "ae87a83f5b63be7df7711bd7af36675f1c54f01777f966456e571fb9576ecea3"
+    },
+    {
+      "path": "merge_data/candidates/B16-01.json",
+      "bytes": 7331,
+      "sha256": "01735d5afacc8214ee64dafdd9e3627db95873535d1227bfa35c397a50389be6"
+    },
+    {
+      "path": "merge_data/candidates/B16-02.json",
+      "bytes": 7138,
+      "sha256": "f47ebed4c5a38193de9d8fda7cf672d470cc0e6ec9570592464ff6b0f6dbf1aa"
+    },
+    {
+      "path": "merge_data/candidates/B16-03.json",
+      "bytes": 7142,
+      "sha256": "83cec8ec3385c43daf61e8ba1ed830d46a2e215c684a18f8b6cf9490a9cb8d5e"
+    },
+    {
+      "path": "merge_data/candidates/B16-04.json",
+      "bytes": 7334,
+      "sha256": "ae125221dad25f65fae7770e7aad8a13a669368b9cb2f2c1174abf69d69500bb"
+    },
+    {
+      "path": "merge_data/candidates/B32-01.json",
+      "bytes": 14668,
+      "sha256": "b995b3b7e1fe810e8ccefe5bc7b1f91385b71c5e00a699b52784f41a6fe6214e"
+    },
+    {
+      "path": "merge_data/candidates/B32-02.json",
+      "bytes": 14277,
+      "sha256": "48b16779b0e2e8a43a4bbd997019ea8ab9220290f9945c759879228f8d472f90"
+    },
+    {
+      "path": "merge_data/candidates/B32-03.json",
+      "bytes": 14285,
+      "sha256": "e6952eec9183a729a002e56a7e8ffb3ffca38a873274ea027e7a7067dd9d9117"
+    },
+    {
+      "path": "merge_data/candidates/B32-04.json",
+      "bytes": 14670,
+      "sha256": "cab930c0efab5092e2a7ce3198480e6dc331d993296b3bf93598a3096b3c32d5"
+    },
+    {
+      "path": "merge_data/candidates/C01.json",
+      "bytes": 3349,
+      "sha256": "09b11b8e18b5a24b19034b41297e85c99784ea4a21ec3409607a57dc9de0a3a9"
+    },
+    {
+      "path": "merge_data/candidates/C02.json",
+      "bytes": 7138,
+      "sha256": "f47ebed4c5a38193de9d8fda7cf672d470cc0e6ec9570592464ff6b0f6dbf1aa"
+    },
+    {
+      "path": "merge_data/candidates/C03.json",
+      "bytes": 14277,
+      "sha256": "48b16779b0e2e8a43a4bbd997019ea8ab9220290f9945c759879228f8d472f90"
+    },
+    {
+      "path": "merge_data/candidates/C06.json",
+      "bytes": 3349,
+      "sha256": "09b11b8e18b5a24b19034b41297e85c99784ea4a21ec3409607a57dc9de0a3a9"
+    },
+    {
+      "path": "merge_data/candidates/C06_alternative.json",
+      "bytes": 3573,
+      "sha256": "0d30dededbc2d977d4b5485fbceb4a644ac78ff38300ddd993784b0a708b9268"
+    },
+    {
+      "path": "merge_data/candidates/D01.json",
+      "bytes": 3349,
+      "sha256": "09b11b8e18b5a24b19034b41297e85c99784ea4a21ec3409607a57dc9de0a3a9"
+    },
+    {
+      "path": "merge_data/candidates/D02_invalid.json",
+      "bytes": 425,
+      "sha256": "5379bb8ad21844515765224c8eac0805de45cfe98123f5fde0b6d06bf83e884a"
+    },
+    {
+      "path": "merge_data/candidates/D03.json",
+      "bytes": 3349,
+      "sha256": "09b11b8e18b5a24b19034b41297e85c99784ea4a21ec3409607a57dc9de0a3a9"
+    }
+  ]
+}

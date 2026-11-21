@@ -1,0 +1,171 @@
+{
+  "task_id": "V3-14-VERIFIER-RECOVERY",
+  "injected_result_id": "2d2481af-e15c-4825-9128-6a6a006a6d61",
+  "corrupt_status": "FAIL",
+  "refusal": {
+    "code": "RESULT_MISMATCH",
+    "message": "Result is not publishable: verifier did not pass.",
+    "details": {
+      "verification_status": "FAIL",
+      "checks_failed": []
+    },
+    "retryable": false,
+    "user_action": "Do not use this result; the identifier does not match the requested scenario."
+  },
+  "recovery_outcome": {
+    "ok": true,
+    "task_type": "optimize",
+    "task_id": "c-a6383d3a-404b-4d4a-9caf-e54602cfb60d",
+    "session_id": "v3-v3-01-real000-opt",
+    "scenario": {
+      "scenario_id": "c-v3-v3-01-t02-cba409f1",
+      "parent_scenario_id": "c-v3-v3-01-t01-9adb3cf6",
+      "turn": 2,
+      "changes": {
+        "budget_units": 20.0
+      },
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 20.0,
+        "disabled_shelter_ids": [],
+        "data_version": "zhongshan_pilot_v0.1",
+        "analysis_mode": "demo"
+      },
+      "result_id": "2097e91b-bb73-44ad-a167-7c351df71fe3",
+      "created_at": "2026-11-14T14:02:44.603+00:00"
+    },
+    "job_id": "1ca426fe-6949-4e6c-911f-506873037d32",
+    "result_id": "4acee53e-18b4-4229-98fa-d2bd12c882c7",
+    "execution_trace_id": "4d47dad7-8bff-4c8d-b9dc-a41478ed59bb",
+    "data_version": "zhongshan_pilot_v0.1",
+    "data_status": "DEMO_ONLY",
+    "solver_status": "OPTIMAL",
+    "optimality_proven": true,
+    "verification_status": "PASS_DEMO",
+    "summary": {
+      "result_id": "4acee53e-18b4-4229-98fa-d2bd12c882c7",
+      "task_id": "c-a6383d3a-404b-4d4a-9caf-e54602cfb60d",
+      "task_type": "optimize",
+      "scenario_id": "c-v3-v3-01-t02-cba409f1",
+      "parent_scenario_id": null,
+      "scenario_changes": {
+        "budget_units": 20.0
+      },
+      "data_version": "zhongshan_pilot_v0.1",
+      "data_status": "DEMO_ONLY",
+      "analysis_mode": "demo",
+      "solver_status": "OPTIMAL",
+      "optimality_proven": true,
+      "verification_status": "PASS_DEMO",
+      "metrics": {
+        "served_demand": 6456.103026929056,
+        "total_demand": 110205.74056775225,
+        "weighted_walk_time_min": 9.037615807901064,
+        "optimized_served_demand": 6556.103026928148,
+        "diagnosed_unserved_nodes": 7634
+      },
+      "scenario_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": 20.0,
+        "disabled_shelter_ids": []
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+        "HYPOTHETICAL_IMPROVEMENT: selected option costs/capacity are user-supplied assumptions, not Module A or engineering facts."
+      ],
+      "evidence": {
+        "assignments": 354,
+        "deficits": 7965,
+        "diagnosis_rows": 0,
+        "certificate_checks": 8346,
+        "trace_rows": 8
+      },
+      "provenance": {
+        "skill_graph_version": "module-b-skillgraph-0.1.0",
+        "execution_trace_id": "4d47dad7-8bff-4c8d-b9dc-a41478ed59bb",
+        "scenario_hash": "3b35ee5fb2f7c290",
+        "solver_version": "SciPy 1.16.2 HiGHS",
+        "source_hash": "9f65287506b36cda"
+      },
+      "disclosure": {
+        "demo_only": true,
+        "verified_for_real_planning": false,
+        "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+      },
+      "detail": {
+        "optimization": {
+          "selected_option_ids": [
+            "V2_TRAP_B",
+            "V2_TRAP_C"
+          ],
+          "total_cost_units": 20.0,
+          "budget_units": 20.0,
+          "served_demand": 6556.103026928148,
+          "total_demand": 110205.74056775225,
+          "weighted_walk_time_min": 8.955290117940997,
+          "solver": "scipy.optimize.milp/HiGHS",
+          "mip_stage_count": 4,
+          "all_stages_optimal": true
+        }
+      },
+      "summary_bytes": 1806
+    },
+    "warnings": [
+      "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+      "HYPOTHETICAL_IMPROVEMENT: selected option costs/capacity are user-supplied assumptions, not Module A or engineering facts."
+    ],
+    "error": null,
+    "attempts": 1,
+    "retries": 0,
+    "duration_ms": 8770.097,
+    "summary_bytes": 1806,
+    "tool_calls": [
+      {
+        "tool_name": "submit_task",
+        "started_at": "2026-11-14T14:04:05.098+00:00",
+        "finished_at": "2026-11-14T14:04:05.116+00:00",
+        "duration_ms": 17.882,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "1ca426fe-6949-4e6c-911f-506873037d32",
+        "result_id": null,
+        "detail": {}
+      },
+      {
+        "tool_name": "get_job",
+        "started_at": "2026-11-14T14:04:05.117+00:00",
+        "finished_at": "2026-11-14T14:04:12.711+00:00",
+        "duration_ms": 7593.294,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": "1ca426fe-6949-4e6c-911f-506873037d32",
+        "result_id": "4acee53e-18b4-4229-98fa-d2bd12c882c7",
+        "detail": {}
+      },
+      {
+        "tool_name": "get_result",
+        "started_at": "2026-11-14T14:04:12.712+00:00",
+        "finished_at": "2026-11-14T14:04:13.866+00:00",
+        "duration_ms": 1154.25,
+        "status": "ok",
+        "attempt": 1,
+        "error_code": null,
+        "job_id": null,
+        "result_id": "4acee53e-18b4-4229-98fa-d2bd12c882c7",
+        "detail": {}
+      }
+    ]
+  },
+  "parameters_after_recovery": {
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15.0,
+    "budget_units": 20.0,
+    "disabled_shelter_ids": [],
+    "data_version": "zhongshan_pilot_v0.1",
+    "analysis_mode": "demo"
+  }
+}

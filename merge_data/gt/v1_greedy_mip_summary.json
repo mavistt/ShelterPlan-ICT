@@ -1,0 +1,326 @@
+{
+  "kind": "compact_historical_v1_greedy_mip_summary",
+  "run_id": "full-20261113-main",
+  "data_version": "zhongshan_pilot_v0.1",
+  "source_run_summary_sha256": "b75ec394eec6f1c09f4f82bf512fe63b1e7cc2a188cb626fd56620c8dedc90af",
+  "source_run_summary_bytes": 99840851,
+  "source_results_count": 26,
+  "results": [
+    {
+      "case_id": "A01",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "A02",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "A03",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "A04",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "B08-01",
+      "num_options": 8,
+      "greedy_served": 1029.9999999990005,
+      "greedy_selected_option_ids": [
+        "HYP_B08-01_zs_737caba8e8_2"
+      ],
+      "mip_served": 1029.999999999,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-01_zs_e016bde4b3_1",
+        "HYP_B08-01_zs_4213304fee_2"
+      ]
+    },
+    {
+      "case_id": "B08-02",
+      "num_options": 8,
+      "greedy_served": 3770.9577373162474,
+      "greedy_selected_option_ids": [
+        "HYP_B08-02_zs_1a562fd2ec_2"
+      ],
+      "mip_served": 3770.95773731724,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-02_zs_1a562fd2ec_2"
+      ]
+    },
+    {
+      "case_id": "B08-03",
+      "num_options": 8,
+      "greedy_served": 5666.436605976356,
+      "greedy_selected_option_ids": [
+        "HYP_B08-03_zs_6358642b6f_3"
+      ],
+      "mip_served": 5666.436606451028,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-03_zs_6358642b6f_3"
+      ]
+    },
+    {
+      "case_id": "B08-04",
+      "num_options": 8,
+      "greedy_served": 2341.2046248296765,
+      "greedy_selected_option_ids": [
+        "HYP_B08-04_zs_fed820d94e_2",
+        "HYP_B08-04_zs_f7d567aca2_3"
+      ],
+      "mip_served": 2341.2046248306765,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-04_zs_fed820d94e_2",
+        "HYP_B08-04_zs_f7d567aca2_3"
+      ]
+    },
+    {
+      "case_id": "B16-01",
+      "num_options": 16,
+      "greedy_served": 997.9999999990002,
+      "greedy_selected_option_ids": [
+        "HYP_B16-01_zs_fed820d94e_1",
+        "HYP_B16-01_zs_4213304fee_1"
+      ],
+      "mip_served": 997.9999999990001,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B16-01_zs_fed820d94e_1",
+        "HYP_B16-01_zs_4213304fee_1"
+      ]
+    },
+    {
+      "case_id": "B16-02",
+      "num_options": 16,
+      "greedy_served": 3780.9577373162465,
+      "greedy_selected_option_ids": [
+        "HYP_B16-02_zs_e016bde4b3_1"
+      ],
+      "mip_served": 3780.9577373172406,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B16-02_zs_e016bde4b3_1"
+      ]
+    },
+    {
+      "case_id": "B16-03",
+      "num_options": 16,
+      "greedy_served": 5666.436605976356,
+      "greedy_selected_option_ids": [
+        "HYP_B16-03_zs_6358642b6f_3"
+      ],
+      "mip_served": 5666.436605976361,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B16-03_zs_6358642b6f_3"
+      ]
+    },
+    {
+      "case_id": "B16-04",
+      "num_options": 16,
+      "greedy_served": 2321.2046248296765,
+      "greedy_selected_option_ids": [
+        "HYP_B16-04_zs_e016bde4b3_1"
+      ],
+      "mip_served": 2321.2046248306765,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B16-04_zs_e016bde4b3_1"
+      ]
+    },
+    {
+      "case_id": "B32-01",
+      "num_options": 32,
+      "greedy_served": 1029.9999999990005,
+      "greedy_selected_option_ids": [
+        "HYP_B32-01_zs_737caba8e8_2"
+      ],
+      "mip_served": 1030.000000016971,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B32-01_zs_737caba8e8_2"
+      ]
+    },
+    {
+      "case_id": "B32-02",
+      "num_options": 32,
+      "greedy_served": 3775.9577373162474,
+      "greedy_selected_option_ids": [
+        "HYP_B32-02_zs_6358642b6f_2"
+      ],
+      "mip_served": 3775.95773738633,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B32-02_zs_6358642b6f_2"
+      ]
+    },
+    {
+      "case_id": "B32-03",
+      "num_options": 32,
+      "greedy_served": 5666.436605976354,
+      "greedy_selected_option_ids": [
+        "HYP_B32-03_zs_737caba8e8_1",
+        "HYP_B32-03_zs_e016bde4b3_1"
+      ],
+      "mip_served": 5666.43660597636,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B32-03_zs_e016bde4b3_1",
+        "HYP_B32-03_zs_737caba8e8_1"
+      ]
+    },
+    {
+      "case_id": "B32-04",
+      "num_options": 32,
+      "greedy_served": 2321.2046248296765,
+      "greedy_selected_option_ids": [
+        "HYP_B32-04_zs_737caba8e8_1",
+        "HYP_B32-04_zs_6358642b6f_1"
+      ],
+      "mip_served": 2321.2046251041334,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B32-04_zs_737caba8e8_1",
+        "HYP_B32-04_zs_6358642b6f_1"
+      ]
+    },
+    {
+      "case_id": "C01",
+      "num_options": 8,
+      "greedy_served": 3375.145289610815,
+      "greedy_selected_option_ids": [
+        "HYP_B08-01_zs_4213304fee_2",
+        "HYP_B08-01_zs_e016bde4b3_1"
+      ],
+      "mip_served": 3375.145289610817,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-01_zs_e016bde4b3_1",
+        "HYP_B08-01_zs_4213304fee_2"
+      ]
+    },
+    {
+      "case_id": "C02",
+      "num_options": 16,
+      "greedy_served": 6129.176040305915,
+      "greedy_selected_option_ids": [
+        "HYP_B16-02_zs_e016bde4b3_1"
+      ],
+      "mip_served": 6129.176040305921,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B16-02_zs_e016bde4b3_1"
+      ]
+    },
+    {
+      "case_id": "C03",
+      "num_options": 32,
+      "greedy_served": 1749.9636998633414,
+      "greedy_selected_option_ids": [
+        "HYP_B32-02_zs_6358642b6f_2"
+      ],
+      "mip_served": 1749.9636999336162,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B32-02_zs_6358642b6f_2"
+      ]
+    },
+    {
+      "case_id": "C04",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "C05",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "C06",
+      "num_options": 8,
+      "greedy_served": 6506.103026929056,
+      "greedy_selected_option_ids": [
+        "HYP_B08-01_zs_4213304fee_2",
+        "HYP_B08-01_zs_e016bde4b3_1"
+      ],
+      "mip_served": 6506.103026929057,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": [
+        "HYP_B08-01_zs_737caba8e8_2"
+      ]
+    },
+    {
+      "case_id": "D01",
+      "num_options": 8,
+      "greedy_served": 0.0,
+      "greedy_selected_option_ids": [],
+      "mip_served": 0.0,
+      "mip_status": "OPTIMAL",
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "D02",
+      "num_options": 1,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": "REJECTED",
+      "mip_selected_option_ids": []
+    },
+    {
+      "case_id": "D03",
+      "num_options": 8,
+      "greedy_served": 6506.103026929056,
+      "greedy_selected_option_ids": [
+        "HYP_B08-01_zs_4213304fee_2",
+        "HYP_B08-01_zs_e016bde4b3_1"
+      ],
+      "mip_served": 6506.103026930057,
+      "mip_status": "FEASIBLE",
+      "mip_selected_option_ids": [
+        "HYP_B08-01_zs_737caba8e8_2"
+      ]
+    },
+    {
+      "case_id": "D04",
+      "num_options": 0,
+      "greedy_served": null,
+      "greedy_selected_option_ids": [],
+      "mip_served": null,
+      "mip_status": null,
+      "mip_selected_option_ids": []
+    }
+  ],
+  "note": "Derived without changing V1 GT; stores metrics and selected IDs only, not duplicated node-level assignment payloads."
+}

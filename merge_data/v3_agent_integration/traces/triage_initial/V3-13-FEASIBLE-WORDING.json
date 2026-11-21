@@ -1,0 +1,13 @@
+{
+  "task_id": "V3-13-FEASIBLE-WORDING",
+  "source_reference": "merge_data\\runs\\full-20261113-main\\gt\\D03.json",
+  "postflight": {
+    "solver_status": "FEASIBLE",
+    "optimality_proven": false,
+    "verification_status": "PASS_DEMO",
+    "data_status": "DEMO_ONLY"
+  },
+  "optimal_claim_rejected": true,
+  "deterministic_wording": "求解状态 FEASIBLE：得到可行解，但未证明最优，不得表述为“已证明最优”。",
+  "injection_note": "status only; not a live B solver timeout"
+}
