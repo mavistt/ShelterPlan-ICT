@@ -7,6 +7,7 @@ correspondence between a result and the scenario that produced it.
 from __future__ import annotations
 
 from math import isfinite
+import re
 from typing import Any, Iterable
 
 from agent.config import HarnessConfig
@@ -384,8 +385,17 @@ def assert_demo_disclosure(full_result: dict[str, Any], text: str | None) -> Non
         return
     if full_result.get("data_status") != "DEMO_ONLY":
         return
-    forbidden = ("真实验证", "已核验", "现场核实", "可执行建议", "operationally verified")
-    hits = [token for token in forbidden if token in text]
+    cleaned = re.sub(
+        r"(?:未经(?:真实)?|未经过(?:真实)?|未|非|不是|不可|不得|不能)\s*"
+        r"(?:真实验证|已核验|现场核实|现场核验|可执行建议|可直接执行|现场应急指引)",
+        "",
+        text,
+    )
+    forbidden = (
+        "真实验证", "已核验", "现场核实", "现场核验", "可执行建议",
+        "可直接执行", "现场应急指引", "operationally verified",
+    )
+    hits = [token for token in forbidden if token in cleaned]
     if hits:
         raise GuardClaimViolation(
             "A DEMO_ONLY result cannot be described as verified or operational.",

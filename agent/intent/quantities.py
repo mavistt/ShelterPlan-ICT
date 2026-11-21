@@ -321,6 +321,37 @@ def numbers(text: str) -> list[float]:
     return found
 
 
+OPTION_OR_DISABLE_CLAUSE_RE = re.compile(
+    r"zs_[0-9a-z]+|扩容|候选|成本|停用|关停|关闭|禁用", re.I
+)
+
+
+def _clauses_for_field(text: str, field: str) -> list[str]:
+    """Return clauses belonging to `field`.
+
+    Subjectless continuation clauses (e.g. '把预算设为 10，不对，改成 20') inherit
+    the active scalar field until a new field anchor or a shelter-option/shutdown
+    clause appears.
+    """
+    matched: list[str] = []
+    active_field: str | None = None
+    for clause in clauses(text):
+        detected = _field_of(clause)
+        if detected is not None:
+            active_field = detected
+        else:
+            if OPTION_OR_DISABLE_CLAUSE_RE.search(clause):
+                active_field = None
+            elif active_field is None:
+                if re.search(r"分钟|小时|一刻钟", clause):
+                    active_field = "max_walk_time_min"
+                elif re.search(r"百分点|[一二三四五六七八九十\d]+\s*成", clause):
+                    active_field = "population_demand_ratio"
+        if active_field == field:
+            matched.append(clause)
+    return matched
+
+
 def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | None]:
     """Is this operation supported by the sentence?
 
@@ -329,7 +360,8 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
     because the sentence is the authority, not the extraction.
     """
     text = text or ""
-    typed = numbers(text)
+    field_clauses = _clauses_for_field(text, field)
+    typed = [number for clause in field_clauses for number in numbers(clause)]
 
     if op == "restore":
         if RESTORE_VERB_RE.search(text) or history_reference(text):
@@ -337,7 +369,8 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
         return False, "撤销/恢复/历史引用类操作在句子里没有依据", None
 
     if op == "scale":
-        found = multiplier(text)
+        found = next((found for clause in field_clauses
+                      if (found := multiplier(clause)) is not None), None)
         if found is None:
             return False, "倍数类操作在句子里没有依据（没有“翻倍/减半/N倍/X%”）", None
         factor, _evidence, _rule = found
@@ -357,22 +390,26 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
         # "需求比例再提高 5 个百分点" reaches the normaliser as 0.05 while the
         # sentence literally contains 5. A ratio delta is *stated* in percentage
         # points, so both spellings are legitimate evidence for the same op.
-        candidates = (abs(numeric), abs(numeric) * 100.0)
+        candidates = ((abs(numeric), abs(numeric) * 100.0)
+                      if field == "population_demand_ratio" else (abs(numeric),))
         base = min((abs(number) for number in typed),
                    key=lambda n: min(abs(n - candidate) for candidate in candidates),
                    default=None)
         # "再放宽半小时" contains no literal 30, but the phrase unambiguously
         # means 30 minutes. The derived duration is therefore valid evidence
         # for a delta of the same magnitude.
-        duration = duration_minutes(text)
-        duration_ok = (duration is not None
-                       and abs(duration[0] - abs(numeric)) < 1e-9
-                       and duration_delta(text) is not None)
+        duration_ok = any(
+            duration is not None
+            and abs(duration[0] - abs(numeric)) < 1e-9
+            and duration_delta(clause) is not None
+            for clause in field_clauses
+            for duration in [duration_minutes(clause)]
+        )
         literal_ok = (base is not None
                       and min(abs(base - candidate) for candidate in candidates) <= 1e-9)
         if not (literal_ok or duration_ok):
             return False, "增量数值在句子里找不到", None
-        if not DELTA_VERB_RE.search(text) and not duration_ok:
+        if not any(DELTA_VERB_RE.search(clause) for clause in field_clauses) and not duration_ok:
             return False, "句子里没有增加/减少类动词", None
         return True, "", None
 
@@ -383,16 +420,22 @@ def supports(text: str, field: str, op: str, value) -> tuple[bool, str, float | 
             numeric = float(value)
         except (TypeError, ValueError):
             return True, "", None
-        candidates = {round(numeric, 6), round(numeric * 100.0, 6), round(numeric * 60.0, 6)}
+        candidates = {round(numeric, 6)}
+        if field == "population_demand_ratio":
+            candidates.add(round(numeric * 100.0, 6))
+        elif field == "max_walk_time_min":
+            candidates.add(round(numeric * 60.0, 6))
         if any(abs(number - candidate) < 1e-6 for number in typed for candidate in candidates):
             return True, "", None
         # A value derived from a percentage/成 phrase is supported even though the
         # literal "0.3" never appears ("30%" and "三成" both produce it).
-        ratio = ratio_value(text)
-        if field == "population_demand_ratio" and ratio and abs(ratio[0] - numeric) < 1e-9:
+        ratios = [ratio_value(clause) for clause in field_clauses]
+        if field == "population_demand_ratio" and any(
+                ratio and abs(ratio[0] - numeric) < 1e-9 for ratio in ratios):
             return True, "", None
-        duration = duration_minutes(text)
-        if field == "max_walk_time_min" and duration and abs(duration[0] - numeric) < 1e-9:
+        durations = [duration_minutes(clause) for clause in field_clauses]
+        if field == "max_walk_time_min" and any(
+                duration and abs(duration[0] - numeric) < 1e-9 for duration in durations):
             return True, "", None
         return False, f"数值 {numeric:g} 在句子里找不到", None
 

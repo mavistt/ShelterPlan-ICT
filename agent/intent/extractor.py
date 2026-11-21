@@ -305,6 +305,20 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
         if repaired:
             intent.sensitivity = repaired
             intent.warnings.append("sensitivity spec recovered by rule parser")
+        else:
+            folded = _fold_sensitivity_ops(intent.ops)
+            if folded:
+                intent.sensitivity = folded
+                intent.warnings.append("sensitivity spec folded from repeated set ops")
+    if intent.name == "sensitivity" and isinstance(intent.sensitivity, dict):
+        sweep_param = intent.sensitivity.get("parameter")
+        if sweep_param and any(op.field == sweep_param for op in intent.ops):
+            intent.ops = [op for op in intent.ops if op.field != sweep_param]
+            intent.warnings.append(f"removed sweep parameter {sweep_param} from base ops")
+        for extra_op in _non_sweep_ops_from_text(text, sweep_param):
+            if not any(op.field == extra_op.field for op in intent.ops):
+                intent.ops.append(extra_op)
+                intent.warnings.append(f"recovered non-sweep op {extra_op.field}={extra_op.value!r}")
     if intent.name == "compare" and not intent.compare:
         repaired = _rule_compare(text)
         if repaired:
@@ -332,10 +346,16 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             intent.warnings.append("comparison intent and paired values recovered by rule parser")
     if (OPTIMIZE_CUE_RE.search(text)
             and re.search(r"预算|成本|优化", text)
-            and intent.name not in {"optimize", "compare", "sensitivity"}
-            and not re.search(r"压力测试|敏感性|比较|对比", text)):
+            and intent.name not in {"optimize", "compare", "sensitivity", "diagnose"}
+            and not re.search(r"压力测试|敏感性|比较|对比|诊断|瓶颈", text)):
         intent.name = "optimize"
         intent.warnings.append("optimization intent recovered from expansion table")
+    if (_effective_diagnose(text)
+            and intent.name in {"optimize", "assess", "modify_scenario", "clarify"}
+            and not re.search(r"压力测试|敏感性|比较|对比", text)):
+        if intent.name != "diagnose":
+            intent.name = "diagnose"
+            intent.warnings.append("diagnosis intent recovered from explicit bottleneck/diagnosis request")
 
     # 2f. a stated bound that contradicts a stated target is not a plan.
     contradiction = _contradictory_bound(text)
@@ -350,10 +370,10 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             f"contradictory bound: target {wanted:g} exceeds limit {limit:g}")
         return intent
 
-    # 2g. an optimisation cannot run without a budget, and the sentence stated
-    # one: recover the literal rather than asking the user to repeat it. This is
-    # scoped to `optimize` so other task types keep their own slot rules.
-    if (intent.name == "optimize"
+    # 2g. an optimisation (or diagnosis+intervention with options) cannot run
+    # without a budget when the sentence stated one: recover the literal rather
+    # than asking the user to repeat it.
+    if ((intent.name == "optimize" or (intent.name == "diagnose" and bool(intent.options)))
             and not any(op.field == "budget_units" for op in intent.ops)):
         budget_match = BUDGET_RE.search(text)
         if budget_match:
@@ -424,13 +444,17 @@ def _contradictory_bound(text: str) -> tuple[str, float, float] | None:
     bound = BOUND_RE.search(text)
     if not target or not bound:
         return None
+    target_field = _nearest_field(text, target.start())
+    bound_field = _nearest_field(text, bound.start())
+    if target_field and bound_field and target_field != bound_field:
+        return None
     wanted = float(target.group(1)) * _unit_scale(target.group(2))
     limit = float(bound.group(1)) * _unit_scale(bound.group(2))
     if _unit_scale(target.group(2)) != _unit_scale(bound.group(2)):
         return None
     if wanted <= limit + 1e-9:
         return None
-    return (_nearest_field(text, target.start()) or "task"), wanted, limit
+    return (target_field or bound_field or "task"), wanted, limit
 
 
 def _nearest_field(text: str, before: int) -> str | None:
@@ -478,9 +502,15 @@ def _compact(value: Any) -> str:
 # conservative: it only fires on unambiguous lexical patterns.
 # --------------------------------------------------------------------------- #
 ID_RE = re.compile(r"(?<![0-9a-zA-Z_])zs_[0-9a-z]{6,}(?![0-9a-zA-Z_])", re.I)
-BUDGET_RE = re.compile(r"预算\s*(?:设为|改成|调整为|为|是|=)?\s*(-?\d+(?:\.\d+)?)")
+BUDGET_RE = re.compile(
+    r"(?<!增加)(?<!减少)(?<!提高)(?<!降低)(?<!上调)(?<!下调)(?<!剩余)"
+    r"预算\s*(?:上限(?:设为|改成|调整为|为|是|=)?|设为|改成|调整为|为|是|=)?\s*(-?\d+(?:\.\d+)?)"
+)
 BUDGET_HALF_RE = re.compile(r"预算[^。；，]*?(减半|翻倍|一半|两倍)")
-BUDGET_DELTA_RE = re.compile(r"预算\s*(?:再|又)?\s*(增加|加|减少|减|提高|降低)\s*(\d+(?:\.\d+)?)")
+BUDGET_DELTA_RE = re.compile(
+    r"(?:预算\s*(?:再|又)?\s*(增加|加|减少|减|提高|降低|上调|下调)"
+    r"|(增加|减少|提高|降低|上调|下调)\s*预算)\s*(\d+(?:\.\d+)?)"
+)
 RATIO_PCT_RE = re.compile(r"(?:需求)?比例[^0-9]{0,6}(\d+(?:\.\d+)?)\s*%")
 RATIO_CHENG_RE = re.compile(r"([一二三四五六七八九十\d]+)\s*成")
 RATIO_DECIMAL_RE = re.compile(r"(?:需求)?比例[^0-9]{0,6}(\d*\.\d+|\d+)")
@@ -507,6 +537,9 @@ COMPARE_NUMBERS_RE = re.compile(
 # "不要停用任何场所" is an instruction NOT to disable, not a stress test.
 NEGATED_DISABLE_RE = re.compile(
     r"(?:不要|不用|别|无需|不必|取消|撤销)\s*(?:再)?\s*(?:停用|关停|关闭|禁用)")
+NEGATED_DIAGNOSE_RE = re.compile(
+    r"(?:不要|不用|别|无需|不必)\s*(?:做|进行)?\s*(?:瓶颈)?(?:诊断|分析瓶颈)")
+DIAGNOSE_CUE_RE = re.compile(r"诊断|瓶颈|未服务.*(?:原因|节点|瓶颈)")
 # The last explicitly corrected target wins: "先按30%算……不对，改成0.45".
 # Only explicit "the earlier value was wrong" cues. A plain "改成 20 分钟"
 # is a normal target, not a correction, and must not override other fields.
@@ -536,6 +569,48 @@ ACTIONABLE_RE = re.compile(
 def _effective_disable(text: str) -> bool:
     """True only when the sentence really asks to disable shelters."""
     return bool(DISABLE_RE.search(NEGATED_DISABLE_RE.sub("", text or "")))
+
+
+def _effective_diagnose(text: str) -> bool:
+    """True only when the sentence asks for diagnosis/bottleneck analysis (not negated)."""
+    return bool(DIAGNOSE_CUE_RE.search(NEGATED_DIAGNOSE_RE.sub("", text or "")))
+
+
+def _fold_sensitivity_ops(ops: list[ParamOp]) -> dict[str, Any] | None:
+    """If the model emitted >=2 `set` ops on the same scalar field for a sensitivity
+    intent instead of populating `sensitivity`, fold them into a sweep spec."""
+    by_field: dict[str, list[float]] = {}
+    for op in ops:
+        if op.op == "set" and op.field in {"budget_units", "population_demand_ratio", "max_walk_time_min"}:
+            if isinstance(op.value, (int, float)) and not isinstance(op.value, bool):
+                by_field.setdefault(op.field, []).append(float(op.value))
+    for field_name, vals in by_field.items():
+        if len(vals) >= 2:
+            return {"parameter": field_name, "values": vals[:20]}
+    return None
+
+
+def _non_sweep_ops_from_text(text: str, sweep_param: str | None) -> list[ParamOp]:
+    """Recover explicit base-scenario scalar settings from clauses other than the sweep clause."""
+    out: list[ParamOp] = []
+    for clause in re.split(r"[，,。；;\n]", text or ""):
+        if not clause.strip() or re.search(r"敏感性|档位", clause):
+            continue
+        if len(re.findall(r"(?<![\d.])(\d+(?:\.\d+)?)(?![\d.])", clause)) >= 2:
+            continue
+        if sweep_param != "budget_units":
+            b_match = BUDGET_RE.search(clause)
+            if b_match and not BUDGET_HALF_RE.search(clause) and not BUDGET_DELTA_RE.search(clause):
+                out.append(ParamOp("budget_units", "set", float(b_match.group(1))))
+        if sweep_param != "max_walk_time_min":
+            w_match = WALK_RE.search(clause)
+            if w_match:
+                out.append(ParamOp("max_walk_time_min", "set", float(w_match.group(1))))
+        if sweep_param != "population_demand_ratio":
+            r_match = RATIO_PCT_RE.search(clause)
+            if r_match:
+                out.append(ParamOp("population_demand_ratio", "set", float(r_match.group(1)) / 100.0))
+    return out
 
 
 def rule_extract(text: str) -> ParsedIntent:
@@ -570,9 +645,10 @@ def rule_extract(text: str) -> ParsedIntent:
             ops.append(ParamOp("budget_units", "scale", factor))
         delta_match = BUDGET_DELTA_RE.search(text)
         if delta_match:
-            direction = -1.0 if delta_match.group(1) in ("减少", "减", "降低") else 1.0
-            ops.append(ParamOp("budget_units", "delta",
-                               direction * float(delta_match.group(2))))
+            verb = delta_match.group(1) or delta_match.group(2) or ""
+            amount = float(delta_match.group(3))
+            direction = -1.0 if verb in ("减少", "减", "降低", "下调") else 1.0
+            ops.append(ParamOp("budget_units", "delta", direction * amount))
         elif BUDGET_RE.search(text) and not BUDGET_HALF_RE.search(text):
             ops.append(ParamOp("budget_units", "set", float(BUDGET_RE.search(text).group(1))))
 
@@ -620,7 +696,7 @@ def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:
         return "compare"
     if re.search(r"敏感性|档位|不同预算|预算.*从", text):
         return "sensitivity"
-    if re.search(r"诊断|瓶颈|原因|为什么.*没", text):
+    if _effective_diagnose(text) or re.search(r"原因|为什么.*没", NEGATED_DIAGNOSE_RE.sub("", text or "")):
         return "diagnose"
     if re.search(r"压力测试|模拟.*(关|停)", text) and not re.search(r"(?:做|进行|执行)优化", text):
         return "stress_test"
@@ -733,19 +809,55 @@ def _rule_compare(text: str) -> dict[str, Any] | None:
     return {"field": field_name, "values": values}
 
 
+SENSITIVITY_PARAM_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("max_walk_time_min", re.compile(r"步行阈值|步行时间|步行|步距")),
+    ("population_demand_ratio", re.compile(r"需求比例|人口比例|需求占比|比例")),
+    ("budget_units", re.compile(r"预算上限|预算")),
+)
+
+
 def _rule_sensitivity(text: str) -> dict[str, Any] | None:
-    if "预算" in text:
-        parameter, marker = "budget_units", "预算"
-    elif "比例" in text:
-        parameter, marker = "population_demand_ratio", "比例"
-    else:
+    raw_clauses = [c.strip() for c in re.split(r"[，,。；;\n]", text or "") if c and c.strip()]
+    if not raw_clauses:
         return None
-    tail = text.split(marker, 1)[1][:60]
-    numbers = re.findall(r"(?<![\d.])(\d+(?:\.\d+)?)(?![\d.])", tail)
-    values = [float(value) for value in numbers[:20]]
-    if len(values) < 2:
-        return None
-    return {"parameter": parameter, "values": values}
+
+    # Prefer the clause that explicitly names sensitivity/sweep levels, or has >=2 numbers.
+    ordered_clauses = sorted(
+        raw_clauses,
+        key=lambda c: (
+            0 if re.search(r"敏感性|档位", c) else 1,
+            0 if len(re.findall(r"(?<![\d.])(\d+(?:\.\d+)?)(?![\d.])", c)) >= 2 else 1,
+        ),
+    )
+
+    for clause in ordered_clauses:
+        hits: list[tuple[int, str, re.Match[str]]] = []
+        for param, pattern in SENSITIVITY_PARAM_PATTERNS:
+            m = pattern.search(clause)
+            if m:
+                hits.append((m.start(), param, m))
+        if not hits:
+            continue
+        hits.sort(key=lambda item: item[0])
+        _, parameter, match = hits[0]
+        tail = clause[match.end():]
+        # Stop before any other parameter anchor inside the same clause
+        stop_pos = len(tail)
+        for other_param, other_pat in SENSITIVITY_PARAM_PATTERNS:
+            if other_param == parameter:
+                continue
+            om = other_pat.search(tail)
+            if om and om.start() < stop_pos:
+                stop_pos = om.start()
+        segment = tail[:stop_pos]
+        numbers = re.findall(r"(?<![\d.])(\d+(?:\.\d+)?)(?![\d.])", segment)
+        values = [float(value) for value in numbers[:20]]
+        if len(values) < 2:
+            continue
+        if parameter == "population_demand_ratio" and "%" in segment:
+            values = [v / 100.0 if v > 1.0 else v for v in values]
+        return {"parameter": parameter, "values": values}
+    return None
 
 
 CHINESE_DIGITS = {"一": 1, "二": 2, "三": 3, "四": 4, "五": 5,
