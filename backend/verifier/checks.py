@@ -11,6 +11,7 @@ TOL = 1e-6
 def verify_assignment(data: PlanningInput, scenario: PlanningScenario, result: AssignmentResult, capacity_deltas: dict[str, float] | None = None) -> VerificationCertificate:
     checks: list[CheckRecord] = []
     version_ok = scenario.data_version == data.data_version
+    region_ok = data.region_id is None or scenario.region_id == data.region_id
     quality_ok = scenario.analysis_mode != "verified" or data.data_status == "VERIFIED"
     def add(check_id: str, object_id: str, passed: bool, observed, limit, evidence: str, message: str):
         checks.append(CheckRecord(check_id=check_id, object_id=object_id, passed=passed, observed=observed, limit=limit, tolerance=TOL, evidence_ref=evidence, message=message))
@@ -19,6 +20,10 @@ def verify_assignment(data: PlanningInput, scenario: PlanningScenario, result: A
         add("DATA_VERSION", scenario.scenario_id, False, scenario.data_version, data.data_version, "scenario:data_version", "Scenario and source versions differ.")
     else:
         add("DATA_VERSION", scenario.scenario_id, True, scenario.data_version, data.data_version, "scenario:data_version", "Scenario uses the loaded data version.")
+    if data.region_id is not None and scenario.region_id != data.region_id:
+        add("REGION_ID", scenario.scenario_id, False, scenario.region_id, data.region_id, "scenario:region_id", "Scenario uses a different region than the loaded source.")
+    elif data.region_id is not None:
+        add("REGION_ID", scenario.scenario_id, True, scenario.region_id, data.region_id, "scenario:region_id", "Scenario uses the loaded source region.")
     if scenario.analysis_mode == "verified" and data.data_status != "VERIFIED":
         add("DATA_QUALITY", scenario.scenario_id, False, data.data_status, "VERIFIED", "source:data_status", "Real-planning output is not permitted for this source status.")
     else:
@@ -27,7 +32,9 @@ def verify_assignment(data: PlanningInput, scenario: PlanningScenario, result: A
     demand = {node.demand_id: node.pop_est * scenario.population_demand_ratio for node in data.demands}
     shelter = {node.shelter_id: node.capacity_persons for node in data.shelters}
     capacity_deltas = capacity_deltas or {}
-    legal = {(e.demand_id, e.shelter_id) for e in data.od_edges if e.reachable and e.time_min is not None and e.time_min <= scenario.max_walk_time_min and e.shelter_id not in scenario.disabled_shelter_ids}
+    disabled = set(scenario.disabled_shelter_ids)
+    inactive = {row.shelter_id for row in data.shelters if not row.active}
+    legal = {(e.demand_id, e.shelter_id) for e in data.od_edges if e.reachable and e.time_min is not None and e.time_min <= scenario.max_walk_time_min and e.shelter_id not in disabled and e.shelter_id not in inactive}
     deficit_rows = {row.get("demand_id"): row for row in result.deficits if isinstance(row, dict)}
     deficit_rows_unique = len(deficit_rows) == len(result.deficits)
     deficit_amounts: dict[str, float] = {}
@@ -42,7 +49,7 @@ def verify_assignment(data: PlanningInput, scenario: PlanningScenario, result: A
     loads = {key: 0.0 for key in shelter}
     total_time = 0.0
     total_served = 0.0
-    valid = version_ok and quality_ok
+    valid = version_ok and region_ok and quality_ok
     for row in result.assignments:
         did, sid = row.get("demand_id"), row.get("shelter_id")
         amount, time = row.get("persons"), row.get("time_min")
@@ -66,7 +73,7 @@ def verify_assignment(data: PlanningInput, scenario: PlanningScenario, result: A
         add("DEMAND_CONSERVATION", did, conservation, {"served": served[did], "deficit": deficit, "demand": amount}, amount, f"demand:{did}", "Served plus unserved demand must equal scenario demand.")
         valid = valid and conservation
     for sid, amount in loads.items():
-        cap = 0.0 if sid in scenario.disabled_shelter_ids else shelter[sid] + capacity_deltas.get(sid, 0.0)
+        cap = 0.0 if sid in disabled or sid in inactive else shelter[sid] + capacity_deltas.get(sid, 0.0)
         within = amount <= cap + TOL
         add("SHELTER_CAPACITY", sid, within, amount, cap, f"shelter:{sid}/capacity", "Assigned load must fit the active shelter capacity.")
         valid = valid and within

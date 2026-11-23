@@ -4,6 +4,9 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 import threading
 import uuid
+from pathlib import Path
+
+import yaml
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
@@ -20,6 +23,28 @@ _idempotency: dict[str, str] = {}
 _pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="module-b")
 _results = JsonResultStore("outputs/module_b/runs")
 MAX_ACTIVE_JOBS = 100
+
+
+def capabilities_document() -> dict:
+    """Expose the registered graph plus the configured A handoff identity."""
+    document = dict(capabilities())
+    root = Path(__file__).resolve().parents[2]
+    region_id = None
+    data_version = None
+    data_status = None
+    try:
+        module_b = yaml.safe_load((root / "configs" / "module_b.yaml").read_text(encoding="utf-8")) or {}
+        source = (module_b.get("module_b") or {}).get("source_config")
+        if source:
+            adapter = yaml.safe_load((root / source).read_text(encoding="utf-8")) or {}
+            project = adapter.get("project") or {}
+            region_id = project.get("region_id")
+            data_version = project.get("data_version")
+            data_status = project.get("data_status")
+    except (OSError, TypeError, yaml.YAMLError):
+        pass
+    document.update({"region_id": region_id, "data_version": data_version, "data_status": data_status})
+    return document
 
 
 def _run(job_id: str, trace_id: str, request: TaskRequest) -> None:
@@ -63,7 +88,7 @@ def _submit(request: TaskRequest, task_type: str | None = None) -> dict:
 
 @router.get("/capabilities")
 def get_capabilities():
-    return capabilities()
+    return capabilities_document()
 
 
 @router.post("/tasks", status_code=202)
