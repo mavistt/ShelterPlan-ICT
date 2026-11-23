@@ -314,7 +314,7 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         optimize_hit = optimization is not None
         if optimization is None:
             optimization = optimize_budgeted(data, scenario, options, budget)
-            if data.data_status != "SYNTHETIC_FIXTURE" and data.region_id == "shiqi":
+            if data.data_status != "SYNTHETIC_FIXTURE":
                 # T04 evidence is produced by B from the same real data and
                 # legal candidate set. C only projects and explains it.
                 try:
@@ -396,13 +396,32 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
                 point_certificate = verify_budgeted(data, changed, options, point, float(value))
                 if point_certificate["verification_status"] == "FAIL":
                     raise ScenarioError("Independent verifier rejected a sensitivity point")
-                points.append({"value": value, "scenario_id": changed.scenario_id, "scenario_hash": save_scenario_version(changed.model_dump(), data.data_version)["scenario_hash"], "served_demand": point["objective_value"], "weighted_walk_time_min": point["assignment"]["weighted_walk_time_min"], "selected_option_ids": point["selected_option_ids"], "verification_status": point_certificate["verification_status"]})
+                points.append({
+                    "value": value,
+                    "scenario_id": changed.scenario_id,
+                    "scenario_hash": save_scenario_version(changed.model_dump(), data.data_version)["scenario_hash"],
+                    "served_demand": point["objective_value"],
+                    "weighted_walk_time_min": point["assignment"]["weighted_walk_time_min"],
+                    "selected_option_ids": point["selected_option_ids"],
+                    "solver_status": point["solver_status"],
+                    "optimality_proven": point["optimality_proven"],
+                    "verification_status": point_certificate["verification_status"],
+                })
             else:
                 point = solve_assignment(data, changed)
                 point_certificate = verify_assignment(data, changed, point)
                 if point_certificate.verification_status == "FAIL":
                     raise ScenarioError("Independent verifier rejected a sensitivity point")
-                points.append({"value": value, "scenario_id": changed.scenario_id, "scenario_hash": save_scenario_version(changed.model_dump(), data.data_version)["scenario_hash"], "served_demand": point.served_demand, "weighted_walk_time_min": point.weighted_walk_time_min, "verification_status": point_certificate.verification_status})
+                points.append({
+                    "value": value,
+                    "scenario_id": changed.scenario_id,
+                    "scenario_hash": save_scenario_version(changed.model_dump(), data.data_version)["scenario_hash"],
+                    "served_demand": point.served_demand,
+                    "weighted_walk_time_min": point.weighted_walk_time_min,
+                    "solver_status": point.solver_status,
+                    "optimality_proven": point.optimality_proven,
+                    "verification_status": point_certificate.verification_status,
+                })
         result["sensitivity"] = {"parameter": field, "points": points}
         records.append(_node_record("S10", canonical_hash({"field": field, "values": values, "source": source_hash}), points, tick))
 

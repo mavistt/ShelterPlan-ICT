@@ -276,16 +276,16 @@ def _solve_budget_mip(
     if not demands:
         raise ScenarioError("At least one demand node is required")
 
-    # A candidate with no capacity delta cannot change any objective or
-    # constraint.  Excluding it from the MIP avoids creating unconstrained
-    # binary variables (HiGHS may report the secondary lexicographic stage as
-    # infeasible/unbounded for that degenerate model) and such an option is
-    # never a meaningful recommendation.
+    # A candidate with no capacity delta or cost exceeding the total budget can
+    # never be selected in a useful optimal plan.  Excluding it from the MIP
+    # avoids degenerate zero/unconstrained binary variables that can cause HiGHS
+    # presolve to report secondary lexicographic stages as infeasible/unbounded.
     active = [
         row for row in options
         if row.eligible
         and row.shelter_id not in scenario.disabled_shelter_ids
         and row.delta_capacity_persons > NUMERIC_TOLERANCE
+        and row.cost_units <= budget + NUMERIC_TOLERANCE
     ]
     edge_count, demand_count, option_count = len(eligible), len(demands), len(active)
     var_count = edge_count + demand_count + option_count
@@ -379,8 +379,15 @@ def _solve_budget_mip(
             c=objective, integrality=integrality, bounds=bounds, constraints=constraint,
             options={"time_limit": max(0.01, remaining), "mip_rel_gap": 0.0, "presolve": True},
         )
+        stage_obj: float | None = None
+        if result.x is not None:
+            if name == "maximize_served_demand":
+                stage_obj = float(np.sum(result.x[:edge_count]))
+            elif getattr(result, "fun", None) is not None and np.isfinite(result.fun):
+                stage_obj = float(result.fun)
         stages.append({
             "stage": name, "status": int(result.status), "optimality_proven": bool(result.status == 0),
+            "objective_value": stage_obj,
             "message": str(result.message), "mip_gap": getattr(result, "mip_gap", None),
             "mip_node_count": getattr(result, "mip_node_count", None),
         })

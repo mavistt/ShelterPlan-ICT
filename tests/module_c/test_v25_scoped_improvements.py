@@ -194,7 +194,7 @@ def test_combinatorial_option_extraction_policies_and_costs():
 def test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_match(
     config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
 ):
-    # Case A: unmodified B result omits stage1 objective_value -> strictly UNKNOWN.
+    # Case A: live Module B now records stage-1 objective_value -> strictly TRUE.
     service = HarnessService(
         config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
     )
@@ -206,8 +206,23 @@ def test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_m
     )
     assert outcome["ok"] is True
     opt = outcome["summary"]["detail"]["optimization"]
-    assert opt["primary_stage_optimal"] == "UNKNOWN"
-    assert opt["primary_stage_evidence"]["reason"] == "stage1_objective_value_missing_in_b_evidence"
+    assert opt["primary_stage_optimal"] == "TRUE"
+    assert opt["primary_stage_evidence"]["reason"] == "verified_against_stage1_objective"
+
+    # Case A2: legacy B result omitting stage1 objective_value -> strictly UNKNOWN.
+    missing_stage1_obj = {
+        "result_detail": {
+            "optimization": {
+                "assignment": {"served_demand": 6556.103027},
+                "mip_stages": [
+                    {"stage": "maximize_served_demand", "status": 0, "optimality_proven": True},
+                ],
+            }
+        }
+    }
+    ev_unknown = resolve_primary_stage_optimality(missing_stage1_obj)
+    assert ev_unknown["status"] == "UNKNOWN"
+    assert ev_unknown["reason"] == "stage1_objective_value_missing_in_b_evidence"
 
     # Case B: native stage1 evidence matches final served demand -> TRUE even if overall FEASIBLE.
     feasible_with_stage1 = {
@@ -284,6 +299,7 @@ def test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_m
 def test_greedy_comparison_is_unavailable_without_b_evidence_and_never_self_computed(
     config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
 ):
+    # Live non-synthetic B optimize now attaches native greedy_comparison evidence.
     service = HarnessService(
         config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
     )
@@ -295,7 +311,33 @@ def test_greedy_comparison_is_unavailable_without_b_evidence_and_never_self_comp
     )
     assert outcome["ok"] is True
     greedy = outcome["summary"]["detail"]["optimization"]["greedy_comparison"]
-    assert greedy["status"] == "unavailable"
+    assert greedy["status"] == "available"
+
+    # When B omits greedy_comparison, C must report unavailable and never self-recompute.
+    without_b_greedy = {
+        "result_id": "r-nog",
+        "task_id": "t-nog",
+        "scenario_id": "sc-nog",
+        "data_version": config.data_version,
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {"served_demand": 6456.103027, "total_demand": 110205.74, "weighted_walk_time_min": 9.0},
+        "certificate": {"checks": []},
+        "result_detail": {
+            "optimization": {
+                "optimality_proven": True,
+                "selected_option_ids": ["OPT_A"],
+                "selected_options": [_pilot_option("OPT_A", "zs_6358642b6f", 100.0, 1.0)],
+                "total_cost_units": 1.0,
+                "budget_units": 1.0,
+                "assignment": {"served_demand": 6556.103027, "total_demand": 110205.74, "weighted_walk_time_min": 9.0, "optimality_proven": True},
+            }
+        },
+    }
+    proj_missing = project(without_b_greedy, task_type="optimize", config=config)
+    assert proj_missing["detail"]["optimization"]["greedy_comparison"]["status"] == "unavailable"
 
     with_b_greedy = {
         "result_id": "r-g",
@@ -369,7 +411,9 @@ def test_c_constructed_3opt_knapsack_on_real_pilot_data_and_explain_result(
     assert t2["status"] == "SUCCEEDED", t2
     assert "【优化方案解释】" in t2["message"]
     assert "【阶段与对照证据】" in t2["message"]
-    assert "Greedy对照=unavailable" in t2["message"]
+    assert "主目标阶段最优核验=TRUE" in t2["message"]
+    assert "Greedy对照=available" in t2["message"]
+    assert "MIP 差值 40.00 人" in t2["message"]
     assert "HYPOTHETICAL" in t2["message"] and "DEMO_ONLY" in t2["message"]
 
     # Combinatorial constraints: stackable & exclusive_group on real Module B.
@@ -421,7 +465,7 @@ def test_monotonicity_tri_state_pass_fail_inconclusive(
     assert pair_mono["status"] == "PASS"
     assert pair_mono["parameter"] == "max_walk_time_min"
 
-    # 3. Budget sensitivity without per-point optimality_proven -> INCONCLUSIVE (never PASS)
+    # 3. Live B budget sensitivity now includes per-point optimality_proven -> PASS.
     budget_sens = service.submit(
         "sensitivity",
         session_id="s-mono",
@@ -430,9 +474,22 @@ def test_monotonicity_tri_state_pass_fail_inconclusive(
     )
     assert budget_sens["ok"] is True
     mono_budget = budget_sens["summary"]["detail"]["sensitivity"]["monotonicity_check"]
-    assert mono_budget["status"] == "INCONCLUSIVE"
-    assert mono_budget["applicable"] is False
-    assert mono_budget["passed"] is None
+    assert mono_budget["status"] == "PASS"
+    assert mono_budget["applicable"] is True
+    assert mono_budget["passed"] is True
+
+    # 3b. Missing per-point optimality_proven on budget sensitivity -> strictly INCONCLUSIVE.
+    mono_budget_missing = evaluate_series_monotonicity(
+        [
+            {"value": 0.0, "served_demand": 6456.1, "verification_status": "PASS_DEMO"},
+            {"value": 1.0, "served_demand": 6556.1, "verification_status": "PASS_DEMO"},
+        ],
+        parameter="budget_units",
+        parent_optimal=True,
+    )
+    assert mono_budget_missing["status"] == "INCONCLUSIVE"
+    assert mono_budget_missing["applicable"] is False
+    assert mono_budget_missing["passed"] is None
 
     # 4. Multi-axis compare -> INCONCLUSIVE
     cmp_multi = evaluate_compare_monotonicity(

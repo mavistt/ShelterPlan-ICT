@@ -134,12 +134,31 @@ def get_result(result_id: str, session_id: str = "default") -> dict[str, Any]:
 
 def _structured_runner(session_id: str):
     """One StructuredRunner per session so multi-turn memory survives MCP calls."""
+    from agent.regions import RegionCatalog
     from agent.structured_runner import StructuredRunner
     with _structured_lock:
         runner = _structured_runners.get(session_id)
         if runner is None:
-            config = HarnessConfig.from_env()
             service = get_service()
+            config = service.config
+            region_id = service.defaults.region_id
+            if region_id and service.session_object(session_id).valid_shelter_ids is None:
+                try:
+                    catalog = RegionCatalog(config.project_root, config=config)
+                    info = catalog.get_region(region_id)
+                    valid_shelters = (
+                        catalog.get_shelter_ids(info.region_id)
+                        if info.source_mode == "module_a_v2"
+                        else None
+                    )
+                    service.configure_session(
+                        session_id,
+                        region_id=info.region_id,
+                        data_version=info.data_version,
+                        valid_shelter_ids=valid_shelters,
+                    )
+                except (KeyError, OSError, ValueError):
+                    pass
             runner = StructuredRunner(
                 "harness_opt", service, _get_llm(), config,
                 session_id=session_id,
@@ -173,6 +192,11 @@ if os.environ.get("SHELTERPLAN_MCP_STRUCTURED") == "1":
                 error_info = record.control.error
             elif run and run.error:
                 error_info = run.error
+            extract_modes = [
+                row.get("mode")
+                for row in (getattr(run, "intents", None) or [])
+                if isinstance(row, dict) and row.get("mode")
+            ]
             return {
                 "ok": True,
                 "status": record.status,
@@ -184,6 +208,8 @@ if os.environ.get("SHELTERPLAN_MCP_STRUCTURED") == "1":
                 "result_id": (record.bindings or {}).get("result_id"),
                 "resumed_from_clarification": record.resumed,
                 "llm_calls": len(run.llm_calls) if run else 0,
+                "extract_modes": extract_modes,
+                "fallback_used": "rules_fallback" in extract_modes,
                 "error": error_info,
             }
         except Exception as exc:  # noqa: BLE001

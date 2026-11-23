@@ -354,7 +354,15 @@ class ConversationService:
         metrics = {key: value for key, value in bindings.items()
                    if isinstance(value, (int, float)) and not isinstance(value, bool)}
         result_id = bindings.get("result_id")
+        extract_modes = [
+            row.get("mode")
+            for row in (getattr(run, "intents", None) or [])
+            if isinstance(row, dict) and row.get("mode")
+        ]
+        fallback_used = "rules_fallback" in extract_modes
         warnings = list(bindings.get("warnings") or [])
+        if fallback_used:
+            warnings.append("LLM_FALLBACK: 意图抽取模型本次不可用，已退回确定性规则兜底，不代表真实模型推理。")
         if self.config.expected_data_status == "DEMO_ONLY":
             warnings.append(DEMO_NOTE)
         envelope: dict[str, Any] = {
@@ -376,8 +384,14 @@ class ConversationService:
                 "calls": len(getattr(run, "llm_calls", []) or []),
                 "prompt_tokens": int(getattr(run, "prompt_tokens", 0) or 0),
                 "completion_tokens": int(getattr(run, "completion_tokens", 0) or 0),
+                "extract_modes": extract_modes,
+                "fallback_used": fallback_used,
             },
         }
+        if isinstance(bindings.get("monotonicity_check"), dict):
+            envelope["monotonicity_check"] = deepcopy(bindings["monotonicity_check"])
+        if isinstance(bindings.get("greedy_comparison"), dict):
+            envelope["greedy_comparison"] = deepcopy(bindings["greedy_comparison"])
         if record.status == STATUS_NEEDS_CLARIFICATION:
             envelope["clarification"] = {
                 "fields": list(record.clarification_fields),

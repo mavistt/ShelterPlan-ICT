@@ -44,6 +44,10 @@
 - Verifier 新增 `REGION_ID` 检查，并对 inactive shelter 执行容量/合法边约束。
 - B 在石岐 v2 optimize 结果中生成真实 Greedy baseline，C 只读取并解释该证据，修复 T04 的 `greedy_comparison` 路径。
 - 对显式声明旧 `data_version=zhongshan_pilot_v0.1` 的历史客户端保留兼容；这不是默认回退，未知版本会以 `B_SCENARIO_INVALID/VERSION_MISMATCH` 失败。
+- 写入 MIP 各阶段 `objective_value`（含阶段 1 正向 `served_demand`），修复 `explain_result` 长期报 `primary_stage_optimal=UNKNOWN` 的问题。
+- MIP 建模过滤成本高于总预算的绝对不可选候选项，修复 `toy_case` 等小算例下固定零整数变量触发 HiGHS Stage 2 误报退化的问题。
+- 放开 `greedy_comparison` 对 `region_id == "shiqi"` 的硬编码限制（覆盖所有非合成 Module A 数据源），并为 `sensitivity.points` 全量写入 `solver_status` 与 `optimality_proven`。
+- `compose_answer()` 与 Web API envelope 透传 `monotonicity_check` 与 `greedy_comparison`；API/MCP 暴露 `extract_modes`、`fallback_used` 与 `LLM_FALLBACK` 告警；MCP `handle_request` 绑定区域 `valid_shelter_ids`；`_deterministic_repairs` 补齐 `compare` 步行阈值规则/重复操作折叠与未提及字段的零增量幻觉清理。
 
 ## Issue 对照
 
@@ -52,7 +56,7 @@
 | #2 | 石岐作为默认演示区域；A v2 处理产物和图层补全可读取；质量字段已兼容。大体积原始/衍生数据的仓库瘦身未在本轮扩大范围。 |
 | #3 | B-7/B-9 已处理：默认源、缓存、repo_root、region/version、quality、active、Parquet OD 契约均通过。B-8 的结果投影和证据分页通过；B-10 的版本错误、显式旧源兼容和在线 Verifier 通过。 |
 | #4 | A v2 默认源、默认情景参数、石岐主区域和 PR #1 依赖均已固化；没有自动合并 main。 |
-| #5 | 石岐 v2 正式接入通过；T04 的 Greedy/MIP 证据、`explain_result`、版本/区域绑定和 Trace 通过。真实 LLM 15 题回归不在本次重测范围。 |
+| #5 | 石岐 v2 正式接入通过；T04 的 Greedy/MIP 证据（`OPT_B+OPT_C=12,057.97` vs Greedy `OPT_A=12,017.97`，MIP 差值 `40.00` 人）、`主目标阶段最优核验=TRUE`、`explain_result`、版本/区域绑定、单调性展示与 Trace 均已在真实 Ollama (`gemma4:e2b`) 下零补丁跑通。 |
 
 ## 测试结果
 
@@ -60,12 +64,13 @@
 
 | 范围 | 状态 | 命令/结果 |
 |---|---|---|
-| A v2/GIS | PASS | `python -B -m pytest -q tests/test_module_a_v2.py tests/test_gis_data.py tests/test_region_review_packages.py -p no:cacheprovider`；21 passed，23 warnings |
-| B 单元测试 | PASS | `python -B -m unittest discover -s tests/module_b -p "test*.py"`；30 tests OK |
-| C 全量回归 | PASS | `python -B -m pytest -q tests/module_c -p no:cacheprovider`；297 passed，3 warnings |
-| A v2 CLI 读取 | PASS | `python -B -m backend.cli inspect-data --config configs/module_a_v2_b/shiqi.yaml --repo-root .`；25/7336/183400，missing_paths=[] |
-| 真实 ABC HTTP | PASS | `python -B scripts/run_abc_shiqi_http.py --mcp-url http://127.0.0.1:8010/mcp --b-url http://127.0.0.1:8000`；B/C capabilities、assess、optimize、stress_test、explain_result、Trace evidence 全部 PASS |
-| 真实 LLM 自然语言 | NOT_RUN | 本机未安装且无法访问 Ollama `127.0.0.1:11434`；本次没有把 RuleLLM 冒充真实模型结果 |
+| A v2/GIS（本机环境） | NOT_RUN | 本机默认 Python 环境未安装 `geopandas` / `pandas`；本轮未改动 A/GIS 代码，上游 `45eedca` 基线报告记录为 `21 passed` |
+| B 单元测试 | PASS | `python -B -m unittest discover -s tests/module_b -p "test*.py"`；32 tests OK |
+| C 全量回归 | PASS | `python -B -m pytest -q tests/module_c -p no:cacheprovider`；302 passed，3 warnings |
+| A v2 CLI 多区读取 | PASS | `backend.cli inspect-data` 分别通过 `shiqi`（25/7336/183400）、`east_district`（31/38469/1192539）、`xiaolan`（31/60406/1872586），`missing_paths=[]`，SHA-256 匹配 |
+| 真实 ABC HTTP/MCP | PASS | `scripts/run_abc_shiqi_http.py` 全部 PASS（`assess`/`optimize`/`stress_test`/`explain_result` 与 Trace `8/8`），MCP `handle_request` 真实 LLM 3/3 PASS |
+| 真实 LLM 石岐 15 题零补丁端到端 | PASS | `gemma4:e2b` (`temperature=0.0`) + 真实 B HTTP + C Web API：**15/15 PASS (100.0%)**，`16/16` 次抽取均为 `extract_mode="llm"`（14,117 prompt / 3,043 completion tokens，0 次 `rules_fallback`），含 `/layers` 与 `/evidence/trace` 校验 |
+| 真实 LLM 独立新任务 + 跨区隔离 | PASS | **5/5 PASS**：`compare` 步行对比（单调性 PASS）、`budget_units` 敏感性（点级 `optimality_proven=True` + 单调性 PASS）、`diagnose_intervene` 无候选项边界、`undo` 参数恢复、`east_district` 会话拦截 `shiqi` ID（`GUARD_INVALID_PARAM`） |
 | A 原始 TIFF 全量重建 | NOT_RUN | `data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif` 在当前 checkout 仍是 LFS pointer；已验证的 A v2 processed release 已足够完成 B/C 链路 |
 
 ## 最近一次真实 HTTP 运行
@@ -108,6 +113,7 @@ python -B scripts/run_abc_shiqi_http.py
 ## 残留项与阻塞
 
 - 这套数据的正式质量门禁仍是 `DEMO_ONLY`，不能发布为现场核验结论。
-- 未安装/未连接真实 LLM，因此自然语言模型路径保持 `NOT_RUN`；结构化 C/MCP HTTP 链路已通过真实 B/A 数据验收。
+- 真实 LLM（Ollama `gemma4:e2b`）自然语言全链路（MCP `handle_request` + C Web API 15 题回归 + 5 项独立新任务盲测）已全部补跑并通过。
+- 本机默认 Python 环境未安装 `geopandas`/`pandas`，A v2/GIS 测试未在本轮本地重跑（本轮零改动 A/GIS 代码）。
 - 原始人口 TIFF 未拉取 LFS 大对象，A 的全量重建/重新生成没有执行；没有阻塞现有 A v2 processed data 的 B/C 集成。
 - PR #1 仍是上游依赖；后续集成 PR 应以 `feature/module-a-stage1-research` 为 base，并在说明中关联 PR #1。不会自动合并 main。

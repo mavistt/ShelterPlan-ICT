@@ -344,6 +344,81 @@ class PlannerAndVerifierTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.json()["verification_status"], "PASS_DEMO")
 
+    def test_budget_optimize_records_stage_objectives_and_real_greedy_across_regions(self):
+        result = execute_task(TaskRequest(
+            task_type="optimize",
+            data_version="zhongshan_pilot_v0.1",
+            analysis_mode="demo",
+            changes={"budget_units": 1.0},
+            improvement_options=[{
+                "option_id": "CAP_TEST_1",
+                "shelter_id": "zs_6358642b6f",
+                "action": "capacity_adjustment_demo",
+                "delta_capacity_persons": 100.0,
+                "cost_units": 1.0,
+                "eligible": True,
+                "source_status": "HYPOTHETICAL",
+                "hypothetical": True,
+                "human_confirmed": True,
+                "combination_policy": "standalone",
+            }],
+        ))
+        opt = result["result_detail"]["optimization"]
+        stages = opt["mip_stages"]
+        self.assertGreaterEqual(len(stages), 1)
+        stage1 = stages[0]
+        self.assertEqual(stage1["stage"], "maximize_served_demand")
+        self.assertTrue(stage1["optimality_proven"])
+        self.assertAlmostEqual(stage1["objective_value"], opt["objective_value"], places=4)
+        greedy = opt.get("greedy_comparison") or {}
+        self.assertEqual(greedy.get("status"), "available")
+
+    def test_sensitivity_points_include_solver_status_and_optimality_proven(self):
+        walk_res = execute_task(TaskRequest(
+            task_type="sensitivity",
+            fixture_id="toy_case",
+            parameters={"parameter": "max_walk_time_min", "values": [10.0, 20.0]},
+        ))
+        walk_pts = walk_res["result_detail"]["sensitivity"]["points"]
+        self.assertEqual(len(walk_pts), 2)
+        for pt in walk_pts:
+            self.assertEqual(pt.get("solver_status"), "OPTIMAL")
+            self.assertIs(pt.get("optimality_proven"), True)
+
+        budget_res = execute_task(TaskRequest(
+            task_type="sensitivity",
+            data_version="zhongshan_pilot_v0.1",
+            analysis_mode="demo",
+            parameters={"parameter": "budget_units", "values": [0.0, 1.0]},
+            improvement_options=[{
+                "option_id": "CAP_TEST_S1",
+                "shelter_id": "zs_6358642b6f",
+                "action": "capacity_adjustment_demo",
+                "delta_capacity_persons": 100.0,
+                "cost_units": 1.0,
+                "eligible": True,
+                "source_status": "HYPOTHETICAL",
+                "hypothetical": True,
+                "human_confirmed": True,
+                "combination_policy": "standalone",
+            }],
+        ))
+        budget_pts = budget_res["result_detail"]["sensitivity"]["points"]
+        self.assertEqual(len(budget_pts), 2)
+        for pt in budget_pts:
+            self.assertEqual(pt.get("solver_status"), "OPTIMAL")
+            self.assertIs(pt.get("optimality_proven"), True)
+
+        # Regression: an option with cost > budget must not degrade secondary MIP stages to FEASIBLE.
+        toy_budget_res = execute_task(TaskRequest(
+            task_type="sensitivity",
+            fixture_id="toy_case",
+            parameters={"parameter": "budget_units", "values": [0.0, 10.0]},
+        ))
+        toy_pts = toy_budget_res["result_detail"]["sensitivity"]["points"]
+        self.assertEqual([pt.get("solver_status") for pt in toy_pts], ["OPTIMAL", "OPTIMAL"])
+        self.assertEqual([pt.get("optimality_proven") for pt in toy_pts], [True, True])
+
 
 if __name__ == "__main__":
     unittest.main()

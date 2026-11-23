@@ -263,11 +263,32 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
             intent.warnings.append(
                 f"history reference: {field} <- last snapshot ({evidence})")
 
-    # 2b. "expansion" is not "shutdown" ------------------------------------
+    # 2b. "expansion" is not "shutdown", and no-op zero-delta fillers for
+    # unmentioned fields are model template hallucinations. -----------------
     if re.search(r"扩容|增加容量|加容量", text) and not _effective_disable(text):
         if any(op.field == "disabled_shelter_ids" for op in intent.ops):
             intent.ops = [op for op in intent.ops if op.field != "disabled_shelter_ids"]
             intent.warnings.append("dropped shutdown op from an expansion request")
+    _field_cue_patterns = {
+        "population_demand_ratio": re.compile(r"比例|需求率|系数|population|ratio|百分比|%", re.IGNORECASE),
+        "max_walk_time_min": re.compile(r"步行|阈值|分钟|走|walk|time", re.IGNORECASE),
+        "budget_units": re.compile(r"预算|资金|经费|budget", re.IGNORECASE),
+    }
+    kept_ops: list[ParamOp] = []
+    for op in intent.ops:
+        cue_re = _field_cue_patterns.get(op.field)
+        if (
+            op.op == "delta"
+            and isinstance(op.value, (int, float))
+            and not isinstance(op.value, bool)
+            and float(op.value) == 0.0
+            and cue_re is not None
+            and not cue_re.search(text)
+        ):
+            intent.warnings.append(f"dropped ungrounded zero-delta filler for {op.field}")
+            continue
+        kept_ops.append(op)
+    intent.ops = kept_ops
     if not intent.options and re.search(r"扩容\s*\d+\s*人", text):
         repaired = _rule_options(text)
         if repaired:
@@ -324,6 +345,16 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
         if repaired:
             intent.compare = repaired
             intent.warnings.append("compare spec recovered by rule parser")
+        else:
+            folded_cmp = _fold_compare_ops(intent.ops)
+            if folded_cmp:
+                intent.compare = folded_cmp
+                intent.warnings.append("compare spec folded from repeated set ops")
+    if intent.name == "compare" and isinstance(intent.compare, dict):
+        cmp_field = intent.compare.get("field")
+        if cmp_field and any(op.field == cmp_field for op in intent.ops):
+            intent.ops = [op for op in intent.ops if op.field != cmp_field]
+            intent.warnings.append(f"removed compared parameter {cmp_field} from base ops")
 
     # 2d. a "compare" without any comparison wording is a misread ----------
     if intent.name == "compare" and not re.search(r"比较|对比|差异|VS|vs", text):
@@ -532,8 +563,8 @@ EXCLUSIVE_GROUP_RE = re.compile(r"互斥组\s*([A-Za-z0-9_\u4e00-\u9fa5]{1,16})"
 # a short non-numeric gap keeps the pair in one clause without swallowing whole
 # sentences.
 COMPARE_NUMBERS_RE = re.compile(
-    r"(\d+(?:\.\d+)?)\s*(%|成)?\s*(?:和|、|与|vs\.?|对比)\s*[^0-9]{0,8}?\s*"
-    r"(\d+(?:\.\d+)?)\s*(%|成)?")
+    r"(\d+(?:\.\d+)?)\s*(%|成|分钟|min)?\s*(?:和|、|与|vs\.?|对比)\s*[^0-9]{0,8}?\s*"
+    r"(\d+(?:\.\d+)?)\s*(%|成|分钟|min)?")
 # "不要停用任何场所" is an instruction NOT to disable, not a stress test.
 NEGATED_DISABLE_RE = re.compile(
     r"(?:不要|不用|别|无需|不必|取消|撤销)\s*(?:再)?\s*(?:停用|关停|关闭|禁用)")
@@ -588,6 +619,14 @@ def _fold_sensitivity_ops(ops: list[ParamOp]) -> dict[str, Any] | None:
         if len(vals) >= 2:
             return {"parameter": field_name, "values": vals[:20]}
     return None
+
+
+def _fold_compare_ops(ops: list[ParamOp]) -> dict[str, Any] | None:
+    """Fold >=2 `set` ops on the same comparable field into a compare spec."""
+    folded = _fold_sensitivity_ops(ops)
+    if folded is None:
+        return None
+    return {"field": folded["parameter"], "values": folded["values"][:12]}
 
 
 def _non_sweep_ops_from_text(text: str, sweep_param: str | None) -> list[ParamOp]:
@@ -802,6 +841,8 @@ def _rule_compare(text: str) -> dict[str, Any] | None:
     elif unit == "成":
         values = [value / 10.0 for value in values]
         field_name = "population_demand_ratio"
+    elif unit in {"分钟", "min"} or "步行" in prefix or "步距" in prefix:
+        field_name = "max_walk_time_min"
     elif "比例" in prefix or "需求" in prefix:
         field_name = "population_demand_ratio"
     else:

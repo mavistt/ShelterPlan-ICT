@@ -37,6 +37,27 @@ def _flag(value: Any) -> str:
     return "true" if value else "false"
 
 
+def _format_monotonicity_line(mono: dict[str, Any]) -> str:
+    status = mono.get("status") or "INCONCLUSIVE"
+    param = mono.get("parameter") or "n/a"
+    relation = mono.get("relation") or "n/a"
+    reason = mono.get("reason") or "n/a"
+    base = (
+        f"【单调性验证】状态={status}（参数={param}；关系={relation}；结论={reason}；"
+        "仅模型同口径数值对比，非真实因果证据）。"
+    )
+    if status == "FAIL":
+        violations = mono.get("violations") or []
+        parts = [
+            f"{v.get('left_value')}→{v.get('right_value')}"
+            for v in violations[:3]
+            if isinstance(v, dict)
+        ]
+        if parts:
+            return base + f" 违规区间：{'、'.join(parts)}。"
+    return base
+
+
 def _solver_sentence(status: Any, proven: Any) -> str:
     if status == "OPTIMAL" and proven:
         return "求解状态 OPTIMAL，且最优性已证明。"
@@ -253,6 +274,9 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
         solver_text += "（主目标阶段最优核验=TRUE，次级词典序阶段未全部完成最优证明）"
     lines.append(f"【求解与验证】{solver_text}"
                  f" verification_status={bindings.get('verification_status') or 'n/a'}。")
+    mono = bindings.get("monotonicity_check")
+    if isinstance(mono, dict) and mono.get("status"):
+        lines.append(_format_monotonicity_line(mono))
     lines.append(DEMO_LINE if bindings.get("data_status") == "DEMO_ONLY" else VERIFIED_LINE)
     lines.append(f"【结果编号】result_id={bindings.get('result_id') or 'n/a'}；"
                  f"scenario_id={bindings.get('scenario_id') or 'n/a'}")
