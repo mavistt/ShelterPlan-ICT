@@ -12,6 +12,12 @@ from backend.errors import CandidateError, ScenarioError
 from backend.models import AssignmentResult, ImprovementOption, PlanningInput, PlanningScenario
 
 NUMERIC_TOLERANCE = 1e-9
+# HiGHS can report the continuous primary objective a few ulps below its
+# incumbent when the secondary MIP is rebuilt.  A 1e-9 lower bound therefore
+# turns an otherwise feasible lexicographic stage into an apparent
+# infeasible/unbounded model (the B-1 regression).  Keep the published
+# numerical checks strict, but use this bounded solver-side slack.
+MIP_OBJECTIVE_TOLERANCE = 1e-7
 MAX_BUDGET_OPTIONS = 64
 MAX_BUDGET_SOLVE_SECONDS = 10.0
 MAX_LP_SOLVE_SECONDS = 10.0
@@ -20,6 +26,11 @@ MAX_LP_SOLVE_SECONDS = 10.0
 def validate_scenario(data: PlanningInput, scenario: PlanningScenario) -> None:
     if scenario.data_version != data.data_version:
         raise ScenarioError("Scenario data_version does not match the loaded data", details={"expected": data.data_version, "received": scenario.data_version})
+    if data.region_id is not None and scenario.region_id != data.region_id:
+        raise ScenarioError(
+            "Scenario region_id does not match the loaded data",
+            details={"error_code": "REGION_MISMATCH", "expected": data.region_id, "received": scenario.region_id},
+        )
     if scenario.analysis_mode == "verified":
         if data.data_status != "VERIFIED" or any(s.verified_status not in {"verified", "verified_current"} for s in data.shelters):
             raise ScenarioError("Real planning is blocked because Module A data are not formally verified", details={"data_status": data.data_status, "error_code": "DATA_NOT_VERIFIED"})
@@ -33,12 +44,14 @@ def validate_scenario(data: PlanningInput, scenario: PlanningScenario) -> None:
 
 def eligible_edges(data: PlanningInput, scenario: PlanningScenario) -> list[tuple[str, str, float]]:
     disabled = set(scenario.disabled_shelter_ids)
+    inactive = {row.shelter_id for row in data.shelters if not row.active}
     return [
         (edge.demand_id, edge.shelter_id, float(edge.time_min))
         for edge in data.od_edges
         if edge.reachable and edge.time_min is not None
         and edge.time_min <= scenario.max_walk_time_min
         and edge.shelter_id not in disabled
+        and edge.shelter_id not in inactive
     ]
 
 
@@ -61,7 +74,14 @@ def solve_assignment(
     if not demands:
         raise ScenarioError("At least one demand node is required")
 
-    capacities = {sid: (0.0 if sid in set(scenario.disabled_shelter_ids) else shelter_by_id[sid] + capacity_deltas.get(sid, 0.0)) for sid in shelter_ids}
+    inactive = {row.shelter_id for row in shelters if not row.active}
+    capacities = {
+        sid: (
+            0.0 if sid in set(scenario.disabled_shelter_ids) or sid in inactive
+            else shelter_by_id[sid] + capacity_deltas.get(sid, 0.0)
+        )
+        for sid in shelter_ids
+    }
     total_demand = float(sum(demand_by_id.values()))
     if n_edges == 0 or total_demand <= NUMERIC_TOLERANCE:
         served = 0.0
@@ -256,7 +276,17 @@ def _solve_budget_mip(
     if not demands:
         raise ScenarioError("At least one demand node is required")
 
-    active = [row for row in options if row.eligible and row.shelter_id not in scenario.disabled_shelter_ids]
+    # A candidate with no capacity delta cannot change any objective or
+    # constraint.  Excluding it from the MIP avoids creating unconstrained
+    # binary variables (HiGHS may report the secondary lexicographic stage as
+    # infeasible/unbounded for that degenerate model) and such an option is
+    # never a meaningful recommendation.
+    active = [
+        row for row in options
+        if row.eligible
+        and row.shelter_id not in scenario.disabled_shelter_ids
+        and row.delta_capacity_persons > NUMERIC_TOLERANCE
+    ]
     edge_count, demand_count, option_count = len(eligible), len(demands), len(active)
     var_count = edge_count + demand_count + option_count
     option_offset = edge_count + demand_count
@@ -369,7 +399,7 @@ def _solve_budget_mip(
         best_served = float(np.sum(primary.x[:edge_count]))
         served_row = np.zeros(var_count); served_row[:edge_count] = 1.0
         secondary_objective = np.zeros(var_count); secondary_objective[:edge_count] = walk_times
-        secondary = run_stage("minimize_weighted_walk_time", secondary_objective, [(served_row, best_served - NUMERIC_TOLERANCE, np.inf)])
+        secondary = run_stage("minimize_weighted_walk_time", secondary_objective, [(served_row, best_served - MIP_OBJECTIVE_TOLERANCE, np.inf)])
         if secondary is not None and secondary.x is not None:
             final = secondary
             all_optimal = all_optimal and secondary.status == 0
@@ -382,7 +412,7 @@ def _solve_budget_mip(
             cost_objective = np.zeros(var_count); cost_objective[option_offset:] = option_costs
             tertiary = run_stage(
                 "minimize_option_cost", cost_objective,
-                [(served_row, best_served - NUMERIC_TOLERANCE, np.inf), (walk_row, -np.inf, best_walk_cost + NUMERIC_TOLERANCE)],
+                [(served_row, best_served - MIP_OBJECTIVE_TOLERANCE, np.inf), (walk_row, -np.inf, best_walk_cost + MIP_OBJECTIVE_TOLERANCE)],
             )
             if tertiary is not None and tertiary.x is not None:
                 final = tertiary
@@ -397,9 +427,9 @@ def _solve_budget_mip(
                 quaternary = run_stage(
                     "minimize_option_count", count_objective,
                     [
-                        (served_row, best_served - NUMERIC_TOLERANCE, np.inf),
-                        (walk_row, -np.inf, best_walk_cost + NUMERIC_TOLERANCE),
-                        (cost_row, -np.inf, best_cost + NUMERIC_TOLERANCE),
+                        (served_row, best_served - MIP_OBJECTIVE_TOLERANCE, np.inf),
+                        (walk_row, -np.inf, best_walk_cost + MIP_OBJECTIVE_TOLERANCE),
+                        (cost_row, -np.inf, best_cost + MIP_OBJECTIVE_TOLERANCE),
                     ],
                 )
                 if quaternary is not None and quaternary.x is not None:

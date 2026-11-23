@@ -123,6 +123,7 @@ class ConversationService:
     def create_session(self, session_id: str | None = None, *,
                        region_id: str | None = None) -> str:
         session_id = session_id or f"s-{uuid.uuid4().hex[:12]}"
+        region_id = region_id or self.config.default_region_id
         region_info: RegionInfo | None = None
         if region_id is not None:
             region_info = self.regions.get_region(region_id)

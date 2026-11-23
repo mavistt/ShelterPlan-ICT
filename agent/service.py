@@ -42,6 +42,7 @@ class HarnessService:
             disabled_shelter_ids=(),
             data_version=self.config.data_version,
             analysis_mode="demo",
+            region_id=self.config.default_region_id,
         )
         self._defaults = defaults
         self._registry = SessionRegistry(defaults)

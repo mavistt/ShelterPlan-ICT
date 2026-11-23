@@ -331,7 +331,7 @@ def test_c_constructed_3opt_knapsack_on_real_pilot_data_and_explain_result(
 ):
     # Cross-check mathematically against B's own GreedyExpansion vs MIP on the real pilot bundle,
     # while labeling this fixture explicitly as C_CONSTRUCTED_3OPT_KNAPSACK (not REAL-000).
-    data, base_sc, _ = load_task_source(None)
+    data, base_sc, _ = load_task_source(None, requested_data_version="zhongshan_pilot_v0.1")
     knapsack_sc = base_sc.model_copy(update={"budget_units": 20.0})
     b_opts = [
         optimize_budgeted.__globals__["ImprovementOption"](**_pilot_option("OPT_A", "zs_6358642b6f", 60.0, 11.0)),

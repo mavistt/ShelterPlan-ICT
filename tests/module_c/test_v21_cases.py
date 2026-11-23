@@ -77,11 +77,13 @@ def test_cases_are_not_numeric_variants_of_each_other():
 
 def test_frozen_hash_matches():
     freeze = load(FREEZE)
-    actual = hashlib.sha256(CASES.read_bytes()).hexdigest()
+    # Git may materialize this text fixture with CRLF on Windows; the freeze
+    # hash is defined over the repository's canonical LF bytes.
+    actual = hashlib.sha256(CASES.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
     assert actual == freeze["cases_sha256"], (
         "v21_cases.json changed after freeze; create a v21b set instead of rescoring this one")
     grading = FREEZE.parents[3] / freeze["grading_path"]
-    assert hashlib.sha256(grading.read_bytes()).hexdigest() == freeze["grading_sha256"]
+    assert hashlib.sha256(grading.read_bytes().replace(b"\r\n", b"\n")).hexdigest() == freeze["grading_sha256"]
 
 
 def test_freeze_records_the_authoring_process():
