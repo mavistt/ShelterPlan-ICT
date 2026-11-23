@@ -10,4 +10,7 @@ module_b:
   max_workers: 2
   run_output_dir: "outputs/module_b/runs"
   benchmark_output_dir: "outputs/module_b/bench"
-  source_config: "configs/pilot.yaml"
+  # The formal ABC integration baseline is the immutable Module A v2 Shiqi
+  # release. Other regions are selected only by an explicit configuration.
+  region_id: "shiqi"
+  source_config: "configs/module_a_v2_b/shiqi.yaml"

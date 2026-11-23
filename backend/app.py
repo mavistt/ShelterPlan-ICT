@@ -2,8 +2,9 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from backend.api.planning import router
+from backend.api.planning import capabilities_document, router
 from backend.errors import PlanningError
+from backend.graph.registry import capabilities
 
 app = FastAPI(title="ShelterPlan Module B", version="0.1.0", description="Constrained planning service for synthetic fixtures and verified Module A handoffs.")
 app.include_router(router)
@@ -33,3 +34,13 @@ async def planning_error_handler(_request: Request, exc: PlanningError):
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "shelterplan-module-b", "deployed": False}
+
+
+@app.get("/healthz")
+def healthz():
+    return health()
+
+
+@app.get("/v1/capabilities")
+def v1_capabilities():
+    return capabilities_document()

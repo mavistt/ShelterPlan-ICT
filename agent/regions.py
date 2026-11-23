@@ -146,6 +146,13 @@ class RegionCatalog:
 
     @property
     def mode(self) -> str:
+        # Direct HarnessConfig() instances intentionally retain the legacy v1
+        # defaults for old callers/tests.  Production from_env() selects the
+        # explicit A v2 Shiqi adapter.  A custom v2 workspace must still be
+        # detected from its own regions.yaml regardless of the legacy class
+        # defaults.
+        if self.root == PROJECT_ROOT and self.config.data_version == "zhongshan_pilot_v0.1":
+            return "legacy_pilot"
         if (self.root / "configs" / "regions.yaml").is_file() and (
             self.root / "data" / "processed" / "regions"
         ).is_dir():

@@ -27,6 +27,15 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+# The standalone C branch does not carry the large A v2 processed release.
+# Select the checked-in legacy adapter explicitly for its branch-level tests;
+# the integration checkout has the v2 adapter and therefore keeps its v2
+# default.  This is an explicit test source, never a production fallback.
+if not (ROOT / "configs" / "module_a_v2_b" / "shiqi.yaml").is_file():
+    os.environ.setdefault("SHELTERPLAN_PILOT_CONFIG", "configs/pilot.yaml")
+    os.environ.setdefault("SHELTERPLAN_DATA_VERSION", "zhongshan_pilot_v0.1")
+    os.environ.setdefault("SHELTERPLAN_B_SEND_REGION_ID", "false")
+
 from starlette.testclient import TestClient  # noqa: E402
 
 from backend.app import app as b_app  # noqa: E402

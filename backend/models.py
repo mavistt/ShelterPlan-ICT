@@ -11,6 +11,7 @@ class StrictModel(BaseModel):
 
 class ADataAvailability(StrictModel):
     data_status: Literal["MISSING", "DEMO_ONLY", "VERIFIED"]
+    region_id: str | None = None
     expected_paths: dict[str, str]
     existing_paths: list[str]
     missing_paths: list[str]
@@ -18,6 +19,7 @@ class ADataAvailability(StrictModel):
 
 
 class ADataManifest(StrictModel):
+    region_id: str | None = None
     data_version: str
     source_manifest_hash: str | None = None
     release_status: str | None = None
@@ -48,6 +50,7 @@ class ODEdge(StrictModel):
 
 
 class ADataBundle(StrictModel):
+    region_id: str | None = None
     availability: ADataAvailability
     manifest: ADataManifest
     demands: list[DemandNode] = Field(default_factory=list)
@@ -58,6 +61,7 @@ class ADataBundle(StrictModel):
 class PlanningScenario(StrictModel):
     scenario_id: str = "scenario-default"
     parent_scenario_id: str | None = None
+    region_id: str | None = None
     data_version: str
     analysis_mode: Literal["demo", "verified"] = "demo"
     population_demand_ratio: float = Field(ge=0, le=1, allow_inf_nan=False)
@@ -89,6 +93,7 @@ class ImprovementOption(StrictModel):
 
 
 class PlanningInput(StrictModel):
+    region_id: str | None = None
     data_version: str
     data_status: Literal["MISSING", "DEMO_ONLY", "VERIFIED", "SYNTHETIC_FIXTURE"]
     demands: list[DemandNode]
@@ -141,6 +146,7 @@ class TaskRequest(StrictModel):
     task_id: str | None = Field(default=None, max_length=128)
     result_id: str | None = Field(default=None, max_length=64)
     scenario_id: str | None = Field(default=None, max_length=128)
+    region_id: str | None = Field(default=None, max_length=64)
     scenario: PlanningScenario | None = None
     data_version: str | None = None
     analysis_mode: Literal["demo", "verified"] = "demo"

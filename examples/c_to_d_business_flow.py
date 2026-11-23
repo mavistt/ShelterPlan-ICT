@@ -105,7 +105,10 @@ def start_servers(mode: str, workdir: Path) -> tuple[str, str, list[subprocess.P
     c_env = dict(env, PORT=str(c_port), STORE_DIR=str(workdir / "state"),
                  TRACE_DIR=str(workdir / "trace"), LLM_MODE=mode,
                  SHELTERPLAN_B_BASE_URL=f"http://127.0.0.1:{b_port}",
-                 SHELTERPLAN_TRACE_DIR=str(workdir / "trace"))
+                 SHELTERPLAN_TRACE_DIR=str(workdir / "trace"),
+                 SHELTERPLAN_PILOT_CONFIG="configs/pilot.yaml",
+                 SHELTERPLAN_DATA_VERSION="zhongshan_pilot_v0.1",
+                 SHELTERPLAN_B_SEND_REGION_ID="false")
     c_proc = subprocess.Popen(
         [sys.executable, "-m", "tests.module_c.api_http_launcher"],
         cwd=str(ROOT), env=c_env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)

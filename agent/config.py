@@ -10,6 +10,7 @@ import yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_A_V2_CONFIG = PROJECT_ROOT / "configs" / "module_a_v2_b" / "shiqi.yaml"
 
 
 def _env_float(name: str, default: float) -> float:
@@ -33,17 +34,31 @@ def _env_int(name: str, default: int) -> int:
 
 
 def defaults_from_pilot_config(path: str | Path | None = None) -> dict[str, Any]:
-    """Read scenario defaults from Module A's pilot config, with a safe fallback."""
-    candidate = Path(path) if path else PROJECT_ROOT / "configs" / "pilot.yaml"
-    fallback = {"data_version": "zhongshan_pilot_v0.1",
-                "population_demand_ratio": 0.2, "max_walk_time_min": 15.0}
+    """Read scenario defaults from an A config, with a safe bounded fallback."""
+    candidate = Path(path) if path else DEFAULT_A_V2_CONFIG
+    fallback = {
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "region_id": "shiqi",
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+    }
     try:
         document = yaml.safe_load(candidate.read_text(encoding="utf-8"))
-        defaults = document["scenario_defaults"]
+        project = document["project"]
+        defaults = document.get("scenario_defaults") or fallback
+        declared_region = project.get("region_id")
         return {
-            "data_version": str(document["project"]["data_version"]),
-            "population_demand_ratio": float(defaults["population_demand_ratio"]),
-            "max_walk_time_min": float(defaults["max_walk_time_min"]),
+            "data_version": str(project["data_version"]),
+            # The explicit legacy pilot adapter has no region_id; preserve
+            # that fact so legacy callers do not accidentally send Shiqi's
+            # region binding with a v1 data_version.
+            "region_id": (
+                str(declared_region)
+                if declared_region is not None
+                else (fallback["region_id"] if path is None else None)
+            ),
+            "population_demand_ratio": float(defaults.get("population_demand_ratio", 0.2)),
+            "max_walk_time_min": float(defaults.get("max_walk_time_min", 15.0)),
         }
     except (OSError, KeyError, TypeError, ValueError, yaml.YAMLError):
         return fallback
@@ -55,6 +70,7 @@ class HarnessConfig:
 
     b_base_url: str = "http://127.0.0.1:8000"
     data_version: str = "zhongshan_pilot_v0.1"
+    default_region_id: str | None = None
     expected_data_status: str = "DEMO_ONLY"
     default_population_demand_ratio: float = 0.2
     default_max_walk_time_min: float = 15.0
@@ -80,13 +96,15 @@ class HarnessConfig:
 
     @classmethod
     def from_env(cls) -> "HarnessConfig":
-        pilot = defaults_from_pilot_config(os.environ.get("SHELTERPLAN_PILOT_CONFIG"))
-        send_region = os.environ.get("SHELTERPLAN_B_SEND_REGION_ID", "").strip().lower() in {
-            "1", "true", "yes",
+        configured_path = os.environ.get("SHELTERPLAN_PILOT_CONFIG") or str(DEFAULT_A_V2_CONFIG)
+        pilot = defaults_from_pilot_config(configured_path)
+        send_region = os.environ.get("SHELTERPLAN_B_SEND_REGION_ID", "1").strip().lower() not in {
+            "0", "false", "no", "off",
         }
         return cls(
             b_base_url=os.environ.get("SHELTERPLAN_B_BASE_URL", "http://127.0.0.1:8000").rstrip("/"),
             data_version=os.environ.get("SHELTERPLAN_DATA_VERSION", pilot["data_version"]),
+            default_region_id=os.environ.get("SHELTERPLAN_REGION_ID", pilot.get("region_id")),
             expected_data_status=os.environ.get("SHELTERPLAN_DATA_STATUS", "DEMO_ONLY"),
             default_population_demand_ratio=_env_float(
                 "SHELTERPLAN_DEFAULT_RATIO", pilot["population_demand_ratio"]),

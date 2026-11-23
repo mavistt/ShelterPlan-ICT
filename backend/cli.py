@@ -16,6 +16,7 @@ def main(argv=None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     inspect = sub.add_parser("inspect-data")
     inspect.add_argument("--config", default="configs/pilot.yaml")
+    inspect.add_argument("--repo-root", default=None, help="Explicit repository root for nested Module A adapters.")
     inspect.add_argument("--load", action="store_true", help="Deprecated alias; complete data validation is now the default.")
     inspect.add_argument("--availability-only", action="store_true", help="Check required file presence without parsing the data.")
     demo = sub.add_parser("demo")
@@ -24,10 +25,10 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         if args.command == "inspect-data":
-            availability = inspect_data(args.config)
+            availability = inspect_data(args.config, args.repo_root)
             result = {"availability": availability.model_dump()}
             if not args.availability_only and not availability.missing_paths:
-                bundle = load_a_bundle(args.config)
+                bundle = load_a_bundle(args.config, args.repo_root)
                 result["availability"] = bundle.availability.model_dump()
                 result["loaded"] = {
                     "data_version": bundle.manifest.data_version,

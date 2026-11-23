@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import json
+import os
 import platform
 import time
 import uuid
@@ -22,6 +23,7 @@ from backend.verifier.checks import verify_assignment, verify_budgeted
 FIXTURE_ROOT = (Path(__file__).resolve().parents[2] / "tests" / "module_b" / "fixtures").resolve()
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CACHE = DependencyCache()
+SOURCE_CACHE = DependencyCache()
 
 
 def _validated_scenario(raw: dict) -> PlanningScenario:
@@ -61,7 +63,41 @@ def load_fixture(reference: str) -> tuple[PlanningInput, PlanningScenario, list[
         raise DataValidationError(f"Invalid synthetic fixture: {exc}") from exc
 
 
-def load_task_source(fixture_id: str | None) -> tuple[PlanningInput, PlanningScenario, list[ImprovementOption]]:
+def _scenario_defaults(module_b: dict, adapter: dict) -> tuple[float, float]:
+    """Resolve defaults from B first, then an optional A adapter section."""
+    b_defaults = module_b.get("module_b") or {}
+    adapter_defaults = adapter.get("scenario_defaults") or {}
+    ratio = b_defaults.get("default_population_demand_ratio", adapter_defaults.get("population_demand_ratio", 0.2))
+    walk = b_defaults.get("default_max_walk_time_min", adapter_defaults.get("max_walk_time_min", 15.0))
+    return float(ratio), float(walk)
+
+
+def _source_cache_key(config_path: Path) -> str:
+    manifest_path: Path | None = None
+    try:
+        adapter = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+        manifest_rel = (adapter.get("paths") or {}).get("manifest")
+        if manifest_rel:
+            manifest_path = PROJECT_ROOT / str(manifest_rel)
+    except (OSError, yaml.YAMLError):
+        pass
+    stats = []
+    for path in (config_path, manifest_path):
+        if path is None:
+            continue
+        try:
+            stat = path.stat()
+            stats.append((str(path), stat.st_mtime_ns, stat.st_size))
+        except OSError:
+            stats.append((str(path), "missing"))
+    return canonical_hash(stats)
+
+
+def load_task_source(
+    fixture_id: str | None,
+    requested_region_id: str | None = None,
+    requested_data_version: str | None = None,
+) -> tuple[PlanningInput, PlanningScenario, list[ImprovementOption]]:
     if fixture_id:
         if fixture_id not in {"toy_case", "mixed_bottlenecks"}:
             raise DataValidationError("Unknown fixture_id", details={"allowed_fixture_ids": ["toy_case", "mixed_bottlenecks"]})
@@ -70,22 +106,85 @@ def load_task_source(fixture_id: str | None) -> tuple[PlanningInput, PlanningSce
     module_b_path = PROJECT_ROOT / "configs" / "module_b.yaml"
     try:
         module_b_config = yaml.safe_load(module_b_path.read_text(encoding="utf-8"))
-        source_config = module_b_config.get("module_b", {}).get("source_config", "configs/pilot.yaml")
-        config_path = (PROJECT_ROOT / source_config).resolve()
-        bundle = load_a_bundle(config_path, PROJECT_ROOT)
-        pilot = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+        module_b = module_b_config.get("module_b") or {}
+        source_config = module_b.get("source_config")
+        if not source_config:
+            raise DataUnavailableError("Module B has no explicit Module A source_config", details={"error_code": "DATA_UNAVAILABLE"})
+        explicit_source = os.environ.get("SHELTERPLAN_PILOT_CONFIG")
+        configured_path = (PROJECT_ROOT / (explicit_source or source_config)).resolve()
+        configured_adapter = {}
+        configured_version = None
+        # The standalone B/C branches intentionally do not carry the large A
+        # v2 processed release.  Read the configured adapter only when it is
+        # present; an explicit, versioned legacy request may still use the
+        # checked-in pilot adapter without turning a missing v2 checkout into
+        # a silent fallback.
+        if configured_path.is_file():
+            configured_adapter = yaml.safe_load(configured_path.read_text(encoding="utf-8")) or {}
+            configured_project = configured_adapter.get("project") or {}
+            configured_version = configured_project.get("data_version")
+
+        legacy_path = (PROJECT_ROOT / "configs" / "pilot.yaml").resolve()
+        legacy_adapter = yaml.safe_load(legacy_path.read_text(encoding="utf-8")) or {}
+        legacy_version = (legacy_adapter.get("project") or {}).get("data_version")
+        if requested_data_version:
+            if configured_version is not None and requested_data_version == configured_version:
+                config_path, pilot = configured_path, configured_adapter
+            elif requested_data_version == legacy_version:
+                config_path, pilot = legacy_path, legacy_adapter
+            else:
+                raise ScenarioError(
+                    "Requested data_version does not match an allowed Module A source",
+                    details={"error_code": "VERSION_MISMATCH", "received": requested_data_version},
+                )
+        else:
+            if configured_version is None:
+                raise DataUnavailableError(
+                    "Configured Module A adapter is missing",
+                    details={"error_code": "DATA_UNAVAILABLE", "path": str(configured_path)},
+                )
+            config_path, pilot = configured_path, configured_adapter
+
+        configured_region_id = (pilot.get("project") or {}).get("region_id")
+        if requested_region_id and configured_region_id and requested_region_id != configured_region_id:
+            raise DataValidationError(
+                "Requested region_id does not match the configured Module A source",
+                details={"error_code": "REGION_MISMATCH", "expected": configured_region_id, "received": requested_region_id},
+            )
+        if not config_path.is_file():
+            raise DataUnavailableError("Configured Module A adapter is missing", details={"error_code": "DATA_UNAVAILABLE", "path": str(config_path)})
+        cache_key = _source_cache_key(config_path)
+        cached = SOURCE_CACHE.get(cache_key)
+        bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
+        if cached is None:
+            SOURCE_CACHE.put(cache_key, bundle)
+        region_id = bundle.region_id or configured_region_id
+        if requested_region_id and not region_id:
+            raise DataValidationError("Requested source does not declare region_id", details={"error_code": "REGION_MISSING"})
+        if requested_data_version and bundle.manifest.data_version != requested_data_version:
+            raise DataValidationError(
+                "Loaded Module A source has a different data_version",
+                details={"error_code": "VERSION_MISMATCH", "expected": requested_data_version, "found": bundle.manifest.data_version},
+            )
+        if requested_region_id and region_id and requested_region_id != region_id:
+            raise DataValidationError(
+                "Loaded Module A source has a different region_id",
+                details={"error_code": "REGION_MISMATCH", "expected": requested_region_id, "found": region_id},
+            )
         data = PlanningInput(
+            region_id=region_id,
             data_version=bundle.manifest.data_version, data_status=bundle.availability.data_status,
             demands=bundle.demands, shelters=bundle.shelters, od_edges=bundle.od_edges,
             source_manifest_hash=bundle.manifest.source_manifest_hash,
             source_label=f"module_a:{bundle.manifest.data_version}",
         )
-        defaults = pilot["scenario_defaults"]
+        ratio, walk = _scenario_defaults(module_b_config, pilot)
         scenario = PlanningScenario(
             scenario_id=f"scenario-{bundle.manifest.data_version}",
+            region_id=region_id,
             data_version=bundle.manifest.data_version, analysis_mode="demo",
-            population_demand_ratio=float(defaults["population_demand_ratio"]),
-            max_walk_time_min=float(defaults["max_walk_time_min"]),
+            population_demand_ratio=ratio,
+            max_walk_time_min=walk,
         )
         return data, scenario, []
     except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
@@ -95,9 +194,13 @@ def load_task_source(fixture_id: str | None) -> tuple[PlanningInput, PlanningSce
 def _scenario_for_request(data: PlanningInput, base: PlanningScenario, request: TaskRequest) -> PlanningScenario:
     raw = base.model_dump()
     raw.update({"analysis_mode": request.analysis_mode})
+    if request.region_id is not None and request.region_id != data.region_id:
+        raise ScenarioError("Request region_id does not match selected source", details={"expected": data.region_id, "received": request.region_id, "error_code": "REGION_MISMATCH"})
     if request.data_version is not None and request.data_version != data.data_version:
         raise ScenarioError("Request data_version does not match selected source", details={"expected": data.data_version, "received": request.data_version, "error_code": "VERSION_MISMATCH"})
     if request.scenario is not None:
+        if data.region_id is not None and request.scenario.region_id is not None and request.scenario.region_id != data.region_id:
+            raise ScenarioError("Scenario region_id does not match selected source", details={"expected": data.region_id, "received": request.scenario.region_id, "error_code": "REGION_MISMATCH"})
         if request.scenario.data_version != data.data_version:
             raise ScenarioError("Scenario data_version does not match selected source", details={"expected": data.data_version, "received": request.scenario.data_version, "error_code": "VERSION_MISMATCH"})
         raw.update(request.scenario.model_dump())
@@ -114,6 +217,7 @@ def _scenario_for_request(data: PlanningInput, base: PlanningScenario, request: 
     if request.changes:
         raw["changes"] = request.changes
     raw["data_version"] = data.data_version
+    raw["region_id"] = data.region_id
     if not request.scenario_id and (request.changes or request.parent_scenario_id):
         scenario_key = {key: value for key, value in raw.items() if key != "scenario_id"}
         raw["scenario_id"] = f"scenario-{canonical_hash(scenario_key)[:16]}"
@@ -145,7 +249,10 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         raise ScenarioError("Improvement options are not used by this task type")
     # source_override is an internal evaluation hook. The HTTP API always calls
     # this function without it, so callers cannot inject data through a request.
-    data, base_scenario, fixture_options = source_override or load_task_source(request.fixture_id)
+    requested_version = request.data_version or (request.scenario.data_version if request.scenario else None)
+    data, base_scenario, fixture_options = source_override or load_task_source(
+        request.fixture_id, request.region_id, requested_version
+    )
     if request.parent_scenario_id:
         parent = find_scenario_version(request.parent_scenario_id)
         if parent is None:
@@ -166,7 +273,7 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         warnings = ["SYNTHETIC_FIXTURE: not Module A data and not a real-world planning result."]
     else:
         warnings = ["DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."]
-    source_hash = canonical_hash(data.model_dump())
+    source_hash = data.source_manifest_hash or canonical_hash(data.model_dump())
 
     # S01 + S02: admission and normalized scenario.
     for skill_id, payload in (("S01", {"data_status": data.data_status, "analysis_mode": scenario.analysis_mode}), ("S02", scenario.model_dump())):
@@ -220,6 +327,30 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         optimize_hit = optimization is not None
         if optimization is None:
             optimization = optimize_budgeted(data, scenario, options, budget)
+            if data.data_status != "SYNTHETIC_FIXTURE" and data.region_id == "shiqi":
+                # T04 evidence is produced by B from the same real data and
+                # legal candidate set. C only projects and explains it.
+                try:
+                    from backend.evaluation.real_data_runner import _greedy_budget_curve
+                    curve = _greedy_budget_curve(
+                        data, scenario, options, [float(budget)], initial_assignment=base_result
+                    )
+                    greedy = curve.get("plans", {}).get(str(float(budget)))
+                    if greedy is not None:
+                        optimization["greedy_comparison"] = {
+                            "status": "available",
+                            "served_demand": float(greedy["served_demand_persons"]),
+                            "selected_option_ids": list(greedy.get("selected_option_ids") or []),
+                            "cost_units": float(greedy.get("cost_units") or 0.0),
+                            "budget_units": float(budget),
+                            "verification_status": greedy.get("verification_status"),
+                            "method": "Module B real-data greedy baseline",
+                        }
+                except Exception as exc:
+                    optimization["greedy_comparison"] = {
+                        "status": "unavailable",
+                        "reason": f"B greedy baseline failed: {exc.__class__.__name__}",
+                    }
             CACHE.put(optimize_key, optimization)
         result["optimization"] = optimization
         records.append(_node_record("S07", optimize_key, optimization, tick, cache_hit=optimize_hit))
@@ -318,11 +449,18 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
             raise ScenarioError("Result ID was not found", details={"error_code": "RESULT_NOT_FOUND", "result_id": request.result_id})
         if previous.get("data_version") != data.data_version:
             raise ScenarioError("Result data version differs from selected fixture", details={"error_code": "VERSION_MISMATCH"})
+        if data.region_id is not None and previous.get("region_id") != data.region_id:
+            raise ScenarioError("Result region differs from selected source", details={"error_code": "REGION_MISMATCH", "expected": data.region_id, "received": previous.get("region_id")})
         result["explanation"] = {
             "result_id": request.result_id,
             "claims": previous.get("result_summary", {}),
             "evidence_refs": [f"result:{request.result_id}/assignment", f"result:{request.result_id}/certificate"],
             "data_status": previous.get("data_status"),
+            "region_id": previous.get("region_id"),
+            "data_version": previous.get("data_version"),
+            "result_detail": previous.get("result_detail"),
+            "solver_status": previous.get("solver_status"),
+            "verification_status": previous.get("verification_status"),
         }
 
     cert = verify_assignment(data, scenario, base_result)
@@ -331,6 +469,7 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
     result_id = str(uuid.uuid4())
     artifact_id = str(uuid.uuid4())
     evidence = {
+        "region_id": data.region_id,
         "source_hash": source_hash, "scenario_hash": canonical_hash(scenario.model_dump()),
         "source_manifest_hash": data.source_manifest_hash,
         "solver_settings_hash": canonical_hash({"method": "scipy-highs-lp-milp", "primary_tolerance": 1e-9, "lp_time_limit_seconds": MAX_LP_SOLVE_SECONDS, "budget_time_limit_seconds": MAX_BUDGET_SOLVE_SECONDS, "max_budget_options": MAX_BUDGET_OPTIONS}),
@@ -353,7 +492,7 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         "task_id": task_id, "job_id": run_id, "result_id": result_id,
         "scenario_id": scenario.scenario_id, "parent_scenario_id": scenario.parent_scenario_id,
         "scenario_changes": scenario.changes or request.changes, "scenario_hash": scenario_version["scenario_hash"],
-        "data_version": data.data_version, "data_status": data.data_status,
+        "region_id": data.region_id, "data_version": data.data_version, "data_status": data.data_status,
         "analysis_mode": scenario.analysis_mode, "source_label": data.source_label,
         "skill_graph_version": SKILL_GRAPH_VERSION, "execution_trace_id": trace_id,
         "plan_decision": {"status": plan.status, "reason_codes": plan.reason_codes, "composite_id": plan.composite_id, "nodes": plan.nodes},

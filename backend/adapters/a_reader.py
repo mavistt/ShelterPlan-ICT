@@ -16,11 +16,33 @@ from backend.models import (
 )
 
 
+_TEXT_ARTIFACT_SUFFIXES = {".csv", ".geojson", ".json", ".yaml", ".yml", ".txt"}
+
+
+def _artifact_bytes(path: Path) -> bytes:
+    """Read an artifact in the byte representation used by the A manifest.
+
+    Git stores the A release text artifacts with LF line endings.  On Windows,
+    a repository with ``core.autocrlf=true`` may materialize those same files
+    as CRLF without changing their logical content.  Normalize only declared
+    text artifacts; binary Parquet/GeoTIFF/PBF files remain byte-for-byte
+    strict.
+    """
+    raw = path.read_bytes()
+    if path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES:
+        return raw.replace(b"\r\n", b"\n")
+    return raw
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
+    digest.update(_artifact_bytes(path))
+    return digest.hexdigest()
+
+
+def _raw_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    digest.update(path.read_bytes())
     return digest.hexdigest()
 
 
@@ -53,6 +75,26 @@ def _unique(rows: list[Any], key: str, label: str) -> None:
         raise DataValidationError(f"{label} contains duplicate {key} values")
 
 
+def _infer_repo_root(config_path: Path) -> Path:
+    """Find the repository root for both flat and nested adapter paths."""
+    resolved = config_path.resolve()
+    for candidate in (resolved.parent, *resolved.parents):
+        if (candidate / "configs").is_dir() and (candidate / "data").is_dir():
+            return candidate
+    # Preserve the old fallback for isolated callers, but make the nested
+    # adapter case above deterministic and explicit.
+    return resolved.parent.parent
+
+
+def _validate_region_rows(rows: list[dict[str, Any]], region_id: str, label: str) -> None:
+    for index, row in enumerate(rows):
+        if str(row.get("region_id")) != region_id:
+            raise DataValidationError(
+                f"{label} row {index} belongs to a different region",
+                details={"expected_region_id": region_id, "received_region_id": row.get("region_id")},
+            )
+
+
 def _a7_summary_path(paths: dict[str, Any]) -> str:
     configured = paths.get("a7_quality_summary")
     if configured:
@@ -69,14 +111,21 @@ def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[s
         raise DataValidationError("Manifest artifact path escapes the project root", details={"path": relpath})
     if not path.is_file():
         raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
-    actual_bytes = path.stat().st_size
-    actual_sha256 = _sha256(path)
-    if record.get("bytes") != actual_bytes or record.get("sha256") != actual_sha256:
+    raw_bytes = path.stat().st_size
+    raw_sha256 = _raw_sha256(path)
+    canonical_bytes = len(_artifact_bytes(path))
+    canonical_sha256 = _sha256(path)
+    raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
+    canonical_match = record.get("bytes") == canonical_bytes and record.get("sha256") == canonical_sha256
+    if not raw_match and not canonical_match:
         raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
-            "path": relpath, "expected_bytes": record.get("bytes"), "actual_bytes": actual_bytes,
-            "expected_sha256": record.get("sha256"), "actual_sha256": actual_sha256,
+            "path": relpath, "expected_bytes": record.get("bytes"), "actual_bytes": canonical_bytes,
+            "raw_bytes": raw_bytes,
+            "expected_sha256": record.get("sha256"), "actual_sha256": canonical_sha256,
+            "raw_sha256": raw_sha256,
         })
-    return {"path": relpath, "bytes": actual_bytes, "sha256": actual_sha256, "matched": True}
+    matched_bytes, matched_sha256 = ((raw_bytes, raw_sha256) if raw_match else (canonical_bytes, canonical_sha256))
+    return {"path": relpath, "bytes": matched_bytes, "sha256": matched_sha256, "matched": True}
 
 
 def _read_travel_matrix(
@@ -85,6 +134,7 @@ def _read_travel_matrix(
     demand_ids: set[str],
     shelter_ids: set[str],
     max_snap_distance_m: float,
+    expected_region_id: str | None = None,
 ) -> tuple[list[ODEdge], dict[str, Any]]:
     """Stream Parquet row groups into the sparse OD model without a pandas copy."""
     try:
@@ -95,11 +145,15 @@ def _read_travel_matrix(
         raise DataValidationError(f"Cannot read travel_matrix.parquet: {exc}") from exc
 
     required = {"demand_id", "shelter_id", "distance_m", "time_min", "reachable", "reason", "demand_snap_m", "shelter_snap_m", "walking_speed_m_per_s", "data_version"}
+    if expected_region_id is not None:
+        required.add("region_id")
     schema = parquet.schema_arrow
     columns = set(schema.names)
     if not required.issubset(columns):
         raise DataValidationError("Travel matrix is missing required contract fields", details={"missing": sorted(required - columns)})
     string_fields = {"demand_id", "shelter_id", "reason", "data_version"}
+    if "region_id" in columns:
+        string_fields.add("region_id")
     for field in schema:
         if field.name in string_fields and not (pa.types.is_string(field.type) or pa.types.is_large_string(field.type)):
             raise DataValidationError(f"Travel matrix {field.name} must have a string type", details={"type": str(field.type)})
@@ -122,13 +176,21 @@ def _read_travel_matrix(
     allowed_reasons = {"ok", "demand_snap_too_far", "shelter_snap_too_far", "no_path"}
     edges: list[ODEdge] = []
     selected = ["demand_id", "shelter_id", "distance_m", "time_min", "reachable", "reason", "demand_snap_m", "shelter_snap_m", "walking_speed_m_per_s", "data_version"]
+    if "region_id" in columns:
+        selected.insert(0, "region_id")
     try:
         for batch in parquet.iter_batches(batch_size=16384, columns=selected):
             arrays = {name: batch.column(name).to_pylist() for name in selected}
             for values in zip(*(arrays[name] for name in selected)):
-                did, sid, distance, time_min, reachable, reason, demand_snap, shelter_snap, speed, version = values
+                if "region_id" in columns:
+                    row_region, did, sid, distance, time_min, reachable, reason, demand_snap, shelter_snap, speed, version = values
+                else:
+                    row_region = None
+                    did, sid, distance, time_min, reachable, reason, demand_snap, shelter_snap, speed, version = values
                 if not isinstance(did, str) or not isinstance(sid, str) or not isinstance(reason, str) or not isinstance(version, str):
                     raise DataValidationError("Travel matrix IDs, reasons and data_version must be non-null strings")
+                if expected_region_id is not None and row_region != expected_region_id:
+                    raise DataValidationError("Travel matrix region_id does not match config", details={"expected": expected_region_id, "found": row_region})
                 if did not in demand_index or sid not in shelter_index:
                     raise DataValidationError("Travel matrix contains dangling demand/shelter foreign keys", details={"demand_id": did, "shelter_id": sid})
                 pair_index = demand_index[did] * len(shelter_index) + shelter_index[sid]
@@ -179,7 +241,7 @@ def _read_travel_matrix(
 
 def inspect_data(config_path: str | Path, repo_root: str | Path | None = None) -> ADataAvailability:
     config_path = Path(config_path)
-    root = Path(repo_root).resolve() if repo_root else config_path.resolve().parent.parent
+    root = Path(repo_root).resolve() if repo_root else _infer_repo_root(config_path)
     try:
         config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
         paths = config["paths"]
@@ -197,6 +259,7 @@ def inspect_data(config_path: str | Path, repo_root: str | Path | None = None) -
         notes.append("Processed Module A data or manifest is absent; real-data calculations are blocked.")
     notes.append("Module A quality audit is DEMO_ONLY; no real-planning result may be published.")
     return ADataAvailability(
+        region_id=str((config.get("project") or {}).get("region_id")) if (config.get("project") or {}).get("region_id") else None,
         data_status=status, expected_paths=expected,
         existing_paths=existing, missing_paths=missing, notes=notes,
     )
@@ -204,7 +267,7 @@ def inspect_data(config_path: str | Path, repo_root: str | Path | None = None) -
 
 def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) -> ADataBundle:
     config_path = Path(config_path)
-    root = Path(repo_root).resolve() if repo_root else config_path.resolve().parent.parent
+    root = Path(repo_root).resolve() if repo_root else _infer_repo_root(config_path)
     try:
         config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
         project, paths = config["project"], config["paths"]
@@ -219,12 +282,22 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
 
     shelter_rows = _read_geojson(root / paths["shelters_geojson"])
     demand_rows = _read_geojson(root / paths["demand_nodes"])
+    region_id = str(project.get("region_id") or "") or None
+    if region_id is not None:
+        _validate_region_rows(shelter_rows, region_id, "shelters")
+        _validate_region_rows(demand_rows, region_id, "demand nodes")
     try:
-        shelters = [Shelter(
-            shelter_id=str(row["shelter_id"]),
-            capacity_persons=float(row["capacity_persons"]),
-            verified_status=str(row["verified_status"]),
-        ) for row in shelter_rows]
+        shelters = []
+        for row in shelter_rows:
+            active = row.get("active", True)
+            if not isinstance(active, bool):
+                raise ValueError(f"shelter {row.get('shelter_id')} active must be boolean")
+            shelters.append(Shelter(
+                shelter_id=str(row["shelter_id"]),
+                capacity_persons=float(row["capacity_persons"]),
+                verified_status=str(row["verified_status"]),
+                active=active,
+            ))
         demands = [DemandNode(
             demand_id=str(row["demand_id"]), pop_est=float(row["pop_est"]),
             population_status=str(row["population_status"]),
@@ -237,7 +310,7 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
     demand_ids = {row.demand_id for row in demands}
     shelter_ids = {row.shelter_id for row in shelters}
     snap_limit = float(config.get("network", {}).get("max_snap_distance_m", 200.0))
-    edges, matrix_profile = _read_travel_matrix(root / paths["travel_matrix"], data_version, demand_ids, shelter_ids, snap_limit)
+    edges, matrix_profile = _read_travel_matrix(root / paths["travel_matrix"], data_version, demand_ids, shelter_ids, snap_limit, region_id)
 
     manifest_path = root / paths["manifest"]
     try:
@@ -247,6 +320,9 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
     manifest_version = manifest_json.get("data_version") or manifest_json.get("project", {}).get("data_version")
     if manifest_version is not None and str(manifest_version) != data_version:
         raise DataValidationError("Manifest data_version does not match config", details={"expected": data_version, "found": manifest_version})
+    manifest_region = manifest_json.get("region_id") or manifest_json.get("project", {}).get("region_id")
+    if region_id is not None and str(manifest_region) != region_id:
+        raise DataValidationError("Manifest region_id does not match config", details={"expected": region_id, "found": manifest_region})
     a7_path = root / _a7_summary_path(paths)
     try:
         a7_summary = json.loads(a7_path.read_text(encoding="utf-8"))
@@ -254,6 +330,8 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
         raise DataValidationError(f"A7 quality summary is not valid JSON: {exc}") from exc
     if str(a7_summary.get("data_version")) != data_version:
         raise DataValidationError("A7 data_version does not match config", details={"expected": data_version, "found": a7_summary.get("data_version")})
+    if region_id is not None and str(a7_summary.get("region_id")) != region_id:
+        raise DataValidationError("A7 region_id does not match config", details={"expected": region_id, "found": a7_summary.get("region_id")})
     if a7_summary.get("verdict") not in {"DEMO_ONLY", "VERIFIED"}:
         raise DataValidationError("A7 quality summary has an unknown verdict", details={"verdict": a7_summary.get("verdict")})
     if manifest_version is None:
@@ -268,8 +346,10 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
     config_relpath = config_path.resolve().relative_to(root).as_posix()
     hash_checks.append(_validate_manifest_artifact(root, config_relpath, manifest_files))
     release_status = str(a7_summary["verdict"])
-    audit_note = f"A7 verdict={release_status}; real_pilot_accepted={bool(a7_summary.get('real_pilot_accepted', False))}; blockers={len(a7_summary.get('real_pilot_blockers', []))}."
+    blockers = a7_summary.get("blockers") or a7_summary.get("real_pilot_blockers") or []
+    audit_note = f"A7 verdict={release_status}; real_pilot_accepted={bool(a7_summary.get('real_pilot_accepted', False))}; blockers={len(blockers)}."
     manifest = ADataManifest(
+        region_id=region_id,
         data_version=data_version, source_manifest_hash=_sha256(manifest_path),
         release_status=release_status, manifest_path=str(manifest_path.relative_to(root)),
         validated_artifacts=hash_checks,
@@ -281,6 +361,7 @@ def load_a_bundle(config_path: str | Path, repo_root: str | Path | None = None) 
         "notes": [*availability.notes, audit_note, f"Verified hashes for {len(hash_checks)} Module A inputs/config artifacts."],
     })
     return ADataBundle(
+        region_id=region_id,
         availability=availability, manifest=manifest,
         demands=demands, shelters=shelters, od_edges=edges,
     )

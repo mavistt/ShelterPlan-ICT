@@ -109,6 +109,9 @@ def servers(tmp_path_factory):
         "TRACE_DIR": str(tmp_path / "trace"),
         "SHELTERPLAN_B_BASE_URL": f"http://127.0.0.1:{b_port}",
         "SHELTERPLAN_TRACE_DIR": str(tmp_path / "trace"),
+        "SHELTERPLAN_PILOT_CONFIG": "configs/pilot.yaml",
+        "SHELTERPLAN_DATA_VERSION": "zhongshan_pilot_v0.1",
+        "SHELTERPLAN_B_SEND_REGION_ID": "false",
     })
     c_proc = subprocess.Popen(
         [sys.executable, "-m", "tests.module_c.api_http_launcher"],
