@@ -14,6 +14,7 @@
 - A/B 合并提交：`5071e71`
 - 本轮集成提交：`68d59094c3d7376c6a17c6fca22669177cb33712`
 - PR #1：<https://github.com/mavistt/ShelterPlan-ICT/pull/1>，验收时仍为 OPEN；本分支没有合并 `main`
+- 本轮 Draft PR #6：<https://github.com/mavistt/ShelterPlan-ICT/pull/6>，base 为 `feature/module-a-stage1-research`
 - 默认 B 源：`configs/module_a_v2_b/shiqi.yaml`
 - 区域：`shiqi`
 - 数据版本：`shelterplan_module_a_v2.0-demo__shiqi`
