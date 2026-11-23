@@ -1,0 +1,14 @@
+project:
+  name: ShelterPlan Module A v2
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  region_id: east_district
+  data_status: DEMO_ONLY
+paths:
+  shelters_geojson: data/processed/regions/east_district/shelters.geojson
+  demand_nodes: data/processed/regions/east_district/demand_nodes.geojson
+  demand_nodes_parquet: data/processed/regions/east_district/demand_nodes.parquet
+  travel_matrix: data/processed/regions/east_district/travel_matrix.parquet
+  manifest: data/processed/regions/east_district/manifest.json
+  a7_quality_summary: data/processed/regions/east_district/quality_summary.json
+network:
+  max_snap_distance_m: 200

@@ -1,0 +1,236 @@
+data_version: shelterplan_module_a_v2.0-demo
+scenarios:
+- scenario_id: east_district__base
+  region_id: east_district
+  scenario_type: base
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: baseline demonstration
+- scenario_id: east_district__high_demand
+  region_id: east_district
+  scenario_type: high_demand
+  population_demand_ratio: 0.3
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: higher demand assumption
+- scenario_id: east_district__strict_access
+  region_id: east_district
+  scenario_type: strict_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 10
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: strict walking threshold
+- scenario_id: east_district__relaxed_access
+  region_id: east_district
+  scenario_type: relaxed_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 30
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: relaxed walking threshold
+- scenario_id: east_district__facility_disruption
+  region_id: east_district
+  scenario_type: facility_disruption
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids:
+  - zs_1b4df7920b
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: Closes one spatial shelter candidate; replace the ID after human facility
+    review.
+- scenario_id: east_district__capacity_expansion
+  region_id: east_district
+  scenario_type: capacity_expansion
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments:
+    zs_1b4df7920b:
+      delta_persons: 2000.0
+      basis: illustrative_25_percent_increase
+  data_version: shelterplan_module_a_v2.0-demo__east_district
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  capacity_adjustment_status: parameter_only_not_optimization
+  notes: Illustrative capacity increase; does not assert current operational capacity.
+- scenario_id: shiqi__base
+  region_id: shiqi
+  scenario_type: base
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: baseline demonstration
+- scenario_id: shiqi__high_demand
+  region_id: shiqi
+  scenario_type: high_demand
+  population_demand_ratio: 0.3
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: higher demand assumption
+- scenario_id: shiqi__strict_access
+  region_id: shiqi
+  scenario_type: strict_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 10
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: strict walking threshold
+- scenario_id: shiqi__relaxed_access
+  region_id: shiqi
+  scenario_type: relaxed_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 30
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: relaxed walking threshold
+- scenario_id: shiqi__facility_disruption
+  region_id: shiqi
+  scenario_type: facility_disruption
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids:
+  - zs_eb8b69df7b
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: Closes one spatial shelter candidate; replace the ID after human facility
+    review.
+- scenario_id: shiqi__capacity_expansion
+  region_id: shiqi
+  scenario_type: capacity_expansion
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments:
+    zs_eb8b69df7b:
+      delta_persons: 50.0
+      basis: illustrative_25_percent_increase
+  data_version: shelterplan_module_a_v2.0-demo__shiqi
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  capacity_adjustment_status: parameter_only_not_optimization
+  notes: Illustrative capacity increase; does not assert current operational capacity.
+- scenario_id: xiaolan__base
+  region_id: xiaolan
+  scenario_type: base
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: baseline demonstration
+- scenario_id: xiaolan__high_demand
+  region_id: xiaolan
+  scenario_type: high_demand
+  population_demand_ratio: 0.3
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: higher demand assumption
+- scenario_id: xiaolan__strict_access
+  region_id: xiaolan
+  scenario_type: strict_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 10
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: strict walking threshold
+- scenario_id: xiaolan__relaxed_access
+  region_id: xiaolan
+  scenario_type: relaxed_access
+  population_demand_ratio: 0.2
+  max_walk_time_min: 30
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: relaxed walking threshold
+- scenario_id: xiaolan__facility_disruption
+  region_id: xiaolan
+  scenario_type: facility_disruption
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids:
+  - zs_51e069f546
+  capacity_adjustments: {}
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: Closes one spatial shelter candidate; replace the ID after human facility
+    review.
+- scenario_id: xiaolan__capacity_expansion
+  region_id: xiaolan
+  scenario_type: capacity_expansion
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments:
+    zs_51e069f546:
+      delta_persons: 1000.0
+      basis: illustrative_25_percent_increase
+  data_version: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  capacity_adjustment_status: parameter_only_not_optimization
+  notes: Illustrative capacity increase; does not assert current operational capacity.
+- scenario_id: cross_region_comparison__base
+  region_ids:
+  - east_district
+  - shiqi
+  - xiaolan
+  scenario_type: cross_region_comparison
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15
+  closed_shelter_ids: []
+  capacity_adjustments: {}
+  data_version: null
+  region_data_versions:
+    east_district: shelterplan_module_a_v2.0-demo__east_district
+    shiqi: shelterplan_module_a_v2.0-demo__shiqi
+    xiaolan: shelterplan_module_a_v2.0-demo__xiaolan
+  analysis_mode: demo
+  assumption_type: illustrative_scenario
+  notes: Compare region-level outputs; do not combine OD matrices across regions.

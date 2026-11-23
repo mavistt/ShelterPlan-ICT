@@ -1,0 +1,128 @@
+{
+  "region_id": "east_district",
+  "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+  "release_status": "PASS_DEMO",
+  "verdict": "DEMO_ONLY",
+  "data_status": "DEMO_ONLY",
+  "real_pilot_accepted": false,
+  "source_rows": 31,
+  "spatial_shelters": 31,
+  "unresolved_shelters": 0,
+  "population": {
+    "region_id": "east_district",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 39244,
+    "positive_cells": 38469,
+    "population_sum": 1675977.056945986,
+    "demand_node_sum": 1675977.056945986,
+    "cell_area_km2_min": 0.00790511395457387,
+    "cell_area_km2_max": 0.007921457117050886,
+    "cell_area_km2_mean": 0.0079113733721785,
+    "totals_reconcile": true
+  },
+  "network": {
+    "region_id": "east_district",
+    "source": "Geofabrik Guangdong OSM PBF / OpenStreetMap contributors",
+    "source_status": "STATIC_PBF",
+    "source_path": "data/raw/guangdong-latest.osm.pbf",
+    "source_sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+    "retrieved_at_utc": "2026-11-20T14:32:41.474802+00:00",
+    "network_type": "walk",
+    "walkable_highway_tags": [
+      "bridleway",
+      "cycleway",
+      "footway",
+      "living_street",
+      "path",
+      "pedestrian",
+      "primary",
+      "residential",
+      "road",
+      "secondary",
+      "service",
+      "steps",
+      "tertiary",
+      "track",
+      "trunk",
+      "unclassified"
+    ],
+    "network_buffer_m": 1000.0,
+    "graph_nodes": 95398,
+    "graph_edges_directed": 212128,
+    "connected_components": 80,
+    "largest_component_share": 0.9588670622025619,
+    "projected_crs": "EPSG:32649",
+    "graphml_sha256": "96f27a58d5e0d026de26e2a38ed4240114c02ecd8e1d6d7bfb827716f6e80905",
+    "pbf_layer": "lines",
+    "pbf_line_features_read": 17207
+  },
+  "travel_matrix": {
+    "rows": 1192539,
+    "expected_rows": 1192539,
+    "reachable_pairs": 1042654,
+    "reason_counts": {
+      "ok": 1042654,
+      "demand_snap_too_far": 140368,
+      "no_path": 9517
+    },
+    "demand_nodes": 38469,
+    "spatial_shelters": 31,
+    "od_demand_batch_size": 1024
+  },
+  "spatial_analysis": {
+    "layers": 11,
+    "coverage": {
+      "10": {
+        "region_id": "east_district",
+        "threshold_min": 10,
+        "demand_nodes": 38469,
+        "covered_nodes": 1346,
+        "uncovered_nodes": 37123,
+        "population_with_candidate": 131092.4086700678,
+        "population_total": 1675977.056945986,
+        "population_share": 0.07821849835399786,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "15": {
+        "region_id": "east_district",
+        "threshold_min": 15,
+        "demand_nodes": 38469,
+        "covered_nodes": 2641,
+        "uncovered_nodes": 35828,
+        "population_with_candidate": 237564.03629404306,
+        "population_total": 1675977.056945986,
+        "population_share": 0.14174659212038326,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "20": {
+        "region_id": "east_district",
+        "threshold_min": 20,
+        "demand_nodes": 38469,
+        "covered_nodes": 3889,
+        "uncovered_nodes": 34580,
+        "population_with_candidate": 324518.2198669155,
+        "population_total": 1675977.056945986,
+        "population_share": 0.1936292734569183,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "30": {
+        "region_id": "east_district",
+        "threshold_min": 30,
+        "demand_nodes": 38469,
+        "covered_nodes": 6321,
+        "uncovered_nodes": 32148,
+        "population_with_candidate": 481297.90335929336,
+        "population_total": 1675977.056945986,
+        "population_share": 0.2871745179115568,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      }
+    }
+  },
+  "blockers": [
+    "Demo coordinates are approximate or unresolved.",
+    "2024 capacities are original or regional-median demo imputations.",
+    "Boundary is public OSM or demo-derived, not an official government boundary.",
+    "Current open status is assumed_open for demo only."
+  ]
+}

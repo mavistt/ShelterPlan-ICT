@@ -1,0 +1,92 @@
+{
+  "region_id": "east_district",
+  "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+  "scenarios": [
+    {
+      "scenario_id": "east_district__base",
+      "region_id": "east_district",
+      "scenario_type": "base",
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15,
+      "closed_shelter_ids": [],
+      "capacity_adjustments": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "notes": "baseline demonstration"
+    },
+    {
+      "scenario_id": "east_district__high_demand",
+      "region_id": "east_district",
+      "scenario_type": "high_demand",
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "closed_shelter_ids": [],
+      "capacity_adjustments": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "notes": "higher demand assumption"
+    },
+    {
+      "scenario_id": "east_district__strict_access",
+      "region_id": "east_district",
+      "scenario_type": "strict_access",
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 10,
+      "closed_shelter_ids": [],
+      "capacity_adjustments": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "notes": "strict walking threshold"
+    },
+    {
+      "scenario_id": "east_district__relaxed_access",
+      "region_id": "east_district",
+      "scenario_type": "relaxed_access",
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 30,
+      "closed_shelter_ids": [],
+      "capacity_adjustments": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "notes": "relaxed walking threshold"
+    },
+    {
+      "scenario_id": "east_district__facility_disruption",
+      "region_id": "east_district",
+      "scenario_type": "facility_disruption",
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15,
+      "closed_shelter_ids": [
+        "zs_1b4df7920b"
+      ],
+      "capacity_adjustments": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "notes": "Closes one spatial shelter candidate; replace the ID after human facility review."
+    },
+    {
+      "scenario_id": "east_district__capacity_expansion",
+      "region_id": "east_district",
+      "scenario_type": "capacity_expansion",
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15,
+      "closed_shelter_ids": [],
+      "capacity_adjustments": {
+        "zs_1b4df7920b": {
+          "delta_persons": 2000.0,
+          "basis": "illustrative_25_percent_increase"
+        }
+      },
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "assumption_type": "illustrative_scenario",
+      "capacity_adjustment_status": "parameter_only_not_optimization",
+      "notes": "Illustrative capacity increase; does not assert current operational capacity."
+    }
+  ]
+}

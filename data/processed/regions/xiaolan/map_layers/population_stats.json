@@ -1,0 +1,9 @@
+{
+  "region_id": "xiaolan",
+  "population_sum": 2218326.9998219055,
+  "demand_nodes": 60406,
+  "cell_area_km2_min": 0.007899479796141386,
+  "cell_area_km2_max": 0.007925845400691033,
+  "cell_area_km2_mean": 0.007909182092194053,
+  "population_status": "modelled_estimate"
+}

@@ -1,99 +1,90 @@
 # ShelterPlan-ICT
 
-ShelterPlan：面向城市应急避难场所规划的多模块项目，按模块分支协作开发。
+ShelterPlan 是面向基层工作人员的社区应急避难服务评估与设施规划助手，整合 GIS 空间数据、容量约束规划优化和自然语言 Agent 交互。
 
-> **数据状态：`DEMO_ONLY`。** 当前输入为 `data/raw/zhongshan_shelters.xls`
-> （453 条 2024 年记录），试点流程使用 24 个未核验场所点，A7 判定为 `DEMO_ONLY`。
-> 任何模块的输出都不得表述为现场核验的应急建议。
+> **当前状态：`PASS_DEMO` / `DEMO_ONLY`。** Module A v2 已完成东区、石岐和小榄三个区域的数据准备、固定 PBF 步行网络、OD 矩阵和空间分析；Module B、C 正在进行正式 A/B/C 集成。所有结果仅用于软件演示与算法测试，不代表经过现场核验的应急规划建议。
 
-## 模块与分支
+## 模块架构
 
-| 模块 | 内容 | 分支 |
+| 模块 | 主要职责 | 分支/位置 |
 |---|---|---|
-| A | 避难场所数据清洗、试点 GIS 数据、步行时间矩阵与独立质量审计（详见 [`docs/module_a.md`](docs/module_a.md)） | `main` |
-| B | 规划求解服务：覆盖评估、扩容优化、压力测试、方案比较（`backend/`） | `feature/module-b` |
-| C | Agent 执行层：MCP 工具、结构化意图、会话守卫、Web API 与全量评测（`agent/`） | `feature/module-c`（本分支） |
+| A — GIS & Spatial Analysis | 场所、人口、道路网络、OD、覆盖图层和规划情景 | `feature/module-a-stage1-research` |
+| B — Planning Engine | 需求分配、容量优化、压力测试、方案比较和独立验证 | `feature/module-b` / `backend/` |
+| C — Agent Orchestration | 自然语言理解、参数澄清、会话管理、API、MCP、解释和 Trace | `feature/module-c` / `agent/` |
+| D — Frontend | 地图展示、规划交互和结果可视化 | 当前集成范围之外 |
 
-## Module C 快速开始（本分支）
+目标链路为：
 
-依赖：Python 3.11/3.12，安装 Module B 运行时 + Module C 增量：
+```text
+用户自然语言 → C Intent/Harness → B Skill Graph/Solver → A v2 数据
+→ B Verifier → C 结果解释 → 完整 Trace
+```
+
+## Module A v2 数据
+
+三个区域保持独立的数据版本、Manifest、OD、缓存和结果：
+
+| 区域 | 场所 | 需求节点 | OD | data_version |
+|---|---:|---:|---:|---|
+| `east_district` | 31 | 38,469 | 1,192,539 | `shelterplan_module_a_v2.0-demo__east_district` |
+| `shiqi` | 25 | 7,336 | 183,400 | `shelterplan_module_a_v2.0-demo__shiqi` |
+| `xiaolan` | 31 | 60,406 | 1,872,586 | `shelterplan_module_a_v2.0-demo__xiaolan` |
+
+石岐是本轮正式联调和演示区域。A v2 产物包括 `shelters.geojson`、`demand_nodes.geojson`/`parquet`、`travel_matrix.parquet`、`manifest.json`、`quality_summary.json` 和场景目录。所有区域都必须保持 `DEMO_ONLY` 声明。
+
+## 快速开始
+
+Python 3.11/3.12：
 
 ```bash
 pip install -r requirements-b.txt -r requirements-c.txt
+git lfs install
+git lfs pull
 ```
 
-启动 Module B（终端 1，仓库根目录；求解器仅限本机访问）：
+启动 Module B：
 
 ```bash
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
-启动 Module C 的 Web API（终端 2，给 Module D 对接）：
+启动 Module C：
 
 ```bash
 SHELTERPLAN_B_BASE_URL=http://127.0.0.1:8000 \
 python -m uvicorn agent.api:app --host 127.0.0.1 --port 8080
 ```
 
-MCP 入口（可选，stdio / Streamable HTTP）：
+Module C 的确定性业务演示和真实 Ollama 路径：
 
 ```bash
-python -m agent.mcp_server --transport stdio
-python -m agent.mcp_server --transport http --host 127.0.0.1 --port 8010
-python -m agent.mcp_server --list-tools        # 恰好 4 个粗粒度工具
+python examples/c_to_d_business_flow.py
+python examples/c_to_d_business_flow.py --real-llm
 ```
 
-端到端业务演示（脚本自动拉起 B + C 两个真实进程，跑通
-现状评估 → 修改条件 → 扩容优化 → 方案比较，并演示澄清续跑）：
+## 测试
 
 ```bash
-python examples/c_to_d_business_flow.py             # 确定性模型替身（无需模型服务）
-python examples/c_to_d_business_flow.py --real-llm  # 本地 Ollama 真实模型
+python -m pytest tests/module_b -q
+python -m pytest tests/module_c -q
+python -m pytest tests/ -q
+python scripts/validate_module_a_release.py
 ```
 
-Module C 的实现细节、目录结构与硬规则见 [`agent/README.md`](agent/README.md)；
-D 侧对接的完整接口契约（字段、错误码、curl 示例）见
-[`docs/module_c/C_TO_D_API_HANDOFF.md`](docs/module_c/C_TO_D_API_HANDOFF.md)。
+集成验收报告位于 `docs/integration/ABC_SHIQI_V2_ACCEPTANCE.md`。
 
-## 运行测试
+## 重要边界
 
-```bash
-python -m pytest tests/module_c -q    # Module C 全量（基线 260 passed）
-python -m pytest tests/module_b -q    # Module B（1 条已知失败，见下）
-```
+- A 的人口是 WorldPop 模型估计，OSM 是固定快照；场所坐标、容量和开放状态尚未完成现场核验。
+- B 负责真实数学求解和独立 Verifier，C 不得重新实现或伪造优化结果。
+- 不同区域不得混用人口、场所、OD、缓存或结果；请求必须绑定 `region_id` 和 `data_version`。
+- 缺失数据、哈希异常或版本不匹配必须显式失败，不能静默回退到其他区域或旧数据。
+- `DEMO_ONLY` 不得被解释为现场核验或正式应急规划结论。
 
-评测与历史报告复现（V0–V2.3 报告在 `docs/module_c/`，证据哈希清单在
-[`docs/module_c/evidence/MANIFEST.md`](docs/module_c/evidence/MANIFEST.md)）：
+## 交接文档
 
-```bash
-python -m tests.module_c.recompute_v2    # 历史 V2 指标只读复核
-```
-
-## 已知限制
-
-- **`DEMO_ONLY`**：数据未核验，不能解释为完整真实试点覆盖率；`DEMO_ONLY`
-  由程序化声明保证，不接受对话修改。
-- **B 的浮点问题**：`backend/engine.py` 第二阶段下界使用浮点容差，最优性证明
-  可能降级为 `FEASIBLE`（≠ `OPTIMAL`），详见
-  [`docs/module_c/upstream/MODULE_B_FLOAT_TOLERANCE_ISSUE.md`](docs/module_c/upstream/MODULE_B_FLOAT_TOLERANCE_ISSUE.md)。
-- **单进程状态**：Module C 的会话/作业状态为单进程内保存（含文件恢复）；
-  服务重启后未完成作业标记 `INTERRUPTED_BY_RESTART`。
-- **AgentArts 未部署**：云侧节点映射与联调仍在准备阶段，验收清单见
-  [`docs/module_c/AGENTARTS_DEPLOYMENT_CHECKLIST.md`](docs/module_c/AGENTARTS_DEPLOYMENT_CHECKLIST.md)。
-- **非作者独立验证 PENDING**：≥20 条外部自然语言输入尚未收到；
-  冻结工具 `freeze_holdout.py` 与模板已就绪，收到前不得声称完成独立验证。
-
-## Module A（原 GIS 数据模块）
-
-当前输入为 `data/raw/zhongshan_shelters.xls`，包含 453 条 2024 年记录。东区演示
-流程当前使用 24 个未核验场所点，因此 A7 判定为 `DEMO_ONLY`，不能解释为完整真实
-试点覆盖率。
-
-在仓库根目录运行 A 的流水线与测试：
-
-```bash
-bash scripts/run_stage_a_demo.sh      # 需先安装 requirements.txt（A 的 GIS 栈）
-python -m pytest tests/ -q            # 全部模块；或只跑 tests/module_b、tests/module_c
-```
-
-详细阶段状态、文件用途和交接方式见 [`docs/module_a.md`](docs/module_a.md)。
+- A → B：`docs/handoffs/A_to_B_v2.md`
+- A → C：`docs/handoffs/A_to_C.md`
+- A 数据结构：`docs/interfaces/module_a_schema.md`
+- C → D：`docs/module_c/C_TO_D_API_HANDOFF.md`
+- B → C：`docs/module_b/API_HANDOFF_TO_C.md`

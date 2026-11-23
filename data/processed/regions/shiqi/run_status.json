@@ -1,0 +1,144 @@
+{
+  "region_id": "shiqi",
+  "status": "DEMO_ONLY",
+  "steps": {
+    "shelters": "PASS",
+    "boundary": "PASS",
+    "population": "PASS",
+    "network": "PASS",
+    "od": "PASS",
+    "spatial": "PASS"
+  },
+  "errors": [],
+  "shelters": {
+    "source_rows": 25,
+    "spatial_rows": 25,
+    "unresolved_rows": 0,
+    "capacity_imputed_rows": 1,
+    "capacity_region_median": 100.0,
+    "shelters": "   region_id     shelter_id  ... geocode_level geocode_count\n0      shiqi  zs_eb8b69df7b  ...            门址             1\n1      shiqi  zs_7c10257791  ...            道路             2\n2      shiqi  zs_f1e6d13f73  ...            门址             2\n3      shiqi  zs_ba9e4c3236  ...            门址             1\n4      shiqi  zs_9886d2ef6a  ...            门址             2\n5      shiqi  zs_b4877c9de8  ...           兴趣点             1\n6      shiqi  zs_59c4ec7386  ...           兴趣点             1\n7      shiqi  zs_93b853ea3f  ...            门址             1\n8      shiqi  zs_7968f48965  ...            门址             3\n9      shiqi  zs_04ec8cb884  ...            门址             4\n10     shiqi  zs_1654dda235  ...            门址             1\n11     shiqi  zs_ef12b22ef1  ...            门址             1\n12     shiqi  zs_c9d5429d03  ...            门址             1\n13     shiqi  zs_0ea6eea145  ...            小巷             2\n14     shiqi  zs_9ae03a468b  ...            门址             1\n15     shiqi  zs_5f2c91e5ad  ...            门址             1\n16     shiqi  zs_16e73eb7d2  ...            门址             1\n17     shiqi  zs_c8867d526a  ...            门址             2\n18     shiqi  zs_d2948c3ad8  ...            门址             1\n19     shiqi  zs_68d933c3a3  ...            门址             1\n20     shiqi  zs_c7b8f8436b  ...            门址             2\n21     shiqi  zs_5418f17c8e  ...            门址             1\n22     shiqi  zs_4f00bd0879  ...            门址             1\n23     shiqi  zs_a0d74bfdf1  ...            门址             2\n24     shiqi  zs_3fa8ce2b1e  ...            门址             3\n\n[25 rows x 82 columns]"
+  },
+  "boundary": {
+    "region_id": "shiqi",
+    "boundary_status": "demo_analysis_boundary",
+    "source_url": "",
+    "source_note": "Convex hull of geocoded candidate shelters plus configured buffer; not an administrative boundary.",
+    "query": "石岐街道, 中山市, 广东省, 中国",
+    "crs": "EPSG:4326",
+    "geometry_valid": true,
+    "boundary_sha256": "ce21246535b277cf525e881af46a10edb229b7b1c7629f82ff9275081c966769",
+    "analysis_area_sha256": "633936f2c2b5cd13ad70b548f1b60f5bb75e7433de7fcdae6ca11fdebfa75dba",
+    "retrieved_at_utc": "2026-11-20T14:34:20.588138+00:00"
+  },
+  "population": {
+    "region_id": "shiqi",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 7382,
+    "positive_cells": 7336,
+    "population_sum": 601716.8144463282,
+    "demand_node_sum": 601716.8144463282,
+    "cell_area_km2_min": 0.007908576482504606,
+    "cell_area_km2_max": 0.00791352053642273,
+    "cell_area_km2_mean": 0.007911209764142349,
+    "totals_reconcile": true
+  },
+  "network": {
+    "region_id": "shiqi",
+    "source": "Geofabrik Guangdong OSM PBF / OpenStreetMap contributors",
+    "source_status": "STATIC_PBF",
+    "source_path": "data/raw/guangdong-latest.osm.pbf",
+    "source_sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+    "retrieved_at_utc": "2026-11-20T14:34:34.817450+00:00",
+    "network_type": "walk",
+    "walkable_highway_tags": [
+      "bridleway",
+      "cycleway",
+      "footway",
+      "living_street",
+      "path",
+      "pedestrian",
+      "primary",
+      "residential",
+      "road",
+      "secondary",
+      "service",
+      "steps",
+      "tertiary",
+      "track",
+      "trunk",
+      "unclassified"
+    ],
+    "network_buffer_m": 1000.0,
+    "graph_nodes": 30703,
+    "graph_edges_directed": 69732,
+    "connected_components": 29,
+    "largest_component_share": 0.9831938247076832,
+    "projected_crs": "EPSG:32649",
+    "graphml_sha256": "b6700c6859d429c7afea8a3e2c28e49c3a2582356105852f185246c7820cac1c",
+    "pbf_layer": "lines",
+    "pbf_line_features_read": 6444
+  },
+  "od": {
+    "rows": 183400,
+    "expected_rows": 183400,
+    "reachable_pairs": 178000,
+    "reason_counts": {
+      "ok": 178000,
+      "demand_snap_too_far": 2525,
+      "no_path": 2875
+    },
+    "demand_nodes": 7336,
+    "spatial_shelters": 25,
+    "od_demand_batch_size": 1024
+  },
+  "spatial": {
+    "layers": 11,
+    "coverage": {
+      "10": {
+        "region_id": "shiqi",
+        "threshold_min": 10,
+        "demand_nodes": 7336,
+        "covered_nodes": 1064,
+        "uncovered_nodes": 6272,
+        "population_with_candidate": 129834.84403908253,
+        "population_total": 601716.8144463282,
+        "population_share": 0.2157740001973362,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "15": {
+        "region_id": "shiqi",
+        "threshold_min": 15,
+        "demand_nodes": 7336,
+        "covered_nodes": 2043,
+        "uncovered_nodes": 5293,
+        "population_with_candidate": 231618.79408168793,
+        "population_total": 601716.8144463282,
+        "population_share": 0.3849299014434435,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "20": {
+        "region_id": "shiqi",
+        "threshold_min": 20,
+        "demand_nodes": 7336,
+        "covered_nodes": 2781,
+        "uncovered_nodes": 4555,
+        "population_with_candidate": 296110.3993080569,
+        "population_total": 601716.8144463282,
+        "population_share": 0.49210923178293414,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "30": {
+        "region_id": "shiqi",
+        "threshold_min": 30,
+        "demand_nodes": 7336,
+        "covered_nodes": 4333,
+        "uncovered_nodes": 3003,
+        "population_with_candidate": 418777.7574532045,
+        "population_total": 601716.8144463282,
+        "population_share": 0.695971505862844,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      }
+    }
+  }
+}

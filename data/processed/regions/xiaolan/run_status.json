@@ -1,0 +1,145 @@
+{
+  "region_id": "xiaolan",
+  "status": "DEMO_ONLY",
+  "steps": {
+    "shelters": "PASS",
+    "boundary": "PASS",
+    "population": "PASS",
+    "network": "PASS",
+    "od": "PASS",
+    "spatial": "PASS"
+  },
+  "errors": [],
+  "shelters": {
+    "source_rows": 31,
+    "spatial_rows": 31,
+    "unresolved_rows": 0,
+    "capacity_imputed_rows": 0,
+    "capacity_region_median": 30.0,
+    "shelters": "   region_id     shelter_id  ... geocode_level geocode_count\n0    xiaolan  zs_51e069f546  ...           门牌号             2\n1    xiaolan  zs_c8be7873c2  ...            门址             1\n2    xiaolan  zs_86be86f157  ...            门址             2\n3    xiaolan  zs_f0ab3da126  ...            门址             2\n4    xiaolan  zs_de1d2b6687  ...           门牌号             2\n5    xiaolan  zs_c964d93ce9  ...            门址             1\n6    xiaolan  zs_ac62dbb767  ...            门址             2\n7    xiaolan  zs_943c8d37c8  ...            门址             1\n8    xiaolan  zs_bdef18eff8  ...            道路             2\n9    xiaolan  zs_9b31a2fe9e  ...            门址             1\n10   xiaolan  zs_66465d3a68  ...            门址             1\n11   xiaolan  zs_46f49a07ab  ...           门牌号             1\n12   xiaolan  zs_7fb6afca01  ...            门址             1\n13   xiaolan  zs_0d05dcde10  ...            乡镇             1\n14   xiaolan  zs_2f34e317f0  ...           门牌号             1\n15   xiaolan  zs_00224446f9  ...            门址             2\n16   xiaolan  zs_34d0a0c8ca  ...            门址             1\n17   xiaolan  zs_1037ddedf0  ...           门牌号             1\n18   xiaolan  zs_527a18b74a  ...            门址             1\n19   xiaolan  zs_c036af50bc  ...            门址             1\n20   xiaolan  zs_e068183458  ...            门址             1\n21   xiaolan  zs_00bb26e756  ...           门牌号             1\n22   xiaolan  zs_51fccc2725  ...            村庄             6\n23   xiaolan  zs_61811ada3c  ...            乡镇             1\n24   xiaolan  zs_a20b39dd68  ...            门址             1\n25   xiaolan  zs_c0ba0adc70  ...            门址             4\n26   xiaolan  zs_6d198fecb4  ...            门址             1\n27   xiaolan  zs_cde52ac134  ...           门牌号             1\n28   xiaolan  zs_7a1c2d5b3e  ...            道路             5\n29   xiaolan  zs_14a029f557  ...            门址             1\n30   xiaolan  zs_fed9acec78  ...            门址             1\n\n[31 rows x 82 columns]"
+  },
+  "boundary": {
+    "region_id": "xiaolan",
+    "boundary_status": "demo_analysis_boundary",
+    "source_url": "",
+    "source_note": "Convex hull of geocoded candidate shelters plus configured buffer; not an administrative boundary.",
+    "query": "小榄镇, 中山市, 广东省, 中国",
+    "crs": "EPSG:4326",
+    "geometry_valid": true,
+    "boundary_sha256": "cf4c94cad20d16a7e7420ebd5b00df8f6c55b7cd259aa2b00c5403bf9de6bdcf",
+    "analysis_area_sha256": "db8daf56e9828aff4c68c6ccb39a4cf17ce5e2d9b7aea46687ea4baf8a05ffee",
+    "retrieved_at_utc": "2026-11-20T14:34:53.143945+00:00"
+  },
+  "population": {
+    "region_id": "xiaolan",
+    "raster_crs": "EPSG:4326",
+    "nodata": -99999.0,
+    "valid_cells": 61486,
+    "positive_cells": 60406,
+    "population_sum": 2218326.9998219055,
+    "demand_node_sum": 2218326.9998219055,
+    "cell_area_km2_min": 0.007899479796141386,
+    "cell_area_km2_max": 0.007925845400691033,
+    "cell_area_km2_mean": 0.007909271234088607,
+    "totals_reconcile": true
+  },
+  "network": {
+    "region_id": "xiaolan",
+    "source": "Geofabrik Guangdong OSM PBF / OpenStreetMap contributors",
+    "source_status": "STATIC_PBF",
+    "source_path": "data/raw/guangdong-latest.osm.pbf",
+    "source_sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+    "retrieved_at_utc": "2026-11-20T14:35:18.473485+00:00",
+    "network_type": "walk",
+    "walkable_highway_tags": [
+      "bridleway",
+      "cycleway",
+      "footway",
+      "living_street",
+      "path",
+      "pedestrian",
+      "primary",
+      "residential",
+      "road",
+      "secondary",
+      "service",
+      "steps",
+      "tertiary",
+      "track",
+      "trunk",
+      "unclassified"
+    ],
+    "network_buffer_m": 1000.0,
+    "graph_nodes": 82524,
+    "graph_edges_directed": 182926,
+    "connected_components": 109,
+    "largest_component_share": 0.8363991081382386,
+    "projected_crs": "EPSG:32649",
+    "graphml_sha256": "9fb47be7e383ea66860757f60e923c63dbe5b611222cd2e9ecbb7df7ec13fd65",
+    "pbf_layer": "lines",
+    "pbf_line_features_read": 15489
+  },
+  "od": {
+    "rows": 1872586,
+    "expected_rows": 1872586,
+    "reachable_pairs": 1485360,
+    "reason_counts": {
+      "ok": 1485360,
+      "shelter_snap_too_far": 50129,
+      "demand_snap_too_far": 318587,
+      "no_path": 18510
+    },
+    "demand_nodes": 60406,
+    "spatial_shelters": 31,
+    "od_demand_batch_size": 1024
+  },
+  "spatial": {
+    "layers": 11,
+    "coverage": {
+      "10": {
+        "region_id": "xiaolan",
+        "threshold_min": 10,
+        "demand_nodes": 60406,
+        "covered_nodes": 1475,
+        "uncovered_nodes": 58931,
+        "population_with_candidate": 103291.31656312943,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.04656270990319371,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "15": {
+        "region_id": "xiaolan",
+        "threshold_min": 15,
+        "demand_nodes": 60406,
+        "covered_nodes": 3363,
+        "uncovered_nodes": 57043,
+        "population_with_candidate": 220215.42613282008,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.09927094885041732,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "20": {
+        "region_id": "xiaolan",
+        "threshold_min": 20,
+        "demand_nodes": 60406,
+        "covered_nodes": 6056,
+        "uncovered_nodes": 54350,
+        "population_with_candidate": 386448.5716705925,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.17420721638496842,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      },
+      "30": {
+        "region_id": "xiaolan",
+        "threshold_min": 30,
+        "demand_nodes": 60406,
+        "covered_nodes": 11967,
+        "uncovered_nodes": 48439,
+        "population_with_candidate": 695260.9547337221,
+        "population_total": 2218326.9998219055,
+        "population_share": 0.31341680229719965,
+        "interpretation": "network candidate reachability only; no capacity allocation"
+      }
+    }
+  }
+}

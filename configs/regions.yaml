@@ -1,0 +1,36 @@
+project:
+  name: ShelterPlan
+  city: 中山市
+  data_version: shelterplan_module_a_v2.0-demo
+  population_year: 2025
+  vector_crs: EPSG:4326
+  source_clean: data/processed/shelters_clean.csv
+  source_review_root: data/interim/regions
+  population_raster: data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif
+  walking_speed_m_per_s: 1.1
+  max_snap_distance_m: 200
+  network_buffer_m: 1000
+  od_demand_batch_size: 1024
+  network_source:
+    provider: Geofabrik
+    pbf_path: data/raw/guangdong-latest.osm.pbf
+    pbf_url: https://download.geofabrik.de/asia/china/guangdong-latest.osm.pbf
+    license: OpenStreetMap data, ODbL 1.0
+  geocoding_rate_limit_seconds: 0.35
+  overpass_endpoints:
+    - https://overpass-api.de/api/interpreter
+    - https://overpass.kumi.systems/api/interpreter
+    - https://overpass.nchc.org.tw/api/interpreter
+regions:
+  east_district:
+    town: 东区街道
+    role: primary
+    boundary_query: 东区街道, 中山市, 广东省, 中国
+  shiqi:
+    town: 石岐街道
+    role: supplementary
+    boundary_query: 石岐街道, 中山市, 广东省, 中国
+  xiaolan:
+    town: 小榄镇
+    role: supplementary
+    boundary_query: 小榄镇, 中山市, 广东省, 中国
