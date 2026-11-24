@@ -1,5 +1,8 @@
 export type CStatus = 'NEEDS_CLARIFICATION' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED'
 
+export type TaskMode = 'assess' | 'stress' | 'optimize' | 'compare'
+export type BasemapStyle = 'amap_light' | 'arcgis_street' | 'tianditu' | 'local_vector'
+
 export interface RegionInfo {
   region_id: string
   town: string
@@ -58,6 +61,38 @@ export interface RegionMetadata {
   layers: LayerInfo[]
 }
 
+export interface ShelterRecord {
+  shelter_id: string
+  name: string
+  address: string
+  community: string
+  capacity: number
+  area_sqm: number | null
+  phone: string | null
+  capacity_level: string
+  lon: number
+  lat: number
+}
+
+export interface GreedyComparison {
+  status?: string
+  greedy_served_demand?: number
+  mip_served_demand?: number
+  served_demand_gap?: number
+  greedy_selected_option_ids?: string[]
+  mip_selected_option_ids?: string[]
+  [key: string]: unknown
+}
+
+export interface MonotonicityCheck {
+  status?: string
+  parameter?: string
+  direction?: string
+  checked_pairs?: number
+  violations?: number
+  [key: string]: unknown
+}
+
 export interface TurnEnvelope {
   turn_id: string
   session_id: string
@@ -66,33 +101,50 @@ export interface TurnEnvelope {
   created_at?: string
   updated_at?: string
   region_id?: string
+  intent?: string | null
   task_type?: string | null
   result_id?: string | null
   data_version?: string
   data_status?: string
   metrics?: Record<string, unknown>
+  greedy_comparison?: GreedyComparison | null
+  monotonicity_check?: MonotonicityCheck | null
   map?: unknown
   warnings?: string[]
   message?: string | null
   clarification?: { fields?: string[]; question?: string; pending_task_type?: string; resume_hint?: string } | null
   error?: { code?: string; message?: string; retryable?: boolean } | string | null
   timings?: Record<string, number | null>
-  llm?: { calls?: number; prompt_tokens?: number; completion_tokens?: number; mode?: string; fallback_used?: boolean }
+  llm?: {
+    calls?: number
+    prompt_tokens?: number
+    completion_tokens?: number
+    mode?: string
+    extract_modes?: string[]
+    fallback_used?: boolean
+  }
   cancel_accepted?: boolean
+  resumed_from_clarification?: boolean
   note?: string
 }
 
 export interface SessionEnvelope {
   session_id: string
-  status: string
+  status?: string
   region_id: string
   data_version: string
   data_status: string
+  params?: Record<string, unknown> | null
+  scenario_id?: string | null
+  result_ids?: string[]
   turns?: Array<{ turn_id: string; status: CStatus; created_at?: string }>
 }
 
 export interface AssignmentRow {
   shelter_id: string
+  load_persons?: number
+  utilization?: number
+  capacity_persons?: number
   [key: string]: unknown
 }
 
@@ -140,4 +192,11 @@ export interface LayerCatalog {
   data_status: string
   release_status: string
   layers: Array<Record<string, unknown>>
+}
+
+export interface OptimizationCandidate {
+  id: string
+  shelterId: string
+  capacity: string
+  cost: string
 }
