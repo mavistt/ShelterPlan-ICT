@@ -11,7 +11,7 @@ ShelterPlan 是面向基层工作人员的社区应急避难服务评估与设�
 | A — GIS & Spatial Analysis | 场所、人口、道路网络、OD、覆盖图层和规划情景 | `feature/module-a-stage1-research` |
 | B — Planning Engine | 需求分配、容量优化、压力测试、方案比较和独立验证 | `feature/module-b` / `backend/` |
 | C — Agent Orchestration | 自然语言理解、参数澄清、会话管理、API、MCP、解释和 Trace | `feature/module-c` / `agent/` |
-| D — Frontend | 地图展示、规划交互和结果可视化 | 当前集成范围之外 |
+| D — Frontend | 地图展示、规划交互和结果可视化 | [`abcd` 展示分支](https://github.com/mavistt/ShelterPlan-ICT/tree/abcd) / `frontend/` |
 
 目标链路为：
 
@@ -30,7 +30,7 @@ ShelterPlan 是面向基层工作人员的社区应急避难服务评估与设�
 | `shiqi` | 25 | 7,336 | 183,400 | `shelterplan_module_a_v2.0-demo__shiqi` |
 | `xiaolan` | 31 | 60,406 | 1,872,586 | `shelterplan_module_a_v2.0-demo__xiaolan` |
 
-石岐是本轮正式联调和演示区域。A v2 产物包括 `shelters.geojson`、`demand_nodes.geojson`/`parquet`、`travel_matrix.parquet`、`manifest.json`、`quality_summary.json` 和场景目录。所有区域都必须保持 `DEMO_ONLY` 声明。
+石岐仍是默认区域；`abcd` 分支加入 Shiqi、East District、Xiaolan 的显式 B 数据源白名单。A v2 产物包括 `shelters.geojson`、`demand_nodes.geojson`/`parquet`、`travel_matrix.parquet`、`manifest.json`、`quality_summary.json` 和场景目录。所有区域都必须保持 `DEMO_ONLY` 声明。
 
 ## 快速开始
 
@@ -88,3 +88,15 @@ python scripts/validate_module_a_release.py
 - A 数据结构：`docs/interfaces/module_a_schema.md`
 - C → D：`docs/module_c/C_TO_D_API_HANDOFF.md`
 - B → C：`docs/module_b/API_HANDOFF_TO_C.md`
+
+## Module D 展示与多地区 B 数据源
+
+本次工作发布在 [`abcd` 分支](https://github.com/mavistt/ShelterPlan-ICT/tree/abcd)，基于 `integration/abc-shiqi-v2`。该分支包含 Module D 前端和 B 的地区数据源白名单路由；未指定地区时仍使用石岐默认配置。前端通过 C Session/Turn API 运行任务，并读取受限的 A v2 GIS 图层。
+
+- 前端启动、依赖与部署边界：[`frontend/README.md`](frontend/README.md)
+- 集成和复现记录：[`docs/module_d/`](docs/module_d/)
+- 首页预览：[1440×900](frontend/screenshots/workspace_1440x900.png) · [1920×1080](frontend/screenshots/workspace_1920x1080.png)
+- 地区地图：[东区街道](frontend/screenshots/spatial_east_district_1440x900.png) · [小榄镇](frontend/screenshots/spatial_xiaolan_1440x900.png)
+- 最近一次东区和小榄评估的 C Trace：[region_analysis_retry_2026-11-24.json](outputs/module_d/region_analysis_retry_2026-11-24.json)
+
+上述分析结果均为 `DEMO_ONLY` / `PASS_DEMO`，仅用于软件演示和算法评估，不代表现场核验的应急规划结论。

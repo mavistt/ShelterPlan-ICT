@@ -10,7 +10,12 @@ module_b:
   max_workers: 2
   run_output_dir: "outputs/module_b/runs"
   benchmark_output_dir: "outputs/module_b/bench"
-  # The formal ABC integration baseline is the immutable Module A v2 Shiqi
-  # release. Other regions are selected only by an explicit configuration.
+  # Default remains Shiqi for requests without an explicit region/version.
   region_id: "shiqi"
   source_config: "configs/module_a_v2_b/shiqi.yaml"
+  # Explicit v2 source allowlist. Requests must match both region_id and
+  # data_version from the selected adapter; API callers cannot provide paths.
+  region_source_configs:
+    shiqi: "configs/module_a_v2_b/shiqi.yaml"
+    east_district: "configs/module_a_v2_b/east_district.yaml"
+    xiaolan: "configs/module_a_v2_b/xiaolan.yaml"

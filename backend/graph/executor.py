@@ -92,6 +92,96 @@ def _source_cache_key(config_path: Path) -> str:
     return canonical_hash(stats)
 
 
+def module_a_source_registry(module_b_config: dict) -> dict[str, dict]:
+    """Load the explicit, region-keyed allowlist of Module A v2 adapters."""
+    module_b = module_b_config.get("module_b") or {}
+    configured_sources = module_b.get("region_source_configs") or {}
+    if not isinstance(configured_sources, dict):
+        raise DataValidationError(
+            "Module B region_source_configs must be a region-to-config mapping",
+            details={"error_code": "SOURCE_REGISTRY_INVALID"},
+        )
+    sources = dict(configured_sources)
+    default_region = module_b.get("region_id")
+    default_config = module_b.get("source_config")
+    if default_region and default_config:
+        existing = sources.get(str(default_region))
+        if existing is not None and Path(str(existing)) != Path(str(default_config)):
+            raise DataValidationError(
+                "Module B default source_config conflicts with its region allowlist entry",
+                details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": str(default_region)},
+            )
+        sources[str(default_region)] = default_config
+    if not sources:
+        raise DataUnavailableError(
+            "Module B has no allowed Module A source configurations",
+            details={"error_code": "DATA_UNAVAILABLE"},
+        )
+
+    allowed_config_root = (PROJECT_ROOT / "configs" / "module_a_v2_b").resolve()
+    registry: dict[str, dict] = {}
+    version_regions: dict[str, str] = {}
+    for raw_region_id, source_reference in sources.items():
+        region_id = str(raw_region_id)
+        if not region_id or not isinstance(source_reference, str) or not source_reference:
+            raise DataValidationError(
+                "Module B source allowlist contains an invalid region or config path",
+                details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": region_id},
+            )
+        source_path = Path(source_reference)
+        if source_path.is_absolute():
+            raise DataValidationError(
+                "Module A source config paths must be project-relative",
+                details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": region_id},
+            )
+        config_path = (PROJECT_ROOT / source_path).resolve()
+        try:
+            config_path.relative_to(allowed_config_root)
+        except ValueError as exc:
+            raise DataValidationError(
+                "Module A source config is outside the allowed v2 config directory",
+                details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": region_id},
+            ) from exc
+        if config_path.suffix.lower() not in {".yaml", ".yml"} or not config_path.is_file():
+            raise DataUnavailableError(
+                "An allowlisted Module A source config is missing or invalid",
+                details={"error_code": "DATA_UNAVAILABLE", "region_id": region_id},
+            )
+        try:
+            adapter = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+        except (OSError, yaml.YAMLError) as exc:
+            raise DataValidationError(
+                "Could not read an allowlisted Module A source config",
+                details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": region_id},
+            ) from exc
+        project = adapter.get("project") or {}
+        configured_region = str(project.get("region_id") or "")
+        data_version = str(project.get("data_version") or "")
+        if configured_region != region_id or not data_version:
+            raise DataValidationError(
+                "Allowlisted Module A config identity does not match its region key",
+                details={
+                    "error_code": "SOURCE_REGISTRY_INVALID",
+                    "region_id": region_id,
+                    "configured_region_id": configured_region or None,
+                    "data_version_present": bool(data_version),
+                },
+            )
+        if data_version in version_regions:
+            raise DataValidationError(
+                "Module A data_version must identify exactly one allowlisted region",
+                details={"error_code": "SOURCE_REGISTRY_AMBIGUOUS", "data_version": data_version},
+            )
+        version_regions[data_version] = region_id
+        registry[region_id] = {
+            "config_path": config_path,
+            "adapter": adapter,
+            "data_version": data_version,
+            "data_status": project.get("data_status"),
+        }
+    return registry
+
+
 def load_task_source(
     fixture_id: str | None,
     requested_region_id: str | None = None,
@@ -106,31 +196,52 @@ def load_task_source(
     try:
         module_b_config = yaml.safe_load(module_b_path.read_text(encoding="utf-8"))
         module_b = module_b_config.get("module_b") or {}
-        source_config = module_b.get("source_config")
-        if not source_config:
-            raise DataUnavailableError("Module B has no explicit Module A source_config", details={"error_code": "DATA_UNAVAILABLE"})
-        configured_path = (PROJECT_ROOT / source_config).resolve()
-        configured_adapter = yaml.safe_load(configured_path.read_text(encoding="utf-8")) or {}
-        configured_project = configured_adapter.get("project") or {}
-        configured_version = configured_project.get("data_version")
+        registry = module_a_source_registry(module_b_config)
+        selected_source = None
+        legacy_adapter = None
 
-        # The production default is the A v2 Shiqi adapter.  An older caller
-        # may still send an explicit v1 data_version (for example a saved C
-        # session).  Honor that explicit identity only when it matches the
-        # checked-in legacy adapter; never silently fall back based on a
-        # missing file or an unqualified request.
-        if requested_data_version and requested_data_version != configured_version:
-            legacy_path = (PROJECT_ROOT / "configs" / "pilot.yaml").resolve()
-            legacy_adapter = yaml.safe_load(legacy_path.read_text(encoding="utf-8")) or {}
-            legacy_version = (legacy_adapter.get("project") or {}).get("data_version")
-            if requested_data_version != legacy_version:
-                raise ScenarioError(
-                    "Requested data_version does not match an allowed Module A source",
-                    details={"error_code": "VERSION_MISMATCH", "received": requested_data_version},
+        if requested_region_id:
+            selected_source = registry.get(requested_region_id)
+            if selected_source is None:
+                raise DataValidationError(
+                    "Requested region_id is not in the Module A source allowlist",
+                    details={"error_code": "REGION_NOT_ALLOWED", "received": requested_region_id, "allowed_region_ids": sorted(registry)},
                 )
+            if requested_data_version and selected_source["data_version"] != requested_data_version:
+                raise ScenarioError(
+                    "Requested data_version does not match the allowlisted region source",
+                    details={"error_code": "VERSION_MISMATCH", "region_id": requested_region_id, "expected": selected_source["data_version"], "received": requested_data_version},
+                )
+        elif requested_data_version:
+            selected_source = next((source for source in registry.values() if source["data_version"] == requested_data_version), None)
+            if selected_source is None:
+                # Keep support for explicitly versioned legacy pilot sessions.
+                # It is never selected when a region is supplied or by default.
+                legacy_path = (PROJECT_ROOT / "configs" / "pilot.yaml").resolve()
+                legacy_adapter = yaml.safe_load(legacy_path.read_text(encoding="utf-8")) or {}
+                legacy_version = (legacy_adapter.get("project") or {}).get("data_version")
+                if requested_data_version != legacy_version:
+                    raise ScenarioError(
+                        "Requested data_version does not match an allowed Module A source",
+                        details={"error_code": "VERSION_MISMATCH", "received": requested_data_version, "allowed_data_versions": sorted(source["data_version"] for source in registry.values())},
+                    )
+        else:
+            default_region = str(module_b.get("region_id") or "")
+            selected_source = registry.get(default_region)
+            if selected_source is None:
+                raise DataUnavailableError(
+                    "Module B default region is not present in the Module A source allowlist",
+                    details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": default_region or None},
+                )
+
+        if selected_source is not None:
+            config_path = selected_source["config_path"]
+            pilot = selected_source["adapter"]
+        elif legacy_adapter is not None:
+            legacy_path = (PROJECT_ROOT / "configs" / "pilot.yaml").resolve()
             config_path, pilot = legacy_path, legacy_adapter
         else:
-            config_path, pilot = configured_path, configured_adapter
+            raise DataUnavailableError("No Module A source matched the requested identity", details={"error_code": "DATA_UNAVAILABLE"})
 
         configured_region_id = (pilot.get("project") or {}).get("region_id")
         if requested_region_id and configured_region_id and requested_region_id != configured_region_id:

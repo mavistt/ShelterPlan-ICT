@@ -1,0 +1,382 @@
+[
+  {
+    "file": "workspace_1920x1080.png",
+    "layout": {
+      "viewportWidth": 1920,
+      "documentWidth": 1920,
+      "viewportHeight": 1080,
+      "documentHeight": 1299,
+      "mapWidth": 1198,
+      "mapHeight": 360,
+      "agentVisible": true
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      }
+    ]
+  },
+  {
+    "file": "workspace_1440x900.png",
+    "layout": {
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "viewportHeight": 900,
+      "documentHeight": 1344,
+      "mapWidth": 770,
+      "mapHeight": 405,
+      "agentVisible": true
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      }
+    ]
+  },
+  {
+    "file": "workspace_1366x768.png",
+    "layout": {
+      "viewportWidth": 1366,
+      "documentWidth": 1366,
+      "viewportHeight": 768,
+      "documentHeight": 1314,
+      "mapWidth": 756,
+      "mapHeight": 375,
+      "agentVisible": true
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      }
+    ]
+  },
+  {
+    "file": "spatial_heatmap_1440x900.png",
+    "layout": {
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "viewportHeight": 900,
+      "mapWidth": 750,
+      "mapHeight": 405
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/population_heatmap"
+      }
+    ]
+  },
+  {
+    "file": "spatial_east_district_1440x900.png",
+    "layout": {
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "viewportHeight": 900,
+      "mapWidth": 750,
+      "mapHeight": 405
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/population_heatmap"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/population_heatmap"
+      }
+    ]
+  },
+  {
+    "file": "spatial_xiaolan_1440x900.png",
+    "layout": {
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "viewportHeight": 900,
+      "mapWidth": 750,
+      "mapHeight": 405
+    },
+    "noHorizontalOverflow": true,
+    "pageErrors": [],
+    "failedRequests": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/shiqi/population_heatmap"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/east_district/population_heatmap"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/xiaolan/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/xiaolan/boundary"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/xiaolan/shelter_capacity"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:5173/__a/v2/layers/xiaolan/shelter_capacity"
+      }
+    ]
+  }
+]

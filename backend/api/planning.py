@@ -11,7 +11,7 @@ import yaml
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 from backend.errors import PlanningError
-from backend.graph.executor import execute_task
+from backend.graph.executor import execute_task, module_a_source_registry
 from backend.graph.registry import capabilities
 from backend.models import TaskRequest
 from backend.storage import JsonResultStore
@@ -26,7 +26,7 @@ MAX_ACTIVE_JOBS = 100
 
 
 def capabilities_document() -> dict:
-    """Expose the registered graph plus the configured A handoff identity."""
+    """Expose the graph, default A identity, and its allowlisted region sources."""
     document = dict(capabilities())
     root = Path(__file__).resolve().parents[2]
     region_id = None
@@ -34,13 +34,21 @@ def capabilities_document() -> dict:
     data_status = None
     try:
         module_b = yaml.safe_load((root / "configs" / "module_b.yaml").read_text(encoding="utf-8")) or {}
-        source = (module_b.get("module_b") or {}).get("source_config")
-        if source:
-            adapter = yaml.safe_load((root / source).read_text(encoding="utf-8")) or {}
-            project = adapter.get("project") or {}
-            region_id = project.get("region_id")
-            data_version = project.get("data_version")
-            data_status = project.get("data_status")
+        module_b_settings = module_b.get("module_b") or {}
+        registry = module_a_source_registry(module_b)
+        default_source = registry.get(str(module_b_settings.get("region_id") or ""))
+        if default_source:
+            region_id = module_b_settings.get("region_id")
+            data_version = default_source["data_version"]
+            data_status = default_source["data_status"]
+        document["supported_sources"] = [
+            {
+                "region_id": allowed_region,
+                "data_version": source["data_version"],
+                "data_status": source["data_status"],
+            }
+            for allowed_region, source in sorted(registry.items())
+        ]
     except (OSError, TypeError, yaml.YAMLError):
         pass
     document.update({"region_id": region_id, "data_version": data_version, "data_status": data_status})

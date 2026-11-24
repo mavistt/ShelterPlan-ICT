@@ -1,0 +1,316 @@
+[
+  {
+    "region_id": "east_district",
+    "session": {
+      "session_id": "s-acaef37b4160",
+      "created_at": "2026-11-24T08:42:07Z",
+      "turn": 1,
+      "region_id": "east_district",
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "analysis_mode": "demo",
+        "region_id": "east_district"
+      },
+      "scenario_id": "c-s-acaef3-t01-cd1756db",
+      "lineage": [
+        {
+          "scenario_id": "c-s-acaef3-t01-cd1756db",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+            "analysis_mode": "demo",
+            "region_id": "east_district"
+          },
+          "result_id": "2b39a624-7731-40ec-995d-ea8e6bb8a992"
+        }
+      ],
+      "result_ids": [
+        "2b39a624-7731-40ec-995d-ea8e6bb8a992"
+      ],
+      "pending_clarification": null,
+      "turns": [
+        {
+          "turn_id": "t-f00e56cceaee",
+          "status": "NEEDS_CLARIFICATION",
+          "created_at": "2026-11-24T08:42:07Z"
+        },
+        {
+          "turn_id": "t-15cf7e78aefb",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-24T08:43:33Z"
+        }
+      ],
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "data_status": "DEMO_ONLY"
+    },
+    "initial_clarification_turn": {
+      "turn_id": "t-f00e56cceaee",
+      "session_id": "s-acaef37b4160",
+      "status": "NEEDS_CLARIFICATION",
+      "user_text": "??????????????,????? 15 ??,??????? 20%?",
+      "created_at": "2026-11-24T08:42:07Z",
+      "updated_at": "2026-11-24T08:42:12Z",
+      "scenario_id": "c-s-acaef3-t01-cd1756db",
+      "region_id": "east_district",
+      "task_id": null,
+      "job_id": null,
+      "result_id": null,
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "data_status": "DEMO_ONLY",
+      "metrics": {},
+      "map": null,
+      "warnings": [
+        "LLM_FALLBACK: 意图抽取模型本次不可用，已退回确定性规则兜底，不代表真实模型推理。",
+        "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+      ],
+      "message": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "clarification": {
+        "fields": [
+          "task"
+        ],
+        "question": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。",
+        "pending_task_type": null,
+        "resume_hint": "下一轮只需补充这些字段，任务会自动续跑。"
+      },
+      "error": null,
+      "timings": {
+        "queued_at": "2026-11-24T08:42:07Z",
+        "queue_ms": 0.2,
+        "run_ms": 5115.9,
+        "started_at": "2026-11-24T08:42:07Z"
+      },
+      "llm": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "extract_modes": [
+          "rules_fallback"
+        ],
+        "fallback_used": true
+      },
+      "cancel_requested": false,
+      "state_persisted": true,
+      "intent": "clarify",
+      "task_type": null
+    },
+    "analysis_turn": {
+      "turn_id": "t-15cf7e78aefb",
+      "session_id": "s-acaef37b4160",
+      "status": "SUCCEEDED",
+      "user_text": "现状评估",
+      "created_at": "2026-11-24T08:43:33Z",
+      "updated_at": "2026-11-24T08:44:03Z",
+      "scenario_id": "c-s-acaef3-t01-cd1756db",
+      "region_id": "east_district",
+      "task_id": "c-a280ee69-b635-4e73-8443-0229b2053674",
+      "job_id": "95f4f1f1-d2b3-413e-86e1-ab642f2fabf2",
+      "result_id": "2b39a624-7731-40ec-995d-ea8e6bb8a992",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "data_status": "DEMO_ONLY",
+      "metrics": {
+        "served_demand": 8872.303024671477,
+        "total_demand": 335195.4113891972,
+        "weighted_walk_time_min": 9.156650680432833,
+        "diagnosed_unserved_nodes": 38002,
+        "coverage_ratio": 0.026469046780505587
+      },
+      "map": {
+        "available": false,
+        "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+        "layers_href": "/v1/results/2b39a624-7731-40ec-995d-ea8e6bb8a992/layers"
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+        "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+      ],
+      "message": "【结论】现状评估完成。\n【未服务节点】38,002 个。\n【关键指标】已服务 8,872.30 人 / 总需求 335,195.41 人，覆盖率 2.6%；加权步行时间 9.16 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=2b39a624-7731-40ec-995d-ea8e6bb8a992；scenario_id=c-s-acaef3-t01-cd1756db",
+      "clarification": null,
+      "error": null,
+      "timings": {
+        "queued_at": "2026-11-24T08:43:33Z",
+        "queue_ms": 0.1,
+        "run_ms": 29861.5,
+        "started_at": "2026-11-24T08:43:33Z"
+      },
+      "llm": {
+        "calls": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "extract_modes": [],
+        "fallback_used": false
+      },
+      "cancel_requested": false,
+      "state_persisted": true,
+      "intent": "assess",
+      "task_type": "assess",
+      "resumed_from_clarification": true
+    }
+  },
+  {
+    "region_id": "xiaolan",
+    "session": {
+      "session_id": "s-58b6eb8a5710",
+      "created_at": "2026-11-24T08:42:13Z",
+      "turn": 1,
+      "region_id": "xiaolan",
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+        "analysis_mode": "demo",
+        "region_id": "xiaolan"
+      },
+      "scenario_id": "c-s-58b6eb-t01-4c3e270c",
+      "lineage": [
+        {
+          "scenario_id": "c-s-58b6eb-t01-4c3e270c",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+            "analysis_mode": "demo",
+            "region_id": "xiaolan"
+          },
+          "result_id": "48a7ae44-d59f-45d1-b8e5-a35e1a3514be"
+        }
+      ],
+      "result_ids": [
+        "48a7ae44-d59f-45d1-b8e5-a35e1a3514be"
+      ],
+      "pending_clarification": null,
+      "turns": [
+        {
+          "turn_id": "t-bacaffdfc842",
+          "status": "NEEDS_CLARIFICATION",
+          "created_at": "2026-11-24T08:42:13Z"
+        },
+        {
+          "turn_id": "t-332a9d0838c9",
+          "status": "SUCCEEDED",
+          "created_at": "2026-11-24T08:44:03Z"
+        }
+      ],
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "data_status": "DEMO_ONLY"
+    },
+    "initial_clarification_turn": {
+      "turn_id": "t-bacaffdfc842",
+      "session_id": "s-58b6eb8a5710",
+      "status": "NEEDS_CLARIFICATION",
+      "user_text": "??????????????,????? 15 ??,??????? 20%?",
+      "created_at": "2026-11-24T08:42:13Z",
+      "updated_at": "2026-11-24T08:42:18Z",
+      "scenario_id": "c-s-58b6eb-t01-4c3e270c",
+      "region_id": "xiaolan",
+      "task_id": null,
+      "job_id": null,
+      "result_id": null,
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "data_status": "DEMO_ONLY",
+      "metrics": {},
+      "map": null,
+      "warnings": [
+        "LLM_FALLBACK: 意图抽取模型本次不可用，已退回确定性规则兜底，不代表真实模型推理。",
+        "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+      ],
+      "message": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+      "clarification": {
+        "fields": [
+          "task"
+        ],
+        "question": "请说明要执行哪类分析：现状评估、预算优化、情景比较、压力测试或敏感性分析。",
+        "pending_task_type": null,
+        "resume_hint": "下一轮只需补充这些字段，任务会自动续跑。"
+      },
+      "error": null,
+      "timings": {
+        "queued_at": "2026-11-24T08:42:13Z",
+        "queue_ms": 0.1,
+        "run_ms": 5111.5,
+        "started_at": "2026-11-24T08:42:13Z"
+      },
+      "llm": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "extract_modes": [
+          "rules_fallback"
+        ],
+        "fallback_used": true
+      },
+      "cancel_requested": false,
+      "state_persisted": true,
+      "intent": "clarify",
+      "task_type": null
+    },
+    "analysis_turn": {
+      "turn_id": "t-332a9d0838c9",
+      "session_id": "s-58b6eb8a5710",
+      "status": "SUCCEEDED",
+      "user_text": "现状评估",
+      "created_at": "2026-11-24T08:44:03Z",
+      "updated_at": "2026-11-24T08:44:48Z",
+      "scenario_id": "c-s-58b6eb-t01-4c3e270c",
+      "region_id": "xiaolan",
+      "task_id": "c-373ada53-9875-4790-99d2-39ea1f231bbd",
+      "job_id": "67a65c95-dd12-4e3c-8c28-cced15246d97",
+      "result_id": "48a7ae44-d59f-45d1-b8e5-a35e1a3514be",
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "data_status": "DEMO_ONLY",
+      "metrics": {
+        "served_demand": 4260.240640756885,
+        "total_demand": 443665.3999643811,
+        "weighted_walk_time_min": 6.603674620715627,
+        "diagnosed_unserved_nodes": 60092,
+        "coverage_ratio": 0.009602372961918848
+      },
+      "map": {
+        "available": false,
+        "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+        "layers_href": "/v1/results/48a7ae44-d59f-45d1-b8e5-a35e1a3514be/layers"
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+        "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+      ],
+      "message": "【结论】现状评估完成。\n【未服务节点】60,092 个。\n【关键指标】已服务 4,260.24 人 / 总需求 443,665.40 人，覆盖率 1.0%；加权步行时间 6.60 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=48a7ae44-d59f-45d1-b8e5-a35e1a3514be；scenario_id=c-s-58b6eb-t01-4c3e270c",
+      "clarification": null,
+      "error": null,
+      "timings": {
+        "queued_at": "2026-11-24T08:44:03Z",
+        "queue_ms": 0.1,
+        "run_ms": 44682.6,
+        "started_at": "2026-11-24T08:44:03Z"
+      },
+      "llm": {
+        "calls": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "extract_modes": [],
+        "fallback_used": false
+      },
+      "cancel_requested": false,
+      "state_persisted": true,
+      "intent": "assess",
+      "task_type": "assess",
+      "resumed_from_clarification": true
+    }
+  }
+]
