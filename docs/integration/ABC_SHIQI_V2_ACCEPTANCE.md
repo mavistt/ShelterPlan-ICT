@@ -127,3 +127,8 @@ etwork_buffer, oundary, and nalysis_area; quality summaries keep both eal_pil
 - project.primary_region_id=east_district is explicit. xiaolan remains in the audited package but is nabled: false because one shelter snaps 424.7m and 50,129 OD pairs exceed the 200m threshold.
 - A validation: 21 tests PASS; release validator PASS_DEMO with official-boundary/source-completeness warnings. C HTTP/MCP default-region regression rerun: 8 PASS; B tests: 30 OK.
 - Residual: official boundary, 453-vs-906 source reconciliation, and raw WorldPop LFS reconstruction remain open; all results are DEMO_ONLY.
+
+
+## Latest real Shiqi HTTP run
+
+2026-11-25T08:57:18Z：使用最新 A v2 adapter/manifest 启动真实 B 与 C MCP HTTP；health/capabilities、assess、optimize（多轮继承）、stress_test、explain_result 和 Trace evidence 全部 PASS，Trace 8/8。摘要与日志位于 ignored outputs/module_c。
