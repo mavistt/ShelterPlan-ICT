@@ -10,11 +10,18 @@ project:
   walking_speed_m_per_s: 1.1
   max_snap_distance_m: 200
   network_buffer_m: 1000
+  od_demand_batch_size: 1024
+  network_source:
+    provider: Geofabrik
+    pbf_path: data/raw/guangdong-latest.osm.pbf
+    pbf_url: https://download.geofabrik.de/asia/china/guangdong-latest.osm.pbf
+    license: OpenStreetMap data, ODbL 1.0
   geocoding_rate_limit_seconds: 0.35
   overpass_endpoints:
     - https://overpass-api.de/api/interpreter
     - https://overpass.kumi.systems/api/interpreter
     - https://overpass.nchc.org.tw/api/interpreter
+  primary_region_id: east_district
 regions:
   east_district:
     town: 东区街道
@@ -27,4 +34,6 @@ regions:
   xiaolan:
     town: 小榄镇
     role: supplementary
+    enabled: false
+    exclusion_reason: "EXCLUDED_GEO_DRIFT: one shelter snaps 424.7m from the walking network; 50,129 OD pairs exceed the 200m shelter snap threshold."
     boundary_query: 小榄镇, 中山市, 广东省, 中国

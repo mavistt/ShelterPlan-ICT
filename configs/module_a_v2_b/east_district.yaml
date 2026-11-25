@@ -3,9 +3,13 @@ project:
   data_version: shelterplan_module_a_v2.0-demo__east_district
   region_id: east_district
   data_status: DEMO_ONLY
+scenario_defaults:
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15.0
 paths:
   shelters_geojson: data/processed/regions/east_district/shelters.geojson
   demand_nodes: data/processed/regions/east_district/demand_nodes.geojson
+  demand_nodes_parquet: data/processed/regions/east_district/demand_nodes.parquet
   travel_matrix: data/processed/regions/east_district/travel_matrix.parquet
   manifest: data/processed/regions/east_district/manifest.json
   a7_quality_summary: data/processed/regions/east_district/quality_summary.json

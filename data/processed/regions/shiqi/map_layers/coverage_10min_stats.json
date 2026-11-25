@@ -1,0 +1,11 @@
+{
+  "region_id": "shiqi",
+  "threshold_min": 10,
+  "demand_nodes": 7336,
+  "covered_nodes": 1064,
+  "uncovered_nodes": 6272,
+  "population_with_candidate": 129834.84403908253,
+  "population_total": 601716.8144463282,
+  "population_share": 0.2157740001973362,
+  "interpretation": "network candidate reachability only; no capacity allocation"
+}

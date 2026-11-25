@@ -3,9 +3,13 @@ project:
   data_version: shelterplan_module_a_v2.0-demo__shiqi
   region_id: shiqi
   data_status: DEMO_ONLY
+scenario_defaults:
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15.0
 paths:
   shelters_geojson: data/processed/regions/shiqi/shelters.geojson
   demand_nodes: data/processed/regions/shiqi/demand_nodes.geojson
+  demand_nodes_parquet: data/processed/regions/shiqi/demand_nodes.parquet
   travel_matrix: data/processed/regions/shiqi/travel_matrix.parquet
   manifest: data/processed/regions/shiqi/manifest.json
   a7_quality_summary: data/processed/regions/shiqi/quality_summary.json

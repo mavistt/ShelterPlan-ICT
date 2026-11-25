@@ -2,12 +2,21 @@
   "schema_version": 1,
   "region_id": "shiqi",
   "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-  "release_status": "DEMO_ONLY",
-  "created_at_utc": "2026-11-20T11:35:54.185719+00:00",
+  "release_status": "PASS_DEMO",
+  "quality_release_status": "PASS_DEMO",
+  "created_at_utc": "2026-11-20T14:59:59.547466+00:00",
   "source": {
     "shelter_clean": "data/processed/shelters_clean.csv",
     "population": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
-    "walking_network": "OpenStreetMap contributors via OSMnx"
+    "walking_network": "Geofabrik Guangdong OSM PBF (static snapshot)",
+    "walking_network_detail": {
+      "provider": "Geofabrik",
+      "format": "OSM PBF",
+      "path": "data/raw/guangdong-latest.osm.pbf",
+      "sha256": "23e254c3c9e711bf5db6b53d507e23efef9f54deacd90d50fdf6aaba39030fb4",
+      "status": "STATIC_PBF",
+      "license": "OpenStreetMap data, ODbL 1.0"
+    }
   },
   "assumptions": {
     "population_demand_ratio": "Scenario parameter; not baked into demand_nodes",
@@ -17,58 +26,152 @@
     "coordinate_status": "approximate_or_unresolved"
   },
   "quality_summary": "data/processed/regions/shiqi/quality_summary.json",
+  "b_adapter": {
+    "path": "configs/module_a_v2_b/shiqi.yaml",
+    "sha256": "e7c70fdc8a4b6aabf5fec552313dfb194e1b355900408d565b667b552947786a",
+    "bytes": 676
+  },
+  "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/shiqi/analysis_area.geojson": {
-      "bytes": 6475,
-      "sha256": "633936f2c2b5cd13ad70b548f1b60f5bb75e7433de7fcdae6ca11fdebfa75dba"
+      "bytes": 6483,
+      "sha256": "fa1e442698dfd49be48a58e29a8f9b89ffd02dbc173849061fbae35a0e1bde91"
     },
     "data/processed/regions/shiqi/boundary.geojson": {
-      "bytes": 3543,
-      "sha256": "ce21246535b277cf525e881af46a10edb229b7b1c7629f82ff9275081c966769"
+      "bytes": 3551,
+      "sha256": "4bbe93fc916be5d212668a52e76f1bf81b066aaa83f31fdd698cc0eaaa8be140"
     },
     "data/processed/regions/shiqi/boundary_metadata.json": {
-      "bytes": 558,
-      "sha256": "9664f95326f324ad5212e88f55832edf556809490d814e3f35664b053cae02cd"
+      "bytes": 569,
+      "sha256": "32ab77ee5f0a1edf0c542adf66e399fcbcb22ce69f80b824bc06a6a803137f5e"
     },
     "data/processed/regions/shiqi/demand_nodes.geojson": {
-      "bytes": 2866203,
-      "sha256": "260053338b7c97800da82cd9fac0c9d111b91ee7b3ba375b9ae8151a8b26f400"
+      "bytes": 3166642,
+      "sha256": "85a21b8ffaf6df1f02ebde27632c94ebf9ccc104bc4e86a9b50b3fac651ff99c"
+    },
+    "data/processed/regions/shiqi/demand_nodes.parquet": {
+      "bytes": 109866,
+      "sha256": "94d14888d10587dad279f05228c78be76d41e8ef4bb9a82e8b49a1c12e29b01c"
+    },
+    "data/processed/regions/shiqi/demand_snap_audit.csv": {
+      "bytes": 373814,
+      "sha256": "934d5b02fdefb201dd310e89e125e89fdde60cf2baf8f5c1b0e63f433a48ef02"
     },
     "data/processed/regions/shiqi/layers_manifest.json": {
-      "bytes": 1594,
-      "sha256": "281c43e40724cfcd3fbcb45b0223c0cd42805e67911fc65d83aee65e6ddbf490"
+      "bytes": 7662,
+      "sha256": "1986c6d28d0fa5743f48a8df236ea55af5da42390dcf37b4075f2206ab2f9922"
+    },
+    "data/processed/regions/shiqi/map_layers/access_gaps_10min.geojson": {
+      "bytes": 4254412,
+      "sha256": "9e839e7fdcbbc673b06532577c754dfaa3cc386135cae28da6789a5695a460f7"
+    },
+    "data/processed/regions/shiqi/map_layers/access_gaps_15min.geojson": {
+      "bytes": 3589066,
+      "sha256": "4c5bdc0bccfce26717719d7292cc0f711c5927e348264f3066ee59ead5013460"
+    },
+    "data/processed/regions/shiqi/map_layers/access_gaps_20min.geojson": {
+      "bytes": 3087422,
+      "sha256": "3d9c854ed5728fb1c77052868bb4fc42bf024104bbd5b763b80f9b3fbe58101a"
+    },
+    "data/processed/regions/shiqi/map_layers/access_gaps_30min.geojson": {
+      "bytes": 2032360,
+      "sha256": "c92502b84550da50dfe6e4785c61389ef6df0cd9e642ba9452d3b4232ea20397"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_10min.geojson": {
+      "bytes": 4976563,
+      "sha256": "63bc5f99f670d4be84508a46414e8178fd3da673a9780ad24f24ca23d3e25467"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_10min_stats.json": {
+      "bytes": 352,
+      "sha256": "e8be964ca5fab4562f2764c08e0906bad6441803ec3b259fe4b86a6485ab8ef6"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_15min.geojson": {
+      "bytes": 4975584,
+      "sha256": "e012634581e69b6dfe1d4fd1fd216f4c76e803a05c2cc28fb1d0f110bfcd119b"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_15min_stats.json": {
+      "bytes": 352,
+      "sha256": "e0b4763cd1efec799cb019db16318f0dc1e7ecddfb9f208afc1b9f3d4953d6e0"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_20min.geojson": {
+      "bytes": 4974846,
+      "sha256": "1504f1a0634e3863791d2c1ffb3e6e593998b71826842d76787723bfbbd46d88"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_20min_stats.json": {
+      "bytes": 352,
+      "sha256": "c7041281d89b59549e81f18a34c362fbae49767060755c1f1720417cb7a6923c"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_30min.geojson": {
+      "bytes": 4973294,
+      "sha256": "af790970085c184361cc5eadd4e7a5706f3cb4330d5fb1acbecbb20852456d42"
+    },
+    "data/processed/regions/shiqi/map_layers/coverage_30min_stats.json": {
+      "bytes": 350,
+      "sha256": "e5141daee795916aa519c146d19c246d8d8f93144715ce18ebe921a1c77fcbe0"
+    },
+    "data/processed/regions/shiqi/map_layers/network_buffer.geojson": {
+      "bytes": 12551,
+      "sha256": "8e6aa8227d40cb9416dec695259a823defe6ae71191bbc5cb6a3585cda622301"
     },
     "data/processed/regions/shiqi/map_layers/population_density.tif": {
-      "bytes": 35507,
-      "sha256": "b704d5ab2826ce60f5f030af20416737e15230f84806f5412f70407a37c4e178"
+      "bytes": 35443,
+      "sha256": "1ef83f92bc2833b0882e89554f5abe55b36b264e077b46f4f691be47d3dcc3b0"
     },
     "data/processed/regions/shiqi/map_layers/population_heatmap.geojson": {
-      "bytes": 3446892,
-      "sha256": "ad6251bee706d3cad8934e7247993e8e7f81c9c2f0751a8e9e8200703ffd4911"
+      "bytes": 3747810,
+      "sha256": "e3a2c72b45d576655713712d4d054a3f14e5b25bb22b7fa8a5a801de6cdce6f6"
     },
     "data/processed/regions/shiqi/map_layers/population_stats.json": {
-      "bytes": 158,
-      "sha256": "9820b175829dbb5be6f1d9da2f9a4c89c14358fd5fcb10f32717c9d259c669f4"
+      "bytes": 275,
+      "sha256": "2e57ca8ab57c1ce0e1b4e7c763ec59a58378f0cc2085a5d4976c7c7d8c721a91"
+    },
+    "data/processed/regions/shiqi/map_layers/road_edges.geojson": {
+      "bytes": 15232627,
+      "sha256": "586162a0fae6d6dbffa70cad624fd802a066bb084a367142a555cda962effab0"
     },
     "data/processed/regions/shiqi/map_layers/shelter_capacity.geojson": {
-      "bytes": 80455,
-      "sha256": "44ec93119c095e0a4a0c5a4c4a3be379e572f6553a7b63d5ca2880b3a6586580"
+      "bytes": 80487,
+      "sha256": "a3b22785f448f1b89d5bec0896692c036f62f62b1fd1f8a635b69f27ad08dcdc"
     },
     "data/processed/regions/shiqi/population.tif": {
       "bytes": 35424,
       "sha256": "c74148a470d7098aa330c4bd28e877d1ed14d9e696740024a9e0e3cff74aa853"
     },
+    "data/processed/regions/shiqi/quality_summary.json": {
+      "bytes": 4520,
+      "sha256": "aed989d62a0e6b195ae84f1cf276f3de0b5dbf226975961a34033203842df776"
+    },
+    "data/processed/regions/shiqi/road_graph_metadata.json": {
+      "bytes": 1021,
+      "sha256": "3374c0c505e7d334e3b5822ef03e1f8731554689684dbcd029697bdc24d2ebb1"
+    },
+    "data/processed/regions/shiqi/road_walk.graphml": {
+      "bytes": 11149694,
+      "sha256": "86c94533b5abcb016440ffbae54be0eba94fd68f68f26a98e896a95fffb1862b"
+    },
     "data/processed/regions/shiqi/scenario_catalog.json": {
-      "bytes": 2826,
-      "sha256": "f316c2b209708c974ca86dea1f3c1183e4ad626b268e33b5a72c9a06c005eb0f"
+      "bytes": 3223,
+      "sha256": "29c4cbc82334dfd0f31a819a06292667216a191d445c8556e62d50bc3d2f8d89"
+    },
+    "data/processed/regions/shiqi/shelter_snap_audit.csv": {
+      "bytes": 1155,
+      "sha256": "72610e97ea2eb34523fdb4d87de83e1cb8cac5f817eb654a49b1771d90963b39"
     },
     "data/processed/regions/shiqi/shelters.geojson": {
-      "bytes": 79789,
-      "sha256": "6b81357d68ff9177cd4b448d7475c8b0995e23046a92c4f779340ab6cb950a06"
+      "bytes": 79821,
+      "sha256": "001d386b47fcfb3979b17fc122c7eb1f84967d367dc5de71f474bd9ad39cd078"
     },
     "data/processed/regions/shiqi/shelters_all.csv": {
-      "bytes": 27234,
-      "sha256": "f2e5bc85a7a9f211d9f0b0743205a8662b6a53c230f66444b522d3b167e016ed"
+      "bytes": 27260,
+      "sha256": "41affa825750cbc568c989ddf96482ac4d5f17de209d498e1580911f70a9d958"
+    },
+    "data/processed/regions/shiqi/travel_matrix.parquet": {
+      "bytes": 5102499,
+      "sha256": "49300a20eb193c8a2cea75a089cb9d5145ae285b8b40be51ab825a9971843ffe"
+    },
+    "configs/module_a_v2_b/shiqi.yaml": {
+      "bytes": 676,
+      "sha256": "e7c70fdc8a4b6aabf5fec552313dfb194e1b355900408d565b667b552947786a"
     }
   }
 }
