@@ -9,6 +9,7 @@
 5. Stage 2 HardBench-inspired Scenario Factory Pilot；
 6. Stage 3 所需 GT/Oracle 输入契约草案。
 7. Stage 2.1 Scenario Factory 质量修复与验收。
+8. Stage 3 Pilot Task Factory、GT Assertions、独立枚举 Oracle、Evaluator 和 VETS 评分闭环。
 
 本轮明确不做：
 
@@ -61,6 +62,8 @@ python -B -m sources.admission_gate
 python -B -m unittest tests.test_admission_gate
 python -B -m unittest tests.test_preflight_manifest tests.test_scenario_factory
 python -B -m benchmark.shelterplan_eval.scenario_factory --candidate-count 48 --target-accepted 24 --scenario-seed 20261125
+python -B -m unittest tests.test_stage3_pilot
+python -B -m benchmark.shelterplan_eval.stage3_pilot --output-dir reports/stage3_pilot
 ~~~
 
 sources.preflight 对 A v2 Manifest 做 raw bytes 校验；文本额外在内存中重建 CRLF 并报告 bytes/SHA-256 证据，Parquet/TIFF/PBF/XLSX 等二进制必须严格匹配。失败时返回非零并生成逐文件阻塞证据，不能通过重写 Manifest 消除失败。CRLF 重建吻合是传输格式证据，不是 VERIFIED 证据。
@@ -68,6 +71,19 @@ sources.preflight 对 A v2 Manifest 做 raw bytes 校验；文本额外在内存
 Stage 2.1 Factory 的每个场景绑定 region_id、A v2 data_version、稳定 dataset_content_hash、审计 source Manifest hash、A v2 Manifest hash、完整基础 shelter IDs、独立 improvement_options、参数来源标签和 seed。B 的 12 项上限只应用于 improvement_options。默认严格验证会拒绝 raw Manifest 错误；Pilot 为了保留结构候选，显式标记为 accepted_demo_only_manifest_blocked_crlf，这些场景绝不具备 VERIFIED 或发布资格。design_difficulty 与 measured_difficulty 分离；没有 Solver Trace/独立 Oracle 时 measured_difficulty 为 NOT_MEASURED。
 
 Pilot 场景族覆盖 coverage baseline、budget tradeoff、capacity competition、facility disruption、multi-stage recovery、clarification/safe-stop 六类。所有 reject 都保留在 reject log，不静默丢弃。
+
+## Stage 3 Pilot 实测
+
+Stage 3 默认复用 `pilot_stage2_1/accepted_scenarios.json` 中的 24 个冻结场景，只选取 8 个多样案例进行 Pilot 实测，不重新随机生成场景。任务工厂会把非法 shelter ID、负预算、负步行阈值、历史版本和缺失预算构造成真正送入 B/API 的请求；多轮任务在运行时使用父轮真实返回的 `scenario_id`，不使用虚拟 parent ID。
+
+Stage 3 输出位于 `reports/stage3_pilot/`：
+
+- `tasks.json`：Agent 输入任务和 B 请求契约；
+- `gt_assertions.json`：区域、版本、预算、行为、安全和状态继承 GT；
+- `results.json`：真实 B Solver/Verifier 结果、Trace、独立 Oracle、VETS 和运行成本；
+- `stage3_pilot_report.md`：逐例 PASS/FAIL/NOT_RUN/INFRA_ERROR/UNSCORABLE 及阻塞说明。
+
+石岐使用当前 Module B 配置的 HTTP 路由；东区使用显式 A v2 adapter 调用真实 B Solver，当前 HTTP 路由仍明确标为 UNSUPPORTED，不静默回退石岐。没有 Agent/LLM 输出的 CLARIFY 和 SAFE_STOP 保持 UNSCORABLE；没有独立 Oracle 的案例不会宣称最优已证明。所有真实 GIS 结果仍为 DEMO_ONLY。
 
 ## 当前边界
 

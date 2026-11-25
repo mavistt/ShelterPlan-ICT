@@ -1,0 +1,1854 @@
+[
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-shiqi-000",
+    "scenario_id": "ST21-shiqi-000",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "scenario_family": "coverage_baseline",
+    "design_difficulty": {
+      "decision_complexity": "low",
+      "workflow_complexity": "single_stage",
+      "interaction_complexity": "complete_request",
+      "design_goal": "measure a normal existing-shelter baseline before hypothetical investment"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 12.0,
+      "budget_units": 13.0,
+      "budget_competition": false,
+      "budget_shortfall_units": 0.0,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "complete_request",
+    "expected_behavior": "EXECUTE",
+    "execution_route": "configured_http",
+    "http_route_status": "SUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/shiqi.yaml",
+    "contract_repairs": [],
+    "agent_input": {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "coverage_baseline",
+      "request": {
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "shelter_ids": [
+          "zs_04ec8cb884",
+          "zs_0ea6eea145",
+          "zs_1654dda235",
+          "zs_16e73eb7d2",
+          "zs_3fa8ce2b1e",
+          "zs_4f00bd0879",
+          "zs_5418f17c8e",
+          "zs_59c4ec7386",
+          "zs_5f2c91e5ad",
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_7c10257791",
+          "zs_93b853ea3f",
+          "zs_9886d2ef6a",
+          "zs_9ae03a468b",
+          "zs_a0d74bfdf1",
+          "zs_b4877c9de8",
+          "zs_ba9e4c3236",
+          "zs_c7b8f8436b",
+          "zs_c8867d526a",
+          "zs_c9d5429d03",
+          "zs_d2948c3ad8",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1",
+          "zs_f1e6d13f73"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 10,
+        "improvement_options": [
+          {
+            "option_id": "OPT-shiqi-000-00",
+            "shelter_id": "zs_04ec8cb884",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-000-01",
+            "shelter_id": "zs_0ea6eea145",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 13.0
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "EXECUTE",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "budget_units": 13.0,
+      "allowed_option_ids": [
+        "OPT-shiqi-000-00",
+        "OPT-shiqi-000-01"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": false,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "assess",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-shiqi-000-d30afdc8",
+      "scenario_id": "ST21-shiqi-000",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "task_type": "assess",
+      "scenario": {
+        "scenario_id": "ST21-shiqi-000",
+        "parent_scenario_id": null,
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 10,
+        "budget_units": 13.0,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "coverage_baseline"
+        }
+      },
+      "parameters": {}
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-east_district-001",
+    "scenario_id": "ST21-east_district-001",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "scenario_family": "budget_tradeoff",
+    "design_difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request",
+      "design_goal": "force budget competition between legal capacity expansions"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "complete_request",
+    "expected_behavior": "EXECUTE",
+    "execution_route": "explicit_adapter_direct_solver",
+    "http_route_status": "UNSUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/east_district.yaml",
+    "contract_repairs": [],
+    "agent_input": {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "budget_tradeoff",
+      "request": {
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "shelter_ids": [
+          "zs_0705291eaf",
+          "zs_1a562fd2ec",
+          "zs_1b4df7920b",
+          "zs_251667c58b",
+          "zs_26835a8daa",
+          "zs_4213304fee",
+          "zs_5151e10626",
+          "zs_528407a207",
+          "zs_54cbb64815",
+          "zs_574714482d",
+          "zs_587a20a7af",
+          "zs_58fc306a1f",
+          "zs_60213118ec",
+          "zs_6358642b6f",
+          "zs_63f1d8e4ef",
+          "zs_737caba8e8",
+          "zs_740e2a0ec1",
+          "zs_78f8de70a3",
+          "zs_9445e74744",
+          "zs_a4eac8200b",
+          "zs_a947248455",
+          "zs_b69995549d",
+          "zs_b8ca9544d3",
+          "zs_c801e944f6",
+          "zs_d58044b4d4",
+          "zs_e016bde4b3",
+          "zs_e434541fb3",
+          "zs_e9f476cdd6",
+          "zs_f7d567aca2",
+          "zs_fed820d94e",
+          "zs_ff435768ca"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 15,
+        "improvement_options": [
+          {
+            "option_id": "OPT-east_district-001-00",
+            "shelter_id": "zs_1a562fd2ec",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-001-01",
+            "shelter_id": "zs_1b4df7920b",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-001-02",
+            "shelter_id": "zs_251667c58b",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-001-03",
+            "shelter_id": "zs_26835a8daa",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 14.4
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "EXECUTE",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-east_district-001-00",
+        "OPT-east_district-001-01",
+        "OPT-east_district-001-02",
+        "OPT-east_district-001-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": true,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "optimize",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-east_district-001-01ab145f",
+      "scenario_id": "ST21-east_district-001",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "task_type": "optimize",
+      "scenario": {
+        "scenario_id": "ST21-east_district-001",
+        "parent_scenario_id": null,
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 15,
+        "budget_units": 14.4,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "budget_tradeoff"
+        }
+      },
+      "parameters": {
+        "budget_units": 14.4
+      },
+      "improvement_options": [
+        {
+          "option_id": "OPT-east_district-001-00",
+          "shelter_id": "zs_1a562fd2ec",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 120.0,
+          "cost_units": 5.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-001-01",
+          "shelter_id": "zs_1b4df7920b",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 200.0,
+          "cost_units": 7.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-001-02",
+          "shelter_id": "zs_251667c58b",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 280.0,
+          "cost_units": 9.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-001-03",
+          "shelter_id": "zs_26835a8daa",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 360.0,
+          "cost_units": 11.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        }
+      ]
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-shiqi-002",
+    "scenario_id": "ST21-shiqi-002",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "scenario_family": "capacity_competition",
+    "design_difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "complete_request",
+      "design_goal": "exercise exclusive alternatives targeting the same existing shelter"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 28.0,
+      "budget_units": 12.6,
+      "budget_competition": true,
+      "budget_shortfall_units": 15.4,
+      "exclusive_group_count": 1,
+      "redundant_investment_option_ids": [
+        "OPT-shiqi-002-00",
+        "OPT-shiqi-002-01"
+      ],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "complete_request",
+    "expected_behavior": "EXECUTE",
+    "execution_route": "configured_http",
+    "http_route_status": "SUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/shiqi.yaml",
+    "contract_repairs": [],
+    "agent_input": {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "capacity_competition",
+      "request": {
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "shelter_ids": [
+          "zs_04ec8cb884",
+          "zs_0ea6eea145",
+          "zs_1654dda235",
+          "zs_16e73eb7d2",
+          "zs_3fa8ce2b1e",
+          "zs_4f00bd0879",
+          "zs_5418f17c8e",
+          "zs_59c4ec7386",
+          "zs_5f2c91e5ad",
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_7c10257791",
+          "zs_93b853ea3f",
+          "zs_9886d2ef6a",
+          "zs_9ae03a468b",
+          "zs_a0d74bfdf1",
+          "zs_b4877c9de8",
+          "zs_ba9e4c3236",
+          "zs_c7b8f8436b",
+          "zs_c8867d526a",
+          "zs_c9d5429d03",
+          "zs_d2948c3ad8",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1",
+          "zs_f1e6d13f73"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 20,
+        "improvement_options": [
+          {
+            "option_id": "OPT-shiqi-002-00",
+            "shelter_id": "zs_1654dda235",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 4.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "exclusive_group",
+            "exclusive_group": "capacity-alternative-zs_1654dda235"
+          },
+          {
+            "option_id": "OPT-shiqi-002-01",
+            "shelter_id": "zs_1654dda235",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 4.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "exclusive_group",
+            "exclusive_group": "capacity-alternative-zs_1654dda235"
+          },
+          {
+            "option_id": "OPT-shiqi-002-02",
+            "shelter_id": "zs_3fa8ce2b1e",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-002-03",
+            "shelter_id": "zs_4f00bd0879",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 12.6
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "EXECUTE",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "budget_units": 12.6,
+      "allowed_option_ids": [
+        "OPT-shiqi-002-00",
+        "OPT-shiqi-002-01",
+        "OPT-shiqi-002-02",
+        "OPT-shiqi-002-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": true,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "optimize",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-shiqi-002-38d2213a",
+      "scenario_id": "ST21-shiqi-002",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "task_type": "optimize",
+      "scenario": {
+        "scenario_id": "ST21-shiqi-002",
+        "parent_scenario_id": null,
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 20,
+        "budget_units": 12.6,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "capacity_competition"
+        }
+      },
+      "parameters": {
+        "budget_units": 12.6
+      },
+      "improvement_options": [
+        {
+          "option_id": "OPT-shiqi-002-00",
+          "shelter_id": "zs_1654dda235",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 120.0,
+          "cost_units": 4.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "exclusive_group",
+          "exclusive_group": "capacity-alternative-zs_1654dda235"
+        },
+        {
+          "option_id": "OPT-shiqi-002-01",
+          "shelter_id": "zs_1654dda235",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 120.0,
+          "cost_units": 4.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "exclusive_group",
+          "exclusive_group": "capacity-alternative-zs_1654dda235"
+        },
+        {
+          "option_id": "OPT-shiqi-002-02",
+          "shelter_id": "zs_3fa8ce2b1e",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 280.0,
+          "cost_units": 9.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-shiqi-002-03",
+          "shelter_id": "zs_4f00bd0879",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 360.0,
+          "cost_units": 11.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        }
+      ]
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-east_district-003",
+    "scenario_id": "ST21-east_district-003",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "scenario_family": "facility_disruption",
+    "design_difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request",
+      "design_goal": "remove service from a real shelter while retaining the regional GIS environment"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 8000.0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "complete_request",
+    "expected_behavior": "EXECUTE",
+    "execution_route": "explicit_adapter_direct_solver",
+    "http_route_status": "UNSUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/east_district.yaml",
+    "contract_repairs": [],
+    "agent_input": {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "facility_disruption",
+      "request": {
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "shelter_ids": [
+          "zs_0705291eaf",
+          "zs_1a562fd2ec",
+          "zs_1b4df7920b",
+          "zs_251667c58b",
+          "zs_26835a8daa",
+          "zs_4213304fee",
+          "zs_5151e10626",
+          "zs_528407a207",
+          "zs_54cbb64815",
+          "zs_574714482d",
+          "zs_587a20a7af",
+          "zs_58fc306a1f",
+          "zs_60213118ec",
+          "zs_6358642b6f",
+          "zs_63f1d8e4ef",
+          "zs_737caba8e8",
+          "zs_740e2a0ec1",
+          "zs_78f8de70a3",
+          "zs_9445e74744",
+          "zs_a4eac8200b",
+          "zs_a947248455",
+          "zs_b69995549d",
+          "zs_b8ca9544d3",
+          "zs_c801e944f6",
+          "zs_d58044b4d4",
+          "zs_e016bde4b3",
+          "zs_e434541fb3",
+          "zs_e9f476cdd6",
+          "zs_f7d567aca2",
+          "zs_fed820d94e",
+          "zs_ff435768ca"
+        ],
+        "disabled_shelter_ids": [
+          "zs_251667c58b"
+        ],
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 30,
+        "improvement_options": [
+          {
+            "option_id": "OPT-east_district-003-00",
+            "shelter_id": "zs_26835a8daa",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-003-01",
+            "shelter_id": "zs_4213304fee",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-003-02",
+            "shelter_id": "zs_5151e10626",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-003-03",
+            "shelter_id": "zs_528407a207",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 14.4
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "EXECUTE",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-east_district-003-00",
+        "OPT-east_district-003-01",
+        "OPT-east_district-003-02",
+        "OPT-east_district-003-03"
+      ],
+      "disabled_shelter_ids": [
+        "zs_251667c58b"
+      ],
+      "parent_state_required": false,
+      "independent_oracle_required": false,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "assess",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-east_district-003-ec7b5692",
+      "scenario_id": "ST21-east_district-003",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "task_type": "assess",
+      "scenario": {
+        "scenario_id": "ST21-east_district-003",
+        "parent_scenario_id": null,
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 30,
+        "budget_units": 14.4,
+        "disabled_shelter_ids": [
+          "zs_251667c58b"
+        ],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "facility_disruption"
+        }
+      },
+      "parameters": {}
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-shiqi-004",
+    "scenario_id": "ST21-shiqi-004",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "scenario_family": "multi_stage_recovery",
+    "design_difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "parameter_edit",
+      "design_goal": "carry a parent scenario and staged capacity-expansion state forward"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": true,
+      "multi_round_state_inheritance": true,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "parameter_edit",
+    "expected_behavior": "EXECUTE",
+    "execution_route": "configured_http",
+    "http_route_status": "SUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/shiqi.yaml",
+    "contract_repairs": [
+      "virtual_parent_id_replaced_by_runtime_parent_scenario_id"
+    ],
+    "agent_input": {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "multi_stage_recovery",
+      "request": {
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "shelter_ids": [
+          "zs_04ec8cb884",
+          "zs_0ea6eea145",
+          "zs_1654dda235",
+          "zs_16e73eb7d2",
+          "zs_3fa8ce2b1e",
+          "zs_4f00bd0879",
+          "zs_5418f17c8e",
+          "zs_59c4ec7386",
+          "zs_5f2c91e5ad",
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_7c10257791",
+          "zs_93b853ea3f",
+          "zs_9886d2ef6a",
+          "zs_9ae03a468b",
+          "zs_a0d74bfdf1",
+          "zs_b4877c9de8",
+          "zs_ba9e4c3236",
+          "zs_c7b8f8436b",
+          "zs_c8867d526a",
+          "zs_c9d5429d03",
+          "zs_d2948c3ad8",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1",
+          "zs_f1e6d13f73"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 10,
+        "improvement_options": [
+          {
+            "option_id": "OPT-shiqi-004-00",
+            "shelter_id": "zs_3fa8ce2b1e",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-004-01",
+            "shelter_id": "zs_4f00bd0879",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-004-02",
+            "shelter_id": "zs_5418f17c8e",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-004-03",
+            "shelter_id": "zs_59c4ec7386",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 14.4,
+        "parent_scenario_id": "ST21-parent-004"
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "EXECUTE",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-shiqi-004-00",
+        "OPT-shiqi-004-01",
+        "OPT-shiqi-004-02",
+        "OPT-shiqi-004-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": true,
+      "independent_oracle_required": true,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "rounds": [
+      {
+        "round": 1,
+        "role": "parent",
+        "payload": {
+          "task_id": "stage3-ST21-shiqi-004-e8f561e3",
+          "scenario_id": "ST21-shiqi-004-parent",
+          "region_id": "shiqi",
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "task_type": "optimize",
+          "scenario": {
+            "scenario_id": "ST21-shiqi-004-parent",
+            "parent_scenario_id": null,
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+            "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.25,
+            "max_walk_time_min": 10,
+            "budget_units": 12.0,
+            "disabled_shelter_ids": [],
+            "changes": {
+              "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+              "scenario_family": "multi_stage_recovery"
+            }
+          },
+          "parameters": {
+            "budget_units": 12.0
+          },
+          "improvement_options": [
+            {
+              "option_id": "OPT-shiqi-004-00",
+              "shelter_id": "zs_3fa8ce2b1e",
+              "action": "capacity_expansion",
+              "delta_capacity_persons": 120.0,
+              "cost_units": 5.0,
+              "eligible": true,
+              "source_status": "DEMO_ONLY; hypothetical expansion",
+              "hypothetical": true,
+              "human_confirmed": false,
+              "combination_policy": "standalone",
+              "exclusive_group": null
+            },
+            {
+              "option_id": "OPT-shiqi-004-01",
+              "shelter_id": "zs_4f00bd0879",
+              "action": "capacity_expansion",
+              "delta_capacity_persons": 200.0,
+              "cost_units": 7.0,
+              "eligible": true,
+              "source_status": "DEMO_ONLY; hypothetical expansion",
+              "hypothetical": true,
+              "human_confirmed": false,
+              "combination_policy": "standalone",
+              "exclusive_group": null
+            }
+          ]
+        }
+      },
+      {
+        "round": 2,
+        "role": "child",
+        "payload_template": {
+          "task_id": "stage3-ST21-shiqi-004-a0b8b746",
+          "scenario_id": "ST21-shiqi-004-child",
+          "region_id": "shiqi",
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "task_type": "optimize",
+          "scenario": {
+            "scenario_id": "ST21-shiqi-004-child",
+            "parent_scenario_id": null,
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+            "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.25,
+            "max_walk_time_min": 10,
+            "budget_units": 14.4,
+            "disabled_shelter_ids": [],
+            "changes": {
+              "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+              "scenario_family": "multi_stage_recovery"
+            }
+          },
+          "parameters": {
+            "budget_units": 14.4
+          },
+          "improvement_options": [
+            {
+              "option_id": "OPT-shiqi-004-02",
+              "shelter_id": "zs_5418f17c8e",
+              "action": "capacity_expansion",
+              "delta_capacity_persons": 280.0,
+              "cost_units": 9.0,
+              "eligible": true,
+              "source_status": "DEMO_ONLY; hypothetical expansion",
+              "hypothetical": true,
+              "human_confirmed": false,
+              "combination_policy": "standalone",
+              "exclusive_group": null
+            },
+            {
+              "option_id": "OPT-shiqi-004-03",
+              "shelter_id": "zs_59c4ec7386",
+              "action": "capacity_expansion",
+              "delta_capacity_persons": 360.0,
+              "cost_units": 11.0,
+              "eligible": true,
+              "source_status": "DEMO_ONLY; hypothetical expansion",
+              "hypothetical": true,
+              "human_confirmed": false,
+              "combination_policy": "standalone",
+              "exclusive_group": null
+            }
+          ]
+        }
+      }
+    ],
+    "task_type": "multi_round"
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-east_district-011",
+    "scenario_id": "ST21-east_district-011",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "scenario_family": "clarification_and_safe_stop",
+    "design_difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "safe_stop",
+      "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": true,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "safe_stop",
+    "expected_behavior": "SAFE_STOP",
+    "execution_route": "explicit_adapter_direct_solver",
+    "http_route_status": "UNSUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/east_district.yaml",
+    "contract_repairs": [
+      "safe_stop_is_evaluated_from_capacity_evidence"
+    ],
+    "agent_input": {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "clarification_and_safe_stop",
+      "request": {
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "shelter_ids": [
+          "zs_0705291eaf",
+          "zs_1a562fd2ec",
+          "zs_1b4df7920b",
+          "zs_251667c58b",
+          "zs_26835a8daa",
+          "zs_4213304fee",
+          "zs_5151e10626",
+          "zs_528407a207",
+          "zs_54cbb64815",
+          "zs_574714482d",
+          "zs_587a20a7af",
+          "zs_58fc306a1f",
+          "zs_60213118ec",
+          "zs_6358642b6f",
+          "zs_63f1d8e4ef",
+          "zs_737caba8e8",
+          "zs_740e2a0ec1",
+          "zs_78f8de70a3",
+          "zs_9445e74744",
+          "zs_a4eac8200b",
+          "zs_a947248455",
+          "zs_b69995549d",
+          "zs_b8ca9544d3",
+          "zs_c801e944f6",
+          "zs_d58044b4d4",
+          "zs_e016bde4b3",
+          "zs_e434541fb3",
+          "zs_e9f476cdd6",
+          "zs_f7d567aca2",
+          "zs_fed820d94e",
+          "zs_ff435768ca"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 10,
+        "improvement_options": [
+          {
+            "option_id": "OPT-east_district-011-00",
+            "shelter_id": "zs_58fc306a1f",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-011-01",
+            "shelter_id": "zs_60213118ec",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-011-02",
+            "shelter_id": "zs_6358642b6f",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-011-03",
+            "shelter_id": "zs_63f1d8e4ef",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 14.4,
+        "safe_stop_reason": "reachability only; no capacity allocation claim",
+        "target_population_share": 0.07
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "SAFE_STOP",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-east_district-011-00",
+        "OPT-east_district-011-01",
+        "OPT-east_district-011-02",
+        "OPT-east_district-011-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": false,
+      "safe_stop_capacity_evidence_required": true
+    },
+    "task_type": "assess",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-east_district-011-d8074c64",
+      "scenario_id": "ST21-east_district-011",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "task_type": "assess",
+      "scenario": {
+        "scenario_id": "ST21-east_district-011",
+        "parent_scenario_id": null,
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 10,
+        "budget_units": 14.4,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "clarification_and_safe_stop"
+        }
+      },
+      "parameters": {}
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-east_district-029",
+    "scenario_id": "ST21-east_district-029",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "scenario_family": "clarification_and_safe_stop",
+    "design_difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "missing_parameter",
+      "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": false,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "missing_parameter",
+    "expected_behavior": "CLARIFY",
+    "execution_route": "explicit_adapter_direct_solver",
+    "http_route_status": "UNSUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/east_district.yaml",
+    "contract_repairs": [
+      "missing_budget_is_sent_to_optimize"
+    ],
+    "agent_input": {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "clarification_and_safe_stop",
+      "request": {
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "shelter_ids": [
+          "zs_0705291eaf",
+          "zs_1a562fd2ec",
+          "zs_1b4df7920b",
+          "zs_251667c58b",
+          "zs_26835a8daa",
+          "zs_4213304fee",
+          "zs_5151e10626",
+          "zs_528407a207",
+          "zs_54cbb64815",
+          "zs_574714482d",
+          "zs_587a20a7af",
+          "zs_58fc306a1f",
+          "zs_60213118ec",
+          "zs_6358642b6f",
+          "zs_63f1d8e4ef",
+          "zs_737caba8e8",
+          "zs_740e2a0ec1",
+          "zs_78f8de70a3",
+          "zs_9445e74744",
+          "zs_a4eac8200b",
+          "zs_a947248455",
+          "zs_b69995549d",
+          "zs_b8ca9544d3",
+          "zs_c801e944f6",
+          "zs_d58044b4d4",
+          "zs_e016bde4b3",
+          "zs_e434541fb3",
+          "zs_e9f476cdd6",
+          "zs_f7d567aca2",
+          "zs_fed820d94e",
+          "zs_ff435768ca"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15,
+        "improvement_options": [
+          {
+            "option_id": "OPT-east_district-029-00",
+            "shelter_id": "zs_fed820d94e",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-029-01",
+            "shelter_id": "zs_ff435768ca",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-029-02",
+            "shelter_id": "zs_0705291eaf",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-east_district-029-03",
+            "shelter_id": "zs_1a562fd2ec",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ]
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "CLARIFY",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-east_district-029-00",
+        "OPT-east_district-029-01",
+        "OPT-east_district-029-02",
+        "OPT-east_district-029-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": false,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "optimize",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-east_district-029-2329f67e",
+      "scenario_id": "ST21-east_district-029",
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "analysis_mode": "demo",
+      "task_type": "optimize",
+      "scenario": {
+        "scenario_id": "ST21-east_district-029",
+        "parent_scenario_id": null,
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.3,
+        "max_walk_time_min": 15,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "clarification_and_safe_stop"
+        }
+      },
+      "improvement_options": [
+        {
+          "option_id": "OPT-east_district-029-00",
+          "shelter_id": "zs_fed820d94e",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 120.0,
+          "cost_units": 5.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-029-01",
+          "shelter_id": "zs_ff435768ca",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 200.0,
+          "cost_units": 7.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-029-02",
+          "shelter_id": "zs_0705291eaf",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 280.0,
+          "cost_units": 9.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-east_district-029-03",
+          "shelter_id": "zs_1a562fd2ec",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 360.0,
+          "cost_units": 11.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        }
+      ]
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage3-pilot-1.0",
+    "task_id": "S3-ST21-shiqi-016",
+    "scenario_id": "ST21-shiqi-016",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "scenario_family": "multi_stage_recovery",
+    "design_difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "invalid_id",
+      "design_goal": "carry a parent scenario and staged capacity-expansion state forward"
+    },
+    "design_difficulty_evidence": {
+      "total_option_cost_units": 32.0,
+      "budget_units": 14.4,
+      "budget_competition": true,
+      "budget_shortfall_units": 17.6,
+      "exclusive_group_count": 0,
+      "redundant_investment_option_ids": [],
+      "spatial_overlap": {
+        "status": "NOT_MEASURED",
+        "reason": "No independent spatial project model"
+      },
+      "greedy_mip_gap": {
+        "status": "NOT_MEASURED",
+        "value": null,
+        "proof_level": "NONE"
+      },
+      "damaged_service_loss": {
+        "status": "DESIGN_ESTIMATE",
+        "capacity_removed_persons": 0
+      },
+      "conditional_branch_required": false,
+      "multi_round_state_inheritance": true,
+      "negative_request_correctness": "NOT_EXECUTED"
+    },
+    "interaction_type": "invalid_id",
+    "expected_behavior": "REJECT",
+    "execution_route": "configured_http",
+    "http_route_status": "SUPPORTED",
+    "http_route_identity": {
+      "configured_region_id": "shiqi",
+      "source_config": "configs/module_a_v2_b/shiqi.yaml",
+      "configured_data_version": "shelterplan_module_a_v2.0-demo__shiqi"
+    },
+    "source_adapter": "configs/module_a_v2_b/shiqi.yaml",
+    "contract_repairs": [
+      "invalid_shelter_id_is_sent_to_B"
+    ],
+    "agent_input": {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "scenario_family": "multi_stage_recovery",
+      "request": {
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "shelter_ids": [
+          "zs_04ec8cb884",
+          "zs_0ea6eea145",
+          "zs_1654dda235",
+          "zs_16e73eb7d2",
+          "zs_3fa8ce2b1e",
+          "zs_4f00bd0879",
+          "zs_5418f17c8e",
+          "zs_59c4ec7386",
+          "zs_5f2c91e5ad",
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_7c10257791",
+          "zs_93b853ea3f",
+          "zs_9886d2ef6a",
+          "zs_9ae03a468b",
+          "zs_a0d74bfdf1",
+          "zs_b4877c9de8",
+          "zs_ba9e4c3236",
+          "zs_c7b8f8436b",
+          "zs_c8867d526a",
+          "zs_c9d5429d03",
+          "zs_d2948c3ad8",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1",
+          "zs_f1e6d13f73"
+        ],
+        "disabled_shelter_ids": [],
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 10,
+        "improvement_options": [
+          {
+            "option_id": "OPT-shiqi-016-00",
+            "shelter_id": "invalid-016",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 120.0,
+            "cost_units": 5.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-016-01",
+            "shelter_id": "zs_ba9e4c3236",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 200.0,
+            "cost_units": 7.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-016-02",
+            "shelter_id": "zs_c7b8f8436b",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 280.0,
+            "cost_units": 9.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          },
+          {
+            "option_id": "OPT-shiqi-016-03",
+            "shelter_id": "zs_c8867d526a",
+            "action": "capacity_expansion",
+            "delta_capacity_persons": 360.0,
+            "cost_units": 11.0,
+            "eligible": true,
+            "source_status": "DEMO_ONLY; hypothetical expansion",
+            "hypothetical": true,
+            "human_confirmed": false,
+            "combination_policy": "standalone",
+            "exclusive_group": null
+          }
+        ],
+        "budget_units": 14.4
+      }
+    },
+    "gt_assertions": {
+      "expected_behavior": "REJECT",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "budget_units": 14.4,
+      "allowed_option_ids": [
+        "OPT-shiqi-016-00",
+        "OPT-shiqi-016-01",
+        "OPT-shiqi-016-02",
+        "OPT-shiqi-016-03"
+      ],
+      "disabled_shelter_ids": [],
+      "parent_state_required": false,
+      "independent_oracle_required": false,
+      "safe_stop_capacity_evidence_required": false
+    },
+    "task_type": "optimize",
+    "b_request_payload": {
+      "task_id": "stage3-ST21-shiqi-016-adb000f5",
+      "scenario_id": "ST21-shiqi-016",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "task_type": "optimize",
+      "scenario": {
+        "scenario_id": "ST21-shiqi-016",
+        "parent_scenario_id": null,
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+        "analysis_mode": "demo",
+        "population_demand_ratio": 0.25,
+        "max_walk_time_min": 10,
+        "budget_units": 14.4,
+        "disabled_shelter_ids": [],
+        "changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "multi_stage_recovery"
+        }
+      },
+      "parameters": {
+        "budget_units": 14.4
+      },
+      "improvement_options": [
+        {
+          "option_id": "OPT-shiqi-016-00",
+          "shelter_id": "invalid-ST21-shiqi-016",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 120.0,
+          "cost_units": 5.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-shiqi-016-01",
+          "shelter_id": "zs_ba9e4c3236",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 200.0,
+          "cost_units": 7.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-shiqi-016-02",
+          "shelter_id": "zs_c7b8f8436b",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 280.0,
+          "cost_units": 9.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        },
+        {
+          "option_id": "OPT-shiqi-016-03",
+          "shelter_id": "zs_c8867d526a",
+          "action": "capacity_expansion",
+          "delta_capacity_persons": 360.0,
+          "cost_units": 11.0,
+          "eligible": true,
+          "source_status": "DEMO_ONLY; hypothetical expansion",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "combination_policy": "standalone",
+          "exclusive_group": null
+        }
+      ]
+    }
+  }
+]
