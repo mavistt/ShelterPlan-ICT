@@ -7,6 +7,7 @@ from pathlib import Path
 from sources.preflight import (
     ROOT,
     normalized_text_sha256,
+    reconstructed_crlf_bytes,
     verify_declared_file,
     verify_region_manifest,
 )
@@ -35,7 +36,7 @@ class ManifestVerificationTests(unittest.TestCase):
         expected = dict(region_manifest["files"][path])
         expected["sha256"] = "0" * 64
         result = verify_declared_file(path, expected)
-        self.assertEqual(result["status"], "FAIL")
+        self.assertEqual(result["status"], "CONTENT_MISMATCH")
         self.assertFalse(result["allowed_text_normalization"])
         self.assertIsNone(result["normalized_text_sha256"])
 
@@ -48,9 +49,23 @@ class ManifestVerificationTests(unittest.TestCase):
             path,
             {"bytes": actual_path.stat().st_size + 1, "sha256": normalized_hash},
         )
-        self.assertEqual(result["status"], "MATCH_NORMALIZED_TEXT")
+        self.assertEqual(result["status"], "CONTENT_MISMATCH")
         self.assertFalse(result["raw_match"])
         self.assertTrue(result["normalized_text_match"])
+
+    def test_text_crlf_reconstruction_matches_manifest(self):
+        region_manifest = json.loads(
+            (ROOT / "data/processed/regions/shiqi/manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        path = "data/processed/regions/shiqi/shelters.geojson"
+        expected = region_manifest["files"][path]
+        rebuilt = reconstructed_crlf_bytes(ROOT / path)
+        result = verify_declared_file(path, expected)
+        self.assertEqual(result["status"], "MATCH_RECONSTRUCTED_CRLF")
+        self.assertTrue(result["reconstructed_crlf_match"])
+        self.assertEqual(len(rebuilt), expected["bytes"])
 
     def test_missing_file_is_reported(self):
         result = verify_declared_file(
@@ -66,9 +81,12 @@ class ManifestVerificationTests(unittest.TestCase):
         self.assertFalse(result["all_declared_files_match"])
         self.assertGreater(result["failure_count"], 0)
         failed = [
-            item for item in result["file_checks"] if item["status"] == "FAIL"
+            item for item in result["file_checks"]
+            if item["status"] == "CONTENT_MISMATCH"
         ]
-        self.assertTrue(failed)
+        self.assertFalse(failed)
+        self.assertEqual(result["content_failure_count"], 0)
+        self.assertGreater(result["reconstructed_crlf_match_count"], 0)
         self.assertTrue(
             all(
                 item["path"]

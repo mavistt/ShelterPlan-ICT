@@ -1,4 +1,4 @@
-# ShelterPlan-Eval Stage 0/1/1.5/2 Pilot
+# ShelterPlan-Eval Stage 0/1/1.5/2/2.1 Pilot
 
 本目录是 ShelterPlan-Eval 的独立评测基础设施入口。本轮完成：
 
@@ -8,6 +8,7 @@
 4. Stage 1.5 A v2 Manifest 逐文件校验；
 5. Stage 2 HardBench-inspired Scenario Factory Pilot；
 6. Stage 3 所需 GT/Oracle 输入契约草案。
+7. Stage 2.1 Scenario Factory 质量修复与验收。
 
 本轮明确不做：
 
@@ -34,6 +35,9 @@
 - Stage 2 候选：benchmark/shelterplan_eval/pilot/candidates.json
 - Stage 2 接受集：benchmark/shelterplan_eval/pilot/accepted_scenarios.json
 - Stage 2 拒绝日志：benchmark/shelterplan_eval/pilot/reject_log.json
+- Stage 2.1 质量审查：reports/stage2_quality_review.md
+- Stage 2.1 Pilot：benchmark/shelterplan_eval/pilot_stage2_1
+- Stage 2.1 B HTTP 证据：reports/stage2_1_b_http_contract.json
 
 ## 准入语义
 
@@ -56,12 +60,12 @@ python -B -m sources.preflight
 python -B -m sources.admission_gate
 python -B -m unittest tests.test_admission_gate
 python -B -m unittest tests.test_preflight_manifest tests.test_scenario_factory
-python -B -m benchmark.shelterplan_eval.scenario_factory --candidate-count 40 --target-accepted 24 --scenario-seed 20261125
+python -B -m benchmark.shelterplan_eval.scenario_factory --candidate-count 48 --target-accepted 24 --scenario-seed 20261125
 ~~~
 
-sources.preflight 对 A v2 Manifest 做 raw bytes 校验；文本只允许明确的 UTF-8 BOM/换行规范化，Parquet/TIFF/PBF/XLSX 等二进制必须严格匹配。失败时返回非零并生成逐文件阻塞证据，不能通过重写 Manifest 消除失败。
+sources.preflight 对 A v2 Manifest 做 raw bytes 校验；文本额外在内存中重建 CRLF 并报告 bytes/SHA-256 证据，Parquet/TIFF/PBF/XLSX 等二进制必须严格匹配。失败时返回非零并生成逐文件阻塞证据，不能通过重写 Manifest 消除失败。CRLF 重建吻合是传输格式证据，不是 VERIFIED 证据。
 
-Stage 2 Factory 的每个场景绑定 region_id、A v2 data_version、Eval source Manifest hash、A v2 Manifest hash、合法 shelter IDs、disabled shelter IDs、参数来源标签和 seed。默认严格验证会拒绝 Manifest 错误；Pilot 为了保留结构候选，显式标记为 accepted_demo_only_manifest_blocked，这些场景绝不具备 VERIFIED 或发布资格。
+Stage 2.1 Factory 的每个场景绑定 region_id、A v2 data_version、稳定 dataset_content_hash、审计 source Manifest hash、A v2 Manifest hash、完整基础 shelter IDs、独立 improvement_options、参数来源标签和 seed。B 的 12 项上限只应用于 improvement_options。默认严格验证会拒绝 raw Manifest 错误；Pilot 为了保留结构候选，显式标记为 accepted_demo_only_manifest_blocked_crlf，这些场景绝不具备 VERIFIED 或发布资格。design_difficulty 与 measured_difficulty 分离；没有 Solver Trace/独立 Oracle 时 measured_difficulty 为 NOT_MEASURED。
 
 Pilot 场景族覆盖 coverage baseline、budget tradeoff、capacity competition、facility disruption、multi-stage recovery、clarification/safe-stop 六类。所有 reject 都保留在 reject log，不静默丢弃。
 

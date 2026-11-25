@@ -28,6 +28,8 @@ TEXT_SUFFIXES = {
     ".yaml",
     ".yml",
 }
+DATASET_IDENTITY_VERSION = "dataset-content-v1"
+ADMISSION_POLICY_VERSION = "admission-gate-v2"
 
 
 def sha256_file(path: Path) -> str:
@@ -57,10 +59,62 @@ def normalized_text_sha256(path: Path) -> str | None:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
+def line_ending_counts(raw: bytes) -> dict[str, int | str]:
+    """Return byte-level line-ending evidence without changing the source file."""
+    crlf = raw.count(b"\r\n")
+    cr = raw.count(b"\r")
+    lf = raw.count(b"\n")
+    lone_cr = cr - crlf
+    lone_lf = lf - crlf
+    if crlf and not lone_cr and not lone_lf:
+        mode = "CRLF"
+    elif lone_lf and not crlf and not lone_cr:
+        mode = "LF"
+    elif lone_cr and not crlf and not lone_lf:
+        mode = "CR"
+    elif not crlf and not lone_cr and not lone_lf:
+        mode = "NONE"
+    else:
+        mode = "MIXED"
+    return {
+        "crlf_count": crlf,
+        "lf_count": lf,
+        "cr_count": cr,
+        "lone_lf_count": lone_lf,
+        "lone_cr_count": lone_cr,
+        "mode": mode,
+    }
+
+
+def reconstructed_crlf_bytes(path: Path) -> bytes | None:
+    """Rebuild the declared text artifact using UTF-8 CRLF bytes in memory."""
+    if path.suffix.lower() not in TEXT_SUFFIXES:
+        return None
+    try:
+        raw = path.read_bytes()
+        has_bom = raw.startswith(b"\xef\xbb\xbf")
+        text = raw.decode("utf-8-sig")
+    except (OSError, UnicodeDecodeError):
+        return None
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    rebuilt = normalized.encode("utf-8").replace(b"\n", b"\r\n")
+    return (b"\xef\xbb\xbf" if has_bom else b"") + rebuilt
+
+
 def verify_declared_file(relative_path: str, expected: dict[str, Any]) -> dict[str, Any]:
     path = ROOT / relative_path
     expected_bytes = expected.get("bytes")
     expected_sha256 = expected.get("sha256")
+    raw = path.read_bytes() if path.is_file() else None
+    endings = line_ending_counts(raw) if raw is not None else {
+        "crlf_count": None,
+        "lf_count": None,
+        "cr_count": None,
+        "lone_lf_count": None,
+        "lone_cr_count": None,
+        "mode": None,
+    }
+    rebuilt = reconstructed_crlf_bytes(path) if path.is_file() else None
     result: dict[str, Any] = {
         "path": relative_path,
         "exists": path.is_file(),
@@ -69,10 +123,14 @@ def verify_declared_file(relative_path: str, expected: dict[str, Any]) -> dict[s
         "expected_sha256": expected_sha256,
         "actual_sha256": sha256_file(path) if path.is_file() else None,
         "normalized_text_sha256": normalized_text_sha256(path) if path.is_file() else None,
+        "reconstructed_crlf_bytes": len(rebuilt) if rebuilt is not None else None,
+        "reconstructed_crlf_sha256": hashlib.sha256(rebuilt).hexdigest() if rebuilt is not None else None,
         "raw_match": False,
         "normalized_text_match": False,
+        "reconstructed_crlf_match": False,
         "allowed_text_normalization": path.suffix.lower() in TEXT_SUFFIXES,
         "lfs_pointer": is_lfs_pointer(path) if path.is_file() else False,
+        **endings,
         "status": "MISSING",
     }
     if not result["exists"]:
@@ -87,13 +145,19 @@ def verify_declared_file(relative_path: str, expected: dict[str, Any]) -> dict[s
     if result["raw_match"]:
         result["status"] = "MATCH_RAW"
         return result
+    result["reconstructed_crlf_match"] = (
+        rebuilt is not None
+        and len(rebuilt) == expected_bytes
+        and result["reconstructed_crlf_sha256"] == expected_sha256
+    )
+    if result["reconstructed_crlf_match"]:
+        result["status"] = "MATCH_RECONSTRUCTED_CRLF"
+        return result
     result["normalized_text_match"] = (
         result["allowed_text_normalization"]
         and result["normalized_text_sha256"] == expected_sha256
     )
-    result["status"] = (
-        "MATCH_NORMALIZED_TEXT" if result["normalized_text_match"] else "FAIL"
-    )
+    result["status"] = "CONTENT_MISMATCH"
     return result
 
 
@@ -120,8 +184,10 @@ def verify_region_manifest(region_id: str) -> dict[str, Any]:
     adapter = manifest.get("b_adapter", {})
     if adapter.get("path"):
         checks.append(verify_declared_file(adapter["path"], adapter))
-    failures = [
-        item for item in checks if item["status"] not in {"MATCH_RAW", "MATCH_NORMALIZED_TEXT"}
+    raw_mismatches = [item for item in checks if item["status"] != "MATCH_RAW"]
+    content_failures = [
+        item for item in checks
+        if item["status"] not in {"MATCH_RAW", "MATCH_RECONSTRUCTED_CRLF"}
     ]
     return {
         "region_id": region_id,
@@ -131,22 +197,35 @@ def verify_region_manifest(region_id: str) -> dict[str, Any]:
         "manifest_region_id": manifest.get("region_id"),
         "manifest_data_version": manifest.get("data_version"),
         "file_checks": checks,
-        "failure_count": len(failures),
+        # Keep failure_count as the strict raw-byte count for backwards-compatible
+        # reports.  content_failure_count is the data-integrity count.
+        "failure_count": len(raw_mismatches),
+        "raw_mismatch_count": len(raw_mismatches),
+        "content_failure_count": len(content_failures),
         "raw_match_count": sum(item["status"] == "MATCH_RAW" for item in checks),
-        "normalized_text_match_count": sum(
-            item["status"] == "MATCH_NORMALIZED_TEXT" for item in checks
+        "reconstructed_crlf_match_count": sum(
+            item["status"] == "MATCH_RECONSTRUCTED_CRLF" for item in checks
         ),
-        "all_declared_files_match": not failures,
+        "normalized_text_match_count": sum(
+            bool(item.get("normalized_text_match")) for item in checks
+        ),
+        "all_declared_files_match": not raw_mismatches,
+        "all_content_match": not content_failures,
     }
 
 
 def write_manifest_blocking_report(manifest: dict[str, Any]) -> Path:
-    failures: list[dict[str, Any]] = []
+    raw_mismatches: list[dict[str, Any]] = []
+    content_failures: list[dict[str, Any]] = []
     for region in manifest.get("a_v2_manifests", []):
-        failures.extend(
+        rows = [
             {"region_id": region["region_id"], **item}
             for item in region.get("file_checks", [])
-            if item["status"] not in {"MATCH_RAW", "MATCH_NORMALIZED_TEXT"}
+            if item["status"] != "MATCH_RAW"
+        ]
+        raw_mismatches.extend(rows)
+        content_failures.extend(
+            item for item in rows if item["status"] not in {"MATCH_RECONSTRUCTED_CRLF"}
         )
     report_path = ROOT / "reports/preflight_blocking_report.md"
     lines = [
@@ -154,25 +233,27 @@ def write_manifest_blocking_report(manifest: dict[str, Any]) -> Path:
         "",
         "本报告由 sources.preflight 自动生成。它只记录校验结果，不修改 A v2 Manifest 或源数据。",
         "",
-        f"- 失败文件数：{len(failures)}",
-        "- 结论：当前真实 A v2 文件快照不能标记为 VERIFIED。",
-        "- 允许的规范化文本哈希仅包括 UTF-8 BOM 去除和换行符规范化；Parquet、TIFF、PBF、XLSX 等二进制文件必须 raw bytes 严格匹配。",
+        f"- raw 字节不匹配文件数：{len(raw_mismatches)}",
+        f"- CRLF 内存重建后完全吻合：{sum(item['status'] == 'MATCH_RECONSTRUCTED_CRLF' for item in raw_mismatches)}",
+        f"- 真实内容不一致/缺失/LFS 文件数：{len(content_failures)}",
+        "- 结论：当前 A7/发布准入仍不能标记为 VERIFIED；但 CRLF 重建吻合项有证据表明是传输格式差异，不应误报为内容损坏。",
+        "- 文本只允许 UTF-8 BOM/换行重建证据；Parquet、TIFF、PBF、XLSX 等二进制文件继续要求 raw bytes 严格匹配。",
         "",
-        "| region_id | path | status | expected bytes | actual bytes | expected SHA-256 | actual SHA-256 | normalized text SHA-256 |",
-        "| --- | --- | --- | ---: | ---: | --- | --- | --- |",
+        "| region_id | path | status | line endings | CRLF count | LF count | expected bytes | actual bytes | reconstructed CRLF bytes | expected SHA-256 | actual SHA-256 | reconstructed CRLF SHA-256 |",
+        "| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
     ]
-    for item in failures:
+    for item in raw_mismatches:
         lines.append(
-            "| {region_id} | {path} | {status} | {expected_bytes} | {actual_bytes} | {expected_sha256} | {actual_sha256} | {normalized_text_sha256} |".format(
+            "| {region_id} | {path} | {status} | {mode} | {crlf_count} | {lf_count} | {expected_bytes} | {actual_bytes} | {reconstructed_crlf_bytes} | {expected_sha256} | {actual_sha256} | {reconstructed_crlf_sha256} |".format(
                 **item
             )
         )
-    if not failures:
+    if not raw_mismatches:
         lines.extend(["", "没有失败文件；逐文件校验通过。"])
     lines.extend(
         [
             "",
-            "根因判断：如果多个派生文件同时出现非规范化内容差异，应先对账生成提交、工作树和 Manifest 的来源快照；不能直接重写 Manifest 的 expected bytes/hash。",
+            "根因判断：MATCH_RECONSTRUCTED_CRLF 表示把当前 UTF-8 文本在内存中重建为 CRLF 后，bytes 和 SHA-256 与 Manifest 完全一致。该证据支持 CRLF/LF 传输差异；CONTENT_MISMATCH、MISSING、LFS_POINTER 仍是实际阻塞，不能重写 Manifest 来消除。",
             "",
         ]
     )
@@ -265,7 +346,11 @@ def region_check(region_id: str, regions: dict[str, Any]) -> dict[str, Any]:
     manifest = read_json(manifest_path) if manifest_path.is_file() else {}
     adapter = yaml.safe_load(adapter_path.read_text(encoding="utf-8")) if adapter_path.is_file() else {}
     shelter_csv = region_root / "shelters_all.csv"
-    shelter_rows = list(csv.DictReader(shelter_csv.open(encoding="utf-8-sig", newline=""))) if shelter_csv.is_file() else []
+    if shelter_csv.is_file():
+        with shelter_csv.open(encoding="utf-8-sig", newline="") as handle:
+            shelter_rows = list(csv.DictReader(handle))
+    else:
+        shelter_rows = []
     od = quality.get("travel_matrix", {})
     return {
         "region_id": region_id,
@@ -307,25 +392,72 @@ def build_manifest() -> dict[str, Any]:
     lfs_pointers = [entry["path"] for entry in files if entry["lfs_pointer"]]
     checks = [region_check(region_id, regions) for region_id in REGION_IDS]
     a_v2_manifests = [verify_region_manifest(region_id) for region_id in REGION_IDS]
-    manifest_failures = sum(item["failure_count"] for item in a_v2_manifests)
+    manifest_raw_mismatches = sum(item["raw_mismatch_count"] for item in a_v2_manifests)
+    content_failures = sum(item["content_failure_count"] for item in a_v2_manifests)
+    reconstructed_crlf = sum(item["reconstructed_crlf_match_count"] for item in a_v2_manifests)
+    identity_payload = {
+        "identity_version": DATASET_IDENTITY_VERSION,
+        "admission_policy_version": ADMISSION_POLICY_VERSION,
+        "files": sorted(
+            [
+                {
+                    "path": entry["path"],
+                    "bytes": entry["bytes"],
+                    "sha256": entry["sha256"],
+                }
+                for entry in files
+                if entry["exists"]
+            ],
+            key=lambda item: item["path"],
+        ),
+        "regions": sorted(
+            [
+                {
+                    "region_id": check["region_id"],
+                    "data_version": check["data_version"],
+                    "enabled": check["enabled"],
+                    "source_rows": check["source_rows"],
+                    "od_rows": check["od_rows"],
+                    "boundary_status": check["boundary_status"],
+                }
+                for check in checks
+            ],
+            key=lambda item: item["region_id"],
+        ),
+    }
+    dataset_content_hash = hashlib.sha256(
+        json.dumps(identity_payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    generated_at = datetime.now(timezone.utc).isoformat()
+    git_metadata = {
+        "branch": git("branch", "--show-current"),
+        "commit": git("rev-parse", "HEAD"),
+        "integration_base": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
+        "historical_reference": git("rev-parse", "origin/feature/benchmark-grounded"),
+    }
     return {
         "schema_version": 1,
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        # These fields are audit-run metadata, not the dataset identity.
+        "generated_at_utc": generated_at,
         "purpose": "Stage 0 read-only ShelterPlan-Eval source baseline",
-        "git": {
-            "branch": git("branch", "--show-current"),
-            "commit": git("rev-parse", "HEAD"),
-            "integration_base": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
-            "historical_reference": git("rev-parse", "origin/feature/benchmark-grounded"),
-        },
+        "run_metadata": {"generated_at_utc": generated_at, "git": git_metadata},
+        "git": git_metadata,
+        "dataset_identity": identity_payload,
+        "dataset_content_hash": dataset_content_hash,
         "policy": {
             "old_a_v2_data_modified": False,
             "historical_merge_data_merged": False,
             "lfs_objects_read": len(lfs_pointers) == 0,
             "lfs_pointer_files": lfs_pointers,
             "missing_files": missing,
-            "a_v2_manifest_all_match": manifest_failures == 0,
-            "a_v2_manifest_failure_count": manifest_failures,
+            "a_v2_manifest_all_match": manifest_raw_mismatches == 0,
+            "a_v2_manifest_failure_count": manifest_raw_mismatches,
+            "a_v2_manifest_raw_mismatch_count": manifest_raw_mismatches,
+            "a_v2_manifest_reconstructed_crlf_count": reconstructed_crlf,
+            "a_v2_manifest_content_all_match": content_failures == 0,
+            "a_v2_manifest_content_failure_count": content_failures,
+            "dataset_identity_version": DATASET_IDENTITY_VERSION,
+            "admission_policy_version": ADMISSION_POLICY_VERSION,
         },
         "regions": checks,
         "a_v2_manifests": a_v2_manifests,

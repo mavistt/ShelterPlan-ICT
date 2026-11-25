@@ -29,9 +29,13 @@ def _artifact_bytes(path: Path) -> bytes:
     strict.
     """
     raw = path.read_bytes()
-    if path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES:
-        return raw.replace(b"\r\n", b"\n")
-    return raw
+    if path.suffix.lower() not in _TEXT_ARTIFACT_SUFFIXES:
+        return raw
+    has_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    canonical = normalized.encode("utf-8")
+    return (b"\xef\xbb\xbf" if has_bom else b"") + canonical
 
 
 def _sha256(path: Path) -> str:
@@ -44,6 +48,17 @@ def _raw_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     digest.update(path.read_bytes())
     return digest.hexdigest()
+
+
+def _reconstructed_crlf_bytes(path: Path) -> bytes | None:
+    if path.suffix.lower() not in _TEXT_ARTIFACT_SUFFIXES:
+        return None
+    raw = path.read_bytes()
+    has_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    rebuilt = normalized.encode("utf-8").replace(b"\n", b"\r\n")
+    return (b"\xef\xbb\xbf" if has_bom else b"") + rebuilt
 
 
 def _read_geojson(path: Path) -> list[dict[str, Any]]:
@@ -113,19 +128,49 @@ def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[s
         raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
     raw_bytes = path.stat().st_size
     raw_sha256 = _raw_sha256(path)
-    canonical_bytes = len(_artifact_bytes(path))
-    canonical_sha256 = _sha256(path)
+    canonical = _artifact_bytes(path)
+    canonical_bytes = len(canonical)
+    canonical_sha256 = hashlib.sha256(canonical).hexdigest()
+    reconstructed = _reconstructed_crlf_bytes(path)
+    reconstructed_bytes = len(reconstructed) if reconstructed is not None else None
+    reconstructed_sha256 = hashlib.sha256(reconstructed).hexdigest() if reconstructed is not None else None
     raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
-    canonical_match = record.get("bytes") == canonical_bytes and record.get("sha256") == canonical_sha256
-    if not raw_match and not canonical_match:
+    reconstructed_match = (
+        reconstructed is not None
+        and record.get("bytes") == reconstructed_bytes
+        and record.get("sha256") == reconstructed_sha256
+    )
+    if not raw_match and not reconstructed_match:
         raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
-            "path": relpath, "expected_bytes": record.get("bytes"), "actual_bytes": canonical_bytes,
-            "raw_bytes": raw_bytes,
-            "expected_sha256": record.get("sha256"), "actual_sha256": canonical_sha256,
-            "raw_sha256": raw_sha256,
+            "path": relpath,
+            "status": "CONTENT_MISMATCH",
+            "expected_bytes": record.get("bytes"),
+            "actual_bytes": raw_bytes,
+            "canonical_bytes": canonical_bytes,
+            "reconstructed_crlf_bytes": reconstructed_bytes,
+            "expected_sha256": record.get("sha256"),
+            "actual_sha256": raw_sha256,
+            "canonical_sha256": canonical_sha256,
+            "reconstructed_crlf_sha256": reconstructed_sha256,
         })
-    matched_bytes, matched_sha256 = ((raw_bytes, raw_sha256) if raw_match else (canonical_bytes, canonical_sha256))
-    return {"path": relpath, "bytes": matched_bytes, "sha256": matched_sha256, "matched": True}
+    match_mode = "MATCH_RAW" if raw_match else "MATCH_RECONSTRUCTED_CRLF"
+    matched_bytes, matched_sha256 = (
+        (raw_bytes, raw_sha256) if raw_match else (reconstructed_bytes, reconstructed_sha256)
+    )
+    result = {
+        "path": relpath,
+        "bytes": matched_bytes,
+        "sha256": matched_sha256,
+        "matched": True,
+        "match_mode": match_mode,
+        "raw_bytes": raw_bytes,
+        "raw_sha256": raw_sha256,
+        "canonical_bytes": canonical_bytes,
+        "canonical_sha256": canonical_sha256,
+        "reconstructed_crlf_bytes": reconstructed_bytes,
+        "reconstructed_crlf_sha256": reconstructed_sha256,
+    }
+    return {key: value for key, value in result.items() if value is not None}
 
 
 def _read_travel_matrix(

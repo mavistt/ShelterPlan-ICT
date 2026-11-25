@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from backend.models import TaskRequest
 from benchmark.shelterplan_eval.scenario_factory import (
     generate_candidate,
     load_snapshots,
@@ -50,7 +51,13 @@ class ScenarioFactoryTests(unittest.TestCase):
 
     def test_api_candidate_limit_is_rejected(self):
         scenario = self.candidate()
-        scenario["shelter_ids"] = list(self.shiqi.normal_candidate_ids[:13])
+        options = []
+        for index in range(13):
+            option = dict(scenario["improvement_options"][index % len(scenario["improvement_options"])])
+            option["option_id"] = f"LIMIT-{index:02d}"
+            options.append(option)
+        scenario["improvement_options"] = options
+        scenario["recovery_projects"] = options
         result = validate_scenario(
             scenario,
             self.shiqi,
@@ -59,24 +66,26 @@ class ScenarioFactoryTests(unittest.TestCase):
         self.assertIn("api_candidate_limit_exceeded", result["errors"])
 
     def test_invalid_shelter_id_is_rejected(self):
-        scenario = self.candidate(index=7)
+        scenario = self.candidate(index=5)
         result = validate_scenario(
             scenario,
             self.shiqi,
             allow_manifest_blocked_demo=True,
         )
-        self.assertIn("invalid_shelter_id_in_request", result["errors"])
-        self.assertFalse(result["pilot_accepted"])
+        self.assertIn("invalid_shelter_id_in_request", result["request_errors"])
+        self.assertTrue(result["pilot_accepted"])
+        self.assertTrue(result["valid_negative_benchmark"])
 
     def test_illegal_constraint_is_rejected(self):
-        scenario = self.candidate(index=8)
+        scenario = self.candidate(index=6)
         result = validate_scenario(
             scenario,
             self.shiqi,
             allow_manifest_blocked_demo=True,
         )
-        self.assertIn("illegal_constraint_in_request", result["errors"])
-        self.assertFalse(result["pilot_accepted"])
+        self.assertIn("illegal_constraint_in_request", result["request_errors"])
+        self.assertTrue(result["pilot_accepted"])
+        self.assertTrue(result["valid_negative_benchmark"])
 
     def test_every_assumption_has_a_source_label(self):
         scenario = self.candidate()
@@ -110,7 +119,27 @@ class ScenarioFactoryTests(unittest.TestCase):
         )
         self.assertTrue(demo["pilot_accepted"])
         self.assertFalse(demo["verified_for_release"])
-        self.assertEqual(demo["acceptance_class"], "accepted_demo_only_manifest_blocked")
+        self.assertEqual(demo["acceptance_class"], "accepted_demo_only_manifest_blocked_crlf")
+
+    def test_base_environment_is_not_limited_to_twelve_shelters(self):
+        scenario = self.candidate()
+        self.assertGreater(len(scenario["base_shelter_ids"]), 12)
+        self.assertLessEqual(len(scenario["improvement_options"]), 12)
+        result = validate_scenario(scenario, self.shiqi, allow_manifest_blocked_demo=True)
+        self.assertNotIn("api_candidate_limit_exceeded", result["errors"])
+
+    def test_b_improvement_option_contract_is_validated(self):
+        scenario = self.candidate(index=1)
+        TaskRequest(**scenario["b_api_request"])
+        self.assertTrue(all(option["action"] == "capacity_expansion" for option in scenario["improvement_options"]))
+
+    def test_temporary_site_is_not_claimed_supported(self):
+        scenario = self.candidate()
+        scenario["improvement_options"][0]["action"] = "temporary_site"
+        scenario["recovery_projects"] = scenario["improvement_options"]
+        result = validate_scenario(scenario, self.shiqi, allow_manifest_blocked_demo=True)
+        self.assertIn("unsupported_recovery_project_type", result["errors"])
+        self.assertIn("temporary_site_not_supported_without_complete_gis_od", result["errors"])
 
     def test_historical_version_is_rejected(self):
         scenario = self.candidate()
