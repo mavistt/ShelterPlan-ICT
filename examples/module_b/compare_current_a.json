@@ -1,0 +1,13 @@
+{
+  "task_id": "c-compare-current-a-001",
+  "data_version": "zhongshan_pilot_v0.1",
+  "analysis_mode": "demo",
+  "task_type": "compare",
+  "parameters": {
+    "scenarios": [
+      {"population_demand_ratio": 0.1},
+      {"population_demand_ratio": 0.3}
+    ]
+  },
+  "idempotency_key": "c-compare-current-a-001"
+}
