@@ -1,0 +1,756 @@
+[
+  {
+    "scenario_id": "ST21-shiqi-022",
+    "region_id": "shiqi",
+    "family": "multi_stage_recovery",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-022",
+      "semantic_signature": "f90e111956e7cd70abe620fe3f72a96a5b2aca776db218d17469fe798f768406",
+      "scenario_family_signature": "7ea1e637da96cbbd6b7d526c3babd3f487951c236c48e6bcff7e8aa9e1f18981",
+      "fingerprint": "f90e111956e7cd70abe620fe3f72a96a5b2aca776db218d17469fe798f768406",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-023",
+    "region_id": "east_district",
+    "family": "clarification_and_safe_stop",
+    "expected_behavior": "SAFE_STOP",
+    "validation": {
+      "scenario_id": "ST21-east_district-023",
+      "semantic_signature": "a09f50f9e46feeee84903cd54f16e2a6313466228fc458eef1d19668e0facbb4",
+      "scenario_family_signature": "91171293d5262f4077c6d3ee03245a896ee8f096e48246575ff0a89f0a2c5e4e",
+      "fingerprint": "a09f50f9e46feeee84903cd54f16e2a6313466228fc458eef1d19668e0facbb4",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "SAFE_STOP"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-024",
+    "region_id": "shiqi",
+    "family": "coverage_baseline",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-024",
+      "semantic_signature": "97f91b6995f30241cdf7b27c665ea035f155c24928822eb7f8d3805a4528ace2",
+      "scenario_family_signature": "c9ec7b22cd9d026298ebd83afc481c271594f825be22bcc213bb44266c46043f",
+      "fingerprint": "97f91b6995f30241cdf7b27c665ea035f155c24928822eb7f8d3805a4528ace2",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-025",
+    "region_id": "east_district",
+    "family": "budget_tradeoff",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-east_district-025",
+      "semantic_signature": "5bcbb81187e859f2f1b37246824e7295598ee9e4602e8aa7b58a73fd47e2e0fc",
+      "scenario_family_signature": "b4b02e48b437f41aeafd4fbd1246b20f8e28f6bb1cf6d9715d95dd11c008406e",
+      "fingerprint": "5bcbb81187e859f2f1b37246824e7295598ee9e4602e8aa7b58a73fd47e2e0fc",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-026",
+    "region_id": "shiqi",
+    "family": "capacity_competition",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-026",
+      "semantic_signature": "d5d308b07264a14e99cf7658ac243b06dce0d526dff2dec558525dd495554cf7",
+      "scenario_family_signature": "29ae6f2653e0e9717fc08e4879fb40fdc75c6c5df6931197d41198b9ca77cf4b",
+      "fingerprint": "d5d308b07264a14e99cf7658ac243b06dce0d526dff2dec558525dd495554cf7",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-027",
+    "region_id": "east_district",
+    "family": "facility_disruption",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-east_district-027",
+      "semantic_signature": "5d936257f1b61c96b84b57848be6506b65c351c98d87e4bace086b39ed10697b",
+      "scenario_family_signature": "7699aafa65791060f819f9cb2e22af41478c9867e63c0dff772be67e2d3f93ea",
+      "fingerprint": "5d936257f1b61c96b84b57848be6506b65c351c98d87e4bace086b39ed10697b",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [
+        "invalid_shelter_id_in_request"
+      ],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-028",
+    "region_id": "shiqi",
+    "family": "multi_stage_recovery",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-shiqi-028",
+      "semantic_signature": "9f46d4ff3fa10e311a74fa9b5c975beaca842c1df22f763ca9e1c5c93a5fc945",
+      "scenario_family_signature": "73a1cd631f8bd7ee6fd702c5d93e29e276100694aa84f308be8cda8f3426ba98",
+      "fingerprint": "9f46d4ff3fa10e311a74fa9b5c975beaca842c1df22f763ca9e1c5c93a5fc945",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [
+        "illegal_constraint_in_request"
+      ],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-030",
+    "region_id": "shiqi",
+    "family": "coverage_baseline",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-030",
+      "semantic_signature": "e49477345cf06bb2e0b5b08d0e5c3bcbb9b6792fb4768a1037c0c8ecb5df0b8b",
+      "scenario_family_signature": "2bd1ec5e50877eb9c78733fd6e53a422e9d06c4e1fe80143b1ef1bc43999106c",
+      "fingerprint": "e49477345cf06bb2e0b5b08d0e5c3bcbb9b6792fb4768a1037c0c8ecb5df0b8b",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-032",
+    "region_id": "shiqi",
+    "family": "capacity_competition",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-shiqi-032",
+      "semantic_signature": "c0248b53d053e75d853fdb1b5dad051dabb8cd12f539882e2cb919330c6e971b",
+      "scenario_family_signature": "b1e6ec918c6f31bdada533d4b9f465835355cc77c393af002e2e4f6a215bd196",
+      "fingerprint": "c0248b53d053e75d853fdb1b5dad051dabb8cd12f539882e2cb919330c6e971b",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-033",
+    "region_id": "east_district",
+    "family": "facility_disruption",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-east_district-033",
+      "semantic_signature": "fe3265e944a0658fa99c08678b30f5d7c55ff15b764909cabd748c299a7c2b27",
+      "scenario_family_signature": "9ea3157169d8f9fabfc600a909d7f78292f311e6cb944602a0b5df2dddc68959",
+      "fingerprint": "fe3265e944a0658fa99c08678b30f5d7c55ff15b764909cabd748c299a7c2b27",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-034",
+    "region_id": "shiqi",
+    "family": "multi_stage_recovery",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-034",
+      "semantic_signature": "5456735e11bc9181d9093c62df8a6366fcdcfadb9c4cbcdbbb85b7ad04b9497e",
+      "scenario_family_signature": "3eb4dfcae1221758d519f7440d23ad3648b260b048c253f30a538b77f022052f",
+      "fingerprint": "5456735e11bc9181d9093c62df8a6366fcdcfadb9c4cbcdbbb85b7ad04b9497e",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-035",
+    "region_id": "east_district",
+    "family": "clarification_and_safe_stop",
+    "expected_behavior": "SAFE_STOP",
+    "validation": {
+      "scenario_id": "ST21-east_district-035",
+      "semantic_signature": "29c2974ad9a393813a8eec7803445dc2533dc1fb51ba728e5a45d14a09a67518",
+      "scenario_family_signature": "7692161bdb8428bebf29b1b6d871d48306a72d6ecc25f45d0cf7fa91ef2bf99d",
+      "fingerprint": "29c2974ad9a393813a8eec7803445dc2533dc1fb51ba728e5a45d14a09a67518",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "SAFE_STOP"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-036",
+    "region_id": "shiqi",
+    "family": "coverage_baseline",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-036",
+      "semantic_signature": "e7d0ba35a5f55ad914f59a46ed6403a6c63e9ac6b8b10366eafdcd9e97703005",
+      "scenario_family_signature": "9f15d4c9bf55e670b9589a25c7312de4919237258c2d1db6f8142d65cdb33807",
+      "fingerprint": "e7d0ba35a5f55ad914f59a46ed6403a6c63e9ac6b8b10366eafdcd9e97703005",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-037",
+    "region_id": "east_district",
+    "family": "budget_tradeoff",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-east_district-037",
+      "semantic_signature": "7e15297f29b02b3699364c1d2f82dccdd997675a5c4321c821de8320a006bd05",
+      "scenario_family_signature": "073f04ddf7f5b8e90a3ab11faece92418d2a333048ef22a901dc3a0591a1d49f",
+      "fingerprint": "7e15297f29b02b3699364c1d2f82dccdd997675a5c4321c821de8320a006bd05",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-038",
+    "region_id": "shiqi",
+    "family": "capacity_competition",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-shiqi-038",
+      "semantic_signature": "7933846dba0945abdcfb50e02221d415e6c67e8108a78f0680545744dc328f34",
+      "scenario_family_signature": "972451c0fb327984e112db8db58f7843236d00e7c4a1c895b3afd3e244af322a",
+      "fingerprint": "7933846dba0945abdcfb50e02221d415e6c67e8108a78f0680545744dc328f34",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [
+        "invalid_shelter_id_in_request"
+      ],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-039",
+    "region_id": "east_district",
+    "family": "facility_disruption",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-east_district-039",
+      "semantic_signature": "4e72282615c03e448c70c4c083523d32a419a31e5a9a2f471a429dba9909d79a",
+      "scenario_family_signature": "388b3079fdf4f58aa99b90e7242a6bb288a70cc32ec2d9dbf8fb0e463d0dddbc",
+      "fingerprint": "4e72282615c03e448c70c4c083523d32a419a31e5a9a2f471a429dba9909d79a",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [
+        "illegal_constraint_in_request"
+      ],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-040",
+    "region_id": "shiqi",
+    "family": "multi_stage_recovery",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-040",
+      "semantic_signature": "23d14a853bbdabdf72efcf8229604178f6f3e90f8f8a1756f3be31a245987d8b",
+      "scenario_family_signature": "8e8f53f01c596ea16fd1d72e457aed0d6459dc19e3737a003fcca15c5b9712c3",
+      "fingerprint": "23d14a853bbdabdf72efcf8229604178f6f3e90f8f8a1756f3be31a245987d8b",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-041",
+    "region_id": "east_district",
+    "family": "clarification_and_safe_stop",
+    "expected_behavior": "CLARIFY",
+    "validation": {
+      "scenario_id": "ST21-east_district-041",
+      "semantic_signature": "103d0cd54c111788241dc6bf8c93c191ba1233b8ed0cff691274035311dee189",
+      "scenario_family_signature": "c415128f51aad1887ce2f4a7463b5e5537c76532e9226638755527156a02068d",
+      "fingerprint": "103d0cd54c111788241dc6bf8c93c191ba1233b8ed0cff691274035311dee189",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "CLARIFY"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-042",
+    "region_id": "shiqi",
+    "family": "coverage_baseline",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-shiqi-042",
+      "semantic_signature": "8cf0e0f64d525101fbd4e8ebd3cc346bc8d563a27d039ac84e443e10975a1a69",
+      "scenario_family_signature": "dc4ca20869669a470a6ee9beed0928a21ff0f6f74512729cac3b61844c7bb2b9",
+      "fingerprint": "8cf0e0f64d525101fbd4e8ebd3cc346bc8d563a27d039ac84e443e10975a1a69",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [
+        "illegal_budget_in_request"
+      ],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-043",
+    "region_id": "east_district",
+    "family": "budget_tradeoff",
+    "expected_behavior": "REJECT",
+    "validation": {
+      "scenario_id": "ST21-east_district-043",
+      "semantic_signature": "ea5a05d980e084d965270a894731312472de7c11c56eac2420f3b5c841434e19",
+      "scenario_family_signature": "7cb7c9b38e8193bb4e2a11fea00b2e3ea0ac4e06c965553c76aece82e0701918",
+      "fingerprint": "ea5a05d980e084d965270a894731312472de7c11c56eac2420f3b5c841434e19",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid_negative_benchmark",
+      "valid_negative_benchmark": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": "valid_negative_benchmark",
+      "expected_behavior": "REJECT"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-044",
+    "region_id": "shiqi",
+    "family": "capacity_competition",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-044",
+      "semantic_signature": "a6d0997b503258c6bb87b5d594549093fb845b9b1522730ecd686bcc54e9b11c",
+      "scenario_family_signature": "3a186b8309d405fbe5b24f5c433e5d07fa327fa004087ca3170faaabe9e4c60d",
+      "fingerprint": "a6d0997b503258c6bb87b5d594549093fb845b9b1522730ecd686bcc54e9b11c",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-045",
+    "region_id": "east_district",
+    "family": "facility_disruption",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-east_district-045",
+      "semantic_signature": "979a0fcfda1cde4cf1c3e159ca1bbbb82b6b298378e958d15c7c52757c9223d2",
+      "scenario_family_signature": "134d07262c0049d3236983b71d81a6ad606384abe176bec0d49f856ccd978366",
+      "fingerprint": "979a0fcfda1cde4cf1c3e159ca1bbbb82b6b298378e958d15c7c52757c9223d2",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-shiqi-046",
+    "region_id": "shiqi",
+    "family": "multi_stage_recovery",
+    "expected_behavior": "EXECUTE",
+    "validation": {
+      "scenario_id": "ST21-shiqi-046",
+      "semantic_signature": "2a576afb60ddd12a1e25cef17c0f8220f337748d5fa239a44296e66732ac65a1",
+      "scenario_family_signature": "b053c2ec0637729fa19329d39f3dd5c266142a660a8f69561e09a24346dfd906",
+      "fingerprint": "2a576afb60ddd12a1e25cef17c0f8220f337748d5fa239a44296e66732ac65a1",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "EXECUTE"
+    }
+  },
+  {
+    "scenario_id": "ST21-east_district-047",
+    "region_id": "east_district",
+    "family": "clarification_and_safe_stop",
+    "expected_behavior": "SAFE_STOP",
+    "validation": {
+      "scenario_id": "ST21-east_district-047",
+      "semantic_signature": "d9a9c2fd2d80dc8ec0c24baccd63eacc387ef658365eb91f1bfe0283d54a7b75",
+      "scenario_family_signature": "381c9c79b4188057b8c2e669ac1d81b9986452dcf2f6586fab7f140963c57479",
+      "fingerprint": "d9a9c2fd2d80dc8ec0c24baccd63eacc387ef658365eb91f1bfe0283d54a7b75",
+      "validation_passed": true,
+      "strict_validation_passed": true,
+      "structural_valid": true,
+      "pilot_accepted": true,
+      "generated_status": "valid",
+      "valid_negative_benchmark": false,
+      "acceptance_class": "accepted_demo_only_manifest_blocked_crlf",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "request_errors": [],
+      "warnings": [
+        "boundary_not_official",
+        "data_status_not_verified",
+        "a_v2_manifest_raw_mismatch"
+      ],
+      "manifest_gate": "BLOCKED_CRLF_FORMAT",
+      "negative_type": null,
+      "expected_behavior": "SAFE_STOP"
+    }
+  }
+]

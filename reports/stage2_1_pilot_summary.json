@@ -1,0 +1,98 @@
+{
+  "schema_version": 2,
+  "generator_version": "stage2-pilot-2.1",
+  "generated_at_utc": "2026-11-25T13:18:38.124660+00:00",
+  "scenario_seed": 20261125,
+  "candidate_count": 48,
+  "structurally_accepted_count": 48,
+  "pilot_accepted_count": 24,
+  "strict_manifest_eligible_count": 0,
+  "content_integrity_eligible_count": 48,
+  "executed_count": 0,
+  "oracle_proven_count": 0,
+  "rejected_count": 16,
+  "valid_negative_benchmark_count": 18,
+  "deduplicated_count": 0,
+  "accepted_region_counts": {
+    "shiqi": 11,
+    "east_district": 13
+  },
+  "accepted_family_counts": {
+    "coverage_baseline": 4,
+    "budget_tradeoff": 5,
+    "capacity_competition": 4,
+    "facility_disruption": 4,
+    "multi_stage_recovery": 3,
+    "clarification_and_safe_stop": 4
+  },
+  "selected_behavior_counts": {
+    "EXECUTE": 13,
+    "REJECT": 9,
+    "SAFE_STOP": 1,
+    "CLARIFY": 1
+  },
+  "safe_stop_count": 1,
+  "difficulty_distribution": {
+    "design_difficulty": {
+      "low": 4,
+      "high": 12,
+      "medium": 8
+    },
+    "measured_difficulty": {
+      "NOT_MEASURED": 24
+    }
+  },
+  "status_counts": {
+    "invalid_generated": 0,
+    "valid_not_selected": 24,
+    "selected": 24,
+    "duplicate": 0,
+    "manifest_blocked": 48
+  },
+  "manifest_status": {
+    "shiqi": {
+      "a_v2_manifest_raw_match": false,
+      "a_v2_manifest_content_match": true,
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593"
+    },
+    "east_district": {
+      "a_v2_manifest_raw_match": false,
+      "a_v2_manifest_content_match": true,
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46"
+    },
+    "xiaolan": {
+      "a_v2_manifest_raw_match": false,
+      "a_v2_manifest_content_match": true,
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
+      "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+      "a_v2_manifest_sha256": "7997ece6742c593dbce6ad0244d2813619268cc910fe737920a64dd6a9f68c6d"
+    }
+  },
+  "policy": {
+    "history_merge_data_used": false,
+    "xiaolan_normal_planning_allowed": false,
+    "verified_scenarios_generated": false,
+    "manifest_errors_bypass": false,
+    "pilot_acceptance_with_manifest_block": true,
+    "pilot_acceptance_label": "DEMO_ONLY; not VERIFIED",
+    "temporary_site_supported": false,
+    "improvement_option_limit": 12,
+    "identity_field": "dataset_content_hash",
+    "execution_evidence_path": "reports/stage2_1_b_http_contract.json"
+  },
+  "stage3_gate": {
+    "required_before_stage3": [
+      "resolve real content mismatches if any; CRLF-only differences need a controlled checkout policy",
+      "run B HTTP execution for selected EXECUTE cases",
+      "capture real Trace and independent Oracle evidence",
+      "do not mark DEMO_ONLY or NOT_EXECUTED as VERIFIED or EXECUTED"
+    ]
+  }
+}

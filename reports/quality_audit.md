@@ -1,8 +1,9 @@
 # ShelterPlan-Eval Stage 1 数据质量审计与准入
 
-- 生成时间（UTC）：2026-11-25T10:39:39.409155+00:00
+- 生成时间（UTC）：2026-11-25T11:51:51.140267+00:00
 - 输入快照：A v2 已有处理结果，只读
 - 准入策略：demo 与 verified 分离；不自动升级 verified；不静默删除源记录
+- active 只表示源记录的 active 字段；不等同于当前开放状态。正常候选必须同时满足 region enabled、active 和结构校验；DEMO_ONLY 警告继续保留。
 
 ## 总体计数
 
@@ -10,6 +11,7 @@
 | --- | ---: |
 | 源记录 | 87 |
 | 可用于受控 DEMO_ONLY 的记录 | 56 |
+| 正常求解候选（受控 DEMO_ONLY） | 56 |
 | 可用于 VERIFIED 的记录 | 0 |
 | needs_review | 30 |
 | excluded | 1 |

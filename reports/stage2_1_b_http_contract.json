@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "label": "Stage 2.1 real Module B HTTP contract and execution evidence",
+  "scenario_id": "ST21-shiqi-000",
+  "region_id": "shiqi",
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+  "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+  "endpoint": "/planning/tasks",
+  "task_type": "optimize",
+  "http_submit_status": 202,
+  "job_id": "bfc51d99-2295-47db-a69f-214fa1d6ac8a",
+  "execution_trace_id": "51de41ac-f936-4629-bb47-ab9dca581bc5",
+  "result_id": "516f4bd3-a64a-42d7-9bdf-0a5efacc0795",
+  "job_status": "SUCCEEDED",
+  "verification_status": "PASS_DEMO",
+  "result_summary": {
+    "served_demand": 7274.593472765874,
+    "total_demand": 120343.36288926564,
+    "weighted_walk_time_min": 6.035488087202664,
+    "optimized_served_demand": 7594.593472666875,
+    "diagnosed_unserved_nodes": 7019
+  },
+  "execution_claim_policy": {
+    "scenario_artifact_status_updated": false,
+    "reason": "The reproducible factory output remains NOT_EXECUTED; this file is the separate observed HTTP evidence.",
+    "oracle_proven": false,
+    "verified_release": false
+  },
+  "first_contract_attempt": {
+    "status": "FAIL_FIXED",
+    "error_code": "SCENARIO_INVALID",
+    "details": {"fields": ["expected_behavior"]},
+    "fix": "Removed the evaluation-only expected_behavior parameter from the Module B request; budget_units remains the only optimize parameter."
+  }
+}
