@@ -60,6 +60,8 @@ class RegionInfo:
     region_id: str
     town: str
     role: str
+    enabled: bool
+    exclusion_reason: str | None
     data_version: str
     release_status: str
     data_status: str

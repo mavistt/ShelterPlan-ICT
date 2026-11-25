@@ -28,150 +28,150 @@
   "quality_summary": "data/processed/regions/xiaolan/quality_summary.json",
   "b_adapter": {
     "path": "configs/module_a_v2_b/xiaolan.yaml",
-    "sha256": "ebcd0f7bf5b57b754bb5cadb1dcab6e4745a38ac3dfc468e2d2a353d6e41148d",
-    "bytes": 599
+    "sha256": "1048a89937d41f8ba1cc527e0d5db6402af52855ca5f5ec9d00be60a1d6c2822",
+    "bytes": 692
   },
   "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/xiaolan/analysis_area.geojson": {
-      "bytes": 6658,
-      "sha256": "db8daf56e9828aff4c68c6ccb39a4cf17ce5e2d9b7aea46687ea4baf8a05ffee"
+      "bytes": 6666,
+      "sha256": "0dee4ae800407a7b547f84c6ebcb94a7f199eb8137bbf3900c6908c8b746c3da"
     },
     "data/processed/regions/xiaolan/boundary.geojson": {
-      "bytes": 3637,
-      "sha256": "cf4c94cad20d16a7e7420ebd5b00df8f6c55b7cd259aa2b00c5403bf9de6bdcf"
+      "bytes": 3645,
+      "sha256": "fd15c37915c2e6079ee569bcbfe43893f34a91b15c5b330c5a76e16c78d587c0"
     },
     "data/processed/regions/xiaolan/boundary_metadata.json": {
-      "bytes": 557,
-      "sha256": "4d0274cae3c5c6bfde4d2c238b57e5533146c68b15f511f9e0c3d37657fb9a48"
+      "bytes": 568,
+      "sha256": "fe926d6ff7cf56c86b4d0cffece0c9df7a82845cfff9052b1403345269cf3cf2"
     },
     "data/processed/regions/xiaolan/demand_nodes.geojson": {
-      "bytes": 26347808,
-      "sha256": "4d7b10eadb5a5c11ff7f80f61047b8411edcda1e502bbcc00ff2d287ddc59aa4"
+      "bytes": 26408221,
+      "sha256": "b6d990747ce63b2e6ffcf47f95b1609f9dd5ad8eed66bc92c190b2980d4e64c8"
     },
     "data/processed/regions/xiaolan/demand_nodes.parquet": {
       "bytes": 848234,
       "sha256": "7b0cebd457cf1ee62f74d6d4dbc551f1984eaac2e3ce1dd544a5f20d14960f21"
     },
     "data/processed/regions/xiaolan/demand_snap_audit.csv": {
-      "bytes": 3165642,
-      "sha256": "699a962d42b49cf329ecebd0ce5120c12d072782b26aa26510c52e9aae8a1f97"
+      "bytes": 3226049,
+      "sha256": "de794fc4345a97544e710f8dd9b895ba53bc61c904d9feaa26d637304e1f899c"
     },
     "data/processed/regions/xiaolan/layers_manifest.json": {
-      "bytes": 5758,
-      "sha256": "f290db7ce68ad9049e1175e9070ed4cc33199ab22f4d8115132107c40b704297"
+      "bytes": 7694,
+      "sha256": "cfefe52b9c8ae893915b9a32817b9681b7d944e31b67913b18d611ee9c7b48e4"
     },
     "data/processed/regions/xiaolan/map_layers/access_gaps_10min.geojson": {
-      "bytes": 39897598,
-      "sha256": "9d58fb6e59e41eae929ecffedef9345b0d71b141260172665df3ea2e329a9c03"
+      "bytes": 39956536,
+      "sha256": "46c40f9341319857f2738983f35c581e35e5bf901e959f37e9e98cc8fdc9e45a"
     },
     "data/processed/regions/xiaolan/map_layers/access_gaps_15min.geojson": {
-      "bytes": 38606262,
-      "sha256": "171432eec20ed6b60caaefbb5aae480c0a4cc0c88e461f33aa91034251509775"
+      "bytes": 38663312,
+      "sha256": "d39d21ee131388d601dff1be952879b5eeb18b4408a5c1a89de1a09f91839c30"
     },
     "data/processed/regions/xiaolan/map_layers/access_gaps_20min.geojson": {
-      "bytes": 36764856,
-      "sha256": "8fa9ad9097898cc9ea90808dd668b6182c834ead27de36062e2894d46b557e50"
+      "bytes": 36819213,
+      "sha256": "0968e863bf972aebf11984d3d6615db7cb372875e688a08dfe8dc47d0c4fb1d7"
     },
     "data/processed/regions/xiaolan/map_layers/access_gaps_30min.geojson": {
-      "bytes": 32722319,
-      "sha256": "cef6fe05ab35fdb798c927538546ca3eb7efb6b0c10971e7855cd5a84c2c5e11"
+      "bytes": 32770765,
+      "sha256": "faef67aa856aa237237d92a27f19e30c8ef04fad9cba62ef01ea1f6d6a32ff9e"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_10min.geojson": {
-      "bytes": 40905007,
-      "sha256": "7cde3f873f31c8e6b2cb4695a861ebcc465058019d41db70dc0d5e677a6579e8"
+      "bytes": 40965420,
+      "sha256": "22801f712ece67d6d4e23ce63e472c938bedeae88aa7b8487f0e26295f3eed29"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_10min_stats.json": {
-      "bytes": 348,
-      "sha256": "23d54ce0c34fe385858fcb6b7abc63c5fd227b2125be456542b0fe33bc6df1f7"
+      "bytes": 358,
+      "sha256": "1b44fb02f6606c50670cda00dbb5c5a4290281c5c44bc77aca0937a90023f30b"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_15min.geojson": {
-      "bytes": 40903119,
-      "sha256": "fa56a460b3678533c582e83bd979bddf1e8a9909fb5e922199cb5863aef33847"
+      "bytes": 40963532,
+      "sha256": "1b41e42c8fd0bf736c5a9087c99ee9ad0cba118ef85ee027d28019d371cf7bb4"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_15min_stats.json": {
-      "bytes": 348,
-      "sha256": "e4c23b8d80b8c39047b09eee8638902e39661dca71697a0f35863bf2aa95febb"
+      "bytes": 358,
+      "sha256": "56537a8c6048d46d3d51eaef6729dc49b5b525d7da765d894654e8dfe33fc30f"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_20min.geojson": {
-      "bytes": 40900426,
-      "sha256": "ccb66ed8cfdde9a125f7f0097497da3a76b4e1a7ad5609cfc1f9354cf0d9f1f9"
+      "bytes": 40960839,
+      "sha256": "9a28fde13a9506014a48c0cb73deef1fe79efe4a68ad5c8dffb919cb0462143b"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_20min_stats.json": {
-      "bytes": 347,
-      "sha256": "45bb0039f3bae4be3e252ecc7e245dea423d9777210a0c90a95918a1209df180"
+      "bytes": 357,
+      "sha256": "6a5e39969b06c5210ed237d281037c61305c74e9f2544793daff44bcad64d0ef"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_30min.geojson": {
-      "bytes": 40894515,
-      "sha256": "28c0ce1a809f741e28d0373a3f736165c5dde8133fd800ba5d05e6665fb2a292"
+      "bytes": 40954928,
+      "sha256": "cbe427eeabc1b010c5bc63465a305af6ec57554a20a991bef2e85f6683ac9955"
     },
     "data/processed/regions/xiaolan/map_layers/coverage_30min_stats.json": {
-      "bytes": 348,
-      "sha256": "9b160d842f5c535d2396c8a429b1cdb7f812a4a72f005e76d0907d3ccdc43b0f"
+      "bytes": 358,
+      "sha256": "4b520872d15e3249e2f3f9dfdea97ecdb9e4c98cc5a2fc45c27cad06f692d242"
     },
     "data/processed/regions/xiaolan/map_layers/network_buffer.geojson": {
-      "bytes": 12897,
-      "sha256": "542e189fcbcb8f25cfadff854aba6d5a3996fac1fe0375cfc75ceff8b33664cf"
+      "bytes": 12905,
+      "sha256": "c704ff99038b2b8288eeafc0f0081d182aa9c89e8d2b3ef41dc40e9c66bd4996"
     },
     "data/processed/regions/xiaolan/map_layers/population_density.tif": {
       "bytes": 309622,
       "sha256": "2fca21cbabb06f6f5b1847ec178a922573be57eef5f86c751dfdd958632c276c"
     },
     "data/processed/regions/xiaolan/map_layers/population_heatmap.geojson": {
-      "bytes": 31133658,
-      "sha256": "89c07a147399511ae230d4ee229184d08cdab9ad0435cc9495e3786438dd502e"
+      "bytes": 31194071,
+      "sha256": "c111c61593834dcf37555f04f0f84b3c0b4b806ea43730ed5ebcb75c62b37658"
     },
     "data/processed/regions/xiaolan/map_layers/population_stats.json": {
-      "bytes": 273,
-      "sha256": "251e852e07126a92a20cd00152fac809ba075f2fd97a27d36bd399d94ea7397c"
+      "bytes": 281,
+      "sha256": "9af67fb97480ce2bfd9e447a35586d60943fb75354dda350eca7328339694d7f"
     },
     "data/processed/regions/xiaolan/map_layers/road_edges.geojson": {
-      "bytes": 39775908,
-      "sha256": "c0191e70242f4408573726563a8690fb7fa8db9420b12d5a7d459b7f407b1dce"
+      "bytes": 39958841,
+      "sha256": "5a491db8ac72e611953564de6363ca24e1fa6a8f90a6047dc64363ebb25e4d49"
     },
     "data/processed/regions/xiaolan/map_layers/shelter_capacity.geojson": {
-      "bytes": 101372,
-      "sha256": "741ad24788fe0d0ca3b5ce4bd2f22e8b08738aecb0f01ac55ccf0d0c271cea62"
+      "bytes": 101410,
+      "sha256": "de18e5d097bd81469e8d969128adaded95d4605f2b431611c096ce612650163e"
     },
     "data/processed/regions/xiaolan/population.tif": {
       "bytes": 308896,
       "sha256": "f521379ecee9f772205f6978e0d40324d664483a81284f4e73c02298fe149cea"
     },
     "data/processed/regions/xiaolan/quality_summary.json": {
-      "bytes": 4170,
-      "sha256": "ee50bfc6f603693670e584df4ec8e39965a210c2abb10f16830acc03366856c2"
+      "bytes": 4917,
+      "sha256": "355982ab7c9a9b6b3c03117509dd580573aa31ae923e7c59e203f3e1bcb2aa1f"
     },
     "data/processed/regions/xiaolan/road_graph_metadata.json": {
-      "bytes": 991,
-      "sha256": "bc1a3d0b3c4fb1733d04d160f0d0be65beca2efd64e075f8bc5e3e09ad04cacb"
+      "bytes": 1026,
+      "sha256": "f42b7e6485be5a259de8bbb93e1ee83abadf57db1fe75852eb9c55a067f5e7d8"
     },
     "data/processed/regions/xiaolan/road_walk.graphml": {
-      "bytes": 28703972,
-      "sha256": "9fb47be7e383ea66860757f60e923c63dbe5b611222cd2e9ecbb7df7ec13fd65"
+      "bytes": 29582856,
+      "sha256": "d6f94d08562c7e311eb611944509ffbccdd0b0da701ea7b9fee5adce15bf4289"
     },
     "data/processed/regions/xiaolan/scenario_catalog.json": {
-      "bytes": 3174,
-      "sha256": "8fd10087d3cb6a8da684675a6ccabde0d426e902cc43aa2fa75c9c84344110ab"
+      "bytes": 3265,
+      "sha256": "c7e3f3c40fd751686228e5255f294a1711a0618613fd9d62da71ab59f1764040"
     },
     "data/processed/regions/xiaolan/shelter_snap_audit.csv": {
-      "bytes": 1394,
-      "sha256": "16cdba4262faaec2e6e6563f86d1ab7b0a5e92a979c651fc9a09b50ac8a5f9eb"
+      "bytes": 1426,
+      "sha256": "f74a0296b6c61e4a8f5ab2ee22353e872167d3f8079c4b86d90e006e36cda581"
     },
     "data/processed/regions/xiaolan/shelters.geojson": {
-      "bytes": 100548,
-      "sha256": "146c30a931ba7b7804f7739ab3f366e9ebeb50d17c7ec9e90fbf753883c6be93"
+      "bytes": 100586,
+      "sha256": "6c54a8fe65f57da5ac9fd04be251a408dc37d679594aeda83970d9c2084d2e56"
     },
     "data/processed/regions/xiaolan/shelters_all.csv": {
-      "bytes": 35162,
-      "sha256": "57d53cc723225749ad3a510f63a28511494b8d68080647762f9c229baf0b00c2"
+      "bytes": 35203,
+      "sha256": "1e59e9c477360f59cb6afd14b053fb5a1684a2105176b772eb96d537dad3a77f"
     },
     "data/processed/regions/xiaolan/travel_matrix.parquet": {
       "bytes": 42479962,
       "sha256": "0801d91739058462c5131aaf16dfb5192e7af53d3e50748317b538c61c20e075"
     },
     "configs/module_a_v2_b/xiaolan.yaml": {
-      "bytes": 599,
-      "sha256": "ebcd0f7bf5b57b754bb5cadb1dcab6e4745a38ac3dfc468e2d2a353d6e41148d"
+      "bytes": 692,
+      "sha256": "1048a89937d41f8ba1cc527e0d5db6402af52855ca5f5ec9d00be60a1d6c2822"
     }
   }
 }

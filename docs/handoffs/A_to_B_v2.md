@@ -49,7 +49,11 @@ GeoJSON 为 EPSG:4326 Point；Parquet 为同一需求表的非几何分析版本
 - `files` 中所有区域产物和 B adapter 的相对路径、字节数和 SHA-256；
 - `hash_policy`：排除 `manifest.json` 本身和运行结束后才写入的 `run_status.json`，避免自循环。
 
-`quality_summary.json` 顶层包含 `region_id`、`data_version`、`release_status`、`verdict=DEMO_ONLY`、网络/人口/OD统计和阻塞说明。`PASS_DEMO` 只表示工程数据包可用，不表示真实场所核验通过。
+`quality_summary.json` 顶层包含 `region_id`、`data_version`、`release_status`、`verdict=DEMO_ONLY`、网络/人口/OD统计和阻塞说明；`real_pilot_blockers` 与 `blockers` 同步保留，避免 A v1/v2 读者出现静默字段丢失。`PASS_DEMO` 只表示工程数据包可用，不表示真实场所核验通过。
+
+每个 `configs/module_a_v2_b/{region_id}.yaml` 必须提供 `scenario_defaults.population_demand_ratio` 和 `scenario_defaults.max_walk_time_min`。区域空间包的 `layers_manifest.json` 必须显式登记 `road_edges`、`network_buffer`、`boundary`、`analysis_area`，人口栅格的标准路径为 `population_density.tif`。
+
+`configs/regions.yaml` 的 `project.primary_region_id` 用于确认主展示区域；`enabled: false` 的区域只保留为可审计归档，不出现在主动规划选择器中。当前小榄因一个场所距路网 424.7m、超过 200m 阈值且产生 50,129 个 `shelter_snap_too_far` OD 对，被标记为地理漂移排除；修复坐标后再重新启用。
 
 ## 3. B 读取和验证
 

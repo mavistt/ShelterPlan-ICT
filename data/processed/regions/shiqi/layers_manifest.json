@@ -178,6 +178,50 @@
         "nearest_time_min"
       ],
       "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "road_edges",
+      "layer_name": "步行路网边",
+      "path": "data/processed/regions/shiqi/map_layers/road_edges.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "LineString",
+      "description": "Static PBF-derived walking network edges used for snapping and OD.",
+      "fields": ["length"],
+      "data_status": "STATIC_PBF"
+    },
+    {
+      "layer_id": "network_buffer",
+      "layer_name": "路网分析缓冲区",
+      "path": "data/processed/regions/shiqi/map_layers/network_buffer.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon",
+      "description": "Analysis buffer used to build the walking network.",
+      "fields": ["region_id", "network_source"],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "boundary",
+      "layer_name": "候选区域边界",
+      "path": "data/processed/regions/shiqi/boundary.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon",
+      "description": "Boundary used for the demo analysis; not an official administrative boundary.",
+      "fields": ["region_id", "boundary_status", "source_note", "source_url"],
+      "data_status": "DEMO_ONLY"
+    },
+    {
+      "layer_id": "analysis_area",
+      "layer_name": "分析范围",
+      "path": "data/processed/regions/shiqi/analysis_area.geojson",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "geometry_type": "Polygon",
+      "description": "Buffered demo analysis area used for population and network processing.",
+      "fields": ["region_id", "analysis_status", "buffer_m"],
+      "data_status": "DEMO_ONLY"
     }
   ]
 }
