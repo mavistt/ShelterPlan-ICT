@@ -39,3 +39,16 @@ evaluation:
   candidate_limit_online: 12
 
   do_not_generate_in_stage_1: true
+stage2_pilot:
+  generator: benchmark.shelterplan_eval.scenario_factory
+  candidate_count: 40
+  target_accepted: 24
+  scenario_seed: 20261125
+  allowed_regions:
+    - shiqi
+    - east_district
+  disabled_regions:
+    - xiaolan
+  max_api_candidates: 12
+  verified_scenarios_allowed: false
+  manifest_block_policy: strict_for_verified_demo_only_for_pilot

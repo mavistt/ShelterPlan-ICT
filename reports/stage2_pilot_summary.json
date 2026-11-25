@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "generator_version": "stage2-pilot-1",
+  "generated_at_utc": "2026-11-25T11:55:48.849262+00:00",
+  "scenario_seed": 20261125,
+  "candidate_count": 40,
+  "structurally_accepted_count": 32,
+  "pilot_accepted_count": 24,
+  "strict_manifest_eligible_count": 0,
+  "rejected_count": 16,
+  "deduplicated_count": 0,
+  "accepted_region_counts": {
+    "shiqi": 12,
+    "east_district": 12
+  },
+  "accepted_family_counts": {
+    "coverage_baseline": 4,
+    "budget_tradeoff": 4,
+    "capacity_competition": 4,
+    "facility_disruption": 4,
+    "multi_stage_recovery": 4,
+    "clarification_and_safe_stop": 4
+  },
+  "difficulty_distribution": {
+    "decision_complexity": {
+      "low": 4,
+      "high": 12,
+      "medium": 8
+    },
+    "workflow_complexity": {
+      "single_stage": 4,
+      "conditional_branch": 8,
+      "multi_stage": 8,
+      "safe_stop": 4
+    },
+    "interaction_complexity": {
+      "complete_request": 12,
+      "parameter_edit": 8,
+      "missing_parameter": 4
+    }
+  },
+  "manifest_status": {
+    "shiqi": {
+      "a_v2_manifest_match": false,
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593"
+    },
+    "east_district": {
+      "a_v2_manifest_match": false,
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46"
+    },
+    "xiaolan": {
+      "a_v2_manifest_match": false,
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "a_v2_manifest_sha256": "7997ece6742c593dbce6ad0244d2813619268cc910fe737920a64dd6a9f68c6d"
+    }
+  },
+  "policy": {
+    "history_merge_data_used": false,
+    "xiaolan_normal_planning_allowed": false,
+    "verified_scenarios_generated": false,
+    "manifest_errors_bypass": false,
+    "pilot_acceptance_with_manifest_block": true,
+    "pilot_acceptance_label": "DEMO_ONLY; not VERIFIED"
+  },
+  "stage3_contract": {
+    "gt_required_fields": [
+      "scenario_id",
+      "expected_behavior",
+      "feasibility_constraints",
+      "oracle_source",
+      "independent_oracle_version"
+    ],
+    "oracle_requirements": [
+      "independent_from_B_solver",
+      "region_id_and_data_version_bound",
+      "source_manifest_sha256_bound",
+      "reproducible_seed",
+      "explicit_unscorable_reason_when_manifest_blocked"
+    ]
+  }
+}

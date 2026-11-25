@@ -1,0 +1,4488 @@
+[
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-000",
+    "scenario_family": "coverage_baseline",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_16e73eb7d2",
+      "zs_5418f17c8e",
+      "zs_c7b8f8436b"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-000-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 4,
+    "scenario_seed": 20261125,
+    "difficulty": {
+      "decision_complexity": "low",
+      "workflow_complexity": "single_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_16e73eb7d2",
+          "zs_5418f17c8e",
+          "zs_c7b8f8436b"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-000-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 4,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261125,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_16e73eb7d2",
+        "zs_5418f17c8e",
+        "zs_c7b8f8436b"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-000-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 4
+    },
+    "fingerprint": "6b994cf9ba6d55a12b92f5cf5796409a13bb0f89ff4f370e6d06fd4bdccccb21",
+    "validation": {
+      "scenario_id": "ST2-shiqi-000",
+      "fingerprint": "6b994cf9ba6d55a12b92f5cf5796409a13bb0f89ff4f370e6d06fd4bdccccb21",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-001",
+    "scenario_family": "budget_tradeoff",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_0705291eaf",
+      "zs_26835a8daa",
+      "zs_9445e74744",
+      "zs_f7d567aca2"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-001-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-001-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261126,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_0705291eaf",
+          "zs_26835a8daa",
+          "zs_9445e74744",
+          "zs_f7d567aca2"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-001-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-001-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261126,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_0705291eaf",
+        "zs_26835a8daa",
+        "zs_9445e74744",
+        "zs_f7d567aca2"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-001-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-001-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-001"
+    },
+    "fingerprint": "06469d226a62651edd75cd053a6573d84cc5461e2d110f72c3fd491c63baac9a",
+    "validation": {
+      "scenario_id": "ST2-east_district-001",
+      "fingerprint": "06469d226a62651edd75cd053a6573d84cc5461e2d110f72c3fd491c63baac9a",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-002",
+    "scenario_family": "capacity_competition",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_5418f17c8e",
+      "zs_7968f48965",
+      "zs_9886d2ef6a",
+      "zs_eb8b69df7b",
+      "zs_ef12b22ef1"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-002-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-002-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261127,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_5418f17c8e",
+          "zs_7968f48965",
+          "zs_9886d2ef6a",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-002-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-002-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261127,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_5418f17c8e",
+        "zs_7968f48965",
+        "zs_9886d2ef6a",
+        "zs_eb8b69df7b",
+        "zs_ef12b22ef1"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-002-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-002-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10
+    },
+    "fingerprint": "ac7b5a3a539bab2d75ad3d7f199a45dccd2e9c0bb387a0d629a77d007a8a4b33",
+    "validation": {
+      "scenario_id": "ST2-shiqi-002",
+      "fingerprint": "ac7b5a3a539bab2d75ad3d7f199a45dccd2e9c0bb387a0d629a77d007a8a4b33",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-003",
+    "scenario_family": "facility_disruption",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_1b4df7920b",
+      "zs_5151e10626",
+      "zs_587a20a7af",
+      "zs_b8ca9544d3",
+      "zs_e9f476cdd6",
+      "zs_ff435768ca"
+    ],
+    "disabled_shelter_ids": [
+      "zs_26835a8daa"
+    ],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 30,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-003-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-003-1",
+        "project_type": "temporary_site",
+        "unit_cost": 3,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 7,
+    "scenario_seed": 20261128,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_1b4df7920b",
+          "zs_5151e10626",
+          "zs_587a20a7af",
+          "zs_b8ca9544d3",
+          "zs_e9f476cdd6",
+          "zs_ff435768ca"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [
+          "zs_26835a8daa"
+        ],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 30,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-003-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-003-1",
+            "project_type": "temporary_site",
+            "unit_cost": 3,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 7,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261128,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_1b4df7920b",
+        "zs_5151e10626",
+        "zs_587a20a7af",
+        "zs_b8ca9544d3",
+        "zs_e9f476cdd6",
+        "zs_ff435768ca"
+      ],
+      "disabled_shelter_ids": [
+        "zs_26835a8daa"
+      ],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 30,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-003-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-003-1",
+          "project_type": "temporary_site",
+          "unit_cost": 3,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 7
+    },
+    "fingerprint": "e500b2c00b0ab7cf1979bb9da7406cc297e0dd5f02cb4b79d838085cc72fab77",
+    "validation": {
+      "scenario_id": "ST2-east_district-003",
+      "fingerprint": "e500b2c00b0ab7cf1979bb9da7406cc297e0dd5f02cb4b79d838085cc72fab77",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-004",
+    "scenario_family": "multi_stage_recovery",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_9ae03a468b",
+      "zs_b4877c9de8",
+      "zs_c7b8f8436b"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-004-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-004-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261129,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_9ae03a468b",
+          "zs_b4877c9de8",
+          "zs_c7b8f8436b"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-004-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-004-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261129,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_9ae03a468b",
+        "zs_b4877c9de8",
+        "zs_c7b8f8436b"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-004-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-004-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-004"
+    },
+    "fingerprint": "87212f8baa83a3d6b3b30560e9663ad7a0ede60f34465905daa17b746fc389b7",
+    "validation": {
+      "scenario_id": "ST2-shiqi-004",
+      "fingerprint": "87212f8baa83a3d6b3b30560e9663ad7a0ede60f34465905daa17b746fc389b7",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-005",
+    "scenario_family": "clarification_and_safe_stop",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_528407a207",
+      "zs_6358642b6f",
+      "zs_78f8de70a3",
+      "zs_c801e944f6"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-005-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-005-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261130,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "missing_parameter"
+    },
+    "expected_behavior": "CLARIFY",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_528407a207",
+          "zs_6358642b6f",
+          "zs_78f8de70a3",
+          "zs_c801e944f6"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-005-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-005-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261130,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_528407a207",
+        "zs_6358642b6f",
+        "zs_78f8de70a3",
+        "zs_c801e944f6"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-005-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-005-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ]
+    },
+    "fingerprint": "51c3a720ab338d21856bfbf6b5752a57cb2cbfb004af7afceb201e8893f0d0e0",
+    "validation": {
+      "scenario_id": "ST2-east_district-005",
+      "fingerprint": "51c3a720ab338d21856bfbf6b5752a57cb2cbfb004af7afceb201e8893f0d0e0",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-006",
+    "scenario_family": "coverage_baseline",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_68d933c3a3",
+      "zs_7968f48965",
+      "zs_7c10257791",
+      "zs_93b853ea3f",
+      "zs_c8867d526a"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-006-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 4,
+    "scenario_seed": 20261131,
+    "difficulty": {
+      "decision_complexity": "low",
+      "workflow_complexity": "single_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_7c10257791",
+          "zs_93b853ea3f",
+          "zs_c8867d526a"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-006-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 4,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261131,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_68d933c3a3",
+        "zs_7968f48965",
+        "zs_7c10257791",
+        "zs_93b853ea3f",
+        "zs_c8867d526a"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-006-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 4
+    },
+    "fingerprint": "0ab9d00d39d20e2fda08b832716cc65708ee801fb2f68cebf7590472f764b613",
+    "validation": {
+      "scenario_id": "ST2-shiqi-006",
+      "fingerprint": "0ab9d00d39d20e2fda08b832716cc65708ee801fb2f68cebf7590472f764b613",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-009",
+    "scenario_family": "facility_disruption",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_1b4df7920b",
+      "zs_58fc306a1f",
+      "zs_78f8de70a3",
+      "zs_e434541fb3"
+    ],
+    "disabled_shelter_ids": [
+      "zs_587a20a7af"
+    ],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-009-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-009-1",
+        "project_type": "temporary_site",
+        "unit_cost": 3,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 7,
+    "scenario_seed": 20261134,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_1b4df7920b",
+          "zs_58fc306a1f",
+          "zs_78f8de70a3",
+          "zs_e434541fb3"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [
+          "zs_587a20a7af"
+        ],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-009-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-009-1",
+            "project_type": "temporary_site",
+            "unit_cost": 3,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 7,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261134,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_1b4df7920b",
+        "zs_58fc306a1f",
+        "zs_78f8de70a3",
+        "zs_e434541fb3"
+      ],
+      "disabled_shelter_ids": [
+        "zs_587a20a7af"
+      ],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-009-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-009-1",
+          "project_type": "temporary_site",
+          "unit_cost": 3,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 7
+    },
+    "fingerprint": "32ec68759146de73f96e1ec5d62c99744c80ae25c9ebcca6e17ebfa9928fde04",
+    "validation": {
+      "scenario_id": "ST2-east_district-009",
+      "fingerprint": "32ec68759146de73f96e1ec5d62c99744c80ae25c9ebcca6e17ebfa9928fde04",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-010",
+    "scenario_family": "multi_stage_recovery",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_59c4ec7386",
+      "zs_7c10257791",
+      "zs_c8867d526a",
+      "zs_eb8b69df7b",
+      "zs_ef12b22ef1"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-010-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-010-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261135,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_59c4ec7386",
+          "zs_7c10257791",
+          "zs_c8867d526a",
+          "zs_eb8b69df7b",
+          "zs_ef12b22ef1"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-010-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-010-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261135,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_59c4ec7386",
+        "zs_7c10257791",
+        "zs_c8867d526a",
+        "zs_eb8b69df7b",
+        "zs_ef12b22ef1"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-010-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-010-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-010"
+    },
+    "fingerprint": "48d79dfa63fe801db55560d0b791a1a3ef571f937b60441ce748002cd384eb12",
+    "validation": {
+      "scenario_id": "ST2-shiqi-010",
+      "fingerprint": "48d79dfa63fe801db55560d0b791a1a3ef571f937b60441ce748002cd384eb12",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-011",
+    "scenario_family": "clarification_and_safe_stop",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_251667c58b",
+      "zs_58fc306a1f",
+      "zs_9445e74744",
+      "zs_b69995549d",
+      "zs_e016bde4b3",
+      "zs_fed820d94e"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 30,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-011-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-011-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261136,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "missing_parameter"
+    },
+    "expected_behavior": "CLARIFY",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_251667c58b",
+          "zs_58fc306a1f",
+          "zs_9445e74744",
+          "zs_b69995549d",
+          "zs_e016bde4b3",
+          "zs_fed820d94e"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 30,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-011-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-011-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261136,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_251667c58b",
+        "zs_58fc306a1f",
+        "zs_9445e74744",
+        "zs_b69995549d",
+        "zs_e016bde4b3",
+        "zs_fed820d94e"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 30,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-011-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-011-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ]
+    },
+    "fingerprint": "c85758d1ef3c88e2f85e2fd2081896d7e46f09b1db0f966d91ae379d35357af9",
+    "validation": {
+      "scenario_id": "ST2-east_district-011",
+      "fingerprint": "c85758d1ef3c88e2f85e2fd2081896d7e46f09b1db0f966d91ae379d35357af9",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-013",
+    "scenario_family": "budget_tradeoff",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_0705291eaf",
+      "zs_9445e74744",
+      "zs_e434541fb3",
+      "zs_fed820d94e"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-013-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-013-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261138,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_0705291eaf",
+          "zs_9445e74744",
+          "zs_e434541fb3",
+          "zs_fed820d94e"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-013-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-013-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261138,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_0705291eaf",
+        "zs_9445e74744",
+        "zs_e434541fb3",
+        "zs_fed820d94e"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-013-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-013-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-013"
+    },
+    "fingerprint": "f52a9de684dccc3ab0af3ac6b4bbe241478b75a1d05e1ae851efb3fcdf84c644",
+    "validation": {
+      "scenario_id": "ST2-east_district-013",
+      "fingerprint": "f52a9de684dccc3ab0af3ac6b4bbe241478b75a1d05e1ae851efb3fcdf84c644",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-014",
+    "scenario_family": "capacity_competition",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_4f00bd0879",
+      "zs_68d933c3a3",
+      "zs_7968f48965",
+      "zs_9ae03a468b",
+      "zs_d2948c3ad8"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-014-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-014-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261139,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_4f00bd0879",
+          "zs_68d933c3a3",
+          "zs_7968f48965",
+          "zs_9ae03a468b",
+          "zs_d2948c3ad8"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-014-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-014-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261139,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_4f00bd0879",
+        "zs_68d933c3a3",
+        "zs_7968f48965",
+        "zs_9ae03a468b",
+        "zs_d2948c3ad8"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-014-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-014-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10
+    },
+    "fingerprint": "c71a06ea6d6df8e66e36106a8bb4c76a8418a7bc9137d035d55e84e6d929567c",
+    "validation": {
+      "scenario_id": "ST2-shiqi-014",
+      "fingerprint": "c71a06ea6d6df8e66e36106a8bb4c76a8418a7bc9137d035d55e84e6d929567c",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-012",
+    "scenario_family": "coverage_baseline",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_3fa8ce2b1e",
+      "zs_d2948c3ad8",
+      "zs_ef12b22ef1"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-012-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 4,
+    "scenario_seed": 20261137,
+    "difficulty": {
+      "decision_complexity": "low",
+      "workflow_complexity": "single_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_3fa8ce2b1e",
+          "zs_d2948c3ad8",
+          "zs_ef12b22ef1"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-012-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 4,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261137,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_3fa8ce2b1e",
+        "zs_d2948c3ad8",
+        "zs_ef12b22ef1"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-012-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 4
+    },
+    "fingerprint": "e4b77153bd9e0b070fae2708d29f59e7addd1cd6cfe457eca69376ea8124165c",
+    "validation": {
+      "scenario_id": "ST2-shiqi-012",
+      "fingerprint": "e4b77153bd9e0b070fae2708d29f59e7addd1cd6cfe457eca69376ea8124165c",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-015",
+    "scenario_family": "facility_disruption",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_1a562fd2ec",
+      "zs_5151e10626",
+      "zs_63f1d8e4ef",
+      "zs_a4eac8200b",
+      "zs_e9f476cdd6",
+      "zs_ff435768ca"
+    ],
+    "disabled_shelter_ids": [
+      "zs_9445e74744"
+    ],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 30,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-015-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-015-1",
+        "project_type": "temporary_site",
+        "unit_cost": 3,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 7,
+    "scenario_seed": 20261140,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_1a562fd2ec",
+          "zs_5151e10626",
+          "zs_63f1d8e4ef",
+          "zs_a4eac8200b",
+          "zs_e9f476cdd6",
+          "zs_ff435768ca"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [
+          "zs_9445e74744"
+        ],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 30,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-015-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-015-1",
+            "project_type": "temporary_site",
+            "unit_cost": 3,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 7,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261140,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_1a562fd2ec",
+        "zs_5151e10626",
+        "zs_63f1d8e4ef",
+        "zs_a4eac8200b",
+        "zs_e9f476cdd6",
+        "zs_ff435768ca"
+      ],
+      "disabled_shelter_ids": [
+        "zs_9445e74744"
+      ],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 30,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-015-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-015-1",
+          "project_type": "temporary_site",
+          "unit_cost": 3,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 7
+    },
+    "fingerprint": "56bbcde530da621f578881ee9c69290240bb89d85c252900dba16b1335d208c7",
+    "validation": {
+      "scenario_id": "ST2-east_district-015",
+      "fingerprint": "56bbcde530da621f578881ee9c69290240bb89d85c252900dba16b1335d208c7",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-016",
+    "scenario_family": "multi_stage_recovery",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_7c10257791",
+      "zs_d2948c3ad8",
+      "zs_eb8b69df7b"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-016-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-016-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261141,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_7c10257791",
+          "zs_d2948c3ad8",
+          "zs_eb8b69df7b"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-016-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-016-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261141,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_7c10257791",
+        "zs_d2948c3ad8",
+        "zs_eb8b69df7b"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-016-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-016-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-016"
+    },
+    "fingerprint": "e81f414ef2b27eb22c07b25d42ab54f48384ff74a29dbac7dd88545c7374c68e",
+    "validation": {
+      "scenario_id": "ST2-shiqi-016",
+      "fingerprint": "e81f414ef2b27eb22c07b25d42ab54f48384ff74a29dbac7dd88545c7374c68e",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-019",
+    "scenario_family": "budget_tradeoff",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_0705291eaf",
+      "zs_54cbb64815",
+      "zs_58fc306a1f",
+      "zs_a4eac8200b",
+      "zs_e434541fb3",
+      "zs_fed820d94e"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 30,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-019-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-019-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261144,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_0705291eaf",
+          "zs_54cbb64815",
+          "zs_58fc306a1f",
+          "zs_a4eac8200b",
+          "zs_e434541fb3",
+          "zs_fed820d94e"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 30,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-019-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-019-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261144,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_0705291eaf",
+        "zs_54cbb64815",
+        "zs_58fc306a1f",
+        "zs_a4eac8200b",
+        "zs_e434541fb3",
+        "zs_fed820d94e"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 30,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-019-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-019-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-019"
+    },
+    "fingerprint": "848789be7c434d4a79abed6e32ea429f0f5a20b7ac6c31d07d5b05b0f33af261",
+    "validation": {
+      "scenario_id": "ST2-east_district-019",
+      "fingerprint": "848789be7c434d4a79abed6e32ea429f0f5a20b7ac6c31d07d5b05b0f33af261",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-020",
+    "scenario_family": "capacity_competition",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_04ec8cb884",
+      "zs_7968f48965",
+      "zs_d2948c3ad8"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-020-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-020-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261145,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_04ec8cb884",
+          "zs_7968f48965",
+          "zs_d2948c3ad8"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-020-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-020-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261145,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_04ec8cb884",
+        "zs_7968f48965",
+        "zs_d2948c3ad8"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-020-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-020-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10
+    },
+    "fingerprint": "e19eef2470e48203d4a3e19c1767de3180c78bc9f2aadd96cd264962b60217d9",
+    "validation": {
+      "scenario_id": "ST2-shiqi-020",
+      "fingerprint": "e19eef2470e48203d4a3e19c1767de3180c78bc9f2aadd96cd264962b60217d9",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-021",
+    "scenario_family": "facility_disruption",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_26835a8daa",
+      "zs_5151e10626",
+      "zs_6358642b6f",
+      "zs_ff435768ca"
+    ],
+    "disabled_shelter_ids": [
+      "zs_d58044b4d4"
+    ],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-021-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-021-1",
+        "project_type": "temporary_site",
+        "unit_cost": 3,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 7,
+    "scenario_seed": 20261146,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_26835a8daa",
+          "zs_5151e10626",
+          "zs_6358642b6f",
+          "zs_ff435768ca"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [
+          "zs_d58044b4d4"
+        ],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-021-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-021-1",
+            "project_type": "temporary_site",
+            "unit_cost": 3,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 7,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261146,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_26835a8daa",
+        "zs_5151e10626",
+        "zs_6358642b6f",
+        "zs_ff435768ca"
+      ],
+      "disabled_shelter_ids": [
+        "zs_d58044b4d4"
+      ],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-021-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-021-1",
+          "project_type": "temporary_site",
+          "unit_cost": 3,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 7
+    },
+    "fingerprint": "c2a1eb64d0d886cfdc25c9d93d62b7edc35dada85b8f05eee3d9b3dc4aa17c94",
+    "validation": {
+      "scenario_id": "ST2-east_district-021",
+      "fingerprint": "c2a1eb64d0d886cfdc25c9d93d62b7edc35dada85b8f05eee3d9b3dc4aa17c94",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-022",
+    "scenario_family": "multi_stage_recovery",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_1654dda235",
+      "zs_16e73eb7d2",
+      "zs_4f00bd0879",
+      "zs_9886d2ef6a",
+      "zs_b4877c9de8"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-022-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-022-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261147,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_1654dda235",
+          "zs_16e73eb7d2",
+          "zs_4f00bd0879",
+          "zs_9886d2ef6a",
+          "zs_b4877c9de8"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-022-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-022-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261147,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_1654dda235",
+        "zs_16e73eb7d2",
+        "zs_4f00bd0879",
+        "zs_9886d2ef6a",
+        "zs_b4877c9de8"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-022-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-022-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-022"
+    },
+    "fingerprint": "a6555b417fe98e25652ea4ab79db2dd14b45529447cee8c8622e3503a7b2edf8",
+    "validation": {
+      "scenario_id": "ST2-shiqi-022",
+      "fingerprint": "a6555b417fe98e25652ea4ab79db2dd14b45529447cee8c8622e3503a7b2edf8",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-023",
+    "scenario_family": "clarification_and_safe_stop",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_26835a8daa",
+      "zs_574714482d",
+      "zs_58fc306a1f",
+      "zs_6358642b6f",
+      "zs_9445e74744",
+      "zs_e434541fb3"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 30,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-023-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-023-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261148,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "missing_parameter"
+    },
+    "expected_behavior": "CLARIFY",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_26835a8daa",
+          "zs_574714482d",
+          "zs_58fc306a1f",
+          "zs_6358642b6f",
+          "zs_9445e74744",
+          "zs_e434541fb3"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 30,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-023-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-023-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261148,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_26835a8daa",
+        "zs_574714482d",
+        "zs_58fc306a1f",
+        "zs_6358642b6f",
+        "zs_9445e74744",
+        "zs_e434541fb3"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 30,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-023-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-023-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ]
+    },
+    "fingerprint": "9d1d0294729daf28e6bdbce9d210625be307bc475aa9eebce67ebc6a50227fc7",
+    "validation": {
+      "scenario_id": "ST2-east_district-023",
+      "fingerprint": "9d1d0294729daf28e6bdbce9d210625be307bc475aa9eebce67ebc6a50227fc7",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-024",
+    "scenario_family": "coverage_baseline",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_16e73eb7d2",
+      "zs_68d933c3a3",
+      "zs_b4877c9de8"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.2,
+    "max_walk_time_min": 10,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-024-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 2,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 4,
+    "scenario_seed": 20261149,
+    "difficulty": {
+      "decision_complexity": "low",
+      "workflow_complexity": "single_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_16e73eb7d2",
+          "zs_68d933c3a3",
+          "zs_b4877c9de8"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.2,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-024-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 2,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 4,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261149,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_16e73eb7d2",
+        "zs_68d933c3a3",
+        "zs_b4877c9de8"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 10,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-024-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 2,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 4
+    },
+    "fingerprint": "009841128d8b46951353f6919e0b9e95fcf13ee4e1aa3a22d6b9184c4e530c4d",
+    "validation": {
+      "scenario_id": "ST2-shiqi-024",
+      "fingerprint": "009841128d8b46951353f6919e0b9e95fcf13ee4e1aa3a22d6b9184c4e530c4d",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-025",
+    "scenario_family": "budget_tradeoff",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_1a562fd2ec",
+      "zs_58fc306a1f",
+      "zs_a947248455",
+      "zs_b8ca9544d3"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.25,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-025-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 3,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-025-1",
+        "project_type": "temporary_site",
+        "unit_cost": 4,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261150,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "conditional_branch",
+      "interaction_complexity": "parameter_edit"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_1a562fd2ec",
+          "zs_58fc306a1f",
+          "zs_a947248455",
+          "zs_b8ca9544d3"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.25,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-025-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 3,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-025-1",
+            "project_type": "temporary_site",
+            "unit_cost": 4,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261150,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_1a562fd2ec",
+        "zs_58fc306a1f",
+        "zs_a947248455",
+        "zs_b8ca9544d3"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-025-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 3,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-025-1",
+          "project_type": "temporary_site",
+          "unit_cost": 4,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10,
+      "parent_scenario_id": "ST2-parent-025"
+    },
+    "fingerprint": "a451a10d1350a866cd7c8fae00699ec75e8efdb8b79c7ee70ec7fcca2624b5e6",
+    "validation": {
+      "scenario_id": "ST2-east_district-025",
+      "fingerprint": "a451a10d1350a866cd7c8fae00699ec75e8efdb8b79c7ee70ec7fcca2624b5e6",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-shiqi-026",
+    "scenario_family": "capacity_competition",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+    "shelter_ids": [
+      "zs_7c10257791",
+      "zs_9886d2ef6a",
+      "zs_b4877c9de8",
+      "zs_ba9e4c3236",
+      "zs_d2948c3ad8"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 20,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-shiqi-026-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-shiqi-026-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261151,
+    "difficulty": {
+      "decision_complexity": "high",
+      "workflow_complexity": "multi_stage",
+      "interaction_complexity": "complete_request"
+    },
+    "expected_behavior": "EXECUTE",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_7c10257791",
+          "zs_9886d2ef6a",
+          "zs_b4877c9de8",
+          "zs_ba9e4c3236",
+          "zs_d2948c3ad8"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 20,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-shiqi-026-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-shiqi-026-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261151,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "shiqi",
+      "shelter_ids": [
+        "zs_7c10257791",
+        "zs_9886d2ef6a",
+        "zs_b4877c9de8",
+        "zs_ba9e4c3236",
+        "zs_d2948c3ad8"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 20,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-shiqi-026-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-shiqi-026-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ],
+      "budget_units": 10
+    },
+    "fingerprint": "be2be5694911ba97ec3a8a470666e68c17436ad230bd21435159bd6ee42a5760",
+    "validation": {
+      "scenario_id": "ST2-shiqi-026",
+      "fingerprint": "be2be5694911ba97ec3a8a470666e68c17436ad230bd21435159bd6ee42a5760",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  },
+  {
+    "schema_version": 1,
+    "generator_version": "stage2-pilot-1",
+    "scenario_id": "ST2-east_district-029",
+    "scenario_family": "clarification_and_safe_stop",
+    "region_id": "east_district",
+    "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+    "shelter_ids": [
+      "zs_740e2a0ec1",
+      "zs_b69995549d",
+      "zs_e016bde4b3",
+      "zs_e9f476cdd6"
+    ],
+    "disabled_shelter_ids": [],
+    "population_demand_ratio": 0.3,
+    "max_walk_time_min": 15,
+    "recovery_projects": [
+      {
+        "project_id": "recovery-east_district-029-0",
+        "project_type": "capacity_expansion",
+        "unit_cost": 4,
+        "capacity_delta_persons": 100,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      },
+      {
+        "project_id": "recovery-east_district-029-1",
+        "project_type": "temporary_site",
+        "unit_cost": 2,
+        "capacity_delta_persons": 200,
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+      }
+    ],
+    "budget_units": 10,
+    "scenario_seed": 20261154,
+    "difficulty": {
+      "decision_complexity": "medium",
+      "workflow_complexity": "safe_stop",
+      "interaction_complexity": "missing_parameter"
+    },
+    "expected_behavior": "CLARIFY",
+    "provenance": {
+      "data_status": "DEMO_ONLY",
+      "boundary_status": "demo_analysis_boundary",
+      "real_gis_inputs": true,
+      "hypothetical_inputs": [
+        "population_demand_ratio",
+        "recovery_projects",
+        "budget_units"
+      ],
+      "verified_for_release": false
+    },
+    "assumptions": [
+      {
+        "parameter": "region_id",
+        "value": "east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "data_version",
+        "value": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "A v2 region manifest"
+      },
+      {
+        "parameter": "source_manifest_sha256",
+        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "source_label": "EVAL_SOURCE_MANIFEST",
+        "source_detail": "sources/source_manifest.json raw SHA-256"
+      },
+      {
+        "parameter": "a_v2_manifest_sha256",
+        "value": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+        "source_label": "A_V2_MANIFEST",
+        "source_detail": "region manifest raw SHA-256"
+      },
+      {
+        "parameter": "shelter_ids",
+        "value": [
+          "zs_740e2a0ec1",
+          "zs_b69995549d",
+          "zs_e016bde4b3",
+          "zs_e9f476cdd6"
+        ],
+        "source_label": "A_V2_DERIVED",
+        "source_detail": "active DEMO_ONLY candidates"
+      },
+      {
+        "parameter": "disabled_shelter_ids",
+        "value": [],
+        "source_label": "EVAL_INPUT",
+        "source_detail": "disruption input"
+      },
+      {
+        "parameter": "population_demand_ratio",
+        "value": 0.3,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "max_walk_time_min",
+        "value": 15,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot parameter"
+      },
+      {
+        "parameter": "recovery_projects",
+        "value": [
+          {
+            "project_id": "recovery-east_district-029-0",
+            "project_type": "capacity_expansion",
+            "unit_cost": 4,
+            "capacity_delta_persons": 100,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          },
+          {
+            "project_id": "recovery-east_district-029-1",
+            "project_type": "temporary_site",
+            "unit_cost": 2,
+            "capacity_delta_persons": 200,
+            "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+          }
+        ],
+        "source_label": "HYPOTHETICAL_RECOVERY_PROJECT",
+        "source_detail": "not an observed commitment"
+      },
+      {
+        "parameter": "budget_units",
+        "value": 10,
+        "source_label": "SCENARIO_PARAMETER",
+        "source_detail": "pilot budget units"
+      },
+      {
+        "parameter": "scenario_seed",
+        "value": 20261154,
+        "source_label": "GENERATOR_SEED",
+        "source_detail": "deterministic pilot seed"
+      }
+    ],
+    "request_payload": {
+      "region_id": "east_district",
+      "shelter_ids": [
+        "zs_740e2a0ec1",
+        "zs_b69995549d",
+        "zs_e016bde4b3",
+        "zs_e9f476cdd6"
+      ],
+      "disabled_shelter_ids": [],
+      "population_demand_ratio": 0.3,
+      "max_walk_time_min": 15,
+      "recovery_projects": [
+        {
+          "project_id": "recovery-east_district-029-0",
+          "project_type": "capacity_expansion",
+          "unit_cost": 4,
+          "capacity_delta_persons": 100,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        },
+        {
+          "project_id": "recovery-east_district-029-1",
+          "project_type": "temporary_site",
+          "unit_cost": 2,
+          "capacity_delta_persons": 200,
+          "source_label": "HYPOTHETICAL_RECOVERY_PROJECT"
+        }
+      ]
+    },
+    "fingerprint": "178e183913d8c2bcc17c15305e15d18787e245e486947dd504f111738dcdf896",
+    "validation": {
+      "scenario_id": "ST2-east_district-029",
+      "fingerprint": "178e183913d8c2bcc17c15305e15d18787e245e486947dd504f111738dcdf896",
+      "validation_passed": true,
+      "pilot_accepted": true,
+      "acceptance_class": "accepted_demo_only_manifest_blocked",
+      "eligible_for_verified": false,
+      "verified_for_release": false,
+      "errors": [],
+      "warnings": [
+        "a_v2_manifest_mismatch",
+        "boundary_not_official",
+        "data_status_not_verified"
+      ],
+      "manifest_gate": "BLOCKED"
+    }
+  }
+]

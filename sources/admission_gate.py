@@ -78,6 +78,9 @@ def evaluate_row(
 
     if not region_meta["enabled"]:
         demo_blockers.append("region_disabled")
+    if not truth(row.get("active")):
+        demo_blockers.append("source_record_inactive")
+        verified_blockers.append("source_record_inactive")
     if row.get("coordinate_status") != "verified":
         demo_blockers.append("coordinate_not_verified")
         verified_blockers.append("coordinate_status_not_verified")
@@ -115,7 +118,9 @@ def evaluate_row(
         verified_blockers.append("geocode_not_verified")
 
     structural_ok = not fatal_blockers
-    eligible_for_demo = bool(region_meta["enabled"] and structural_ok)
+    eligible_for_demo = bool(
+        region_meta["enabled"] and truth(row.get("active")) and structural_ok
+    )
     eligible_for_verified = bool(
         eligible_for_demo
         and not demo_blockers
@@ -136,6 +141,7 @@ def evaluate_row(
         "admission_class": admission_class,
         "eligible_for_demo": eligible_for_demo,
         "eligible_for_verified": eligible_for_verified,
+        "eligible_for_normal_planning": eligible_for_demo,
         "region_enabled": bool(region_meta["enabled"]),
         "active_in_source": truth(row.get("active")),
         "source_review_decision": row.get("review_decision", ""),
@@ -226,6 +232,9 @@ def run_gate(root: Path = ROOT) -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 "data_status": quality.get("data_status"),
                 "source_rows": len(shelters),
                 "demo_eligible": sum(record["eligible_for_demo"] for record in region_records),
+                "normal_planning_candidates": sum(
+                    record["eligible_for_normal_planning"] for record in region_records
+                ),
                 "verified_eligible": sum(record["eligible_for_verified"] for record in region_records),
                 "admission_counts": dict(counts),
                 "quality_summary": {
@@ -245,10 +254,17 @@ def run_gate(root: Path = ROOT) -> tuple[list[dict[str, Any]], dict[str, Any]]:
             "manifest_modified": False,
             "verified_upgrade_automatic": False,
             "disabled_regions_used_for_normal_admission": False,
+            "normal_candidate_definition": (
+                "region_enabled AND active_in_source AND structural checks pass; "
+                "DEMO_ONLY warnings remain attached"
+            ),
         },
         "totals": {
             "source_rows": len(records),
             "demo_eligible": sum(record["eligible_for_demo"] for record in records),
+            "normal_planning_candidates": sum(
+                record["eligible_for_normal_planning"] for record in records
+            ),
             "verified_eligible": sum(record["eligible_for_verified"] for record in records),
             "needs_review": sum(record["admission_class"] == "needs_review" for record in records),
             "excluded": sum(record["admission_class"] == "excluded" for record in records),
@@ -268,6 +284,7 @@ def write_csv(path: Path, records: list[dict[str, Any]]) -> None:
         "admission_class",
         "eligible_for_demo",
         "eligible_for_verified",
+        "eligible_for_normal_planning",
         "region_enabled",
         "active_in_source",
         "source_review_decision",
@@ -300,6 +317,7 @@ def quality_report(summary: dict[str, Any]) -> str:
         f"- 生成时间（UTC）：{summary['generated_at_utc']}",
         "- 输入快照：A v2 已有处理结果，只读",
         "- 准入策略：demo 与 verified 分离；不自动升级 verified；不静默删除源记录",
+        "- active 只表示源记录的 active 字段；不等同于当前开放状态。正常候选必须同时满足 region enabled、active 和结构校验；DEMO_ONLY 警告继续保留。",
         "",
         "## 总体计数",
         "",
@@ -307,6 +325,7 @@ def quality_report(summary: dict[str, Any]) -> str:
         "| --- | ---: |",
         f"| 源记录 | {summary['totals']['source_rows']} |",
         f"| 可用于受控 DEMO_ONLY 的记录 | {summary['totals']['demo_eligible']} |",
+        f"| 正常求解候选（受控 DEMO_ONLY） | {summary['totals']['normal_planning_candidates']} |",
         f"| 可用于 VERIFIED 的记录 | {summary['totals']['verified_eligible']} |",
         f"| needs_review | {summary['totals']['needs_review']} |",
         f"| excluded | {summary['totals']['excluded']} |",

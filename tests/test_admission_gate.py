@@ -86,6 +86,25 @@ class AdmissionGateTests(unittest.TestCase):
         self.assertFalse(result["eligible_for_demo"])
         self.assertEqual(result["admission_class"], "needs_review")
         self.assertIn("region_disabled", result["demo_blockers"])
+        self.assertFalse(result["eligible_for_normal_planning"])
+
+    def test_inactive_source_row_is_not_a_normal_candidate(self):
+        result = evaluate_row(
+            base_row(active="False"),
+            region_meta={
+                "region_id": "shiqi",
+                "enabled": True,
+                "data_version": "v2-shiqi",
+                "boundary_status": "demo_analysis_boundary",
+            },
+            snap={"snap_distance_m": "50", "snap_ok": "True"},
+            geocode={"status": "candidate"},
+            source_disposition={"review_decision": "needs_review"},
+            duplicate_rows=[],
+        )
+        self.assertFalse(result["eligible_for_demo"])
+        self.assertFalse(result["eligible_for_normal_planning"])
+        self.assertIn("source_record_inactive", result["demo_blockers"])
 
     def test_verified_requires_independent_evidence(self):
         row = base_row(
