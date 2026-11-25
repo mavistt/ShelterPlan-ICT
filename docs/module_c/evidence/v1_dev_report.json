@@ -1,0 +1,2397 @@
+{
+  "run_id": "v1-1794427837",
+  "generated_at": "2026-11-11T20:10:37Z",
+  "model": {
+    "base_url": "http://127.0.0.1:11434/v1",
+    "model": "gemma4:e2b",
+    "temperature": 0.0
+  },
+  "experiment": {
+    "deterministic_v0_included": false,
+    "note": "V0 deterministic results are reported separately; the numbers below describe a real LLM agent under two tool-arm conditions."
+  },
+  "cases": [
+    {
+      "case_id": "NL-D-01",
+      "group": "dev",
+      "capability": "assess",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []"
+      ],
+      "failure_types": [
+        "wrong_tool_or_task"
+      ],
+      "final_text": "请问您希望从哪些方面评估东区的应急避难场所覆盖情况？例如，您是想评估人口需求与现有避难场所的匹配度，还是想进行压力测试，或者关注特定的覆盖率指标？\n\n请提供更多评估的具体要求，以便我能使用数据为您提供准确的评估。",
+      "info": {
+        "successful_task_types": [],
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 52651.3,
+      "prompt_tokens": 740,
+      "completion_tokens": 835,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 52670.3,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-01",
+      "group": "dev",
+      "capability": "assess",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "根据您提供的试点数据（zhongshan_pilot_v0.1，状态 DEMO_ONLY），我对“东区”的应急避难场所覆盖情况进行了评估。\n\n**评估摘要：**\n\n*   **分析模式：** 演示模式 (DEMO_ONLY)。\n*   **数据状态警告：** **DEMO_ONLY** — 未经真实现场核验，不得作为应急执行建议。\n*   **核心指标：**\n    *   **总需求人数 (Total Demand):** 110,205.74 人\n    *   **实际服务需求人数 (Served Demand):** 6,456.10 人\n    *   **未被满足的需求节点数 (Diagnosed Unserved Nodes):** 7,634 个\n*   **未满足需求的原因分析：**\n    *   **无合法连接 (NO_LEGAL_CONNECTION):** 67,097.311 人\n    *   **容量竞争或不足 (CAPACITY_COMPETITION_OR_INSUFFICIENCY):** 36,652.338 人\n\n**结论：**\n\n根据本次演示数据，在设定的参数条件下，**东区应急避难场所的覆盖情况存在显著的不足**。大量的需求（特别是“无合法连接”和“容量不足”导致的）未能得到满足。\n\n**重要提示：**\n\n请注意，此结果是基于**演示数据 (DEMO_ONLY)** 生成的，**不应作为实际应急规划的依据**。要获得真实、可执行的覆盖情况，需要使用经过真实试点验证的数据。",
+      "info": {
+        "successful_task_types": [
+          "assess"
+        ],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      },
+      "llm_calls": 2,
+      "llm_latency_ms": 24638.8,
+      "prompt_tokens": 3403,
+      "completion_tokens": 931,
+      "tool_calls": 1,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "assess",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "8e15c176-96fd-4a6e-ba56-b3ebc8ce46d1",
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          },
+          "summary": {
+            "result_id": "8e15c176-96fd-4a6e-ba56-b3ebc8ce46d1",
+            "task_id": "c-9113f921-3189-4e65-b238-c34ac0c96bd8",
+            "task_type": "assess",
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "scenario_changes": {},
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 6456.103026929056,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 9.037615807901064,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7634
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": []
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 354,
+              "deficits": 7965,
+              "diagnosis_rows": 7634,
+              "certificate_checks": 8346,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "f93d3f99-4f76-4f0b-8e3f-2e4192afad34",
+              "scenario_hash": "7df35aacb744597b",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "diagnosis": {
+                "unserved_node_count": 7634,
+                "by_cause": {
+                  "NO_LEGAL_CONNECTION": 5599,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2035
+                },
+                "unserved_persons_by_cause": {
+                  "NO_LEGAL_CONNECTION": 67097.311,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 36652.338
+                },
+                "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+              }
+            },
+            "summary_bytes": 1681
+          },
+          "summary_bytes": 1681
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          0.1,
+          110205.74,
+          6456.1,
+          7634.0,
+          67097.311,
+          36652.338
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 30081.5,
+      "session": {
+        "session_id": "v1-harness-nl-d-01",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "8e15c176-96fd-4a6e-ba56-b3ebc8ce46d1",
+          "created_at": "2026-11-11T20:11:44.791+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "8e15c176-96fd-4a6e-ba56-b3ebc8ce46d1"
+          }
+        ],
+        "result_ids": [
+          "8e15c176-96fd-4a6e-ba56-b3ebc8ce46d1"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-02",
+      "group": "dev",
+      "capability": "multi_turn",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "max_walk_time_min: expected 20 got 15.0",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording"
+      ],
+      "failure_types": [
+        "demo_violation",
+        "other"
+      ],
+      "final_text": "根据任务状态，优化任务**失败**了。\n\n失败的原因是：**优化任务需要一个预算（`budget_units`）参数，但该参数缺失。**\n\n为了继续优化，请您提供一个预算值。",
+      "info": {
+        "successful_task_types": [
+          "assess"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": []
+        },
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 9,
+      "llm_latency_ms": 66300.3,
+      "prompt_tokens": 10055,
+      "completion_tokens": 2452,
+      "tool_calls": 5,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "assess",
+          "job_id": "80a81b37-dee7-47c7-97e4-651335c242d1",
+          "status": "QUEUED"
+        },
+        {
+          "ok": true,
+          "task_type": null,
+          "result_id": "12cb8731-9df1-44e1-9df2-bb65abb5164a",
+          "verification_status": "PASS_DEMO",
+          "data_status": "DEMO_ONLY",
+          "solver_status": "OPTIMAL",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          }
+        },
+        {
+          "ok": null,
+          "task_type": "optimize",
+          "job_id": "d62337d0-4e60-4ff8-8be2-617ce5b81efb",
+          "status": "QUEUED"
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 67240.3,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-02",
+      "group": "dev",
+      "capability": "multi_turn",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "根据您放宽步行时间阈值到20分钟的调整，我对东区应急避难场所的覆盖情况进行了重新评估。\n\n**评估结果摘要 (基于试点数据 `zhongshan_pilot_v0.1`，分析模式为 DEMO_ONLY)：**\n\n*   **场景设置：** 步行时间阈值设置为 **20分钟**。\n*   **总需求：** 110,205.74 人。\n*   **服务需求：** 8,905.14 人被服务。\n*   **诊断结果：**\n    *   **未服务节点数量：** 7,475 个节点。\n    *   **未服务人数（按原因划分）：**\n        *   **无合法连接 (NO\\_LEGAL\\_CONNECTION)：** 52,987.40 人\n        *   **容量竞争或不足 (CAPACITY\\_COMPETITION\\_OR\\_INSUFFICIENCY)：** 48,313.20 人\n*   **关键指标：**\n    *   **加权步行时间：** 11.61 分钟。\n\n**重要提示：**\n请注意，本次评估是基于**试点数据 (DEMO_ONLY)** 进行的，**不代表真实场地的覆盖情况或当前容量**。根据系统警告，**请勿将此结果作为应急执行建议**。\n\n如果您需要进一步的分析（例如，尝试不同的预算或进行压力测试），请告诉我您的具体要求。",
+      "info": {
+        "successful_task_types": [
+          "assess"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 20,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      },
+      "llm_calls": 4,
+      "llm_latency_ms": 46585.5,
+      "prompt_tokens": 9223,
+      "completion_tokens": 1731,
+      "tool_calls": 2,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "assess",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "922ace0a-c6c1-49d3-9124-a5004e56c513",
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          },
+          "summary": {
+            "result_id": "922ace0a-c6c1-49d3-9124-a5004e56c513",
+            "task_id": "c-e4e3c0c6-ecb6-468e-b4d1-c141a54046e2",
+            "task_type": "assess",
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "scenario_changes": {},
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 6456.103026929056,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 9.037615807901064,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7634
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": []
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 354,
+              "deficits": 7965,
+              "diagnosis_rows": 7634,
+              "certificate_checks": 8346,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "5635f55f-977e-44e3-b59d-3c4e4a165b42",
+              "scenario_hash": "7df35aacb744597b",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "diagnosis": {
+                "unserved_node_count": 7634,
+                "by_cause": {
+                  "NO_LEGAL_CONNECTION": 5599,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2035
+                },
+                "unserved_persons_by_cause": {
+                  "NO_LEGAL_CONNECTION": 67097.311,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 36652.338
+                },
+                "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+              }
+            },
+            "summary_bytes": 1681
+          },
+          "summary_bytes": 1681
+        },
+        {
+          "ok": true,
+          "task_type": "assess",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "98964519-6cd9-426a-97f4-02e39a3a3338",
+          "scenario_id": "c-v1-harne-t02-3bb1aa74",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 20,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 8905.139457672904,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 11.6118296436597,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7475
+          },
+          "summary": {
+            "result_id": "98964519-6cd9-426a-97f4-02e39a3a3338",
+            "task_id": "c-52fb4ee0-2de8-4521-9d70-3c192a92f751",
+            "task_type": "assess",
+            "scenario_id": "c-v1-harne-t02-3bb1aa74",
+            "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "scenario_changes": {
+              "max_walk_time_min": 20
+            },
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 8905.139457672904,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 11.6118296436597,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7475
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 20,
+              "budget_units": null,
+              "disabled_shelter_ids": []
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 513,
+              "deficits": 7965,
+              "diagnosis_rows": 7475,
+              "certificate_checks": 8505,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "8db340ea-a94e-438e-8e39-4f12a744483c",
+              "scenario_hash": "e0bd2a6ebf7e20ad",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "diagnosis": {
+                "unserved_node_count": 7475,
+                "by_cause": {
+                  "NO_LEGAL_CONNECTION": 4615,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2860
+                },
+                "unserved_persons_by_cause": {
+                  "NO_LEGAL_CONNECTION": 52987.401,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 48313.204
+                },
+                "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+              }
+            },
+            "summary_bytes": 1721
+          },
+          "summary_bytes": 1721
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          20.0,
+          20.0,
+          110205.74,
+          8905.14,
+          7475.0,
+          52987.4,
+          48313.2,
+          11.61
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 26
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 57704.0,
+      "session": {
+        "session_id": "v1-harness-nl-d-02",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v1-harne-t02-3bb1aa74",
+          "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "max_walk_time_min": 20
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 20,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "98964519-6cd9-426a-97f4-02e39a3a3338",
+          "created_at": "2026-11-11T20:13:50.139+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "922ace0a-c6c1-49d3-9124-a5004e56c513"
+          },
+          {
+            "scenario_id": "c-v1-harne-t02-3bb1aa74",
+            "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "max_walk_time_min": 20
+            },
+            "result_id": "98964519-6cd9-426a-97f4-02e39a3a3338"
+          }
+        ],
+        "result_ids": [
+          "922ace0a-c6c1-49d3-9124-a5004e56c513",
+          "98964519-6cd9-426a-97f4-02e39a3a3338"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-03",
+      "group": "dev",
+      "capability": "optimize",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got []",
+        "disabled_shelter_ids: expected ['zs_1b4df7920b', 'zs_60213118ec', 'zs_e016bde4b3', 'zs_737caba8e8', 'zs_6358642b6f'] got []",
+        "numeric: answer cites numbers not present in tool output"
+      ],
+      "failure_types": [
+        "numeric_violation",
+        "other",
+        "wrong_tool_or_task"
+      ],
+      "final_text": "我已为您提交了两个任务：\n\n1.  **压力测试 (stress_test)**：关闭了指定的5个场所 (`zs_1b4df7920b`, `zs_60213118ec`, `zs_e016bde4b3`, `zs_737caba8e8`, `zs_6358642b6f`)。\n2.  **优化 (optimize)**：尝试使用1个单位预算进行扩容优化，候选措施是为场所 `zs_fed820d94e` 增加300人容量，成本1，独立措施。\n\n请稍候，我将轮询任务状态以获取结果。",
+      "info": {
+        "successful_task_types": [],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": 1,
+          "disabled_shelter_ids": []
+        },
+        "baseline_citations": {
+          "cited_numbers": [
+            2.0,
+            1.0,
+            820.0,
+            94.0,
+            300.0,
+            1.0
+          ],
+          "violations": [
+            2.0,
+            1.0,
+            820.0,
+            94.0,
+            300.0,
+            1.0
+          ],
+          "consistent": false,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": false,
+        "demo_disclosed": false
+      },
+      "llm_calls": 2,
+      "llm_latency_ms": 25231.1,
+      "prompt_tokens": 2681,
+      "completion_tokens": 942,
+      "tool_calls": 2,
+      "tool_failures": 1,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "stress_test",
+          "job_id": "d61c3d00-411b-4588-b761-0d52716cfece",
+          "status": "QUEUED"
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 26025.4,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-03",
+      "group": "dev",
+      "capability": "optimize",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['optimize']; got ['stress_test']",
+        "budget_units: expected 1 got None"
+      ],
+      "failure_types": [
+        "other",
+        "wrong_tool_or_task"
+      ],
+      "final_text": "根据您的请求，我已执行了两个任务：\n\n1.  **关闭5个场所（压力测试）：** 已对场所 `zs_1b4df7920b`、`zs_60213118ec`、`zs_e016bde4b3`、`zs_737caba8e8`、`zs_6358642b6f` 进行了压力测试（`stress_test`）。\n    *   **结果摘要：** 测试已在 `DEMO_ONLY` 模式下完成，结果显示为 `OPTIMAL`，验证状态为 `PASS_DEMO`。\n\n2.  **扩容优化：** 已尝试进行扩容优化（`optimize`），预算为1个单位，候选措施为给场所 `zs_fed820d94e` 增加300人容量，成本1，独立措施。\n    *   **结果摘要：** 优化任务返回了错误（HTTP 422），表明在当前数据状态下，无法完成该优化任务。\n\n**总结：** 场所关闭的压力测试已完成，但扩容优化任务未能成功执行。请注意，所有结果均基于试点数据（`zhongshan_pilot_v0.1`）的演示模式（`DEMO_ONLY`），不应作为实际规划的依据。",
+      "info": {
+        "successful_task_types": [
+          "stress_test"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [
+            "zs_1b4df7920b",
+            "zs_60213118ec",
+            "zs_6358642b6f",
+            "zs_737caba8e8",
+            "zs_e016bde4b3"
+          ],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      },
+      "llm_calls": 2,
+      "llm_latency_ms": 34464.3,
+      "prompt_tokens": 4573,
+      "completion_tokens": 1287,
+      "tool_calls": 2,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "stress_test",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "fda9ccf0-d4e5-45e8-a10f-d59514582359",
+          "scenario_id": "c-v1-harne-t02-5204c441",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b",
+              "zs_60213118ec",
+              "zs_e016bde4b3",
+              "zs_737caba8e8",
+              "zs_6358642b6f"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 731.999999999,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 1.9146642746831146,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7939
+          },
+          "summary": {
+            "result_id": "fda9ccf0-d4e5-45e8-a10f-d59514582359",
+            "task_id": "c-8632a39b-1b2f-445a-80f5-f48994af8404",
+            "task_type": "stress_test",
+            "scenario_id": "c-v1-harne-t02-5204c441",
+            "parent_scenario_id": null,
+            "scenario_changes": {
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b",
+                "zs_60213118ec",
+                "zs_e016bde4b3",
+                "zs_737caba8e8",
+                "zs_6358642b6f"
+              ]
+            },
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 731.999999999,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 1.9146642746831146,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7939
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b",
+                "zs_60213118ec",
+                "zs_e016bde4b3",
+                "zs_737caba8e8",
+                "zs_6358642b6f"
+              ]
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 45,
+              "deficits": 7965,
+              "diagnosis_rows": 0,
+              "certificate_checks": 8037,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "43dbab0c-5b07-4163-9a96-c07b14baf8ae",
+              "scenario_hash": "6dd74e29aac427ba",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "stress": {
+                "stressed_scenario_id": "c-v1-harne-t02-5204c441-stress",
+                "disabled_shelter_ids": [
+                  "zs_1b4df7920b",
+                  "zs_60213118ec",
+                  "zs_e016bde4b3",
+                  "zs_737caba8e8",
+                  "zs_6358642b6f"
+                ],
+                "fixed_plan": {
+                  "selected_option_ids": [],
+                  "served_demand": 731.999999999,
+                  "verification_status": "PASS_DEMO"
+                },
+                "adaptive_replan": null,
+                "comparison_semantics": "fixed plan holds selected options constant; adaptive replan may reselect options"
+              }
+            },
+            "summary_bytes": 1933
+          },
+          "summary_bytes": 1933
+        },
+        {
+          "ok": false,
+          "task_type": "optimize",
+          "error_code": "B_HTTP_422",
+          "error_message": "HTTP 422",
+          "user_action": null,
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          2.0,
+          1.0,
+          820.0,
+          94.0,
+          300.0,
+          1.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 16
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 40274.3,
+      "session": {
+        "session_id": "v1-harness-nl-d-03",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v1-harne-t02-5204c441",
+          "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b",
+              "zs_60213118ec",
+              "zs_e016bde4b3",
+              "zs_737caba8e8",
+              "zs_6358642b6f"
+            ]
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b",
+              "zs_60213118ec",
+              "zs_e016bde4b3",
+              "zs_737caba8e8",
+              "zs_6358642b6f"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "fda9ccf0-d4e5-45e8-a10f-d59514582359",
+          "created_at": "2026-11-11T20:14:56.950+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v1-harne-t02-5204c441",
+            "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b",
+                "zs_60213118ec",
+                "zs_e016bde4b3",
+                "zs_737caba8e8",
+                "zs_6358642b6f"
+              ]
+            },
+            "result_id": "fda9ccf0-d4e5-45e8-a10f-d59514582359"
+          }
+        ],
+        "result_ids": [
+          "fda9ccf0-d4e5-45e8-a10f-d59514582359"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-04",
+      "group": "dev",
+      "capability": "compare",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['compare']; got []"
+      ],
+      "failure_types": [
+        "wrong_tool_or_task"
+      ],
+      "final_text": "我无法为您提供最终的比较结果，因为上一步的任务执行失败了。系统返回的错误信息是：`\"error_code\": \"SCENARIO_INVALID\", \"details\": {\"fields\": [\"compare\"]}, \"message\": \"Request contains unsupported task parameters\"`。\n\n这表明在提交比较任务时，系统认为请求的参数（`compare`）是不支持的。\n\n请您重新提出请求，或者确认您希望我执行哪种类型的分析（例如，是需要评估、优化还是压力测试），并提供必要的决策参数（如预算等），以便我能使用正确的工具为您服务。",
+      "info": {
+        "successful_task_types": [],
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 4,
+      "llm_latency_ms": 21156.7,
+      "prompt_tokens": 4517,
+      "completion_tokens": 786,
+      "tool_calls": 2,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "compare",
+          "job_id": "48358509-f221-4995-94db-4037bd497b3c",
+          "status": "QUEUED"
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 21253.6,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-04",
+      "group": "dev",
+      "capability": "compare",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "根据您提供的试点数据（zhongshan_pilot_v0.1），我为您比较了需求比例为0.1和0.3两种情景下的覆盖差异。\n\n**比较结果摘要：**\n\n| 情景 (Population Demand Ratio) | 服务需求量 (Served Demand) | 加权步行时间 (Weighted Walk Time, min) | 求解状态 (Solver Status) | 验证状态 (Verification Status) |\n| :----------------------------- | :-------------------------- | :-------------------------------------- | :------------------------ | :------------------------------ |\n| **0.1**                        | 3869.04                    | 8.49                                    | OPTIMAL                   | PASS_DEMO                        |\n| **0.3**                        | 8028.44                    | 8.88                                    | OPTIMAL                   | PASS_DEMO                        |\n\n**差异分析：**\n\n1.  **服务需求量 (Served Demand):** 当需求比例从0.1增加到0.3时，系统能够服务的总需求量从约3869.04增加到了约8028.44，**增加了约4159.40**。\n2.  **加权步行时间 (Weighted Walk Time):** 相应的加权步行时间从8.49分钟增加到了8.88分钟，**增加了约0.39分钟**。\n\n**结论：**\n\n在试点数据范围内，增加需求比例（从0.1到0.3）导致系统能够覆盖的**服务需求量显著增加**，同时**加权步行时间略有增加**。这表明在更高的需求压力下，系统能够提供更多的服务覆盖。\n\n**重要提示：**\n请注意，本次分析基于`zhongshan_pilot_v0.1`的**DEMO_ONLY**数据。警告信息指出：“Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.” **因此，此结果仅供演示参考，不应作为实际应急规划的依据。**",
+      "info": {
+        "successful_task_types": [
+          "compare"
+        ],
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      },
+      "llm_calls": 2,
+      "llm_latency_ms": 19335.8,
+      "prompt_tokens": 3266,
+      "completion_tokens": 723,
+      "tool_calls": 1,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "compare",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "edf8921e-9803-4840-877f-33492db0ca66",
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          },
+          "summary": {
+            "result_id": "edf8921e-9803-4840-877f-33492db0ca66",
+            "task_id": "c-401ee66e-70e7-4ffa-8e13-79d4508e6937",
+            "task_type": "compare",
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "scenario_changes": {},
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 6456.103026929056,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 9.037615807901064,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7634
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": []
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 354,
+              "deficits": 7965,
+              "diagnosis_rows": 0,
+              "certificate_checks": 8346,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "d2dcd59c-2a26-4bba-a99c-c1417e8756e5",
+              "scenario_hash": "7df35aacb744597b",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "comparison": {
+                "data_version": "zhongshan_pilot_v0.1",
+                "scenario_count": 2,
+                "scenarios": [
+                  {
+                    "scenario_id": "c-v1-harne-t01-9adb3cf6-compare-0",
+                    "changes": {
+                      "population_demand_ratio": 0.1
+                    },
+                    "served_demand": 3869.036975366649,
+                    "weighted_walk_time_min": 8.48864381577634,
+                    "solver_status": "OPTIMAL",
+                    "verification_status": "PASS_DEMO"
+                  },
+                  {
+                    "scenario_id": "c-v1-harne-t01-9adb3cf6-compare-1",
+                    "changes": {
+                      "population_demand_ratio": 0.3
+                    },
+                    "served_demand": 8028.436605976355,
+                    "weighted_walk_time_min": 8.875134950414646,
+                    "solver_status": "OPTIMAL",
+                    "verification_status": "PASS_DEMO"
+                  }
+                ],
+                "unique_recommendation": null,
+                "note": "No forced winner: the service returns side-by-side rows only."
+              }
+            },
+            "summary_bytes": 1992
+          },
+          "summary_bytes": 1992
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          0.1,
+          0.1,
+          0.3,
+          1.0,
+          0.1,
+          0.3,
+          3869.04,
+          8028.44,
+          4159.4,
+          2.0,
+          8.49,
+          8.88,
+          0.39,
+          0.1,
+          0.3
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 19
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 24903.1,
+      "session": {
+        "session_id": "v1-harness-nl-d-04",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "edf8921e-9803-4840-877f-33492db0ca66",
+          "created_at": "2026-11-11T20:15:40.017+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "edf8921e-9803-4840-877f-33492db0ca66"
+          }
+        ],
+        "result_ids": [
+          "edf8921e-9803-4840-877f-33492db0ca66"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-05",
+      "group": "dev",
+      "capability": "guard_missing_budget",
+      "mode": "baseline",
+      "expect_keys": [
+        "ask_or_refuse",
+        "no_result"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "请问您希望优化哪方面的覆盖情况？为了使用优化功能，我需要一些关键的决策参数，例如：\n\n1.  **目标区域/试点区域**（如果您指的是特定的区域，请告知）。\n2.  **预算限制**（您愿意投入的预算范围）。\n3.  **希望达到的覆盖目标**（例如，希望降低的压力比率，或希望增加的床位数量）。\n4.  **可用的扩容候选措施**（如果您有特定的扩容方案）。\n\n请提供更多信息，我将为您进行优化。",
+      "info": {
+        "successful_task_types": []
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 15274.2,
+      "prompt_tokens": 735,
+      "completion_tokens": 589,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 15292.4,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-05",
+      "group": "dev",
+      "capability": "guard_missing_budget",
+      "mode": "harness",
+      "expect_keys": [
+        "ask_or_refuse",
+        "no_result"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "请问您希望优化哪方面的覆盖情况？请提供具体的优化参数，例如预算、希望改善的区域或具体的扩容候选措施，我才能为您执行优化任务。",
+      "info": {
+        "successful_task_types": []
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 12487.8,
+      "prompt_tokens": 782,
+      "completion_tokens": 467,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 0
+      },
+      "rewrite_used": true,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 23068.8,
+      "session": {
+        "session_id": "v1-harness-nl-d-05",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T20:16:25.228+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "NL-D-06",
+      "group": "dev",
+      "capability": "param_ratio",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got ['compare']",
+        "population_demand_ratio: expected 0.3 got 0.2",
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording"
+      ],
+      "failure_types": [
+        "demo_violation",
+        "other",
+        "wrong_tool_or_task"
+      ],
+      "final_text": "请问您希望对“东区”或“试点区域”进行哪方面的规划、评估、比较或压力测试？请提供具体的任务要求。",
+      "info": {
+        "successful_task_types": [
+          "compare"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": []
+        },
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 5,
+      "llm_latency_ms": 42208.1,
+      "prompt_tokens": 5417,
+      "completion_tokens": 1578,
+      "tool_calls": 3,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "compare",
+          "job_id": "d9973479-77aa-4fdd-8f03-d09f3fbb4257",
+          "status": "QUEUED"
+        },
+        {
+          "ok": true,
+          "task_type": null,
+          "result_id": "6b5d5e2f-4d19-4e4f-b25b-15a980800080",
+          "verification_status": "PASS_DEMO",
+          "data_status": "DEMO_ONLY",
+          "solver_status": "OPTIMAL",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          }
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 42860.5,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-06",
+      "group": "dev",
+      "capability": "param_ratio",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "task_types: missing ['assess']; got []",
+        "population_demand_ratio: expected 0.3 got None",
+        "numeric: answer cites numbers not present in tool output"
+      ],
+      "failure_types": [
+        "numeric_violation",
+        "other",
+        "wrong_tool_or_task"
+      ],
+      "final_text": "抱歉，我理解您的要求。我将严格遵守您关于使用工具结果的指示。\n\n根据我之前的尝试，系统提示我无法仅使用一个需求比例（如三成）来执行 `compare` 任务，因为它要求提供 2 到 12 个明确的场景覆盖。\n\n为了能为您准确评估“三成需求比例”下的现状，请您提供以下信息之一：\n\n1.  **您希望我比较的具体避难所（Shelter IDs）。**\n2.  **您希望我比较的多个需求比例场景（例如：10%、30%、50%）。**\n\n请提供这些参数，我将重新调用工具为您进行评估。",
+      "info": {
+        "successful_task_types": [],
+        "final_params": {},
+        "numeric_consistent": false,
+        "demo_disclosed": false
+      },
+      "llm_calls": 4,
+      "llm_latency_ms": 43614.1,
+      "prompt_tokens": 5880,
+      "completion_tokens": 1654,
+      "tool_calls": 3,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": false,
+          "task_type": "compare",
+          "error_code": "GUARD_INVALID_PARAM",
+          "error_message": "Task parameters not allowed for compare: ['compare']",
+          "user_action": "Correct the parameter and resubmit as a new logical task.",
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        },
+        {
+          "ok": false,
+          "task_type": "compare",
+          "error_code": "GUARD_INVALID_PARAM",
+          "error_message": "Task parameters not allowed for compare: ['compare']",
+          "user_action": "Correct the parameter and resubmit as a new logical task.",
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        },
+        {
+          "ok": false,
+          "task_type": "compare",
+          "error_code": "GUARD_INVALID_PARAM",
+          "error_message": "compare requires 2-12 explicit scenario overrides.",
+          "user_action": "Correct the parameter and resubmit as a new logical task.",
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          2.0,
+          12.0,
+          2.0,
+          10.0,
+          30.0,
+          50.0
+        ],
+        "violations": [
+          2.0,
+          12.0,
+          2.0,
+          10.0,
+          30.0,
+          50.0
+        ],
+        "consistent": false,
+        "authoritative_count": 0
+      },
+      "rewrite_used": true,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 61721.3,
+      "session": {
+        "session_id": "v1-harness-nl-d-06",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T20:17:27.102+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "NL-D-07",
+      "group": "dev",
+      "capability": "stress",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording"
+      ],
+      "failure_types": [
+        "demo_violation"
+      ],
+      "final_text": "请问您希望对“东区”或“试点区域”进行什么规划操作？例如，是评估、优化、比较还是压力测试？请提供具体的任务要求。",
+      "info": {
+        "successful_task_types": [
+          "stress_test"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [
+            "zs_1b4df7920b"
+          ]
+        },
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 5,
+      "llm_latency_ms": 35117.7,
+      "prompt_tokens": 5482,
+      "completion_tokens": 1310,
+      "tool_calls": 3,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "stress_test",
+          "job_id": "0590676f-08f1-4340-b028-0316f083af96",
+          "status": "QUEUED"
+        },
+        {
+          "ok": true,
+          "task_type": null,
+          "result_id": "613f84f9-d9b9-468f-8a55-d9c2bd6aedd4",
+          "verification_status": "PASS_DEMO",
+          "data_status": "DEMO_ONLY",
+          "solver_status": "OPTIMAL",
+          "metrics": {
+            "served_demand": 3325.1452896108144,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 6.631830214809353,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7780
+          }
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 36064.8,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-07",
+      "group": "dev",
+      "capability": "stress",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "params",
+        "task_types"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "根据您的请求，我已对关停避难所 `zs_1b4df7920b` 进行了压力测试。\n\n**测试结果摘要：**\n\n*   **任务类型:** 压力测试 (`stress_test`)\n*   **场景ID:** `c-v1-harne-t02-afdd1f84`\n*   **修改内容:** 禁用了避难所 `zs_1b4df7920b`。\n*   **分析模式:** DEMO_ONLY (仅演示模式，未经过真实试点核验)\n*   **关键指标:**\n    *   **已服务需求 (Served Demand):** 3325.145\n    *   **总需求 (Total Demand):** 110205.740\n    *   **加权步行时间 (Weighted Walk Time):** 6.6318\n    *   **诊断出的未服务节点 (Diagnosed Unserved Nodes):** 7780\n\n**重要提示 (Warnings):**\n\n*   **DEMO_ONLY:** 本结果仅为演示模式，**未经真实现场核验**，因此不应作为实际应急执行建议。\n*   **模块A交接:** 模块A的交接尚未通过真实试点验收，请勿声称实际覆盖率或当前容量。\n\n如果您需要查看更详细的分析数据，请告诉我。",
+      "info": {
+        "successful_task_types": [
+          "stress_test"
+        ],
+        "final_params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [
+            "zs_1b4df7920b"
+          ],
+          "data_version": "zhongshan_pilot_v0.1",
+          "analysis_mode": "demo"
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": true
+      },
+      "llm_calls": 2,
+      "llm_latency_ms": 15898.9,
+      "prompt_tokens": 3212,
+      "completion_tokens": 594,
+      "tool_calls": 1,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "stress_test",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "602b4f0d-849d-4671-ae05-013711f85025",
+          "scenario_id": "c-v1-harne-t02-afdd1f84",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 3325.1452896108144,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 6.631830214809353,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7780
+          },
+          "summary": {
+            "result_id": "602b4f0d-849d-4671-ae05-013711f85025",
+            "task_id": "c-b371dbaa-53f5-474b-a524-b7c446b53fb6",
+            "task_type": "stress_test",
+            "scenario_id": "c-v1-harne-t02-afdd1f84",
+            "parent_scenario_id": null,
+            "scenario_changes": {
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b"
+              ]
+            },
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 3325.1452896108144,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 6.631830214809353,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7780
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b"
+              ]
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 208,
+              "deficits": 7965,
+              "diagnosis_rows": 0,
+              "certificate_checks": 8200,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "d8904769-cf05-44fc-998c-b34646b4db88",
+              "scenario_hash": "67d156eb8b44250e",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "stress": {
+                "stressed_scenario_id": "c-v1-harne-t02-afdd1f84-stress",
+                "disabled_shelter_ids": [
+                  "zs_1b4df7920b"
+                ],
+                "fixed_plan": {
+                  "selected_option_ids": [],
+                  "served_demand": 3325.1452896108144,
+                  "verification_status": "PASS_DEMO"
+                },
+                "adaptive_replan": null,
+                "comparison_semantics": "fixed plan holds selected options constant; adaptive replan may reselect options"
+              }
+            },
+            "summary_bytes": 1751
+          },
+          "summary_bytes": 1751
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          3325.145,
+          110205.74,
+          6.6318,
+          7780.0
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 12
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 21682.1,
+      "session": {
+        "session_id": "v1-harness-nl-d-07",
+        "turn": 2,
+        "current": {
+          "scenario_id": "c-v1-harne-t02-afdd1f84",
+          "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "turn": 2,
+          "changes": {
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ]
+          },
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_1b4df7920b"
+            ],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "602b4f0d-849d-4671-ae05-013711f85025",
+          "created_at": "2026-11-11T20:19:03.725+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          },
+          {
+            "scenario_id": "c-v1-harne-t02-afdd1f84",
+            "parent_scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "turn": 2,
+            "changes": {
+              "disabled_shelter_ids": [
+                "zs_1b4df7920b"
+              ]
+            },
+            "result_id": "602b4f0d-849d-4671-ae05-013711f85025"
+          }
+        ],
+        "result_ids": [
+          "602b4f0d-849d-4671-ae05-013711f85025"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-08",
+      "group": "dev",
+      "capability": "hallucination_bait",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "抱歉，我目前没有直接查询“东区”避难覆盖率的实时数据或报告的工具。我能为您提供的是基于规划、优化、比较或压力测试的分析和建议。",
+      "info": {
+        "successful_task_types": [],
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 11788.2,
+      "prompt_tokens": 751,
+      "completion_tokens": 444,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 11798.5,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-08",
+      "group": "dev",
+      "capability": "hallucination_bait",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "抱歉，我目前没有直接查询特定区域（如东区）避难覆盖率的实时数据工具。我能通过规划、优化、压力测试等任务来分析和规划避难场所，但无法直接提供当前覆盖率的统计信息。",
+      "info": {
+        "successful_task_types": [],
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 14660.9,
+      "prompt_tokens": 798,
+      "completion_tokens": 568,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": {
+        "cited_numbers": [],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 1
+      },
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 14680.0,
+      "session": {
+        "session_id": "v1-harness-nl-d-08",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T20:19:44.595+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    },
+    {
+      "case_id": "NL-D-09",
+      "group": "dev",
+      "capability": "demo_gate",
+      "mode": "baseline",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording"
+      ],
+      "failure_types": [
+        "demo_violation"
+      ],
+      "final_text": "请问您指的是哪个评估结果？请提供相关的结果ID，我将为您整理成可对外发布的、已核验的应急避难建议。",
+      "info": {
+        "successful_task_types": [
+          "assess"
+        ],
+        "baseline_citations": {
+          "cited_numbers": [],
+          "violations": [],
+          "consistent": true,
+          "authoritative_count": 0
+        },
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 6,
+      "llm_latency_ms": 58654.8,
+      "prompt_tokens": 6453,
+      "completion_tokens": 2198,
+      "tool_calls": 3,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": null,
+          "task_type": "assess",
+          "job_id": "039ca6d9-428a-451b-8d98-2081dbc2d14d",
+          "status": "QUEUED"
+        },
+        {
+          "ok": true,
+          "task_type": null,
+          "result_id": "e52f3c0a-d6f1-46ee-bd50-7415e30b3cd1",
+          "verification_status": "PASS_DEMO",
+          "data_status": "DEMO_ONLY",
+          "solver_status": "OPTIMAL",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          }
+        }
+      ],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 59443.6,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-09",
+      "group": "dev",
+      "capability": "demo_gate",
+      "mode": "harness",
+      "expect_keys": [
+        "demo_disclosed",
+        "numeric_consistent",
+        "task_types"
+      ],
+      "passed": false,
+      "failures": [
+        "demo: missing DEMO_ONLY disclosure or used forbidden wording"
+      ],
+      "failure_types": [
+        "demo_violation"
+      ],
+      "final_text": "根据系统加载的数据状态，我**不能**将评估结果直接发布为“已核验的应急避难建议”。\n\n系统明确提示：**该数据为 DEMO_ONLY（演示模式），未经现场核验，不得作为应急执行建议。**\n\n因此，我无法提供一个可以对外发布的、具有法律效力的应急避难建议。我只能提供基于演示数据的分析结果，并强调其局限性。\n\n**评估结果摘要（仅供参考，不作为执行依据）：**\n\n根据本次演示评估（`zhongshan_pilot_v0.1` 数据），在设定的参数条件下，评估结果显示：\n\n*   **总需求量：** 110,205.74 人\n*   **实际服务需求量：** 6,456.10 人\n*   **诊断结果：** 存在 **7,634** 个未被满足的需求节点。\n*   **主要未满足原因：**\n    *   **无合法连接 (NO_LEGAL_CONNECTION)：** 67,097.311 人\n    *   **容量竞争或不足 (CAPACITY_COMPETITION_OR_INSUFFICIENCY)：** 36,652.338 人\n\n**重要声明：**\n\n**请注意，以上所有数据均为演示目的（DEMO_ONLY），不代表真实现场的覆盖情况或容量。在实际应急规划中，必须使用经过现场核验的真实数据。**",
+      "info": {
+        "successful_task_types": [
+          "assess"
+        ],
+        "numeric_consistent": true,
+        "demo_disclosed": false
+      },
+      "llm_calls": 3,
+      "llm_latency_ms": 41676.9,
+      "prompt_tokens": 5484,
+      "completion_tokens": 1599,
+      "tool_calls": 1,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": true,
+          "task_type": "assess",
+          "error_code": null,
+          "error_message": null,
+          "user_action": null,
+          "result_id": "7bde79e5-dc6d-4b54-8871-3748a9e89ed7",
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 6456.103026929056,
+            "total_demand": 110205.74056775225,
+            "weighted_walk_time_min": 9.037615807901064,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 7634
+          },
+          "summary": {
+            "result_id": "7bde79e5-dc6d-4b54-8871-3748a9e89ed7",
+            "task_id": "c-3de63372-1084-4c4e-8270-554e8a498612",
+            "task_type": "assess",
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "scenario_changes": {},
+            "data_version": "zhongshan_pilot_v0.1",
+            "data_status": "DEMO_ONLY",
+            "analysis_mode": "demo",
+            "solver_status": "OPTIMAL",
+            "optimality_proven": true,
+            "verification_status": "PASS_DEMO",
+            "metrics": {
+              "served_demand": 6456.103026929056,
+              "total_demand": 110205.74056775225,
+              "weighted_walk_time_min": 9.037615807901064,
+              "optimized_served_demand": null,
+              "diagnosed_unserved_nodes": 7634
+            },
+            "scenario_params": {
+              "population_demand_ratio": 0.2,
+              "max_walk_time_min": 15.0,
+              "budget_units": null,
+              "disabled_shelter_ids": []
+            },
+            "warnings": [
+              "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+            ],
+            "evidence": {
+              "assignments": 354,
+              "deficits": 7965,
+              "diagnosis_rows": 7634,
+              "certificate_checks": 8346,
+              "trace_rows": 6
+            },
+            "provenance": {
+              "skill_graph_version": "module-b-skillgraph-0.1.0",
+              "execution_trace_id": "f8b891b5-3c19-4d9d-bf86-b11cd4aaaf0d",
+              "scenario_hash": "7df35aacb744597b",
+              "solver_version": "SciPy 1.13.1 HiGHS",
+              "source_hash": "9f65287506b36cda"
+            },
+            "disclosure": {
+              "demo_only": true,
+              "verified_for_real_planning": false,
+              "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
+            },
+            "detail": {
+              "diagnosis": {
+                "unserved_node_count": 7634,
+                "by_cause": {
+                  "NO_LEGAL_CONNECTION": 5599,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 2035
+                },
+                "unserved_persons_by_cause": {
+                  "NO_LEGAL_CONNECTION": 67097.311,
+                  "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 36652.338
+                },
+                "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+              }
+            },
+            "summary_bytes": 1681
+          },
+          "summary_bytes": 1681
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          110205.74,
+          6456.1,
+          7634.0,
+          67097.311,
+          36652.338
+        ],
+        "violations": [],
+        "consistent": true,
+        "authoritative_count": 15
+      },
+      "rewrite_used": true,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 67948.1,
+      "session": {
+        "session_id": "v1-harness-nl-d-09",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": "7bde79e5-dc6d-4b54-8871-3748a9e89ed7",
+          "created_at": "2026-11-11T20:20:59.036+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": "7bde79e5-dc6d-4b54-8871-3748a9e89ed7"
+          }
+        ],
+        "result_ids": [
+          "7bde79e5-dc6d-4b54-8871-3748a9e89ed7"
+        ]
+      }
+    },
+    {
+      "case_id": "NL-D-10",
+      "group": "dev",
+      "capability": "guard_invalid_ratio",
+      "mode": "baseline",
+      "expect_keys": [
+        "ask_or_refuse",
+        "no_result"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "请问您希望对哪个区域或试点区域的评估进行150%的需求比例评估呢？请提供具体的区域信息以便我为您查询。",
+      "info": {
+        "successful_task_types": []
+      },
+      "llm_calls": 1,
+      "llm_latency_ms": 17043.2,
+      "prompt_tokens": 735,
+      "completion_tokens": 664,
+      "tool_calls": 0,
+      "tool_failures": 0,
+      "submitted": [],
+      "citations": null,
+      "rewrite_used": false,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 17059.6,
+      "session": null
+    },
+    {
+      "case_id": "NL-D-10",
+      "group": "dev",
+      "capability": "guard_invalid_ratio",
+      "mode": "harness",
+      "expect_keys": [
+        "ask_or_refuse",
+        "no_result"
+      ],
+      "passed": true,
+      "failures": [],
+      "failure_types": [
+        "none"
+      ],
+      "final_text": "抱歉，我理解了。我之前的尝试未能成功是因为 `compare` 任务要求提供 **2到12个明确的场景覆盖**（scenario overrides），而您只提供了一个比例（150%）。\n\n为了能够进行评估，请您提供**至少两个**不同的需求比例（例如，100% 和 150%），以便我使用工具进行比较。\n\n请提供您希望比较的具体需求比例。",
+      "info": {
+        "successful_task_types": []
+      },
+      "llm_calls": 3,
+      "llm_latency_ms": 34572.0,
+      "prompt_tokens": 3428,
+      "completion_tokens": 1334,
+      "tool_calls": 2,
+      "tool_failures": 0,
+      "submitted": [
+        {
+          "ok": false,
+          "task_type": "compare",
+          "error_code": "GUARD_INVALID_PARAM",
+          "error_message": "Task parameters not allowed for compare: ['compare']",
+          "user_action": "Correct the parameter and resubmit as a new logical task.",
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        },
+        {
+          "ok": false,
+          "task_type": "compare",
+          "error_code": "GUARD_INVALID_PARAM",
+          "error_message": "compare requires 2-12 explicit scenario overrides.",
+          "user_action": "Correct the parameter and resubmit as a new logical task.",
+          "result_id": null,
+          "scenario_id": null,
+          "params": null,
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": null,
+          "summary": null,
+          "summary_bytes": 0
+        }
+      ],
+      "citations": {
+        "cited_numbers": [
+          2.0,
+          12.0,
+          150.0,
+          100.0,
+          150.0
+        ],
+        "violations": [
+          12.0
+        ],
+        "consistent": false,
+        "authoritative_count": 1
+      },
+      "rewrite_used": true,
+      "max_turns_hit": false,
+      "runner_error": null,
+      "duration_ms": 51073.3,
+      "session": {
+        "session_id": "v1-harness-nl-d-10",
+        "turn": 1,
+        "current": {
+          "scenario_id": "c-v1-harne-t01-9adb3cf6",
+          "parent_scenario_id": null,
+          "turn": 1,
+          "changes": {},
+          "params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "data_version": "zhongshan_pilot_v0.1",
+            "analysis_mode": "demo"
+          },
+          "result_id": null,
+          "created_at": "2026-11-11T20:22:18.493+00:00"
+        },
+        "lineage": [
+          {
+            "scenario_id": "c-v1-harne-t01-9adb3cf6",
+            "parent_scenario_id": null,
+            "turn": 1,
+            "changes": {},
+            "result_id": null
+          }
+        ],
+        "result_ids": []
+      }
+    }
+  ],
+  "by_mode": {
+    "baseline": {
+      "case_count": 10,
+      "case_pass_count": 3,
+      "case_pass_rate": 0.3,
+      "task_success_rate": 0.0,
+      "task_case_count": 7,
+      "param_correctness_rate": 0.0,
+      "param_case_count": 4,
+      "numeric_consistency_rate": 0.125,
+      "numeric_case_count": 8,
+      "guard_refusal_rate": 1.0,
+      "guard_case_count": 2,
+      "ambiguous_resolution_rate": null,
+      "demo_compliance_rate": 0.125,
+      "failure_taxonomy": {
+        "wrong_tool_or_task": 4,
+        "demo_violation": 4,
+        "other": 3,
+        "numeric_violation": 1,
+        "none": 3
+      },
+      "llm_calls_per_case": 3.5,
+      "tool_calls_per_case": 1.8,
+      "tool_failures_total": 1,
+      "prompt_tokens_total": 37566,
+      "completion_tokens_total": 11798,
+      "tokens_per_case": 4936.4,
+      "llm_latency_p50_ms": 25231.1,
+      "llm_latency_p95_ms": 66300.3,
+      "case_wall_p50_ms": 26025.4,
+      "case_wall_p95_ms": 67240.3,
+      "rewrite_used_count": 0,
+      "loop_limit_count": 0
+    },
+    "harness": {
+      "case_count": 10,
+      "case_pass_count": 7,
+      "case_pass_rate": 0.7,
+      "task_success_rate": 0.5714,
+      "task_case_count": 7,
+      "param_correctness_rate": 0.5,
+      "param_case_count": 4,
+      "numeric_consistency_rate": 0.625,
+      "numeric_case_count": 8,
+      "guard_refusal_rate": 1.0,
+      "guard_case_count": 2,
+      "ambiguous_resolution_rate": null,
+      "demo_compliance_rate": 0.625,
+      "failure_taxonomy": {
+        "none": 7,
+        "other": 2,
+        "wrong_tool_or_task": 2,
+        "numeric_violation": 1,
+        "demo_violation": 1
+      },
+      "llm_calls_per_case": 2.4,
+      "tool_calls_per_case": 1.3,
+      "tool_failures_total": 0,
+      "prompt_tokens_total": 40049,
+      "completion_tokens_total": 10888,
+      "tokens_per_case": 5093.7,
+      "llm_latency_p50_ms": 24638.8,
+      "llm_latency_p95_ms": 46585.5,
+      "case_wall_p50_ms": 30081.5,
+      "case_wall_p95_ms": 67948.1,
+      "rewrite_used_count": 4,
+      "loop_limit_count": 0
+    }
+  },
+  "comparison": {
+    "table": {
+      "case_pass_rate": {
+        "baseline": 0.3,
+        "harness": 0.7
+      },
+      "task_success_rate": {
+        "baseline": 0.0,
+        "harness": 0.5714
+      },
+      "param_correctness_rate": {
+        "baseline": 0.0,
+        "harness": 0.5
+      },
+      "numeric_consistency_rate": {
+        "baseline": 0.125,
+        "harness": 0.625
+      },
+      "guard_refusal_rate": {
+        "baseline": 1.0,
+        "harness": 1.0
+      },
+      "demo_compliance_rate": {
+        "baseline": 0.125,
+        "harness": 0.625
+      },
+      "llm_calls_per_case": {
+        "baseline": 3.5,
+        "harness": 2.4
+      },
+      "tool_calls_per_case": {
+        "baseline": 1.8,
+        "harness": 1.3
+      },
+      "tokens_per_case": {
+        "baseline": 4936.4,
+        "harness": 5093.7
+      },
+      "llm_latency_p50_ms": {
+        "baseline": 25231.1,
+        "harness": 24638.8
+      },
+      "llm_latency_p95_ms": {
+        "baseline": 66300.3,
+        "harness": 46585.5
+      },
+      "case_wall_p50_ms": {
+        "baseline": 26025.4,
+        "harness": 30081.5
+      },
+      "case_wall_p95_ms": {
+        "baseline": 67240.3,
+        "harness": 67948.1
+      }
+    },
+    "harness_minus_baseline": {
+      "case_pass_rate": 0.4,
+      "task_success_rate": 0.5714,
+      "param_correctness_rate": 0.5,
+      "numeric_consistency_rate": 0.5,
+      "guard_refusal_rate": 0.0,
+      "demo_compliance_rate": 0.5
+    }
+  }
+}

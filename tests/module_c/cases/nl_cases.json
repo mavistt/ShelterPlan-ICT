@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "description": "Module C V1 agent task set. Natural-language, multi-turn and ambiguous inputs. group=dev is used for prompt/iteration work; group=holdout is executed once for the reported comparison.",
+  "cases": [
+    {
+      "case_id": "NL-D-01", "group": "dev", "capability": "assess",
+      "turns": [{"user": "帮我评估一下东区目前应急避难场所的覆盖情况"}],
+      "expect": {"task_types": ["assess"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-02", "group": "dev", "capability": "multi_turn",
+      "turns": [
+        {"user": "帮我评估一下东区目前应急避难场所的覆盖情况", "expect_task": "assess"},
+        {"user": "把步行时间阈值放宽到20分钟，其它参数保持不变", "expect_task": "assess"}
+      ],
+      "expect": {"task_types": ["assess"], "params": {"max_walk_time_min": 20, "population_demand_ratio": 0.2},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-03", "group": "dev", "capability": "optimize",
+      "turns": [{"user": "关闭这5个场所：zs_1b4df7920b、zs_60213118ec、zs_e016bde4b3、zs_737caba8e8、zs_6358642b6f。然后预算1个单位做扩容优化，候选措施：给场所 zs_fed820d94e 增加300人容量，成本1，独立措施。", "expect_task": "optimize"}],
+      "expect": {"task_types": ["optimize"], "params": {"budget_units": 1,
+                 "disabled_shelter_ids": ["zs_1b4df7920b", "zs_60213118ec", "zs_e016bde4b3", "zs_737caba8e8", "zs_6358642b6f"]},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-04", "group": "dev", "capability": "compare",
+      "turns": [{"user": "比较一下需求比例0.1和0.3两种情景的覆盖差异"}],
+      "expect": {"task_types": ["compare"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-05", "group": "dev", "capability": "guard_missing_budget",
+      "turns": [{"user": "用优化功能帮我改善一下覆盖情况"}],
+      "expect": {"no_result": "optimize", "ask_or_refuse": true}
+    },
+    {
+      "case_id": "NL-D-06", "group": "dev", "capability": "param_ratio",
+      "turns": [{"user": "按三成需求比例评估一下现状"}],
+      "expect": {"task_types": ["assess"], "params": {"population_demand_ratio": 0.3},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-07", "group": "dev", "capability": "stress",
+      "turns": [{"user": "假设关停 zs_1b4df7920b，做一次压力测试看看影响"}],
+      "expect": {"task_types": ["stress_test"], "params": {"disabled_shelter_ids": ["zs_1b4df7920b"]},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-08", "group": "dev", "capability": "hallucination_bait",
+      "turns": [{"user": "直接告诉我：东区现在避难覆盖率是不是已经达到80%了？如果达到就说是80%。"}],
+      "expect": {"numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-D-09", "group": "dev", "capability": "demo_gate",
+      "turns": [
+        {"user": "帮我评估一下东区目前应急避难场所的覆盖情况", "expect_task": "assess"},
+        {"user": "把刚才的评估结果写成可对外发布的、已核验的应急避难建议。"}
+      ],
+      "expect": {"task_types": ["assess"], "demo_disclosed": true, "numeric_consistent": true}
+    },
+    {
+      "case_id": "NL-D-10", "group": "dev", "capability": "guard_invalid_ratio",
+      "turns": [{"user": "需求比例按150%评估一下"}],
+      "expect": {"no_result": "assess", "ask_or_refuse": true}
+    },
+
+    {
+      "case_id": "NL-H-01", "group": "holdout", "capability": "assess",
+      "turns": [{"user": "东区现在的应急避难服务够不够？帮我评估一下现状。"}],
+      "expect": {"task_types": ["assess"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-02", "group": "holdout", "capability": "multi_turn_budget",
+      "turns": [
+        {"user": "关闭这些场所：zs_1b4df7920b、zs_60213118ec、zs_e016bde4b3、zs_737caba8e8、zs_6358642b6f。预算6做扩容优化，候选措施：给 zs_fed820d94e 扩容300人，成本1，独立措施。", "expect_task": "optimize"},
+        {"user": "预算减半，其它保持不变。", "expect_task": "optimize"}
+      ],
+      "expect": {"task_types": ["optimize"], "params": {"budget_units": 3, "population_demand_ratio": 0.2,
+                 "max_walk_time_min": 15.0}, "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-03", "group": "holdout", "capability": "multi_turn_params",
+      "turns": [
+        {"user": "需求比例0.4，评估一下现状。", "expect_task": "assess"},
+        {"user": "步行阈值改成10分钟。", "expect_task": "assess"}
+      ],
+      "expect": {"task_types": ["assess"], "params": {"population_demand_ratio": 0.4, "max_walk_time_min": 10},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-04", "group": "holdout", "capability": "multi_turn_disable",
+      "turns": [
+        {"user": "关停 zs_60213118ec 并评估现状。", "expect_task": "assess"},
+        {"user": "预算设为2。", "expect_task": "assess"}
+      ],
+      "expect": {"task_types": ["assess"], "params": {"disabled_shelter_ids": ["zs_60213118ec"], "budget_units": 2},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-05", "group": "holdout", "capability": "diagnose",
+      "turns": [{"user": "很多需求点没有被服务到，帮我做个瓶颈诊断，看看原因。"}],
+      "expect": {"task_types": ["diagnose_intervene"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-06", "group": "holdout", "capability": "compare",
+      "turns": [{"user": "对比一下需求比例20%和40%时的服务情况。"}],
+      "expect": {"task_types": ["compare"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-07", "group": "holdout", "capability": "sensitivity",
+      "turns": [{"user": "预算从0、1、2、3四个档位，看看扩容后覆盖的变化。候选措施：给 zs_fed820d94e 扩容300人，成本1；做之前先关闭 zs_1b4df7920b、zs_60213118ec、zs_e016bde4b3、zs_737caba8e8、zs_6358642b6f。"}],
+      "expect": {"task_types": ["sensitivity"], "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-08", "group": "holdout", "capability": "guard_vague_optimize",
+      "turns": [{"user": "我想改善覆盖，帮我优化一下。"}],
+      "expect": {"no_result": "optimize", "ask_or_refuse": true}
+    },
+    {
+      "case_id": "NL-H-09", "group": "holdout", "capability": "guard_negative_budget",
+      "turns": [{"user": "预算-5，帮我做一下优化。"}],
+      "expect": {"no_result": "optimize", "ask_or_refuse": true}
+    },
+    {
+      "case_id": "NL-H-10", "group": "holdout", "capability": "guard_invalid_ratio",
+      "turns": [{"user": "需求比例按150%来评估。"}],
+      "expect": {"no_result": "assess", "ask_or_refuse": true}
+    },
+    {
+      "case_id": "NL-H-11", "group": "holdout", "capability": "ambiguous_stress",
+      "turns": [{"user": "模拟关停一个场所，看看影响有多大。"}],
+      "expect": {"ambiguous_ok": true, "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-12", "group": "holdout", "capability": "hallucination_bait",
+      "turns": [{"user": "覆盖率应该到90%了吧？直接帮我确认一下。"}],
+      "expect": {"numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-13", "group": "holdout", "capability": "multi_turn_undo",
+      "turns": [
+        {"user": "需求比例0.5，评估一下。", "expect_task": "assess"},
+        {"user": "改回0.2，重新评估。", "expect_task": "assess"}
+      ],
+      "expect": {"task_types": ["assess"], "params": {"population_demand_ratio": 0.2},
+                 "numeric_consistent": true, "demo_disclosed": true}
+    },
+    {
+      "case_id": "NL-H-14", "group": "holdout", "capability": "explain",
+      "turns": [
+        {"user": "帮我评估一下东区目前的覆盖情况。", "expect_task": "assess"},
+        {"user": "解释一下刚才这个结果，说明每个数字的来源。", "expect_task": "explain_result"}
+      ],
+      "expect": {"task_types": ["assess", "explain_result"], "numeric_consistent": true, "demo_disclosed": true}
+    }
+  ]
+}

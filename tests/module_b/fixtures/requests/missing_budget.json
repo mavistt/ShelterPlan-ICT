@@ -1,0 +1,1 @@
+{"task_id":"missing-budget-001","fixture_id":"toy_case","analysis_mode":"demo","task_type":"optimize","scenario":{"scenario_id":"toy-no-budget","data_version":"synthetic_toy_v1","analysis_mode":"demo","population_demand_ratio":1.0,"max_walk_time_min":15.0,"budget_units":null}}

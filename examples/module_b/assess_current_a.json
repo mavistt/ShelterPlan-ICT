@@ -1,0 +1,7 @@
+{
+  "task_id": "c-assess-current-a-001",
+  "data_version": "zhongshan_pilot_v0.1",
+  "analysis_mode": "demo",
+  "task_type": "assess",
+  "idempotency_key": "c-assess-current-a-001"
+}

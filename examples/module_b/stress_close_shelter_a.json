@@ -1,0 +1,10 @@
+{
+  "task_id": "c-stress-close-shelter-a-001",
+  "data_version": "zhongshan_pilot_v0.1",
+  "analysis_mode": "demo",
+  "task_type": "stress_test",
+  "parameters": {
+    "disabled_shelter_ids": ["zs_1b4df7920b"]
+  },
+  "idempotency_key": "c-stress-close-shelter-a-001"
+}

@@ -1,0 +1,27 @@
+{
+  "fixture_id": "toy_case",
+  "description": "Synthetic two-demand, two-shelter capacity and expansion example.",
+  "data_version": "synthetic_toy_v1",
+  "data_status": "SYNTHETIC_FIXTURE",
+  "scenario": {
+    "population_demand_ratio": 1.0,
+    "max_walk_time_min": 15.0,
+    "budget_units": 10.0
+  },
+  "demands": [
+    {"demand_id": "D1", "pop_est": 100, "population_status": "synthetic_fixture"},
+    {"demand_id": "D2", "pop_est": 100, "population_status": "synthetic_fixture"}
+  ],
+  "shelters": [
+    {"shelter_id": "A", "capacity_persons": 100, "verified_status": "synthetic_fixture"},
+    {"shelter_id": "B", "capacity_persons": 50, "verified_status": "synthetic_fixture"}
+  ],
+  "od_edges": [
+    {"demand_id": "D1", "shelter_id": "A", "time_min": 5, "distance_m": 330, "reachable": true, "reason": "ok"},
+    {"demand_id": "D2", "shelter_id": "A", "time_min": 7, "distance_m": 462, "reachable": true, "reason": "ok"},
+    {"demand_id": "D2", "shelter_id": "B", "time_min": 9, "distance_m": 594, "reachable": true, "reason": "ok"}
+  ],
+  "improvement_options": [
+    {"option_id": "A_PLUS_50", "shelter_id": "A", "action": "hypothetical_capacity_increase", "delta_capacity_persons": 50, "cost_units": 10, "eligible": true, "source_status": "hypothetical", "hypothetical": true, "human_confirmed": false, "combination_policy": "standalone"}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.1-dev",
+  "description": "V2.1 development set. Used ONLY to shake out implementation defects before the 47-case generalisation set is frozen and run. Scores on this file are never reported as generalisation evidence.",
+  "option_note": "Same shapes as v21_cases.json.",
+  "cases": [
+    {"case_id": "DEV-01", "group": "compound", "capability": "optimize",
+     "turns": [{"user": "需求比例0.3、步行阈值20分钟、预算3，给 zs_fed820d94e 扩容600人成本1，做优化。"}],
+     "expect": {"intent": "optimize", "task_types": ["optimize"], "params": {"population_demand_ratio": 0.3, "max_walk_time_min": 20, "budget_units": 3}, "numeric_consistent": true, "demo_disclosed": true}},
+    {"case_id": "DEV-02", "group": "vague", "capability": "clarify",
+     "turns": [{"user": "你看着办吧。"}],
+     "expect": {"no_tasks": true}},
+    {"case_id": "DEV-03", "group": "units", "capability": "assess",
+     "turns": [{"user": "比例两成半，步行一刻钟，评估现状。"}],
+     "expect": {"task_types": ["assess"], "numeric_consistent": true, "demo_disclosed": true}},
+    {"case_id": "DEV-04", "group": "undo", "capability": "assess",
+     "turns": [{"user": "比例0.4，评估。"}, {"user": "算了，退回上一轮。"}],
+     "expect": {"task_types": ["assess"], "params": {"population_demand_ratio": 0.2}, "numeric_consistent": true, "demo_disclosed": true}},
+    {"case_id": "DEV-05", "group": "mixed", "capability": "stress_test",
+     "turns": [{"user": "停用 zs_60213118ec，做压力测试；另外给 zs_fed820d94e 扩容100人成本1，预算1，做优化。"}],
+     "expect": {"task_types": ["stress_test"], "numeric_consistent": true, "demo_disclosed": true}},
+    {"case_id": "DEV-06", "group": "compare", "capability": "compare",
+     "turns": [{"user": "对比一下比例0.15和0.3。"}],
+     "expect": {"intent": "compare", "task_types": ["compare"], "numeric_consistent": true, "demo_disclosed": true}},
+    {"case_id": "DEV-07", "group": "unknown", "capability": "stress_test",
+     "turns": [{"user": "停用 zs_ffffffffff，做压力测试。"}],
+     "expect": {"no_result": "stress_test"}},
+    {"case_id": "DEV-08", "group": "illegal", "capability": "assess",
+     "turns": [{"user": "需求比例1.5，评估现状。"}],
+     "expect": {"no_result": "assess"}}
+  ]
+}
