@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator_version": "stage2-pilot-1",
-  "generated_at_utc": "2026-11-25T11:55:48.849262+00:00",
+  "generated_at_utc": "2026-11-25T12:07:16.115974+00:00",
   "scenario_seed": 20261125,
   "candidate_count": 40,
   "structurally_accepted_count": 32,
@@ -43,19 +43,19 @@
     "shiqi": {
       "a_v2_manifest_match": false,
       "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
       "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593"
     },
     "east_district": {
       "a_v2_manifest_match": false,
       "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
       "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46"
     },
     "xiaolan": {
       "a_v2_manifest_match": false,
       "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
-      "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+      "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
       "a_v2_manifest_sha256": "7997ece6742c593dbce6ad0244d2813619268cc910fe737920a64dd6a9f68c6d"
     }
   },

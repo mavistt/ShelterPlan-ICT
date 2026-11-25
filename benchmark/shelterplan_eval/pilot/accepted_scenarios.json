@@ -6,7 +6,7 @@
     "scenario_family": "coverage_baseline",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_16e73eb7d2",
@@ -59,7 +59,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -170,7 +170,7 @@
     "scenario_family": "budget_tradeoff",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_0705291eaf",
@@ -231,7 +231,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -359,7 +359,7 @@
     "scenario_family": "capacity_competition",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_5418f17c8e",
@@ -421,7 +421,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -550,7 +550,7 @@
     "scenario_family": "facility_disruption",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_1b4df7920b",
@@ -615,7 +615,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -750,7 +750,7 @@
     "scenario_family": "multi_stage_recovery",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_9ae03a468b",
@@ -810,7 +810,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -936,7 +936,7 @@
     "scenario_family": "clarification_and_safe_stop",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_528407a207",
@@ -997,7 +997,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -1123,7 +1123,7 @@
     "scenario_family": "coverage_baseline",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_68d933c3a3",
@@ -1178,7 +1178,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -1293,7 +1293,7 @@
     "scenario_family": "facility_disruption",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_1b4df7920b",
@@ -1356,7 +1356,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -1487,7 +1487,7 @@
     "scenario_family": "multi_stage_recovery",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_59c4ec7386",
@@ -1549,7 +1549,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -1679,7 +1679,7 @@
     "scenario_family": "clarification_and_safe_stop",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_251667c58b",
@@ -1742,7 +1742,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -1872,7 +1872,7 @@
     "scenario_family": "budget_tradeoff",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_0705291eaf",
@@ -1933,7 +1933,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2061,7 +2061,7 @@
     "scenario_family": "capacity_competition",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_4f00bd0879",
@@ -2123,7 +2123,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2252,7 +2252,7 @@
     "scenario_family": "coverage_baseline",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_3fa8ce2b1e",
@@ -2305,7 +2305,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2416,7 +2416,7 @@
     "scenario_family": "facility_disruption",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_1a562fd2ec",
@@ -2481,7 +2481,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2616,7 +2616,7 @@
     "scenario_family": "multi_stage_recovery",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_7c10257791",
@@ -2676,7 +2676,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2802,7 +2802,7 @@
     "scenario_family": "budget_tradeoff",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_0705291eaf",
@@ -2865,7 +2865,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -2997,7 +2997,7 @@
     "scenario_family": "capacity_competition",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_04ec8cb884",
@@ -3057,7 +3057,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -3182,7 +3182,7 @@
     "scenario_family": "facility_disruption",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_26835a8daa",
@@ -3245,7 +3245,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -3376,7 +3376,7 @@
     "scenario_family": "multi_stage_recovery",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_1654dda235",
@@ -3438,7 +3438,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -3568,7 +3568,7 @@
     "scenario_family": "clarification_and_safe_stop",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_26835a8daa",
@@ -3631,7 +3631,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -3761,7 +3761,7 @@
     "scenario_family": "coverage_baseline",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_16e73eb7d2",
@@ -3814,7 +3814,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -3925,7 +3925,7 @@
     "scenario_family": "budget_tradeoff",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_1a562fd2ec",
@@ -3986,7 +3986,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -4114,7 +4114,7 @@
     "scenario_family": "capacity_competition",
     "region_id": "shiqi",
     "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
     "shelter_ids": [
       "zs_7c10257791",
@@ -4176,7 +4176,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
@@ -4305,7 +4305,7 @@
     "scenario_family": "clarification_and_safe_stop",
     "region_id": "east_district",
     "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-    "source_manifest_sha256": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+    "source_manifest_sha256": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
     "a_v2_manifest_sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
     "shelter_ids": [
       "zs_740e2a0ec1",
@@ -4366,7 +4366,7 @@
       },
       {
         "parameter": "source_manifest_sha256",
-        "value": "1994ab8aebdf850d82294f4654c285c2536b8c3e16f52958f38182c5eba8707d",
+        "value": "dda536fe9228595d54d5d9bebfe2bdb430a4858d6a39472e463e051e1066f3be",
         "source_label": "EVAL_SOURCE_MANIFEST",
         "source_detail": "sources/source_manifest.json raw SHA-256"
       },
