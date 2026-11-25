@@ -93,6 +93,45 @@ export interface MonotonicityCheck {
   [key: string]: unknown
 }
 
+export interface CompositeStage {
+  stage_id: string
+  status: string
+  reason_code?: string | null
+  scenario_id?: string | null
+  parent_scenario_id?: string | null
+  result_id?: string | null
+  skill_ids?: string[]
+  solver_status?: string | null
+  verification_status?: string | null
+  metrics?: Record<string, unknown>
+  duration_ms?: number | null
+}
+
+export interface CompositeComparison {
+  baseline?: { served_demand?: number; total_demand?: number; result_id?: string }
+  damaged?: { served_demand?: number; total_demand?: number; result_id?: string }
+  recovered?: { optimized_served_demand?: number; total_demand?: number; selected_option_ids?: string[]; total_cost_units?: number; budget_units?: number; result_id?: string }
+  damage_service_loss?: number
+  recovery_service_gain?: number
+  recovery_ratio?: { status?: string; value?: number | null; reason_code?: string }
+  budget_units?: number | null
+  selected_option_ids?: string[]
+  greedy_comparison?: GreedyComparison | null
+}
+
+export interface CompositeSummary {
+  status?: string
+  user_goal?: string
+  region_id?: string
+  data_version?: string
+  stages?: CompositeStage[]
+  comparison?: CompositeComparison | null
+  branch_decisions?: Array<Record<string, unknown>>
+  constraint_checks?: Array<{ check_id?: string; passed?: boolean; observed?: unknown; expected?: unknown }>
+  verification_results?: Array<{ stage_id?: string; status?: string; passed?: boolean }>
+  execution_trace_id?: string
+}
+
 export interface TurnEnvelope {
   turn_id: string
   session_id: string
@@ -109,6 +148,7 @@ export interface TurnEnvelope {
   metrics?: Record<string, unknown>
   greedy_comparison?: GreedyComparison | null
   monotonicity_check?: MonotonicityCheck | null
+  composite?: CompositeSummary | null
   map?: unknown
   warnings?: string[]
   message?: string | null

@@ -145,7 +145,7 @@ describe('ShelterPlan Map-First Resilience Workbench', () => {
     expect(screen.getByText('中山市华侨中学高中部')).toBeInTheDocument()
 
     // Switch to Optimize mode and verify knapsack preset button works
-    fireEvent.click(screen.getByRole('tab', { name: '重建优化' }))
+    fireEvent.click(screen.getByRole('tab', { name: '③ 恢复' }))
     expect(await screen.findByText('灾后重建预算最优分配')).toBeInTheDocument()
     expect(screen.getByText('经典 3 方案预设')).toBeInTheDocument()
 

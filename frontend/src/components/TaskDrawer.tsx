@@ -17,10 +17,10 @@ type Props = {
 }
 
 const MODE_TABS: Array<{ id: TaskMode; label: string; icon: typeof Activity }> = [
-  { id: 'assess', label: '现状诊断', icon: Activity },
-  { id: 'stress', label: '受损推演', icon: AlertTriangle },
-  { id: 'optimize', label: '重建优化', icon: TrendingUp },
-  { id: 'compare', label: '方案对比', icon: GitCompare },
+  { id: 'assess', label: '① 现状', icon: Activity },
+  { id: 'stress', label: '② 灾损', icon: AlertTriangle },
+  { id: 'optimize', label: '③ 恢复', icon: TrendingUp },
+  { id: 'compare', label: '④ 对比', icon: GitCompare },
 ]
 
 const WALK_OPTIONS = [5, 10, 15, 20, 25, 30]
@@ -282,10 +282,16 @@ export function TaskDrawer({ region, shelters, sessionReady, submitting, onRun, 
   const handleRunOptimize = () => {
     const policyText = policy === 'exclusive_group' ? '（候选方案互斥，最多选一项）' : ''
     const items = optCandidates
-      .map((c) => `给 ${c.shelterId} 扩容 ${c.capacity} 人成本 ${c.cost}`)
+      .map((c) => `给 ${c.shelterId} 扩容 ${c.capacity} 人，成本 ${c.cost}`)
       .join('，')
-    onLayersPreset(['boundary', 'population_heatmap', 'coverage_15min', 'shelter_capacity'])
-    onRun(`预算 ${budget}，${items}${policyText}，做预算优化。`)
+    onLayersPreset(['boundary', 'population_heatmap', 'shelter_capacity'])
+    if (stressedShelterIds.length > 0) {
+      // Trigger full composite disaster_recovery workflow carrying damaged state + budget + options
+      const damagedText = stressedShelterIds.join('、')
+      onRun(`关闭 ${damagedText} 后先分析受损影响，再在预算 ${budget} 内${items}${policyText}，做灾后恢复规划。`)
+    } else {
+      onRun(`预算 ${budget}，${items}${policyText}，做预算优化。`)
+    }
   }
 
   const handleRunStress = () => {
@@ -434,6 +440,13 @@ export function TaskDrawer({ region, shelters, sessionReady, submitting, onRun, 
               >
                 <Play size={14} fill="currentColor" /> 运行服务能力评估
               </button>
+              <button
+                type="button"
+                className="step-handoff-btn"
+                onClick={() => setActiveMode('stress')}
+              >
+                下一步：进入 ② 标记灾损场所 →
+              </button>
             </div>
 
             <div className="drawer-section">
@@ -544,6 +557,15 @@ export function TaskDrawer({ region, shelters, sessionReady, submitting, onRun, 
             >
               <AlertTriangle size={14} /> 运行受损压力推演
             </button>
+            {stressedShelterIds.length > 0 && (
+              <button
+                type="button"
+                className="step-handoff-btn"
+                onClick={() => setActiveMode('optimize')}
+              >
+                保留 {stressedShelterIds.length} 处受损状态 → 进入 ③ 灾后恢复优化
+              </button>
+            )}
 
             <div className="sub-list-title">快速勾选区域场所</div>
             <div className="shelter-list compact">
@@ -715,13 +737,20 @@ export function TaskDrawer({ region, shelters, sessionReady, submitting, onRun, 
               })}
             </div>
 
+            {stressedShelterIds.length > 0 && (
+              <div className="inherited-damage-banner">
+                <AlertTriangle size={13} />
+                <span>已继承 <b>{stressedShelterIds.length}</b> 处灾损停用状态，将自动运行「基线 → 灾损 → 诊断 → 恢复 → 三态对比」闭环</span>
+              </div>
+            )}
+
             <button
               type="button"
               className="primary-action-btn"
               disabled={!optValid}
               onClick={handleRunOptimize}
             >
-              <TrendingUp size={14} /> 求解全局最优组合 (MIP vs 贪心)
+              <TrendingUp size={14} /> {stressedShelterIds.length > 0 ? '运行完整三态灾后恢复闭环' : '求解全局最优组合 (MIP vs 贪心)'}
             </button>
           </div>
         )}

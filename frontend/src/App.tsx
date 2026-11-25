@@ -237,6 +237,7 @@ export default function App() {
   const [regionMenuOpen, setRegionMenuOpen] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
   const [evidenceResultId, setEvidenceResultId] = useState<string | null>(null)
+  const [snapshotView, setSnapshotView] = useState<'baseline' | 'damaged' | 'recovered'>('recovered')
 
   useEffect(() => {
     setActiveLayers(['boundary', 'population_heatmap', 'shelter_capacity'])
@@ -249,7 +250,30 @@ export default function App() {
     enabled: Boolean(sessionId && effectiveResultId),
     retry: false,
   })
-  const resultRows = resultLayersQuery.data?.layers.find((l) => l.layer_id === 'shelter_utilization')?.rows ?? []
+  const layerMap = useMemo(() => {
+    const m: Record<string, typeof resultLayersQuery.data extends undefined ? never : NonNullable<typeof resultLayersQuery.data>['layers'][number]> = {}
+    for (const l of resultLayersQuery.data?.layers ?? []) m[l.layer_id] = l
+    return m
+  }, [resultLayersQuery.data])
+
+  const hasThreeState = Boolean(
+    layerMap.shelter_utilization_baseline?.rows?.length
+    && layerMap.shelter_utilization_damaged?.rows?.length
+    && layerMap.shelter_utilization_recovered?.rows?.length,
+  )
+
+  useEffect(() => {
+    if (hasThreeState) setSnapshotView('recovered')
+  }, [effectiveResultId, hasThreeState])
+
+  const resultRows = useMemo(() => {
+    if (hasThreeState) {
+      if (snapshotView === 'baseline') return layerMap.shelter_utilization_baseline?.rows ?? []
+      if (snapshotView === 'damaged') return layerMap.shelter_utilization_damaged?.rows ?? []
+      return layerMap.shelter_utilization_recovered?.rows ?? []
+    }
+    return layerMap.shelter_utilization?.rows ?? []
+  }, [hasThreeState, layerMap, snapshotView])
 
   // Latest succeeded turn for HUD KPIs
   const latestTurn = useMemo(() => {
@@ -448,6 +472,27 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      {/* Floating 3-State Snapshot Switcher when a composite disaster_recovery result is active */}
+      {hasThreeState && (
+        <div className="tri-state-switcher" role="group" aria-label="灾前灾损恢复三态切换">
+          <span className="tss-label">地图快照</span>
+          {([
+            { id: 'baseline', label: '灾前基线' },
+            { id: 'damaged', label: '灾后受损' },
+            { id: 'recovered', label: '优化恢复' },
+          ] as const).map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`tss-btn ${snapshotView === item.id ? `active tone-${item.id}` : ''}`}
+              onClick={() => setSnapshotView(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Left Collapsible Disaster Recovery Task Drawer */}
       {drawerOpen ? (

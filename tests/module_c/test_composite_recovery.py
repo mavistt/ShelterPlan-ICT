@@ -278,6 +278,21 @@ def test_real_c_http_session_executes_composite_against_allowlisted_gis(tmp_path
         assert envelope["data_version"] == config.data_version
         assert envelope["data_status"] == "DEMO_ONLY"
         assert any("DEMO_ONLY" in warning for warning in envelope["warnings"])
+        assert isinstance(envelope.get("composite"), dict)
+        assert [row["stage_id"] for row in envelope["composite"]["stages"]] == [
+            "baseline", "damage", "diagnose", "recovery", "compare", "verify"
+        ]
+
+        layers_resp = c_client.get(
+            f"/v1/results/{envelope['result_id']}/layers",
+            params={"session_id": session_id, "variant": "auto"},
+        )
+        assert layers_resp.status_code == 200, layers_resp.text
+        layers_by_id = {row["layer_id"]: row for row in layers_resp.json()["layers"]}
+        assert layers_by_id["shelter_utilization"]["rows"]
+        assert layers_by_id["shelter_utilization_baseline"]["rows"]
+        assert layers_by_id["shelter_utilization_damaged"]["rows"]
+        assert layers_by_id["shelter_utilization_recovered"]["rows"]
 
         full = conversation.service.get_full_result(envelope["result_id"])
         contract = full["result_detail"]["composite"]["contract"]

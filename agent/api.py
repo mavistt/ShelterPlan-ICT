@@ -50,7 +50,7 @@ STATUS_FAILED = "FAILED"
 STATUS_CANCELLED = "CANCELLED"
 
 DEMO_NOTE = "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
-LAYER_VARIANTS = {"auto", "baseline", "optimized", "fixed", "adaptive"}
+LAYER_VARIANTS = {"auto", "baseline", "damaged", "recovered", "optimized", "fixed", "adaptive"}
 
 
 class RegionUnavailableError(ValueError):
@@ -392,6 +392,13 @@ class ConversationService:
             envelope["monotonicity_check"] = deepcopy(bindings["monotonicity_check"])
         if isinstance(bindings.get("greedy_comparison"), dict):
             envelope["greedy_comparison"] = deepcopy(bindings["greedy_comparison"])
+        composite_block = (bindings.get("detail") or {}).get("composite")
+        if isinstance(composite_block, dict):
+            envelope["composite"] = deepcopy(composite_block)
+            if "greedy_comparison" not in envelope:
+                comp_greedy = (composite_block.get("comparison") or {}).get("greedy_comparison")
+                if isinstance(comp_greedy, dict):
+                    envelope["greedy_comparison"] = deepcopy(comp_greedy)
         if record.status == STATUS_NEEDS_CLARIFICATION:
             envelope["clarification"] = {
                 "fields": list(record.clarification_fields),
@@ -454,6 +461,94 @@ class ConversationService:
             raise PermissionError("result_id was not produced by this session")
         full = self.service.get_full_result(result_id)
         detail = full.get("result_detail") or {}
+
+        # Composite disaster_recovery stores per-stage result_ids under detail["composite"]
+        if full.get("task_type") == "disaster_recovery" and isinstance(detail.get("composite"), dict):
+            stage_rows = (detail["composite"].get("stage_results") or [])
+            stage_by_id = {row.get("stage_id"): row for row in stage_rows if isinstance(row, dict)}
+
+            def _load_stage_assignment(stage_name: str, *, optimized: bool = False) -> dict[str, Any]:
+                rid = (stage_by_id.get(stage_name) or {}).get("result_id")
+                if not rid:
+                    return {}
+                try:
+                    sub = self.service.get_full_result(str(rid))
+                except Exception:  # noqa: BLE001
+                    return {}
+                sub_detail = sub.get("result_detail") or {}
+                if optimized and isinstance((sub_detail.get("optimization") or {}).get("assignment"), dict):
+                    return sub_detail["optimization"]["assignment"]
+                return sub_detail.get("assignment") or {}
+
+            base_assign = _load_stage_assignment("baseline")
+            dmg_assign = _load_stage_assignment("damage")
+            rec_assign = _load_stage_assignment("recovery", optimized=True)
+
+            if variant == "baseline":
+                primary_assignment, primary_variant = base_assign, "baseline"
+            elif variant == "damaged":
+                primary_assignment, primary_variant = dmg_assign, "damaged"
+            elif variant in {"recovered", "optimized"}:
+                if not rec_assign:
+                    raise ValueError(f"variant='{variant}' is not available for this composite result")
+                primary_assignment, primary_variant = rec_assign, "recovered"
+            else:
+                if rec_assign:
+                    primary_assignment, primary_variant = rec_assign, "recovered"
+                elif dmg_assign:
+                    primary_assignment, primary_variant = dmg_assign, "damaged"
+                else:
+                    primary_assignment, primary_variant = base_assign, "baseline"
+
+            layers: list[dict[str, Any]] = [{
+                "layer_id": "shelter_utilization",
+                "variant": primary_variant,
+                "kind": "table",
+                "geometry": None,
+                "rows": _assignment_rows(primary_assignment),
+            }]
+            if base_assign:
+                layers.append({
+                    "layer_id": "shelter_utilization_baseline",
+                    "variant": "baseline",
+                    "kind": "table",
+                    "geometry": None,
+                    "rows": _assignment_rows(base_assign),
+                })
+            if dmg_assign:
+                layers.append({
+                    "layer_id": "shelter_utilization_damaged",
+                    "variant": "damaged",
+                    "kind": "table",
+                    "geometry": None,
+                    "rows": _assignment_rows(dmg_assign),
+                })
+            if rec_assign:
+                layers.append({
+                    "layer_id": "shelter_utilization_recovered",
+                    "variant": "recovered",
+                    "kind": "table",
+                    "geometry": None,
+                    "rows": _assignment_rows(rec_assign),
+                })
+            if base_assign and primary_assignment and primary_variant != "baseline":
+                layers.append({
+                    "layer_id": "shelter_utilization_delta",
+                    "variant": f"{primary_variant}_vs_baseline",
+                    "kind": "table",
+                    "geometry": None,
+                    "rows": _assignment_delta_rows(base_assign, primary_assignment),
+                })
+            deficits = primary_assignment.get("deficits") or []
+            return {
+                "result_id": result_id,
+                "variant": primary_variant,
+                "layers": layers,
+                "deficits": {"count": len(deficits), "sample": deficits[:20]},
+                "data_version": full.get("data_version"),
+                "data_status": full.get("data_status"),
+            }
+
         baseline_assignment = detail.get("assignment") or {}
         opt_block = detail.get("optimization") if isinstance(detail.get("optimization"), dict) else None
         stress_block = detail.get("stress") if isinstance(detail.get("stress"), dict) else None

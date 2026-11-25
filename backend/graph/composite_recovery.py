@@ -430,6 +430,7 @@ def execute_disaster_recovery(
                               "status": "NOT_APPLICABLE", "value": None,
                               "reason_code": "NO_DAMAGE_SERVICE_LOSS",
                           })
+        opt_detail = (recovery_doc.get("result_detail", {}).get("optimization") or {})
         comparison = {
             "baseline": {**baseline_metrics, "result_id": baseline_doc["result_id"]},
             "damaged": {**damage_metrics, "result_id": damage_doc["result_id"]},
@@ -438,7 +439,8 @@ def execute_disaster_recovery(
             "recovery_service_gain": recovery_gain,
             "recovery_ratio": recovery_ratio,
             "budget_units": request.budget_units,
-            "selected_option_ids": list((recovery_doc.get("result_detail", {}).get("optimization") or {}).get("selected_option_ids") or []),
+            "selected_option_ids": list(opt_detail.get("selected_option_ids") or []),
+            "greedy_comparison": opt_detail.get("greedy_comparison"),
         }
         contract["stage_results"].append(_record(
             "compare", "COMPLETED", input_scenario_id=damaged_id,

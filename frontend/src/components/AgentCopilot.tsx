@@ -38,8 +38,18 @@ const TASK_LABELS: Record<string, string> = {
   sensitivity: '敏感性扫描',
   optimize: '预算优化 (MIP)',
   optimize_budget: '预算优化 (MIP)',
+  disaster_recovery: '灾后恢复闭环',
   diagnose_intervene: '缺口诊断干预',
   explain_result: '结果解释',
+}
+
+const STAGE_LABELS: Record<string, string> = {
+  baseline: '① 灾前基线',
+  damage: '② 灾损评估',
+  diagnose: '③ 瓶颈诊断',
+  recovery: '④ 恢复优化',
+  compare: '⑤ 三态对比',
+  verify: '⑥ 契约核验',
 }
 
 const intFmt = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 0 })
@@ -523,6 +533,10 @@ function AgentResultCard({
         <div className={status === 'SUCCEEDED' ? 'ma-headline' : 'ma-text'}>{summary.headline}</div>
       )}
 
+      {turn.composite?.comparison && (
+        <CompositeRecoveryCard composite={turn.composite} />
+      )}
+
       {summary.bottleneck && (
         <BottleneckBarCard data={summary.bottleneck} />
       )}
@@ -629,6 +643,68 @@ function buildStructuredKpis(turn: TurnEnvelope): Array<{ label: string; value: 
     pick('weighted_walk_time_min', '加权步行时间')
   }
   return out.slice(0, 4)
+}
+
+function CompositeRecoveryCard({ composite }: { composite: NonNullable<TurnEnvelope['composite']> }) {
+  const cmp = composite.comparison
+  const stages = composite.stages ?? []
+  const checks = composite.constraint_checks ?? []
+  const passedChecks = checks.filter((c) => c.passed).length
+  const baseServed = Math.round(Number(cmp?.baseline?.served_demand ?? 0))
+  const dmgServed = Math.round(Number(cmp?.damaged?.served_demand ?? 0))
+  const recServed = Math.round(Number(cmp?.recovered?.optimized_served_demand ?? 0))
+  const loss = Math.round(Number(cmp?.damage_service_loss ?? 0))
+  const gain = Math.round(Number(cmp?.recovery_service_gain ?? 0))
+  const ratioVal = cmp?.recovery_ratio?.status === 'APPLICABLE' && typeof cmp.recovery_ratio.value === 'number'
+    ? `${(cmp.recovery_ratio.value * 100).toFixed(1)}%`
+    : null
+
+  return (
+    <div className="composite-card">
+      <div className="cc-tristate-grid">
+        <div className="tristate-cell">
+          <span>灾前基线</span>
+          <b>{intFmt.format(baseServed)} 人</b>
+        </div>
+        <div className="tristate-cell danger">
+          <span>灾后受损</span>
+          <b>{intFmt.format(dmgServed)} 人</b>
+          {loss > 0 && <small>-{intFmt.format(loss)}</small>}
+        </div>
+        <div className="tristate-cell teal">
+          <span>优化恢复</span>
+          <b>{intFmt.format(recServed)} 人</b>
+          {gain > 0 && <small>+{intFmt.format(gain)}{ratioVal ? ` (${ratioVal})` : ''}</small>}
+        </div>
+      </div>
+
+      {stages.length > 0 && (
+        <details className="skill-timeline-details">
+          <summary>
+            <span>Skill 执行时间线（{stages.length} 阶段）</span>
+            {checks.length > 0 && (
+              <span className="contract-pill">{passedChecks}/{checks.length} 契约校验通过</span>
+            )}
+          </summary>
+          <div className="skill-timeline-list">
+            {stages.map((st) => (
+              <div key={st.stage_id} className="stl-row">
+                <span className={`stl-dot ${st.status === 'COMPLETED' ? 'ok' : 'warn'}`} />
+                <div className="stl-copy">
+                  <strong>{STAGE_LABELS[st.stage_id] ?? st.stage_id}</strong>
+                  <small>
+                    {st.skill_ids?.length ? st.skill_ids.join(' → ') : '跨阶段汇总校验'}
+                    {typeof st.duration_ms === 'number' ? ` · ${Math.round(st.duration_ms)}ms` : ''}
+                  </small>
+                </div>
+                <span className="stl-status">{st.solver_status ?? st.status}</span>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
+    </div>
+  )
 }
 
 function BottleneckBarCard({ data }: { data: BottleneckBreakdown }) {
