@@ -89,11 +89,12 @@ def submit_task(
     improvement_options: list[dict[str, Any]] | None = None,
     result_id: str | None = None,
     claim: str | None = None,
+    user_goal: str | None = None,
 ) -> dict[str, Any]:
-    """Run one planning task to completion and return its verified summary.
+    """Run a registered planning task or disaster-recovery workflow.
 
     Args:
-        task_type: assess | optimize | diagnose_intervene | stress_test | compare | sensitivity | explain_result
+        task_type: assess | optimize | diagnose_intervene | stress_test | compare | sensitivity | explain_result | disaster_recovery
         session_id: conversation id; reuse it so scenario parameters carry over
         changes: only the parameters the user explicitly changed
             (population_demand_ratio, max_walk_time_min, budget_units, disabled_shelter_ids)
@@ -102,6 +103,7 @@ def submit_task(
         improvement_options: expansion candidates for optimize/stress tasks
         result_id: required only for explain_result
         claim: pass "optimal" only if the answer will say "proven optimal"
+        user_goal: original request text for disaster_recovery traceability
 
     Returns a projected result (<=20 KB) including result_id, scenario_id,
     solver_status, optimality_proven, verification_status and warnings.
@@ -109,7 +111,8 @@ def submit_task(
     try:
         return {"ok": True, "task": get_service().submit(
             task_type, session_id=session_id, changes=changes, parameters=parameters,
-            improvement_options=improvement_options, result_id=result_id, claim=claim)}
+            improvement_options=improvement_options, result_id=result_id, claim=claim,
+            user_goal=user_goal)}
     except Exception as exc:  # noqa: BLE001
         return _error_payload(exc)
 

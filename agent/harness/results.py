@@ -186,6 +186,9 @@ SECTION_ALIASES = {
     "trace": ("trace",),
     "compare_rows": ("result_detail", "comparison", "scenarios"),
     "sensitivity_points": ("result_detail", "sensitivity", "points"),
+    "composite_stages": ("result_detail", "composite", "stage_results"),
+    "constraint_checks": ("result_detail", "composite", "contract", "constraint_checks"),
+    "branch_decisions": ("result_detail", "composite", "contract", "branch_decisions"),
 }
 
 MAX_WARNINGS = 5
@@ -949,6 +952,19 @@ def project(full_result: dict[str, Any], *, task_type: str,
     """Build a <= summary_max_bytes summary that is byte-identical in its numbers."""
     config = config or HarnessConfig()
     summary = full_result.get("result_summary") or {}
+    metrics = {
+        "served_demand": summary.get("served_demand"),
+        "total_demand": summary.get("total_demand"),
+        "weighted_walk_time_min": summary.get("weighted_walk_time_min"),
+        "optimized_served_demand": summary.get("optimized_served_demand"),
+        "diagnosed_unserved_nodes": summary.get("diagnosed_unserved_nodes"),
+    }
+    if task_type == "disaster_recovery":
+        metrics.update({
+            "baseline_served_demand": summary.get("baseline_served_demand"),
+            "damaged_served_demand": summary.get("damaged_served_demand"),
+            "recovered_served_demand": summary.get("recovered_served_demand"),
+        })
 
     document: dict[str, Any] = {
         "result_id": full_result.get("result_id"),
@@ -963,13 +979,7 @@ def project(full_result: dict[str, Any], *, task_type: str,
         "solver_status": full_result.get("solver_status"),
         "optimality_proven": resolve_optimality(full_result),
         "verification_status": full_result.get("verification_status"),
-        "metrics": {
-            "served_demand": summary.get("served_demand"),
-            "total_demand": summary.get("total_demand"),
-            "weighted_walk_time_min": summary.get("weighted_walk_time_min"),
-            "optimized_served_demand": summary.get("optimized_served_demand"),
-            "diagnosed_unserved_nodes": summary.get("diagnosed_unserved_nodes"),
-        },
+        "metrics": metrics,
         # The authoritative full parameter snapshot comes from the caller (the
         # harness session); scenario_changes alone is only the per-turn delta.
         "scenario_params": scenario_params or {
@@ -988,10 +998,16 @@ def project(full_result: dict[str, Any], *, task_type: str,
         },
         "disclosure": {
             "demo_only": full_result.get("data_status") == "DEMO_ONLY",
+            "synthetic_fixture": full_result.get("data_status") == "SYNTHETIC_FIXTURE",
             "verified_for_real_planning": bool(
                 _dig(full_result, ("certificate", "verified_for_real_planning"))),
-            "must_state": "DEMO_ONLY — 未经真实现场核验，不得作为应急执行建议"
-            if full_result.get("data_status") == "DEMO_ONLY" else "VERIFIED source",
+            "must_state": (
+                "SYNTHETIC_FIXTURE: test fixture only; not Module A data and not a real-world planning result."
+                if full_result.get("data_status") == "SYNTHETIC_FIXTURE"
+                else "DEMO_ONLY: not field verified; not an operational planning recommendation."
+                if full_result.get("data_status") == "DEMO_ONLY"
+                else "VERIFIED source"
+            ),
         },
     }
 
@@ -1043,6 +1059,9 @@ def project(full_result: dict[str, Any], *, task_type: str,
 
 def _detail_for(task_type: str, full_result: dict[str, Any], *,
                 scenario_params: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    if task_type == "disaster_recovery":
+        block = _composite_block(full_result)
+        return {"composite": block} if block else None
     if task_type == "diagnose_intervene":
         out: dict[str, Any] = {}
         diagnosis = _diagnosis_digest(full_result)
@@ -1085,6 +1104,37 @@ def _detail_for(task_type: str, full_result: dict[str, Any], *,
         if diagnosis:
             return {"diagnosis": diagnosis}
     return None
+
+
+def _composite_block(full_result: dict[str, Any]) -> dict[str, Any] | None:
+    source = _dig(full_result, ("result_detail", "composite"))
+    if not isinstance(source, dict):
+        return None
+    contract = source.get("contract") or {}
+    stages = source.get("stage_results") or []
+    compact_stages = []
+    for row in stages:
+        if not isinstance(row, dict):
+            continue
+        compact_stages.append({key: row.get(key) for key in (
+            "stage_id", "status", "reason_code", "input_scenario_id", "scenario_id",
+            "parent_scenario_id", "result_id", "input_result_ids", "execution_trace_id",
+            "skill_ids", "solver_status", "verification_status", "metrics", "duration_ms",
+        )})
+    return {
+        "status": full_result.get("status"),
+        "user_goal": contract.get("user_goal"),
+        "region_id": full_result.get("region_id"),
+        "data_version": full_result.get("data_version"),
+        "source_manifest_digest": contract.get("source_manifest_digest"),
+        "stages": compact_stages,
+        "comparison": source.get("comparison"),
+        "branch_decisions": contract.get("branch_decisions") or [],
+        "constraint_checks": contract.get("constraint_checks") or [],
+        "verification_results": contract.get("verification_results") or [],
+        "execution_trace_id": full_result.get("execution_trace_id"),
+        "disclosure": source.get("historical_or_demo_disclosure"),
+    }
 
 
 def _shrink_detail(detail: dict[str, Any]) -> dict[str, Any]:

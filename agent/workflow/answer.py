@@ -107,7 +107,52 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
     detail = bindings.get("detail") or {}
     lines: list[str] = []
 
-    if task_type == "optimize":
+    if task_type == "disaster_recovery":
+        composite = detail.get("composite") or {}
+        stages = {row.get("stage_id"): row for row in composite.get("stages") or []
+                  if isinstance(row, dict)}
+        comparison = composite.get("comparison") or {}
+        lines.append("【复合任务】灾后恢复流程已执行：基线评估 → 受损评估 → 瓶颈诊断 → 恢复优化 → 对照 → 核验。")
+        for stage_id, label, key in (
+            ("baseline", "灾前基线", "baseline"),
+            ("damage", "受损后", "damaged"),
+            ("recovery", "恢复后", "recovered"),
+        ):
+            stage = stages.get(stage_id) or {}
+            metrics_row = comparison.get(key) or {}
+            served = metrics_row.get("served_demand")
+            if key == "recovered":
+                served = metrics_row.get("optimized_served_demand", served)
+            lines.append(
+                f"【{label}】服务人数 {_num(served)}；情景 {stage.get('scenario_id') or 'n/a'}；"
+                f"结果 {stage.get('result_id') or 'n/a'}；求解 {stage.get('solver_status') or 'n/a'}；"
+                f"Verifier {stage.get('verification_status') or 'n/a'}。"
+            )
+        diagnosis = stages.get("diagnose") or {}
+        lines.append(
+            f"【瓶颈诊断】未服务节点 {_count((diagnosis.get('metrics') or {}).get('diagnosed_unserved_nodes'))}；"
+            f"Skill Trace {', '.join(diagnosis.get('skill_ids') or []) or 'n/a'}。"
+        )
+        selected = comparison.get("selected_option_ids") or []
+        lines.append(
+            f"【恢复方案】选中项目 {'、'.join(selected) if selected else '无'}；"
+            f"实际成本 {_num(comparison.get('recovered', {}).get('total_cost_units'), 2)} / "
+            f"预算 {_num(comparison.get('budget_units'), 2)}；"
+            f"服务损失 {_num(comparison.get('damage_service_loss'))}；"
+            f"恢复新增服务 {_num(comparison.get('recovery_service_gain'))}。"
+        )
+        recovery_ratio = comparison.get("recovery_ratio") or {}
+        if recovery_ratio.get("status") == "APPLICABLE":
+            lines.append(f"【恢复比例】{_num(float(recovery_ratio.get('value') or 0) * 100, 1)}%。")
+        else:
+            lines.append("【恢复比例】不适用：受损阶段未造成可测得的服务人数下降。")
+        lines.append(
+            f"【跨阶段约束】通过 {sum(1 for row in composite.get('constraint_checks') or [] if row.get('passed'))}/"
+            f"{len(composite.get('constraint_checks') or [])} 项；Trace {composite.get('execution_trace_id') or 'n/a'}。"
+        )
+        if composite.get("disclosure"):
+            lines.append(str(composite["disclosure"]))
+    elif task_type == "optimize":
         optimization = (detail.get("optimization") or {})
         lines.append("【结论】预算约束下的扩容优化已完成。")
         selected = optimization.get("selected_option_ids") or []
@@ -261,7 +306,7 @@ def compose_answer(control: ControlResult, *, params: ScenarioParams,
             f"覆盖率 {_num(bindings['optimized_coverage_ratio'] * 100, 1)}%；"
             f"优化后加权步行时间 {_num(opt_walk, 2)} 分钟。"
         )
-    elif task_type not in {"compare", "sensitivity"}:
+    elif task_type not in {"compare", "sensitivity", "disaster_recovery"}:
         lines.append(
             f"【关键指标】已服务 {_num(metrics.get('served_demand'))} 人 / "
             f"总需求 {_num(metrics.get('total_demand'))} 人，"

@@ -24,6 +24,7 @@ INTENTS = (
     "optimize",
     "compare",
     "stress_test",
+    "disaster_recovery",
     "sensitivity",
     "diagnose",
     "explain",
@@ -38,6 +39,7 @@ TASK_BY_INTENT: dict[str, str | None] = {
     "optimize": "optimize",
     "compare": "compare",
     "stress_test": "stress_test",
+    "disaster_recovery": "disaster_recovery",
     "sensitivity": "sensitivity",
     "diagnose": "diagnose_intervene",
     "explain": "explain_result",
@@ -56,6 +58,9 @@ INTENT_ALIASES = {
     "压力测试": "stress_test", "关停": "stress_test",
     "sensitivity": "sensitivity", "sensitivity_analysis": "sensitivity",
     "敏感性": "sensitivity", "敏感性分析": "sensitivity",
+    "disaster_recovery": "disaster_recovery", "recovery_planning": "disaster_recovery",
+    "災後恢復規劃": "disaster_recovery", "灾后恢复规划": "disaster_recovery",
+    "災後恢復": "disaster_recovery", "灾后恢复": "disaster_recovery",
     "diagnose": "diagnose", "diagnosis": "diagnose", "diagnose_intervene": "diagnose",
     "诊断": "diagnose", "瓶颈": "diagnose",
     "explain": "explain", "explain_result": "explain", "explanation": "explain",
@@ -150,7 +155,7 @@ class ParsedIntent:
 # The prompt fragment mirrors the parser exactly; keep them in one file so a
 # schema change cannot drift away from its documentation.
 INTENT_SCHEMA_HINT = """{
-  "intent": "assess|optimize|compare|stress_test|sensitivity|diagnose|explain|modify_scenario|clarify",
+  "intent": "assess|optimize|compare|stress_test|disaster_recovery|sensitivity|diagnose|explain|modify_scenario|clarify",
   "ops": [
     {"field": "population_demand_ratio|max_walk_time_min|budget_units|disabled_shelter_ids",
      "op": "set|delta|scale|restore",

@@ -11,15 +11,17 @@ import yaml
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 from backend.errors import PlanningError
+from backend.graph.composite_recovery import execute_disaster_recovery
 from backend.graph.executor import execute_task, module_a_source_registry
 from backend.graph.registry import capabilities
-from backend.models import TaskRequest
-from backend.storage import JsonResultStore
+from backend.models import DisasterRecoveryRequest, TaskRequest
+from backend.storage import JsonResultStore, canonical_hash
 
 router = APIRouter(prefix="/planning", tags=["planning"])
 _lock = threading.RLock()
 _jobs: dict[str, dict] = {}
 _idempotency: dict[str, str] = {}
+_idempotency_payloads: dict[str, str] = {}
 _pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="module-b")
 _results = JsonResultStore("outputs/module_b/runs")
 MAX_ACTIVE_JOBS = 100
@@ -55,13 +57,18 @@ def capabilities_document() -> dict:
     return document
 
 
-def _run(job_id: str, trace_id: str, request: TaskRequest) -> None:
+def _run(job_id: str, trace_id: str, request: TaskRequest | DisasterRecoveryRequest) -> None:
     with _lock:
         _jobs[job_id]["status"] = "RUNNING"
     try:
-        result = execute_task(request)
+        result = (execute_disaster_recovery(request, execution_trace_id=trace_id)
+                  if isinstance(request, DisasterRecoveryRequest) else execute_task(request))
         result["job_id"] = job_id
         result["execution_trace_id"] = trace_id
+        composite = ((result.get("result_detail") or {}).get("composite") or {})
+        contract = composite.get("contract")
+        if isinstance(contract, dict):
+            contract["execution_trace_id"] = trace_id
         _results.save(result["result_id"], result)
         with _lock:
             _jobs[job_id].update({"status": "SUCCEEDED", "result_id": result["result_id"], "result_summary": result["result_summary"], "verification_status": result["verification_status"]})
@@ -73,23 +80,31 @@ def _run(job_id: str, trace_id: str, request: TaskRequest) -> None:
             _jobs[job_id].update({"status": "FAILED", "error": {"error_code": "INTERNAL_ERROR", "details": {}, "message": str(exc), "retryable": False, "required_user_action": None}})
 
 
-def _submit(request: TaskRequest, task_type: str | None = None) -> dict:
-    if task_type and request.task_type != task_type:
+def _submit(request: TaskRequest | DisasterRecoveryRequest, task_type: str | None = None) -> dict:
+    actual_type = "disaster_recovery" if isinstance(request, DisasterRecoveryRequest) else request.task_type
+    if task_type and actual_type != task_type:
         raise HTTPException(status_code=422, detail={"error_code": "TASK_TYPE_MISMATCH", "expected": task_type})
+    request_fingerprint = canonical_hash(request.model_dump())
     if not request.task_id:
         request = request.model_copy(update={"task_id": str(uuid.uuid4())})
     digest = request.idempotency_key
     with _lock:
         existing = _idempotency.get(digest) if digest else None
         if existing:
+            if _idempotency_payloads.get(digest) != request_fingerprint:
+                raise HTTPException(status_code=409, detail={
+                    "error_code": "IDEMPOTENCY_KEY_REUSED",
+                    "message": "The idempotency key was already used with a different request body.",
+                })
             return {"job_id": existing, **_jobs[existing], "idempotent_replay": True}
         active = sum(1 for row in _jobs.values() if row.get("status") in {"QUEUED", "RUNNING"})
         if active >= MAX_ACTIVE_JOBS:
             raise HTTPException(status_code=429, detail={"error_code": "JOB_LIMIT_REACHED", "retryable": True})
         job_id, trace_id = str(uuid.uuid4()), str(uuid.uuid4())
-        _jobs[job_id] = {"task_id": request.task_id, "status": "QUEUED", "execution_trace_id": trace_id, "skill_graph_version": capabilities()["skill_graph_version"]}
+        _jobs[job_id] = {"task_id": request.task_id, "task_type": actual_type, "status": "QUEUED", "execution_trace_id": trace_id, "skill_graph_version": capabilities()["skill_graph_version"]}
         if digest:
             _idempotency[digest] = job_id
+            _idempotency_payloads[digest] = request_fingerprint
     _pool.submit(_run, job_id, trace_id, request)
     return {"job_id": job_id, **_jobs[job_id], "idempotent_replay": False}
 
@@ -112,6 +127,11 @@ def create_stress_test(request: TaskRequest):
 @router.post("/comparisons", status_code=202)
 def create_comparison(request: TaskRequest):
     return _submit(request, "compare")
+
+
+@router.post("/disaster-recovery", status_code=202)
+def create_disaster_recovery(request: DisasterRecoveryRequest):
+    return _submit(request, "disaster_recovery")
 
 
 @router.get("/jobs/{job_id}")

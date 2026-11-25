@@ -330,13 +330,28 @@ class StructuredRunner:
                                   control=control, plan=plan, params=params,
                                   clarification_fields=[])
             else:
+                # Keep confirmed slots while asking for the remaining ones.
+                # Without this, a budget supplied on turn two disappears if
+                # the candidate is only supplied on turn three.
+                carried_changes = dict(pending.changes)
+                for field_name in ("budget_units", "population_demand_ratio",
+                                   "max_walk_time_min", "disabled_shelter_ids"):
+                    if field_name in filled.values:
+                        carried_changes[field_name] = filled.values[field_name]
+                carried_parameters = dict(pending.parameters)
+                if "compare_values" in filled.values:
+                    carried_parameters["compare_spec"] = filled.values["compare_values"]
+                if "sensitivity_spec" in filled.values:
+                    carried_parameters["sensitivity_spec"] = filled.values["sensitivity_spec"]
                 plan = RoutePlan(
                     action="clarify", task_type=pending.task_type,
                     clarify_fields=filled.remaining,
                     question=" ".join(CLARIFY_QUESTIONS.get(name, f"请补充 {name}。")
                                        for name in filled.remaining),
                     reason_codes=["clarification_incomplete"],
-                    changes=dict(pending.changes))
+                    changes=carried_changes,
+                    options=list(filled.values.get("improvement_options") or pending.options),
+                    parameters=carried_parameters)
                 with self._state_lock:
                     self.dialogue.open(plan, params=params, text=text)
                 control = ControlResult(status="clarify", plan=plan)
@@ -399,7 +414,8 @@ class StructuredRunner:
             changes.update(normalized.changes)
             plan = route(intent, params=normalized.params, changes=changes,
                          memory=self._memory, config=self.config,
-                         known_result_ids=self._known_results())
+                         known_result_ids=self._known_results(),
+                         previous_params=params, user_goal=text)
         except HarnessError as exc:
             field = (exc.details or {}).get("field")
             if exc.code == "GUARD_UNCLEAR_OPERATION" and isinstance(field, str):

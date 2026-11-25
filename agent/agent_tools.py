@@ -122,11 +122,13 @@ def _submit_schema(description: str) -> dict[str, Any]:
         "description": description,
         "parameters": {"type": "object", "properties": {
             "task_type": {"type": "string", "enum": ["assess", "optimize", "diagnose_intervene",
-                                                     "stress_test", "compare", "sensitivity",
+                                                     "stress_test", "disaster_recovery", "compare", "sensitivity",
                                                      "explain_result"]},
             "changes": {"type": "object",
                         "description": "population_demand_ratio(0-1), max_walk_time_min(>0), "
                                        "budget_units(>=0), disabled_shelter_ids[]"},
+            "user_goal": {"type": "string",
+                          "description": "灾后复合任务的原始用户目标，用于审计与交接"},
             "parameters": {"type": "object",
                            "description": "compare: {\"scenarios\":[..2-12..]}; "
                                           "sensitivity: {\"parameter\":..., \"values\":[1-20个]}"},
@@ -150,7 +152,7 @@ def harness_registry(service: HarnessService, session_id: str) -> tuple[ToolRegi
     def submit_task(task_type: str | None = None, changes: dict | None = None,
                     parameters: dict | None = None,
                     improvement_options: list[dict] | None = None, claim: str | None = None,
-                    result_id: str | None = None) -> dict:
+                    result_id: str | None = None, user_goal: str | None = None) -> dict:
         if not task_type:
             raise ToolArgumentError("submit_task requires `task_type`.",
                                     details={"required": ["task_type"]})
@@ -159,6 +161,7 @@ def harness_registry(service: HarnessService, session_id: str) -> tuple[ToolRegi
         outcome = service.submit(
             task_type, session_id=session_id, changes=changes, parameters=parameters,
             improvement_options=improvement_options, result_id=result_id, claim=claim,
+            user_goal=user_goal,
         )
         return {key: value for key, value in outcome.items() if key != "tool_calls"}
 

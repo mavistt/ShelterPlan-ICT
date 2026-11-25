@@ -609,6 +609,9 @@ def execute_task(request: TaskRequest, *, source_override: tuple[PlanningInput, 
         "task_id": task_id, "job_id": run_id, "result_id": result_id,
         "scenario_id": scenario.scenario_id, "parent_scenario_id": scenario.parent_scenario_id,
         "scenario_changes": scenario.changes or request.changes, "scenario_hash": scenario_version["scenario_hash"],
+        # Echo the exact immutable snapshot used to execute this registered B task.
+        # Composite orchestration compares this with its planned stage contract.
+        "effective_parameters": scenario.model_dump(),
         "region_id": data.region_id, "data_version": data.data_version, "data_status": data.data_status,
         "analysis_mode": scenario.analysis_mode, "source_label": data.source_label,
         "skill_graph_version": SKILL_GRAPH_VERSION, "execution_trace_id": trace_id,

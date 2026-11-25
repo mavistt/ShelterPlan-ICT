@@ -34,6 +34,7 @@ from agent.intent.extractor import (
     WALK_RE,
     _chinese_number,
     _rule_sensitivity,
+    _composite_options,
 )
 from agent.intent.schema import ParamOp, ParsedIntent
 from agent.workflow.router import RoutePlan
@@ -55,9 +56,11 @@ TASK_TO_INTENT = {
     "sensitivity": "sensitivity",
     "explain_result": "explain",
     "diagnose_intervene": "diagnose",
+    "disaster_recovery": "disaster_recovery",
 }
 
 TASK_WORDS = (
+    ("disaster_recovery", re.compile(r"灾后恢复|恢复方案|恢复规划")),
     ("sensitivity", re.compile(r"敏感性|档位")),
     ("compare", re.compile(r"比较|对比|差异")),
     ("stress_test", re.compile(r"压力测试|停用|关停|关闭")),
@@ -138,10 +141,12 @@ class DialogueState:
             merged_changes.update(plan.changes)
             merged_options = plan.options or self.pending.options
             attempts = self.pending.attempts + 1
+            original_text = self.pending.original_text
         else:
             merged_changes = dict(plan.changes)
             merged_options = list(plan.options)
             attempts = 1
+            original_text = text
         pending = PendingTask(
             task_type=plan.task_type or "assess",
             changes=merged_changes,
@@ -149,7 +154,7 @@ class DialogueState:
             parameters=dict(plan.parameters or {}),
             missing=missing,
             question=plan.question,
-            original_text=text,
+            original_text=original_text,
             asked_at=now,
             expires_at=now + self.ttl_s,
             attempts=attempts,
@@ -296,6 +301,10 @@ def detect_undo(text: str, *, has_disabled: bool = False) -> UndoRequest | None:
 
 def _last_named_task(text: str) -> str | None:
     """The task mentioned latest in the sentence, ignoring earlier ones."""
+    if (re.search(r"停用|关停|关闭|受损", text)
+            and re.search(r"恢复|灾后", text)
+            and re.search(r"分析|评估|诊断|比较|对比|影响|然后|再", text)):
+        return "disaster_recovery"
     best: tuple[int, str] | None = None
     for task_type, pattern in TASK_WORDS:
         for match in pattern.finditer(text or ""):
@@ -337,6 +346,11 @@ def undo_intent(request: UndoRequest, params: Any, history: list[Any],
 
 def detect_task_switch(text: str, current: str) -> str | None:
     """Return a different task type when the user clearly names one."""
+    if current == "disaster_recovery":
+        # Recovery clarifications naturally mention "budget", "shutdown",
+        # and "expansion". Treating these slot answers as a task switch would
+        # discard the pending composite contract.
+        return None
     for task_type, pattern in TASK_WORDS:
         if pattern.search(text) and task_type != current:
             # "停用" inside a clarification for stress is not a switch.
@@ -385,6 +399,9 @@ def _fill_budget(text: str, _pending: PendingTask) -> float | None:
 
 
 def _fill_options(text: str, _pending: PendingTask) -> list[dict[str, Any]] | None:
+    if _pending.task_type == "disaster_recovery":
+        rows = _composite_options(text)
+        return rows or None
     rows = []
     for index, match in enumerate(OPTION_RE.finditer(text), 1):
         cost = OPTION_COST_RE.search(text[match.end():match.end() + 24]) or OPTION_COST_RE.search(text)
@@ -485,7 +502,8 @@ def _incidental(text: str, pending: PendingTask) -> dict[str, Any]:
         if match:
             extras["max_walk_time_min"] = float(match.group(1))
     if "improvement_options" not in pending.missing:
-        options = _fill_options(text, pending)
+        options = (_composite_options(text) if pending.task_type == "disaster_recovery"
+                   else _fill_options(text, pending))
         if options:
             extras["improvement_options"] = options
     if "disabled_shelter_ids" not in pending.missing and re.search(r"停用|关停|关闭|禁用", text):
@@ -526,6 +544,8 @@ def resume_intent(pending: PendingTask, values: dict[str, Any]) -> ParsedIntent:
     name = TASK_TO_INTENT.get(pending.task_type, "assess")
     intent = ParsedIntent(name=name, ops=build_resume_ops(pending, values),
                           source="resume", confidence=1.0)
+    if pending.task_type == "disaster_recovery":
+        intent.raw = {"user_goal": pending.original_text}
     if name == "compare":
         spec = values.get("compare_values") or pending.parameters.get("compare_spec")
         if not spec:

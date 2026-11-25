@@ -26,7 +26,7 @@ from agent.harness.session import Session
 
 TASK_TYPES = (
     "assess", "optimize", "diagnose_intervene", "stress_test",
-    "compare", "sensitivity", "explain_result",
+    "compare", "sensitivity", "explain_result", "disaster_recovery",
 )
 PARAMETER_ALLOWLIST = {
     "assess": set(),
@@ -36,6 +36,7 @@ PARAMETER_ALLOWLIST = {
     "compare": {"scenarios"},
     "sensitivity": {"parameter", "values"},
     "explain_result": set(),
+    "disaster_recovery": set(),
 }
 SENSITIVITY_FIELDS = {"budget_units", "population_demand_ratio", "max_walk_time_min"}
 MAX_BUDGET = 1_000_000_000.0
@@ -192,6 +193,23 @@ def preflight(
             )
         parameters["disabled_shelter_ids"] = list(disabled)
 
+    if task_type == "disaster_recovery":
+        disabled = list(state.params.disabled_shelter_ids)
+        if not disabled:
+            raise GuardMissingParam(
+                "A disaster-recovery task needs at least one explicitly disabled shelter.",
+                details={"field": "disabled_shelter_ids"},
+            )
+        budget = state.params.budget_units
+        if budget is None:
+            raise GuardMissingParam(
+                "A confirmed budget is required before recovery optimization.",
+                details={"field": "budget_units"},
+            )
+        if not _is_number(budget) or not (0.0 <= float(budget) <= MAX_BUDGET):
+            raise GuardInvalidParam("budget_units must be a finite number in [0, 1e9].",
+                                    details={"field": "budget_units", "value": budget})
+
     if task_type == "compare":
         scenarios = parameters.get("scenarios") or []
         if not isinstance(scenarios, list) or not (2 <= len(scenarios) <= 12):
@@ -230,8 +248,30 @@ def preflight(
             )
 
     options = validate_improvement_options(improvement_options)
-    if options and task_type not in {"optimize", "diagnose_intervene", "stress_test", "sensitivity"}:
+    if options and task_type not in {"optimize", "diagnose_intervene", "stress_test", "sensitivity", "disaster_recovery"}:
         raise GuardInvalidOption(f"improvement_options are not used by task_type={task_type}.")
+
+    if task_type == "disaster_recovery" and not options:
+        raise GuardMissingParam(
+            "At least one legal recovery expansion option is required.",
+            details={"field": "improvement_options"},
+        )
+    if task_type == "disaster_recovery":
+        disabled = set(state.params.disabled_shelter_ids)
+        invalid = [row for row in options
+                   if not row.get("eligible", True)
+                   or not isinstance(row.get("shelter_id"), str)
+                   or not row.get("shelter_id")
+                   or row.get("shelter_id") in disabled
+                   or (session.valid_shelter_ids is not None
+                       and row.get("shelter_id") not in session.valid_shelter_ids)]
+        if invalid:
+            raise GuardInvalidOption(
+                "Recovery options must be eligible and target an active shelter in this region.",
+                details={"reason_code": "INVALID_RECOVERY_OPTIONS",
+                         "invalid_option_ids": [row.get("option_id") for row in invalid],
+                         "disabled_shelter_ids": sorted(disabled)},
+            )
 
     if session.valid_shelter_ids is not None:
         disabled_check = list(state.params.disabled_shelter_ids)
@@ -335,6 +375,275 @@ def postflight(
         "verification_status": verification_status,
         "data_status": data_status,
     }
+
+
+def postflight_disaster_recovery(
+    *, full_result: dict[str, Any], state: ScenarioState, config: HarnessConfig,
+    session: Session, expected_baseline_disabled: Iterable[str] = (),
+) -> dict[str, Any]:
+    """Independent C-side check of B's stage chain before it is publishable."""
+    if not isinstance(full_result, dict) or full_result.get("task_type") != "disaster_recovery":
+        raise ResultMismatch("Module B returned a non-composite result for a recovery task.")
+    if full_result.get("status") != "COMPLETED":
+        raise ResultMismatch("Composite workflow did not complete all required stages.", details={
+            "status": full_result.get("status"),
+        })
+    if full_result.get("region_id") != state.params.region_id:
+        raise ResultMismatch("Composite result region differs from the bound C session.", details={
+            "expected": state.params.region_id, "received": full_result.get("region_id"),
+            "reason_code": "REGION_MISMATCH",
+        })
+    if full_result.get("data_version") != state.params.data_version:
+        raise GuardVersionMismatch("Composite result data version differs from the C scenario.", details={
+            "expected": state.params.data_version, "received": full_result.get("data_version"),
+            "reason_code": "DATA_VERSION_MISMATCH",
+        })
+    if full_result.get("data_status") != config.expected_data_status:
+        raise GuardVersionMismatch("Composite result source status differs from the admitted C source.", details={
+            "expected": config.expected_data_status, "received": full_result.get("data_status"),
+            "reason_code": "DATA_VERSION_MISMATCH",
+        })
+    if state.params.analysis_mode == "verified" and full_result.get("data_status") != "VERIFIED":
+        raise GuardNotVerifiedSource("Composite result is not from an admitted verified source.")
+
+    composite = ((full_result.get("result_detail") or {}).get("composite") or {})
+    contract = composite.get("contract") or {}
+    stage_rows = [row for row in contract.get("stage_results") or [] if isinstance(row, dict)]
+    stage_order = [row.get("stage_id") for row in stage_rows]
+    stages = {row.get("stage_id"): row for row in stage_rows}
+    required = ("baseline", "damage", "diagnose", "recovery", "compare", "verify")
+    missing = [stage for stage in required if stage not in stages]
+    if missing:
+        raise ResultMismatch("Composite result omitted required stage records.", details={
+            "missing_stages": missing, "reason_code": "COMPOSITE_STAGE_MISMATCH",
+        })
+    if any(stages[stage].get("status") != "COMPLETED" for stage in required):
+        raise ResultMismatch("Composite result contains a skipped or failed required stage.", details={
+            "statuses": {stage: stages[stage].get("status") for stage in required},
+            "reason_code": "STAGE_VERIFICATION_FAILED",
+        })
+    if stage_order != list(required):
+        raise ResultMismatch("Composite stages were not executed in the registered order.", details={
+            "expected": list(required), "received": stage_order,
+            "reason_code": "COMPOSITE_STAGE_MISMATCH",
+        })
+    if contract.get("client_session_id") != session.session_id:
+        raise ResultMismatch("Composite result is bound to another C session.", details={
+            "expected_session_id": session.session_id,
+            "received_session_id": contract.get("client_session_id"),
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    if (contract.get("task_id") != full_result.get("task_id")
+            or contract.get("client_turn_id") != full_result.get("task_id")):
+        raise ResultMismatch("Composite result is not bound to the submitted C turn.", details={
+            "contract_task_id": contract.get("task_id"),
+            "client_turn_id": contract.get("client_turn_id"),
+            "result_task_id": full_result.get("task_id"),
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    if contract.get("data_version") != full_result.get("data_version"):
+        raise ResultMismatch("Composite contract data version differs from its result.", details={
+            "reason_code": "DATA_VERSION_MISMATCH",
+        })
+    if (not contract.get("source_manifest_digest")
+            or contract.get("source_manifest_digest") != full_result.get("source_manifest_digest")):
+        raise ResultMismatch("Composite result source digest is missing or inconsistent.", details={
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    expected_disabled = sorted(set(expected_baseline_disabled) | set(state.params.disabled_shelter_ids))
+    baseline = stages["baseline"]
+    damage = stages["damage"]
+    diagnosis = stages["diagnose"]
+    recovery = stages["recovery"]
+    _assert_stage_parent(damage, baseline.get("scenario_id"), "DAMAGE_STATE_LOST")
+    _assert_stage_parent(recovery, damage.get("scenario_id"), "DAMAGE_STATE_LOST")
+    if sorted(baseline.get("effective_parameters", {}).get("disabled_shelter_ids") or []) != sorted(set(expected_baseline_disabled)):
+        raise ResultMismatch("Baseline stage changed the inherited facility state.", details={
+            "expected": sorted(set(expected_baseline_disabled)),
+            "received": baseline.get("effective_parameters", {}).get("disabled_shelter_ids"),
+            "reason_code": "DAMAGE_STATE_LOST",
+        })
+    if baseline.get("effective_parameters", {}).get("budget_units") is not None:
+        raise ResultMismatch("Recovery budget leaked into the baseline stage.", details={
+            "reason_code": "PARAMETER_DRIFT",
+        })
+    for stage_id in ("baseline", "damage", "recovery"):
+        effective = stages[stage_id].get("effective_parameters") or {}
+        if effective.get("region_id") != state.params.region_id:
+            raise ResultMismatch("Scenario region drifted inside the composite workflow.", details={
+                "stage_id": stage_id, "reason_code": "REGION_MISMATCH",
+            })
+        if effective.get("data_version") != state.params.data_version:
+            raise ResultMismatch("Scenario data version drifted inside the composite workflow.", details={
+                "stage_id": stage_id, "reason_code": "DATA_VERSION_MISMATCH",
+            })
+        if float(effective.get("population_demand_ratio", -1)) != float(state.params.population_demand_ratio):
+            raise ResultMismatch("Demand ratio drifted between composite stages.", details={
+                "stage_id": stage_id, "reason_code": "PARAMETER_DRIFT",
+                "expected": state.params.population_demand_ratio,
+                "received": effective.get("population_demand_ratio"),
+            })
+        if float(effective.get("max_walk_time_min", -1)) != float(state.params.max_walk_time_min):
+            raise ResultMismatch("Walking threshold drifted between composite stages.", details={
+                "stage_id": stage_id, "reason_code": "PARAMETER_DRIFT",
+                "expected": state.params.max_walk_time_min,
+                "received": effective.get("max_walk_time_min"),
+            })
+    if sorted(damage.get("effective_parameters", {}).get("disabled_shelter_ids") or []) != expected_disabled:
+        raise ResultMismatch("Requested damaged shelters were not carried into the damage stage.", details={
+            "expected": expected_disabled,
+            "received": damage.get("effective_parameters", {}).get("disabled_shelter_ids"),
+            "reason_code": "DAMAGE_STATE_LOST",
+        })
+    if sorted(recovery.get("effective_parameters", {}).get("disabled_shelter_ids") or []) != expected_disabled:
+        raise ResultMismatch("Recovery stage silently changed disabled shelter state.", details={
+            "expected": expected_disabled,
+            "received": recovery.get("effective_parameters", {}).get("disabled_shelter_ids"),
+            "reason_code": "DAMAGE_STATE_LOST",
+        })
+    if recovery.get("effective_parameters", {}).get("budget_units") != state.params.budget_units:
+        raise ResultMismatch("Recovery stage did not receive the confirmed budget.", details={
+            "expected": state.params.budget_units,
+            "received": recovery.get("effective_parameters", {}).get("budget_units"),
+            "reason_code": "PARAMETER_DRIFT",
+        })
+    result_ids = [stages[name].get("result_id") for name in ("baseline", "damage", "recovery")]
+    if any(not value for value in result_ids) or len(set(result_ids)) != len(result_ids):
+        raise ResultMismatch("Composite stage results are missing or ambiguously bound.", details={
+            "result_ids": result_ids, "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    if diagnosis.get("result_id") != damage.get("result_id") or "S05" not in diagnosis.get("skill_ids", []):
+        raise ResultMismatch("Diagnosis is not bound to the damaged scenario's S05 result.", details={
+            "reason_code": "COMPOSITE_STAGE_MISMATCH",
+        })
+    expected_inputs = {
+        "damage": [baseline.get("result_id")],
+        "diagnose": [damage.get("result_id")],
+        "recovery": [damage.get("result_id"), diagnosis.get("result_id")],
+        "compare": [baseline.get("result_id"), damage.get("result_id"), recovery.get("result_id")],
+        "verify": [baseline.get("result_id"), damage.get("result_id"),
+                   recovery.get("result_id"), recovery.get("result_id")],
+    }
+    for stage_id, expected_ids in expected_inputs.items():
+        if stages[stage_id].get("input_result_ids") != expected_ids:
+            raise ResultMismatch("Composite stage has missing or misbound result inputs.", details={
+                "stage_id": stage_id, "expected": expected_ids,
+                "received": stages[stage_id].get("input_result_ids"),
+                "reason_code": "RESULT_BINDING_MISMATCH",
+            })
+    for name in ("baseline", "damage", "recovery"):
+        if stages[name].get("verification_status") not in {"PASS_DEMO", "PASS_VERIFIED"}:
+            raise ResultMismatch("An executed stage did not pass its verifier.", details={
+                "stage_id": name, "verification_status": stages[name].get("verification_status"),
+                "reason_code": "STAGE_VERIFICATION_FAILED",
+            })
+    if full_result.get("scenario_id") != recovery.get("scenario_id"):
+        raise ResultMismatch("Final result is not bound to the recovered scenario.", details={
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    if full_result.get("execution_trace_id") != contract.get("execution_trace_id"):
+        raise ResultMismatch("Composite trace id differs from the submitted execution.", details={
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    status = full_result.get("verification_status")
+    if status not in {"PASS_DEMO", "PASS_VERIFIED"}:
+        raise ResultMismatch("Composite verifier blocked publication.", details={
+            "verification_status": status, "reason_code": "STAGE_VERIFICATION_FAILED",
+        })
+    if full_result.get("solver_status") not in {"OPTIMAL", "FEASIBLE"}:
+        raise ResultMismatch("Recovery solver did not return a publishable result.", details={
+            "solver_status": full_result.get("solver_status"),
+        })
+    if bool(full_result.get("optimality_proven")) != (full_result.get("solver_status") == "OPTIMAL"):
+        raise ResultMismatch("Optimality claim does not match the recovery solver status.", details={
+            "solver_status": full_result.get("solver_status"),
+            "optimality_proven": full_result.get("optimality_proven"),
+        })
+    submitted_options = contract.get("improvement_options") or []
+    if len(submitted_options) > 12:
+        raise ResultMismatch("Composite result exceeds the public recovery option limit.", details={
+            "option_count": len(submitted_options), "limit": 12,
+            "reason_code": "INVALID_RECOVERY_OPTIONS",
+        })
+    submitted_by_id = {row.get("option_id"): row for row in submitted_options if isinstance(row, dict)}
+    recovery_metrics = recovery.get("metrics") or {}
+    selected_ids = recovery_metrics.get("selected_option_ids") or []
+    if any(option_id not in submitted_by_id for option_id in selected_ids):
+        raise ResultMismatch("Recovery selected an option that was not submitted by the user.", details={
+            "selected_option_ids": selected_ids,
+            "submitted_option_ids": list(submitted_by_id),
+            "reason_code": "INVALID_RECOVERY_OPTIONS",
+        })
+    total_cost = recovery_metrics.get("total_cost_units")
+    if (not _is_finite_num(total_cost) or total_cost > float(state.params.budget_units) + 1e-6
+            or abs(float(total_cost) - sum(float(submitted_by_id[key]["cost_units"])
+                                           for key in selected_ids)) > 1e-6):
+        raise ResultMismatch("Recovery cost does not match selected options and the confirmed budget.", details={
+            "budget_units": state.params.budget_units, "total_cost_units": total_cost,
+            "selected_option_ids": selected_ids,
+            "reason_code": "INVALID_RECOVERY_OPTIONS",
+        })
+    _assert_composite_comparison(full_result, baseline, damage, recovery, state.params.budget_units)
+    return {"solver_status": full_result["solver_status"],
+            "optimality_proven": bool(full_result.get("optimality_proven")),
+            "verification_status": status,
+            "data_status": full_result.get("data_status")}
+
+
+def _is_finite_num(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(float(value))
+
+
+def _assert_composite_comparison(full_result: dict[str, Any], baseline: dict[str, Any],
+                                 damage: dict[str, Any], recovery: dict[str, Any],
+                                 budget_units: float | None) -> None:
+    composite = ((full_result.get("result_detail") or {}).get("composite") or {})
+    comparison = composite.get("comparison") or {}
+    rows = {key: comparison.get(key) or {} for key in ("baseline", "damaged", "recovered")}
+    expected = {
+        "baseline": (baseline.get("metrics") or {}).get("served_demand"),
+        "damaged": (damage.get("metrics") or {}).get("served_demand"),
+        "recovered": (recovery.get("metrics") or {}).get("optimized_served_demand"),
+    }
+    for key, value in expected.items():
+        observed = (rows[key].get("optimized_served_demand") if key == "recovered"
+                    else rows[key].get("served_demand"))
+        if not _is_finite_num(value) or not _is_finite_num(observed) or abs(float(value) - float(observed)) > 1e-6:
+            raise ResultMismatch("Composite comparison metric does not match its bound stage result.", details={
+                "stage": key, "expected": value, "received": observed,
+                "reason_code": "RESULT_BINDING_MISMATCH",
+            })
+    baseline_served = float(expected["baseline"])
+    damaged_served = float(expected["damaged"])
+    recovered_served = float(expected["recovered"])
+    loss, gain = baseline_served - damaged_served, recovered_served - damaged_served
+    if (not _is_finite_num(comparison.get("damage_service_loss"))
+            or abs(float(comparison["damage_service_loss"]) - loss) > 1e-6
+            or not _is_finite_num(comparison.get("recovery_service_gain"))
+            or abs(float(comparison["recovery_service_gain"]) - gain) > 1e-6
+            or comparison.get("budget_units") != budget_units):
+        raise ResultMismatch("Composite comparison deltas or budget do not match stage results.", details={
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+    ratio = comparison.get("recovery_ratio") or {}
+    if loss > 1e-6:
+        if (ratio.get("status") != "APPLICABLE" or not _is_finite_num(ratio.get("value"))
+                or abs(float(ratio["value"]) - gain / loss) > 1e-6):
+            raise ResultMismatch("Recovery ratio is inconsistent with the measured service loss and gain.", details={
+                "reason_code": "RESULT_BINDING_MISMATCH",
+            })
+    elif ratio.get("status") != "NOT_APPLICABLE" or ratio.get("value") is not None:
+        raise ResultMismatch("Recovery ratio must be not applicable when no service loss occurred.", details={
+            "reason_code": "RESULT_BINDING_MISMATCH",
+        })
+
+
+def _assert_stage_parent(stage: dict[str, Any], expected: str | None, reason_code: str) -> None:
+    if stage.get("parent_scenario_id") != expected:
+        raise ResultMismatch("Composite stage has invalid scenario lineage.", details={
+            "stage_id": stage.get("stage_id"), "expected_parent": expected,
+            "received_parent": stage.get("parent_scenario_id"), "reason_code": reason_code,
+        })
 
 
 def _failed_check_ids(full_result: dict[str, Any]) -> list[str]:

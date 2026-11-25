@@ -103,8 +103,12 @@ def test_route_compare_builds_rows_and_drops_axis_change():
     plan = route(intent, params=params, changes={"population_demand_ratio": 0.4},
                  memory=TurnMemory(), config=CONFIG)
     assert plan.action == "task"
-    assert plan.parameters["scenarios"] == [{"population_demand_ratio": 0.2},
-                                            {"population_demand_ratio": 0.4}]
+    assert plan.parameters["scenarios"] == [
+        {"max_walk_time_min": 15.0, "budget_units": None,
+         "disabled_shelter_ids": [], "population_demand_ratio": 0.2},
+        {"max_walk_time_min": 15.0, "budget_units": None,
+         "disabled_shelter_ids": [], "population_demand_ratio": 0.4},
+    ]
     assert plan.changes == {}
 
 

@@ -78,7 +78,16 @@ def capabilities() -> dict:
             "composite_id": key, "name": value[0], "task_dag": value[1],
             "conditions": ([{"after": "S05", "include": ["S06", "S07"], "when": "eligible_options_present"}] if key == "C03" else []),
         } for key, value in COMPOSITES.items()],
-        "task_types": sorted(TASK_COMPOSITE),
+        "task_types": sorted([*TASK_COMPOSITE, "disaster_recovery"]),
+        "composite_workflows": [{
+            "task_type": "disaster_recovery",
+            "stages": ["baseline", "damage", "diagnose", "recovery", "compare", "verify"],
+            "execution_policy": "registered_finite_workflow; result-driven branches; no caller DAG",
+            # Public TaskRequest/C guards allow at most 12 options. The
+            # underlying budget solver supports more, but this workflow must
+            # advertise its actual API contract rather than the solver limit.
+            "max_recovery_options": 12,
+        }],
         "data_modes": ["demo", "verified"],
         "solver": {"assignment": "SciPy HiGHS LP", "budget": "SciPy HiGHS mixed-integer optimization", "max_options": MAX_BUDGET_OPTIONS, "time_limit_seconds": MAX_BUDGET_SOLVE_SECONDS, "objective_order": ["maximize_served_demand", "minimize_weighted_walk_time", "minimize_option_cost", "minimize_option_count"]},
     }

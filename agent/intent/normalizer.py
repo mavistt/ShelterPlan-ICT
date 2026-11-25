@@ -218,23 +218,26 @@ def _same_number(left: Any, right: Any) -> bool:
 def build_compare_rows(*, params: ScenarioParams,
                        changes: dict[str, Any],
                        spec: dict[str, Any] | None,
+                       previous_params: ScenarioParams | None = None,
                        max_rows: int = 12) -> list[dict[str, Any]]:
     """Rows are per-scenario overrides applied on top of the base scenario."""
     if spec and spec.get("field") in SCENARIO_CHANGE_KEYS:
         field_name = spec["field"]
         values = list(spec.get("values") or [])[:max_rows]
         if len(values) >= 2:
-            return [{field_name: value} for value in values]
+            params_payload = params.to_dict()
+            common = {key: params_payload[key] for key in SCENARIO_CHANGE_KEYS
+                      if key != field_name and key in params_payload}
+            common.update({key: value for key, value in changes.items() if key != field_name})
+            return [{**common, field_name: value} for value in values]
     if changes:
-        # No explicit axe given: compare the snapshot before and after this
-        # turn's modification. This is the only defensible pair we can build
-        # without inventing numbers.
-        base = params.to_dict()
-        after = dict(base)
+        # Compare the actual pre-turn snapshot with the confirmed post-turn
+        # state. Every other common parameter is included in both rows.
+        before = (previous_params or params).to_dict()
+        after = params.to_dict()
         after.update(changes)
-        rows = []
-        for candidate in (base, after):
-            rows.append({key: candidate[key] for key in changes})
+        rows = [{key: before[key] for key in changes if key in before},
+                {key: after[key] for key in changes if key in after}]
         if rows[0] != rows[1]:
             return rows
     return []

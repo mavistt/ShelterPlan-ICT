@@ -155,11 +155,12 @@ class HarnessService:
                 "skill_graph_version": None,
                 "task_types": [
                     "assess", "optimize", "diagnose_intervene", "stress_test",
-                    "compare", "sensitivity", "explain_result",
+                    "compare", "sensitivity", "explain_result", "disaster_recovery",
                 ],
                 "skill_count": 0,
                 "composite_count": 0,
                 "composites": [],
+                "composite_workflows": [],
                 "solver": {},
                 "data_modes": [self.config.expected_data_status],
                 "data_version": self.config.data_version,
@@ -179,6 +180,7 @@ class HarnessService:
             "composite_count": len(composites),
             "composites": [{"composite_id": row.get("composite_id"), "name": row.get("name")}
                            for row in composites],
+            "composite_workflows": raw.get("composite_workflows") or [],
             "solver": raw.get("solver") or {},
             "data_modes": raw.get("data_modes") or [],
             "data_version": self.config.data_version,
@@ -197,13 +199,15 @@ class HarnessService:
                parameters: dict[str, Any] | None = None,
                improvement_options: list[dict[str, Any]] | None = None,
                result_id: str | None = None,
-               claim: str | None = None) -> dict[str, Any]:
+               claim: str | None = None,
+               user_goal: str | None = None) -> dict[str, Any]:
         runtime = self._runtime(session_id)
         executor = HarnessExecutor(self.client, runtime.session, runtime.trace, self.config)
         with runtime.lock:
             outcome = executor.execute(ExecuteRequest(
                 task_type=task_type, changes=changes, parameters=parameters,
                 improvement_options=improvement_options, result_id=result_id, claim=claim,
+                user_goal=user_goal,
             ))
         payload = outcome.to_dict()
         payload["session_id"] = runtime.session.session_id
@@ -288,7 +292,7 @@ def _infer_task_type(full: dict[str, Any]) -> str:
     explicit = full.get("task_type")
     if isinstance(explicit, str) and explicit in {
         "assess", "optimize", "diagnose_intervene", "stress_test",
-        "compare", "sensitivity", "explain_result",
+        "compare", "sensitivity", "explain_result", "disaster_recovery",
     }:
         return explicit
     detail = full.get("result_detail") or {}

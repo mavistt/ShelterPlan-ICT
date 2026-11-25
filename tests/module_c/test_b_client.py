@@ -18,7 +18,7 @@ def test_capabilities_expose_registered_contract(b_client: BClient):
     assert len(caps["skills"]) == 12
     assert set(caps["task_types"]) == {
         "assess", "optimize", "diagnose_intervene", "stress_test",
-        "compare", "sensitivity", "explain_result",
+        "compare", "sensitivity", "explain_result", "disaster_recovery",
     }
 
 

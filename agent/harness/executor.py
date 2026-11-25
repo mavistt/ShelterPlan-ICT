@@ -5,7 +5,7 @@ AgentArts agent has one boring, auditable path to the planner.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import time
 from typing import Any
 import uuid
@@ -44,6 +44,7 @@ class ExecuteRequest:
     improvement_options: list[dict[str, Any]] | None = None
     result_id: str | None = None
     claim: str | None = None
+    user_goal: str | None = None
 
 
 class HarnessExecutor:
@@ -64,6 +65,7 @@ class HarnessExecutor:
         outcome = TaskOutcome(ok=False, task_type=request.task_type, task_id=task_id,
                               session_id=self.session.session_id)
         state = None
+        base_state = self.session.current
         try:
             changes, parameters = _normalize_request(request)
             changes = guards.validate_changes(changes)
@@ -83,8 +85,15 @@ class HarnessExecutor:
             submitted, job = self._submit_and_poll(payload, tool_calls, state)
             result = self._fetch_result(job, tool_calls, state)
 
-            guards.postflight(full_result=result, state=state, config=self.config,
-                              claim=request.claim)
+            if request.task_type == "disaster_recovery":
+                guards.postflight_disaster_recovery(
+                    full_result=result, state=state, config=self.config,
+                    session=self.session,
+                    expected_baseline_disabled=base_state.params.disabled_shelter_ids,
+                )
+            else:
+                guards.postflight(full_result=result, state=state, config=self.config,
+                                  claim=request.claim)
             summary = project(result, task_type=request.task_type, config=self.config,
                               scenario_params=state.params.business_fields())
             if (request.task_type == "explain_result" and request.result_id
@@ -147,6 +156,48 @@ class HarnessExecutor:
                                     break
                                 summary["summary_bytes"] = measured
 
+            if request.task_type == "disaster_recovery":
+                composite = ((result.get("result_detail") or {}).get("composite") or {})
+                contract = composite.get("contract") or {}
+                stage_rows = {row.get("stage_id"): row for row in contract.get("stage_results") or []
+                              if isinstance(row, dict)}
+                for stage_id in ("baseline", "damage", "recovery"):
+                    stage = stage_rows.get(stage_id) or {}
+                    stage_result_id = stage.get("result_id")
+                    if not stage_result_id:
+                        continue
+                    stage_summary = {
+                        "result_id": stage_result_id,
+                        "task_type": "disaster_recovery",
+                        "stage_id": stage_id,
+                        "scenario_id": stage.get("scenario_id"),
+                        "data_version": result.get("data_version"),
+                        "solver_status": stage.get("solver_status"),
+                        "verification_status": stage.get("verification_status"),
+                        "metrics": stage.get("metrics") or {},
+                        "detail": {"stage_id": stage_id},
+                    }
+                    self.session.remember_result(
+                        stage_result_id, scenario_id=stage.get("scenario_id") or "",
+                        data_version=result["data_version"], summary=stage_summary,
+                    )
+                # The composite's current scenario is the actual recovered B
+                # snapshot, while its parent remains the prior user-visible C
+                # scenario in this session's lineage.
+                recovery_parameters = (stage_rows.get("recovery") or {}).get("effective_parameters") or {}
+                if recovery_parameters:
+                    state = replace(
+                        state,
+                        scenario_id=result["scenario_id"],
+                        params=state.params.merged({
+                            "population_demand_ratio": recovery_parameters["population_demand_ratio"],
+                            "max_walk_time_min": recovery_parameters["max_walk_time_min"],
+                            "budget_units": recovery_parameters.get("budget_units"),
+                            "disabled_shelter_ids": recovery_parameters.get("disabled_shelter_ids") or [],
+                        }),
+                    )
+                else:
+                    state = replace(state, scenario_id=result["scenario_id"])
             self.session.remember_result(result["result_id"],
                                          scenario_id=result["scenario_id"],
                                          data_version=result["data_version"],
@@ -188,6 +239,43 @@ class HarnessExecutor:
 
     # ------------------------------------------------------------------ #
     def _build_payload(self, task_id: str, request: ExecuteRequest, state, checked) -> dict[str, Any]:
+        if request.task_type == "disaster_recovery":
+            parent_state = self.session.find_scenario(state.parent_scenario_id) if state.parent_scenario_id else None
+            inherited = parent_state.params if parent_state is not None else self.session.defaults
+            # Budget and newly disabled shelters are stage changes. Baseline
+            # receives only the shared, confirmed demand and walk constraints.
+            baseline_scenario = {
+                "scenario_id": inherited.to_dict().get("scenario_id") or state.parent_scenario_id or state.scenario_id,
+                "parent_scenario_id": self._resolvable_parent(state),
+                "region_id": state.params.region_id,
+                "data_version": state.params.data_version,
+                "analysis_mode": state.params.analysis_mode,
+                "population_demand_ratio": state.params.population_demand_ratio,
+                "max_walk_time_min": state.params.max_walk_time_min,
+                "budget_units": None,
+                "disabled_shelter_ids": list(inherited.disabled_shelter_ids),
+                "changes": {},
+            }
+            disabled = list((request.changes or {}).get("disabled_shelter_ids")
+                            or state.params.disabled_shelter_ids)
+            payload = {
+                "task_id": task_id,
+                "task_type": "disaster_recovery",
+                "client_session_id": self.session.session_id,
+                "client_turn_id": task_id,
+                "user_goal": request.user_goal or "Disaster recovery planning",
+                "region_id": state.params.region_id if self.config.send_region_id_to_b else None,
+                "data_version": state.params.data_version,
+                "analysis_mode": state.params.analysis_mode,
+                "scenario": baseline_scenario,
+                "baseline_parent_scenario_id": self._resolvable_parent(state),
+                "damaged_shelter_ids": disabled,
+                "budget_units": state.params.budget_units,
+                "improvement_options": list(checked.get("improvement_options") or []),
+                "idempotency_key": f"{self.session.session_id}:{state.turn}:{task_id}",
+            }
+            return {key: value for key, value in payload.items() if value is not None}
+
         # Module B only accepts a parent id that already exists in its own
         # scenario ledger. A scenario C planned but never executed is unknown to
         # B, so lineage is declared only once the parent has a stored result.
@@ -339,6 +427,9 @@ class HarnessExecutor:
         return call
 
     def _write_task_trace(self, outcome: TaskOutcome, state) -> None:
+        detail = (outcome.summary or {}).get("detail") or {}
+        composite = detail.get("composite") if isinstance(detail, dict) else None
+        stages = (composite or {}).get("stages") if isinstance(composite, dict) else None
         self.trace.task(task_id=outcome.task_id, payload={
             "ok": outcome.ok,
             "task_type": outcome.task_type,
@@ -356,6 +447,14 @@ class HarnessExecutor:
             "duration_ms": round(outcome.duration_ms, 3),
             "summary_bytes": outcome.summary_bytes,
             "tool_call_count": len(outcome.tool_calls),
+            "composite_stages": ([{
+                "stage_id": row.get("stage_id"), "status": row.get("status"),
+                "scenario_id": row.get("scenario_id"), "result_id": row.get("result_id"),
+                "skill_ids": row.get("skill_ids"),
+                "verification_status": row.get("verification_status"),
+                "reason_code": row.get("reason_code"),
+            } for row in stages if isinstance(row, dict)] if isinstance(stages, list) else []),
+            "error_details": (outcome.error or {}).get("details") or {},
         })
 
 

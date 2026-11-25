@@ -29,6 +29,7 @@ ENDPOINTS = {
     "diagnose_intervene": "/planning/tasks",
     "sensitivity": "/planning/tasks",
     "explain_result": "/planning/tasks",
+    "disaster_recovery": "/planning/disaster-recovery",
     "stress_test": "/planning/stress-tests",
     "compare": "/planning/comparisons",
 }

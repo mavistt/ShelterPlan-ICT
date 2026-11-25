@@ -15,6 +15,7 @@ from agent.intent.normalizer import build_compare_rows, build_sensitivity, expan
 from agent.intent.schema import TASK_BY_INTENT, ParsedIntent
 
 CLARIFY_QUESTIONS = {
+    "disaster_recovery": "请补充灾后恢复规划所需的受损场所、预算和扩容候选。",
     "budget_units": "请给出预算上限（预算单位，≥0），例如“预算 2”。",
     "improvement_options": "请提供至少一个扩容候选：场所 ID、可增加容量、成本，例如“zs_xxx 扩容 300 人，成本 1”。",
     "disabled_shelter_ids": "请指定要模拟停用的场所 ID（例如 zs_1b4df7920b）。",
@@ -26,6 +27,7 @@ CLARIFY_QUESTIONS = {
 
 # Chinese labels for the fields, so a question can name the thing the user used.
 CLARIFY_FIELD_NAMES = {
+    "disaster_recovery": "灾后恢复规划",
     "budget_units": "预算",
     "improvement_options": "扩容候选",
     "disabled_shelter_ids": "要停用的场所",
@@ -80,6 +82,7 @@ class RoutePlan:
     question: str | None = None
     reason_codes: list[str] = field(default_factory=list)
     claim: str | None = None
+    user_goal: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -91,12 +94,15 @@ class RoutePlan:
             "result_id": self.result_id,
             "clarify_fields": self.clarify_fields,
             "reason_codes": self.reason_codes,
+            "user_goal": self.user_goal,
         }
 
 
 def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, Any],
           memory: TurnMemory, config: HarnessConfig,
-          known_result_ids: list[str] | None = None) -> RoutePlan:
+          known_result_ids: list[str] | None = None,
+          previous_params: ScenarioParams | None = None,
+          user_goal: str | None = None) -> RoutePlan:
     codes: list[str] = []
 
     if params.analysis_mode == "verified" and config.expected_data_status != "VERIFIED":
@@ -125,7 +131,9 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
         return _clarify(["improvement_options"], codes + ["options_unusable"],
                         task_type=task_type, carry=partial)
     plan = RoutePlan(action="task", task_type=task_type, changes=dict(changes),
-                     options=options, reason_codes=codes)
+                     options=options, reason_codes=codes,
+                     user_goal=(intent.raw.get("user_goal") if isinstance(intent.raw, dict) else None)
+                     or user_goal or intent.reason or None)
 
     if task_type == "optimize":
         budget = plan.changes.get("budget_units", params.budget_units)
@@ -157,12 +165,36 @@ def route(intent: ParsedIntent, *, params: ScenarioParams, changes: dict[str, An
         if intent.compare and intent.compare.get("field") in plan.changes:
             # The comparison axis is carried by the rows, not by a base change.
             plan.changes.pop(intent.compare["field"], None)
-        rows = build_compare_rows(params=params, changes=plan.changes, spec=intent.compare)
+        rows = build_compare_rows(params=params, changes=plan.changes, spec=intent.compare,
+                                  previous_params=previous_params)
         if len(rows) < 2:
             return _clarify(["compare_values"], codes + ["compare_axis_missing"],
                             task_type=task_type, carry=plan)
         plan.parameters = {"scenarios": rows}
         plan.reason_codes.append("compare_rows_from_" + ("explicit_values" if intent.compare else "before_after"))
+
+    elif task_type == "disaster_recovery":
+        disabled = plan.changes.get("disabled_shelter_ids", list(params.disabled_shelter_ids))
+        if not disabled:
+            return _clarify(["disabled_shelter_ids"], codes + ["damage_target_missing"],
+                            task_type=task_type, carry=plan)
+        plan.changes["disabled_shelter_ids"] = list(disabled)
+        budget = plan.changes.get("budget_units", params.budget_units)
+        missing = []
+        if budget is None:
+            missing.append("budget_units")
+        elif not isinstance(budget, (int, float)) or isinstance(budget, bool) or budget < 0:
+            return _clarify(["budget_units"], codes + ["budget_invalid"],
+                            task_type=task_type, carry=plan)
+        if not plan.options:
+            missing.append("improvement_options")
+        elif any(not row.get("shelter_id") or row.get("delta_capacity_persons") is None
+                 or row.get("cost_units") is None for row in plan.options):
+            missing.append("improvement_options")
+        if missing:
+            return _clarify(missing, codes + ["composite_recovery_inputs_missing"],
+                            task_type=task_type, carry=plan)
+        plan.reason_codes.append("registered_disaster_recovery_workflow")
 
     elif task_type == "sensitivity":
         spec = build_sensitivity(intent.sensitivity)
@@ -213,4 +245,5 @@ def _clarify(fields: list[str], codes: list[str],
         plan.options = list(carry.options)
         plan.parameters = dict(carry.parameters)
         plan.result_id = carry.result_id
+        plan.user_goal = carry.user_goal
     return plan

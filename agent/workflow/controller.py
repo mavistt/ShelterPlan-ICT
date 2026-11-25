@@ -106,6 +106,7 @@ class TaskController:
                 improvement_options=plan.options,
                 result_id=plan.result_id,
                 claim=plan.claim,
+                user_goal=plan.user_goal,
             )
             total_ms += float(outcome.get("duration_ms") or 0.0)
             if outcome.get("ok"):

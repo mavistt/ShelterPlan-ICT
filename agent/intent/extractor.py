@@ -61,6 +61,17 @@ SYSTEM_PROMPT = (
 
 MAX_ATTEMPTS = 2
 
+COMPOSITE_RECOVERY_RE = re.compile(r"(?:恢复规划|灾后恢复|恢复方案|恢复优化|修复并重新开放|灾后.*恢复)", re.I)
+COMPOSITE_DAMAGE_RE = re.compile(r"(?:关停|停用|关闭|禁用|受损|损坏|damaged|disabled)", re.I)
+COMPOSITE_ANALYSIS_RE = re.compile(r"(?:先|然后|再|并|比较|对比|分析|评估|诊断|影响|before|after)", re.I)
+COMPOSITE_NEGATED_DAMAGE_RE = re.compile(r"(?:不要|不需要|无需|不得|不能|避免)\s*(?:关停|停用|关闭|禁用)")
+COMPOSITE_ID_RE = re.compile(r"(?<![0-9a-zA-Z_])zs_[0-9a-z]{6,}(?![0-9a-zA-Z_])", re.I)
+COMPOSITE_BUDGET_RE = re.compile(r"(?:预算|经费|budget)\s*(?:上限|不超过|为|是|[:：=])?\s*(-?\d+(?:\.\d+)?)", re.I)
+COMPOSITE_RATIO_RE = re.compile(r"(?:需求比例|需求率|population_demand_ratio)\s*(?:为|是|[:：=])?\s*(\d+(?:\.\d+)?)\s*(%)?", re.I)
+COMPOSITE_WALK_RE = re.compile(r"(?:步行时间|步行阈值|步行)\s*(?:上限|阈值|为|是|[:：=])?\s*(\d+(?:\.\d+)?)\s*(?:分钟|min)", re.I)
+COMPOSITE_OPTION_RE = re.compile(r"(?P<sid>zs_[0-9a-z]{6,})(?:(?!\u505c\u7528|\u5173\u95ed|\u635f\u6bc1|damaged|disabled)[^\u3002\uff1b\uff0c,\n]){0,12}?(?:\u6269\u5bb9|\u589e\u52a0\u5bb9\u91cf|\u589e\u5bb9)\s*(?P<capacity>\d+(?:\.\d+)?)\s*(?:\u4eba|persons?)?", re.I)
+COMPOSITE_COST_RE = re.compile(r"(?:成本|造价|费用|cost)\s*(?:为|是|[:：=])?\s*(\d+(?:\.\d+)?)", re.I)
+
 
 @dataclass
 class ExtractionResult:
@@ -200,6 +211,27 @@ def _deterministic_repairs(text: str, intent: ParsedIntent) -> ParsedIntent:
       a shutdown target or as an improvement option.
     """
     mentioned_ids = set(ID_RE.findall(text))
+
+    if _is_composite_recovery(text):
+        # Composite numbers and candidate costs must be grounded in the user's
+        # text. A model cannot fill omitted costs or fabricate shelter IDs.
+        intent.name = "disaster_recovery"
+        intent.ops = _composite_explicit_ops(text)
+        intent.options = _composite_options(text)
+        intent.compare = None
+        intent.sensitivity = None
+        intent.warnings.append("composite recovery slots grounded in user text")
+        return intent
+
+    if (_has_explicit_damage(text) and re.search(r"比较|对比|影响", text)
+            and intent.name in {"compare", "stress_test"}):
+        intent.name = "stress_test"
+        intent.compare = None
+        disabled_ids = _composite_disabled_ids(text)
+        if disabled_ids:
+            intent.ops = [op for op in intent.ops if op.field != "disabled_shelter_ids"]
+            intent.ops.append(ParamOp("disabled_shelter_ids", "set", disabled_ids))
+        intent.warnings.append("damage plus impact comparison retained as stress_test")
 
     # 1. literal negative budget -------------------------------------------
     if intent.name not in {"compare", "sensitivity"}:
@@ -658,6 +690,14 @@ def rule_extract(text: str) -> ParsedIntent:
     text = text or ""
     warnings: list[str] = ["rule-based fallback"]
 
+    if _is_composite_recovery(text):
+        return ParsedIntent(
+            name="disaster_recovery", ops=_composite_explicit_ops(text),
+            options=_composite_options(text), confidence=0.9,
+            source="rules", warnings=warnings + ["composite recovery slots extracted from explicit text"],
+            reason="finite disaster recovery workflow",
+        )
+
     disabled_ids: list[str] = []
     for match in DISABLE_SEGMENT_RE.finditer(NEGATED_DISABLE_RE.sub("", text)):
         clause = re.split(r"候选|给|然后|预算|做|进行|评估|并", match.group(1))[0]
@@ -729,6 +769,10 @@ def rule_extract(text: str) -> ParsedIntent:
 
 
 def _rule_intent(text: str, *, has_ops: bool, ids: list[str]) -> str:
+    if _is_composite_recovery(text):
+        return "disaster_recovery"
+    if _has_explicit_damage(text) and re.search(r"比较|对比|影响", text):
+        return "stress_test"
     if re.search(r"解释|说明一下|每个数字|来源", text):
         return "explain"
     if re.search(r"比较|对比|差异", text) or (re.search(r"和|与", text) and _rule_compare(text)):
@@ -825,6 +869,70 @@ def _rule_options(text: str) -> list[dict[str, Any]]:
 
         rows.append(row)
     return rows[:12]
+
+
+def _is_composite_recovery(text: str) -> bool:
+    cleaned = COMPOSITE_NEGATED_DAMAGE_RE.sub("", text or "")
+    return bool(COMPOSITE_DAMAGE_RE.search(cleaned)
+                and COMPOSITE_RECOVERY_RE.search(cleaned)
+                and COMPOSITE_ANALYSIS_RE.search(cleaned))
+
+
+def _has_explicit_damage(text: str) -> bool:
+    return bool(COMPOSITE_DAMAGE_RE.search(
+        COMPOSITE_NEGATED_DAMAGE_RE.sub("", text or "")))
+
+
+def _composite_options(text: str) -> list[dict[str, Any]]:
+    matches = list(COMPOSITE_OPTION_RE.finditer(text or ""))[:12]
+    rows: list[dict[str, Any]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        cost = COMPOSITE_COST_RE.search(text[match.end():end])
+        if cost is None:
+            # A capacity without an explicit cost is not a candidate contract.
+            return []
+        shelter_id = match.group("sid")
+        rows.append({
+            "option_id": f"RECOVERY_{shelter_id}",
+            "shelter_id": shelter_id,
+            "delta_capacity_persons": float(match.group("capacity")),
+            "cost_units": float(cost.group(1)),
+        })
+    return rows
+
+
+def _composite_disabled_ids(text: str) -> list[str]:
+    rows: list[str] = []
+    offset = 0
+    for clause in re.split(r"([\uFF0C,\uFF1B;\n])", text or ""):
+        if len(clause) == 1 and ord(clause) in {0xFF0C, ord(","), 0xFF1B, ord(";"), ord("\n")}:
+            offset += len(clause)
+            continue
+        if _has_explicit_damage(clause):
+            candidate_starts = {offset + match.start("sid") for match in COMPOSITE_OPTION_RE.finditer(clause)}
+            rows.extend(match.group(0) for match in COMPOSITE_ID_RE.finditer(clause)
+                        if offset + match.start() not in candidate_starts)
+        offset += len(clause)
+    return list(dict.fromkeys(rows))
+
+def _composite_explicit_ops(text: str) -> list[ParamOp]:
+    ops: list[ParamOp] = []
+    budget = COMPOSITE_BUDGET_RE.search(text or "")
+    if budget:
+        ops.append(ParamOp("budget_units", "set", float(budget.group(1))))
+    ratio = COMPOSITE_RATIO_RE.search(text or "")
+    if ratio:
+        value = float(ratio.group(1))
+        ops.append(ParamOp("population_demand_ratio", "set",
+                           value / 100.0 if ratio.group(2) else value))
+    walk = COMPOSITE_WALK_RE.search(text or "")
+    if walk:
+        ops.append(ParamOp("max_walk_time_min", "set", float(walk.group(1))))
+    disabled = _composite_disabled_ids(text)
+    if disabled:
+        ops.append(ParamOp("disabled_shelter_ids", "set", disabled))
+    return ops
 
 
 def _rule_compare(text: str) -> dict[str, Any] | None:

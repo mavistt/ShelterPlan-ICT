@@ -130,6 +130,70 @@ TaskType = Literal[
 ]
 
 
+class DisasterRecoveryRequest(StrictModel):
+    """Bounded request for the registered, multi-stage recovery workflow."""
+
+    task_type: Literal["disaster_recovery"] = "disaster_recovery"
+    task_id: str | None = Field(default=None, max_length=128)
+    client_session_id: str | None = Field(default=None, max_length=128)
+    client_turn_id: str | None = Field(default=None, max_length=128)
+    user_goal: str = Field(default="Disaster recovery planning", max_length=2000)
+    fixture_id: str | None = None
+    region_id: str | None = Field(default=None, max_length=64)
+    data_version: str | None = Field(default=None, max_length=128)
+    source_manifest_digest: str | None = Field(default=None, max_length=128)
+    analysis_mode: Literal["demo", "verified"] = "demo"
+    scenario: PlanningScenario | None = None
+    baseline_parent_scenario_id: str | None = Field(default=None, max_length=128)
+    damaged_shelter_ids: list[str] = Field(default_factory=list, max_length=500)
+    budget_units: float | None = Field(default=None, ge=0, le=1_000_000_000, allow_inf_nan=False)
+    improvement_options: list[ImprovementOption] = Field(default_factory=list, max_length=12)
+    idempotency_key: str | None = Field(default=None, max_length=128)
+
+
+class RecoveryStageRecord(StrictModel):
+    stage_id: Literal["baseline", "damage", "diagnose", "recovery", "compare", "verify"]
+    status: Literal["PLANNED", "RUNNING", "COMPLETED", "SKIPPED", "FAILED"]
+    reason_code: str | None = None
+    input_scenario_id: str | None = None
+    scenario_id: str | None = None
+    parent_scenario_id: str | None = None
+    result_id: str | None = None
+    input_result_ids: list[str] = Field(default_factory=list)
+    execution_trace_id: str | None = None
+    skill_ids: list[str] = Field(default_factory=list)
+    solver_status: str | None = None
+    verification_status: str | None = None
+    effective_parameters: dict[str, object] = Field(default_factory=dict)
+    metrics: dict[str, object] = Field(default_factory=dict)
+    duration_ms: float | None = None
+
+
+class RecoveryTaskContract(StrictModel):
+    task_id: str
+    client_session_id: str | None = None
+    client_turn_id: str | None = None
+    region_id: str | None = None
+    data_version: str
+    source_manifest_digest: str
+    user_goal: str
+    population_demand_ratio: float
+    max_walk_time_min: float
+    baseline_disabled_shelter_ids: list[str] = Field(default_factory=list)
+    disabled_shelter_ids: list[str] = Field(default_factory=list)
+    budget_units: float | None = None
+    improvement_options: list[dict[str, object]] = Field(default_factory=list)
+    baseline_scenario_id: str | None = None
+    damaged_scenario_id: str | None = None
+    recovered_scenario_id: str | None = None
+    stage_results: list[RecoveryStageRecord] = Field(default_factory=list)
+    branch_decisions: list[dict[str, object]] = Field(default_factory=list)
+    constraint_checks: list[dict[str, object]] = Field(default_factory=list)
+    verification_results: list[dict[str, object]] = Field(default_factory=list)
+    execution_trace_id: str | None = None
+    status: Literal["COMPLETED", "NEEDS_INPUT", "FAILED"] = "COMPLETED"
+
+
 class PlanNode(StrictModel):
     node_id: str
     skill_id: str
