@@ -1,11 +1,12 @@
 {
   "status": "PASS_DEMO",
   "data_version": "shelterplan_module_a_v2.0-demo",
-  "generated_at_utc": "2026-11-20T15:04:57.044520+00:00",
+  "generated_at_utc": "2026-11-25T07:59:09.884643+00:00",
   "failures": [],
   "warnings": [
     "portal shelter batches are absent; source completeness is not fully reconciled",
-    "official target administrative boundaries are absent; all regional results remain DEMO_ONLY"
+    "official target administrative boundaries are absent; all regional results remain DEMO_ONLY",
+    "regions excluded from active demo selection pending data repair: ['xiaolan']"
   ],
   "regions": {
     "east_district": {
@@ -27,6 +28,13 @@
       "has_od": true
     }
   },
+  "active_regions": [
+    "east_district",
+    "shiqi"
+  ],
+  "excluded_regions": [
+    "xiaolan"
+  ],
   "external_dependencies": {
     "portal_batches_present": false,
     "official_target_boundaries_present": false,

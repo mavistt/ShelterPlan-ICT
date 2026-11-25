@@ -72,7 +72,7 @@
     "od_demand_batch_size": 1024
   },
   "spatial_analysis": {
-    "layers": 11,
+    "layers": 15,
     "coverage": {
       "10": {
         "region_id": "xiaolan",
@@ -120,10 +120,18 @@
       }
     }
   },
+  "real_pilot_blockers": [
+    "Demo coordinates are approximate or unresolved.",
+    "2024 capacities are original or regional-median demo imputations.",
+    "Boundary is public OSM or demo-derived, not an official government boundary.",
+    "Current open status is assumed_open for demo only.",
+    "Excluded from active demo selection: one shelter snaps 424.7m from the walking network and 50,129 OD pairs exceed the 200m shelter snap threshold."
+  ],
   "blockers": [
     "Demo coordinates are approximate or unresolved.",
     "2024 capacities are original or regional-median demo imputations.",
     "Boundary is public OSM or demo-derived, not an official government boundary.",
-    "Current open status is assumed_open for demo only."
+    "Current open status is assumed_open for demo only.",
+    "Excluded from active demo selection: one shelter snaps 424.7m from the walking network and 50,129 OD pairs exceed the 200m shelter snap threshold."
   ]
 }
