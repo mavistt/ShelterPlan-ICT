@@ -314,7 +314,8 @@ function paintFor(layer: LayerInfo | undefined, id: string, sourceId: string) {
             ['get', '__status_bucket'],
             'danger', '#ef4444',
             'amber', '#f59e0b',
-            '#10b981',
+            'ok', '#10b981',
+            '#0284c7',
           ],
           'circle-stroke-color': '#ffffff',
           'circle-stroke-width': 2.2,
@@ -331,7 +332,7 @@ function paintFor(layer: LayerInfo | undefined, id: string, sourceId: string) {
   }]
 }
 
-type StatusBucket = 'ok' | 'amber' | 'danger'
+type StatusBucket = 'ok' | 'amber' | 'danger' | 'unsolved'
 
 function enrichShelterFeatures(
   sourceData: FeatureCollection,
@@ -353,7 +354,9 @@ function enrichShelterFeatures(
           ? 'danger'
           : util !== null && util >= 0.5
             ? 'amber'
-            : 'ok'
+            : util !== null
+              ? 'ok'
+              : 'unsolved'
         return {
           ...feature,
           properties: {
@@ -366,7 +369,10 @@ function enrichShelterFeatures(
           },
         }
       })
-      .filter((feature) => visibleBuckets.has(feature.properties.__status_bucket as StatusBucket)),
+      .filter((feature) => {
+        const b = feature.properties.__status_bucket as StatusBucket
+        return b === 'unsolved' ? visibleBuckets.has('ok') : visibleBuckets.has(b)
+      }),
   }
 }
 
@@ -1004,32 +1010,39 @@ export function MapView({
             <span className="heatmap-pct-txt">{Math.round((heatmapOn ? heatmapOpacity : 0) * 100)}%</span>
           </div>
           <span className="legend-sep" />
-          <div className="legend-filter-group" role="group" aria-label="按场所状态筛选显示">
-            <button
-              type="button"
-              className={`status-filter-pill ${visibleBucketSet.has('ok') ? 'active' : 'muted'}`}
-              onClick={() => toggleBucket('ok')}
-              title="点击显示/隐藏绿色充裕点 (<50%)"
-            >
-              <i className="dot-teal" /><span>充裕 {bucketCounts.ok}</span>
-            </button>
-            <button
-              type="button"
-              className={`status-filter-pill ${visibleBucketSet.has('amber') ? 'active' : 'muted'}`}
-              onClick={() => toggleBucket('amber')}
-              title="点击显示/隐藏黄色紧张点 (50%–90%)"
-            >
-              <i className="dot-amber" /><span>紧张 {bucketCounts.amber}</span>
-            </button>
-            <button
-              type="button"
-              className={`status-filter-pill ${visibleBucketSet.has('danger') ? 'active' : 'muted'}`}
-              onClick={() => toggleBucket('danger')}
-              title="点击显示/隐藏红色满载/受损点 (≥90%)"
-            >
-              <i className="dot-red" /><span>满载 {bucketCounts.danger}</span>
-            </button>
-          </div>
+          {resultRows.length === 0 && stressedShelterIds.length === 0 ? (
+            <div className="legend-unsolved-hint">
+              <i className="dot-neutral" />
+              <span>{shelters.length} 处场所 · 运行评估后显示负载分级</span>
+            </div>
+          ) : (
+            <div className="legend-filter-group" role="group" aria-label="按场所状态筛选显示">
+              <button
+                type="button"
+                className={`status-filter-pill ${visibleBucketSet.has('ok') ? 'active' : 'muted'}`}
+                onClick={() => toggleBucket('ok')}
+                title="点击显示/隐藏绿色充裕点 (<50%)"
+              >
+                <i className="dot-teal" /><span>充裕 {bucketCounts.ok}</span>
+              </button>
+              <button
+                type="button"
+                className={`status-filter-pill ${visibleBucketSet.has('amber') ? 'active' : 'muted'}`}
+                onClick={() => toggleBucket('amber')}
+                title="点击显示/隐藏黄色紧张点 (50%–90%)"
+              >
+                <i className="dot-amber" /><span>紧张 {bucketCounts.amber}</span>
+              </button>
+              <button
+                type="button"
+                className={`status-filter-pill ${visibleBucketSet.has('danger') ? 'active' : 'muted'}`}
+                onClick={() => toggleBucket('danger')}
+                title="点击显示/隐藏红色满载/受损点 (≥90%)"
+              >
+                <i className="dot-red" /><span>满载 {bucketCounts.danger}</span>
+              </button>
+            </div>
+          )}
           <span className="legend-sep" />
           <button
             type="button"

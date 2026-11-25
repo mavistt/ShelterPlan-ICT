@@ -228,10 +228,15 @@ button { cursor: pointer; }
 }
 .legend-scale-txt { font-size: 10.5px; color: var(--muted); }
 .legend-sep { width: 1px; height: 14px; background: var(--border); }
-.dot-teal, .dot-amber, .dot-red { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot-teal, .dot-amber, .dot-red, .dot-neutral { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 .dot-teal { background: #10b981; }
 .dot-amber { background: #f59e0b; }
 .dot-red { background: #ef4444; }
+.dot-neutral { background: #0284c7; }
+.legend-unsolved-hint {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--ink-soft); padding: 0 4px;
+}
 .legend-layer-btn {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 3px 9px; border-radius: 999px; border: 0;
