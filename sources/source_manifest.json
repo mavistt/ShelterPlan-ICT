@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-25T10:39:38.434707+00:00",
+  "purpose": "Stage 0 read-only ShelterPlan-Eval source baseline",
+  "git": {
+    "branch": "feature/shelterplan-eval-v1",
+    "commit": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
+    "integration_base": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
+    "historical_reference": "a873701ada56b43289c84851d38fee80fc7e4a3d"
+  },
+  "policy": {
+    "old_a_v2_data_modified": false,
+    "historical_merge_data_merged": false,
+    "lfs_objects_read": false,
+    "lfs_pointer_files": [
+      "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+      "data/raw/guangdong-latest.osm.pbf"
+    ],
+    "missing_files": []
+  },
+  "regions": [
+    {
+      "region_id": "shiqi",
+      "enabled": true,
+      "role": "supplementary",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "quality_data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "manifest_data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "release_status": "PASS_DEMO",
+      "data_status": "DEMO_ONLY",
+      "source_rows": 25,
+      "quality_source_rows": 25,
+      "spatial_shelters": 25,
+      "od_rows": 183400,
+      "od_expected_rows": 183400,
+      "data_version_matches": true,
+      "shelter_rows_match_quality": true,
+      "od_rows_match_expected": true,
+      "boundary_status": "demo_analysis_boundary",
+      "manifest_file_count": 35
+    },
+    {
+      "region_id": "east_district",
+      "enabled": true,
+      "role": "primary",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "quality_data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "manifest_data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "release_status": "PASS_DEMO",
+      "data_status": "DEMO_ONLY",
+      "source_rows": 31,
+      "quality_source_rows": 31,
+      "spatial_shelters": 31,
+      "od_rows": 1192539,
+      "od_expected_rows": 1192539,
+      "data_version_matches": true,
+      "shelter_rows_match_quality": true,
+      "od_rows_match_expected": true,
+      "boundary_status": "demo_analysis_boundary",
+      "manifest_file_count": 35
+    },
+    {
+      "region_id": "xiaolan",
+      "enabled": false,
+      "role": "supplementary",
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "quality_data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "manifest_data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "release_status": "PASS_DEMO",
+      "data_status": "DEMO_ONLY",
+      "source_rows": 31,
+      "quality_source_rows": 31,
+      "spatial_shelters": 31,
+      "od_rows": 1872586,
+      "od_expected_rows": 1872586,
+      "data_version_matches": true,
+      "shelter_rows_match_quality": true,
+      "od_rows_match_expected": true,
+      "boundary_status": "demo_analysis_boundary",
+      "manifest_file_count": 35
+    }
+  ],
+  "files": [
+    {
+      "path": "configs/regions.yaml",
+      "exists": true,
+      "bytes": 1437,
+      "sha256": "c9b479fd13dc0ae9e89bcd1f03f61bcccc621b399d6447120d90d17edf8eb305",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/shelters_clean.csv",
+      "exists": true,
+      "bytes": 187399,
+      "sha256": "c65a445f7fbbfedcbbddec889df7dfe7c5ebf8d837e77602aaff0734c91761c6",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/raw/zhongshan_shelters.xls",
+      "exists": true,
+      "bytes": 97792,
+      "sha256": "15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f79a45e4a87b",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/raw/chn_pop_2025_CN_100m_R2025A_v1.tif",
+      "exists": true,
+      "bytes": 134,
+      "sha256": "9403c4f51ab98c2b22262b6ded208fac2155d64808ae0172db796ed62cb35be5",
+      "lfs_pointer": true
+    },
+    {
+      "path": "data/raw/guangdong-latest.osm.pbf",
+      "exists": true,
+      "bytes": 134,
+      "sha256": "9a932ec0e66919bdeddfe8c3624f0b3a5cfe6432ab31fda3a0566c1632cd7478",
+      "lfs_pointer": true
+    },
+    {
+      "path": "data/interim/regions/source_disposition.csv",
+      "exists": true,
+      "bytes": 8456,
+      "sha256": "69de4c2755484096eae14f07c25e7bc4885f6db66c7871bbaed258fe65ed7f2b",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/duplicate_candidates_all.csv",
+      "exists": true,
+      "bytes": 7485,
+      "sha256": "ff38a7e816c1726b52b433acd9b9ebc8ccc86e1a65537b86db14799bde6f1398",
+      "lfs_pointer": false
+    },
+    {
+      "path": "configs/module_a_v2_b/shiqi.yaml",
+      "exists": true,
+      "bytes": 676,
+      "sha256": "e7c70fdc8a4b6aabf5fec552313dfb194e1b355900408d565b667b552947786a",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/manifest.json",
+      "exists": true,
+      "bytes": 7860,
+      "sha256": "aeb0c99ac3ce87d6562e219104bbab78f7abe9a1c3fb6d8cbfb9ed8cd96d1593",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/quality_summary.json",
+      "exists": true,
+      "bytes": 4520,
+      "sha256": "aed989d62a0e6b195ae84f1cf276f3de0b5dbf226975961a34033203842df776",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/boundary_metadata.json",
+      "exists": true,
+      "bytes": 558,
+      "sha256": "d9ef087fb273afa428c2f5089c162603ec32a86e86e28bedb7473940a727c8ef",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/layers_manifest.json",
+      "exists": true,
+      "bytes": 7662,
+      "sha256": "1986c6d28d0fa5743f48a8df236ea55af5da42390dcf37b4075f2206ab2f9922",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/shelters_all.csv",
+      "exists": true,
+      "bytes": 27234,
+      "sha256": "f2e5bc85a7a9f211d9f0b0743205a8662b6a53c230f66444b522d3b167e016ed",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/shelter_snap_audit.csv",
+      "exists": true,
+      "bytes": 1129,
+      "sha256": "fe10d83034ed8ca23c3b94631034e5df75d2f5126acb3628225d6d9df749dd72",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/demand_snap_audit.csv",
+      "exists": true,
+      "bytes": 366477,
+      "sha256": "c4bf36c83c123d504e97516b0336b986e333448b79a2cb4b3f146ec5b61e9c96",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/demand_nodes.parquet",
+      "exists": true,
+      "bytes": 109866,
+      "sha256": "94d14888d10587dad279f05228c78be76d41e8ef4bb9a82e8b49a1c12e29b01c",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/shiqi/travel_matrix.parquet",
+      "exists": true,
+      "bytes": 5102499,
+      "sha256": "49300a20eb193c8a2cea75a089cb9d5145ae285b8b40be51ab825a9971843ffe",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/shiqi/shelter_geocode_audit.csv",
+      "exists": true,
+      "bytes": 6702,
+      "sha256": "e4109494c8fd73e915f1cfa38ed3942b553a663236842228fdc868bffda1e58b",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/shiqi/shelter_review.xlsx",
+      "exists": true,
+      "bytes": 13128,
+      "sha256": "075fb15d43b268cbd8520e5969bf0d849a93a6d1640d981486c3d2ec02e31327",
+      "lfs_pointer": false
+    },
+    {
+      "path": "configs/module_a_v2_b/east_district.yaml",
+      "exists": true,
+      "bytes": 740,
+      "sha256": "eedebe48b467d529dc6f770a1fda7583f268407d26e5d2039f6ace821c9190d6",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/manifest.json",
+      "exists": true,
+      "bytes": 8188,
+      "sha256": "9e88a9c3cf370c4c90246596a12ab9269b1662ea08d58fbd67e47fa477b84b46",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/quality_summary.json",
+      "exists": true,
+      "bytes": 4603,
+      "sha256": "21550caea025e59d9817176af4cbbd31ef8137a32177df414feeab08f48712c1",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/boundary_metadata.json",
+      "exists": true,
+      "bytes": 566,
+      "sha256": "f65c0fbafde8fe472af57d6133698e5fcaccb4be215d306c7d6a039f13fa122e",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/layers_manifest.json",
+      "exists": true,
+      "bytes": 7790,
+      "sha256": "1faffb3cd886aa7f4b0ed426198d9d7147b0c2d389fb8f87c6b0b2f0aa438a1c",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/shelters_all.csv",
+      "exists": true,
+      "bytes": 34742,
+      "sha256": "6cc440d4338a44694eba5ea2043a099341f729a722e0e70d69d7c70323c68b9d",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/shelter_snap_audit.csv",
+      "exists": true,
+      "bytes": 1393,
+      "sha256": "c3062cae00ec701622de83d4e8bbe116502b1fe3fa881f2f86af32a3bebf4223",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/demand_snap_audit.csv",
+      "exists": true,
+      "bytes": 2244040,
+      "sha256": "8bc5637eef716a0c4a29cded59661225e376e6fa5fd841da482e6f1ddf41e3f1",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/demand_nodes.parquet",
+      "exists": true,
+      "bytes": 562138,
+      "sha256": "f7760c6174bdf54d7d7c751744933cdc1bc377ab4b715d6bac0a192c935c2951",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/east_district/travel_matrix.parquet",
+      "exists": true,
+      "bytes": 29192454,
+      "sha256": "0875c7d0316ed72762e4039829f0ca9b5b3db0fad6bfb4ca023da4614732675d",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/east_district/shelter_geocode_audit.csv",
+      "exists": true,
+      "bytes": 7765,
+      "sha256": "019a53a0f96227bb177018f6bae64f1510f57101c1ec5e587a5dd6d4e9361d59",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/east_district/shelter_review.xlsx",
+      "exists": true,
+      "bytes": 14428,
+      "sha256": "ead1dc0b6f4ed95c69ada0f8eaa2a312a92544c60bcc6e664da56e59f00667b1",
+      "lfs_pointer": false
+    },
+    {
+      "path": "configs/module_a_v2_b/xiaolan.yaml",
+      "exists": true,
+      "bytes": 692,
+      "sha256": "1048a89937d41f8ba1cc527e0d5db6402af52855ca5f5ec9d00be60a1d6c2822",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/manifest.json",
+      "exists": true,
+      "bytes": 7954,
+      "sha256": "7997ece6742c593dbce6ad0244d2813619268cc910fe737920a64dd6a9f68c6d",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/quality_summary.json",
+      "exists": true,
+      "bytes": 4917,
+      "sha256": "355982ab7c9a9b6b3c03117509dd580573aa31ae923e7c59e203f3e1bcb2aa1f",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/boundary_metadata.json",
+      "exists": true,
+      "bytes": 557,
+      "sha256": "4d0274cae3c5c6bfde4d2c238b57e5533146c68b15f511f9e0c3d37657fb9a48",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/layers_manifest.json",
+      "exists": true,
+      "bytes": 7694,
+      "sha256": "cfefe52b9c8ae893915b9a32817b9681b7d944e31b67913b18d611ee9c7b48e4",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/shelters_all.csv",
+      "exists": true,
+      "bytes": 35162,
+      "sha256": "57d53cc723225749ad3a510f63a28511494b8d68080647762f9c229baf0b00c2",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/shelter_snap_audit.csv",
+      "exists": true,
+      "bytes": 1394,
+      "sha256": "16cdba4262faaec2e6e6563f86d1ab7b0a5e92a979c651fc9a09b50ac8a5f9eb",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/demand_snap_audit.csv",
+      "exists": true,
+      "bytes": 3165642,
+      "sha256": "699a962d42b49cf329ecebd0ce5120c12d072782b26aa26510c52e9aae8a1f97",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/demand_nodes.parquet",
+      "exists": true,
+      "bytes": 848234,
+      "sha256": "7b0cebd457cf1ee62f74d6d4dbc551f1984eaac2e3ce1dd544a5f20d14960f21",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/processed/regions/xiaolan/travel_matrix.parquet",
+      "exists": true,
+      "bytes": 42479962,
+      "sha256": "0801d91739058462c5131aaf16dfb5192e7af53d3e50748317b538c61c20e075",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/xiaolan/shelter_geocode_audit.csv",
+      "exists": true,
+      "bytes": 7535,
+      "sha256": "e33ca37f7578d2e45f3ea3a4e1e82633f9674ba79feab2b648d6a3e67dbd7891",
+      "lfs_pointer": false
+    },
+    {
+      "path": "data/interim/regions/xiaolan/shelter_review.xlsx",
+      "exists": true,
+      "bytes": 14620,
+      "sha256": "4aa63aa1fe1fdfb67c07a10eef963a6e1e576b7d765665e26661a8080644ab69",
+      "lfs_pointer": false
+    }
+  ]
+}

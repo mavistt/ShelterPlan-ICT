@@ -1,0 +1,41 @@
+schema_version: 1
+suite_id: shelterplan_eval_v1_draft
+status: draft
+purpose: Stage 0/1 data admission and later benchmark construction
+base:
+  branch: feature/shelterplan-eval-v1
+  commit: 14d686aa0043dad513eb9c165b873f04a6b5e80f
+  historical_reference: feature/benchmark-grounded
+regions:
+  - shiqi
+  - east_district
+  - xiaolan
+admission:
+  source_manifest: sources/source_manifest.json
+  eligibility_csv: sources/eligibility.csv
+  summary_json: reports/admission_summary.json
+  quality_report: reports/quality_audit.md
+  max_snap_distance_m: 200
+  automatic_verified_upgrade: false
+  delete_source_rows: false
+  modify_existing_a_v2: false
+evaluation:
+  provenance_values:
+    - GIS_GROUNDED_DEMO
+    - VERIFIED_GIS
+    - HYPOTHETICAL_OPTIONS
+    - FULLY_SYNTHETIC_STRESS
+    - HISTORICAL_ONLY
+  expected_behavior:
+    - EXECUTE
+    - CLARIFY
+    - REJECT
+    - SAFE_STOP
+    - RECOVER
+  splits:
+    - pilot
+    - dev
+    - sealed_holdout
+  candidate_limit_online: 12
+
+  do_not_generate_in_stage_1: true
