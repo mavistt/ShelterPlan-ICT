@@ -379,6 +379,7 @@ class ConversationService:
             "task_id": (record.control.outcome or {}).get("task_id") if record.control else None,
             "job_id": record.job_id,
             "result_id": result_id,
+            "execution_trace_id": bindings.get("execution_trace_id"),
             "metrics": metrics,
             "map": _map_block(result_id),
             "warnings": _dedupe(warnings),

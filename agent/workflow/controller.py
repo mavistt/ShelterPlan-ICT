@@ -163,6 +163,11 @@ def bind_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
     bindings.update({
         "task_type": outcome.get("task_type"),
         "result_id": summary.get("result_id") or outcome.get("result_id"),
+        "execution_trace_id": (
+            summary.get("execution_trace_id")
+            or (summary.get("provenance") or {}).get("execution_trace_id")
+            or outcome.get("execution_trace_id")
+        ),
         "scenario_id": (state.get("scenario_id") or summary.get("scenario_id")),
         # The projected summary is the authoritative document: if the outcome
         # envelope and the summary ever disagree, the summary wins.

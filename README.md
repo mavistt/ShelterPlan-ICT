@@ -2,16 +2,16 @@
 
 ShelterPlan 是面向基层工作人员的社区应急避难服务评估与设施规划助手，整合 GIS 空间数据、容量约束规划优化和自然语言 Agent 交互。
 
-> **当前状态：`PASS_DEMO` / `DEMO_ONLY`。** Module A v2 已完成东区、石岐和小榄三个区域的数据准备、固定 PBF 步行网络、OD 矩阵和空间分析；Module B、C 正在进行正式 A/B/C 集成。所有结果仅用于软件演示与算法测试，不代表经过现场核验的应急规划建议。
+> **当前状态：集成候选可运行；正式 Agent 评测仍未完成。** Module A v2、B Solver/Verifier、C Session/Turn 和 D 前端已在同一候选工作树中联调。所有结果继续标注 `DEMO_ONLY`，不代表经过现场核验的应急规划建议；真实 LLM 与 Flat/Fixed/Composite 公平对照尚未宣称完成。
 
 ## 模块架构
 
 | 模块 | 主要职责 | 分支/位置 |
 |---|---|---|
-| A — GIS & Spatial Analysis | 场所、人口、道路网络、OD、覆盖图层和规划情景 | `feature/module-a-stage1-research` |
-| B — Planning Engine | 需求分配、容量优化、压力测试、方案比较和独立验证 | `feature/module-b` / `backend/` |
-| C — Agent Orchestration | 自然语言理解、参数澄清、会话管理、API、MCP、解释和 Trace | `feature/module-c` / `agent/` |
-| D — Frontend | 地图展示、规划交互和结果可视化 | [`abcd` 展示分支](https://github.com/mavistt/ShelterPlan-ICT/tree/abcd) / `frontend/` |
+| A — GIS & Spatial Analysis | 场所、人口、道路网络、OD、覆盖图层和规划情景 | `integration/abc-shiqi-v2` / `configs/` |
+| B — Planning Engine | 需求分配、容量优化、压力测试、方案比较和独立验证 | `integration/abc-shiqi-v2` / `backend/` |
+| C — Agent Orchestration | 自然语言理解、参数澄清、会话管理、API、MCP、解释和 Trace | `integration/abc-shiqi-v2` / `agent/` |
+| D — Frontend | 地图展示、规划交互和结果可视化 | `integration/abc-shiqi-v2` / `frontend/` |
 
 目标链路为：
 
@@ -62,6 +62,32 @@ python examples/c_to_d_business_flow.py
 python examples/c_to_d_business_flow.py --real-llm
 ```
 
+### 一键 B/C Session/Turn 演示
+
+下面的命令会启动真实的 B 和 C localhost HTTP 进程，显式绑定
+`shiqi` 与 A v2 `data_version`，执行一次自然语言 Session/Turn，轮询到终态，
+并把 Session、Turn、结果引用、Trace ID 和 `DEMO_ONLY` 声明写入
+`outputs/integration/demo/session_demo.json`：
+
+```bash
+python scripts/run_session_demo.py
+```
+
+这条命令默认使用确定性的 RuleLLM，只能证明 Harness/Session/Turn/Solver 链路，
+不能当作真实 LLM Agent 成绩。配置好实际模型后才允许运行：
+
+```bash
+python scripts/run_session_demo.py --llm-mode real
+```
+
+D 前端需要另一个终端运行：
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
 ## 测试
 
 ```bash
@@ -71,7 +97,17 @@ python -m pytest tests/ -q
 python scripts/validate_module_a_release.py
 ```
 
-集成验收报告位于 `docs/integration/ABC_SHIQI_V2_ACCEPTANCE.md`。
+前端回归与生产构建：
+
+```bash
+cd frontend
+npm run test
+npm run build
+```
+
+最终整合验收报告位于
+`reports/integration/PROJECT_INTEGRATION_ACCEPTANCE.md`；分支审计位于
+`docs/project/BRANCH_GOVERNANCE.md`。
 
 ## 重要边界
 
