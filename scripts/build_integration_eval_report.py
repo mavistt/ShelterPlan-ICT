@@ -436,7 +436,7 @@ def main() -> int:
         "- 浏览器 E2E 覆盖数据清单与 Eval 面板、石岐真实 C→B 规划、MIP/Greedy 对照、东区 C→B 与小榄禁用状态。",
         "",
         "## 本地服务", "",
-        "- 前端：`http://127.0.0.1:5173`；Module B：`http://127.0.0.1:8000`；Module C：`http://127.0.0.1:8080`。仅绑定 loopback，不是公网服务。当前没有独立 Eval API；前端读取只读评测摘要。",
+        "- 前端：`http://127.0.0.1:5173`；Module B：`http://127.0.0.1:8000`；Module C：`http://127.0.0.1:8080`。C 提供只读评测摘要 `GET /v1/evaluation/summary`，没有独立 Eval 服务。所有服务仅绑定 loopback，不是公网服务。",
         "- 启动命令（Windows PowerShell）：`powershell -ExecutionPolicy Bypass -File scripts/start_integration_demo.ps1`。脚本采用 RuleLLM Smoke 配置，不调用外部/收费模型。",
         "",
         "## 限制", "",
