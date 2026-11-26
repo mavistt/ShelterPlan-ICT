@@ -16,7 +16,7 @@
 | 分支 | 当前事实 | 处置 |
 | --- | --- | --- |
 | integration/abc-shiqi-v2 | 远端基线 14d686a | 长期集成主线 |
-| feature/shelterplan-eval | 4a93324；相对 integration ahead 11、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
+| feature/shelterplan-eval | 01ba245；相对 integration ahead 13、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
