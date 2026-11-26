@@ -28,150 +28,150 @@
   "quality_summary": "data/processed/regions/east_district/quality_summary.json",
   "b_adapter": {
     "path": "configs/module_a_v2_b/east_district.yaml",
-    "sha256": "e4b8581241365c4999459f4c6e329ac48839c229116a3bb2a58c737e0f8e6d08",
-    "bytes": 647
+    "sha256": "eedebe48b467d529dc6f770a1fda7583f268407d26e5d2039f6ace821c9190d6",
+    "bytes": 740
   },
   "hash_policy": "files contains every region artifact and the B adapter; manifest.json and run_status.json are excluded to avoid self or post-run circular hashes.",
   "files": {
     "data/processed/regions/east_district/analysis_area.geojson": {
-      "bytes": 6488,
-      "sha256": "382baa4596cbc6ae2972e86cd1e083f245a3a384e208a30c6ab8a48c2f77a78d"
+      "bytes": 6496,
+      "sha256": "719f036574f18edb7c01a269afaf7c710b008df061c04a955a53696b2cd514c5"
     },
     "data/processed/regions/east_district/boundary.geojson": {
-      "bytes": 3556,
-      "sha256": "72ec98a79ddf930d91a2f5e92b0a1b6dbf8b99a4080385a3ae3eb31d942deeff"
+      "bytes": 3564,
+      "sha256": "e1af9ff3fec868cdd6687e640848100aeb4676a94892d5b72c4dffcb5f506c71"
     },
     "data/processed/regions/east_district/boundary_metadata.json": {
-      "bytes": 566,
-      "sha256": "f65c0fbafde8fe472af57d6133698e5fcaccb4be215d306c7d6a039f13fa122e"
+      "bytes": 577,
+      "sha256": "1344ac76102a35d567e73decb753dbd0a8bbedc9d0155b3cafad893ad85bcf11"
     },
     "data/processed/regions/east_district/demand_nodes.geojson": {
-      "bytes": 17236204,
-      "sha256": "ee2619ba213e98e69a2807bd65b0a1387c20d1b612f907fb84ecd3aebfa36b3c"
+      "bytes": 17274680,
+      "sha256": "cdf1facc44bcaf8ef654eaaee2c0b8fbf68d75eba072923d80355cc0f3501927"
     },
     "data/processed/regions/east_district/demand_nodes.parquet": {
       "bytes": 562138,
       "sha256": "f7760c6174bdf54d7d7c751744933cdc1bc377ab4b715d6bac0a192c935c2951"
     },
     "data/processed/regions/east_district/demand_snap_audit.csv": {
-      "bytes": 2244040,
-      "sha256": "8bc5637eef716a0c4a29cded59661225e376e6fa5fd841da482e6f1ddf41e3f1"
+      "bytes": 2282510,
+      "sha256": "21803f7d864c4f38faf9f1ab5345ffa9faf17a43df5b13799a59d9bda4c015f6"
     },
     "data/processed/regions/east_district/layers_manifest.json": {
-      "bytes": 5830,
-      "sha256": "7c8f78f96baa3e239c41d2da70be8fc7cdb0e3b6ee7328e766309c217425a445"
+      "bytes": 7790,
+      "sha256": "1faffb3cd886aa7f4b0ed426198d9d7147b0c2d389fb8f87c6b0b2f0aa438a1c"
     },
     "data/processed/regions/east_district/map_layers/access_gaps_10min.geojson": {
-      "bytes": 25651607,
-      "sha256": "819a094d127b76539fbf4d8c280ca7aadc27c991b33ff8f5aeb99ba0e854585b"
+      "bytes": 25688737,
+      "sha256": "29cd84e88df387c998c70f84714b3dc96a3c3ff994dc7d25c6a1350cfe32d5b9"
     },
     "data/processed/regions/east_district/map_layers/access_gaps_15min.geojson": {
-      "bytes": 24749670,
-      "sha256": "bf4c5aa0163d8eb6487c953b0c5bd58489466e26b52e4219713d0b6f88671da8"
+      "bytes": 24785505,
+      "sha256": "b1a331e4b9305cd1783cb9e5c3c27d2c1be78f1c17207e3e49531edb2ec0ed69"
     },
     "data/processed/regions/east_district/map_layers/access_gaps_20min.geojson": {
-      "bytes": 23880800,
-      "sha256": "1d5137e559b13fc4a9776d22553745c882389b8e02afbf46e9664e8f2f963ae6"
+      "bytes": 23915387,
+      "sha256": "c363544f29895b23f17d092332a7b7f604d1bcc6eeef65c4faa87bfaa0ab6684"
     },
     "data/processed/regions/east_district/map_layers/access_gaps_30min.geojson": {
-      "bytes": 22187938,
-      "sha256": "2bf6c97373d438845f942a960fa2d028e371562ff8a7f82065c81a12ba98cd2f"
+      "bytes": 22220093,
+      "sha256": "996bf6ac9957476cff98c8b18fe70cd901a55f85e8722dca8bd610edf8d4d11f"
     },
     "data/processed/regions/east_district/map_layers/coverage_10min.geojson": {
-      "bytes": 26587787,
-      "sha256": "66e6fb2ebf110d43481a17b7270832f7fc43354fb45fd7070d30f987a9ea79ef"
+      "bytes": 26626263,
+      "sha256": "4694ee19941d4aad98f98a4b40266a62b931064e14e7d674cf85b481e4cf6c51"
     },
     "data/processed/regions/east_district/map_layers/coverage_10min_stats.json": {
-      "bytes": 352,
-      "sha256": "a3c205f3bc307f11661421ae26a3781d8c8211fd107c26efec4bb29fcb33df25"
+      "bytes": 362,
+      "sha256": "faea3d1ed482e9f447f9bc2ac89688a07b57de54ce9f6903efe224fa8908f413"
     },
     "data/processed/regions/east_district/map_layers/coverage_15min.geojson": {
-      "bytes": 26586492,
-      "sha256": "69fd58db319aa7547ac799762816ac287a82beacee7f458c8d4cf39225c0a7ea"
+      "bytes": 26624968,
+      "sha256": "fd6f64a5d1fef7b1be680974cb6ec2f99b6b09961be48b06fa18527941177a8b"
     },
     "data/processed/regions/east_district/map_layers/coverage_15min_stats.json": {
-      "bytes": 353,
-      "sha256": "6e84273b5fa85793606d7d77daee9f767f9c93689c5a6d4bf116efe2851e1624"
+      "bytes": 363,
+      "sha256": "f93fb5160d2feaca13a8e7944ac4066c982f769e3d265e72bc8499a557ed2309"
     },
     "data/processed/regions/east_district/map_layers/coverage_20min.geojson": {
-      "bytes": 26585244,
-      "sha256": "59d79470a4bedd6e034f962ec11d98959fde87eb02053fc7ab6f848afd58d126"
+      "bytes": 26623720,
+      "sha256": "ac1b7825a9a6ac488dedd6f70264007db5fd9a250d8be4ed880fac07ff92344a"
     },
     "data/processed/regions/east_district/map_layers/coverage_20min_stats.json": {
-      "bytes": 351,
-      "sha256": "8240e9e008d9d5f02af97258bce7952e2dd5106f6be431610513806df8927fc7"
+      "bytes": 361,
+      "sha256": "663c48559bdce3f30134fb180018dc8a882f4bac2ed947036d705676475aaa92"
     },
     "data/processed/regions/east_district/map_layers/coverage_30min.geojson": {
-      "bytes": 26582812,
-      "sha256": "ea50e369e1c508855b6c43c8db7e7f93327960ff61a3ce3435e1efade9383194"
+      "bytes": 26621288,
+      "sha256": "3a352414b445fc2c577dc8ba622b5930e31da61c683161acabd0ac786e1b365a"
     },
     "data/processed/regions/east_district/map_layers/coverage_30min_stats.json": {
-      "bytes": 352,
-      "sha256": "e80a470ef3deb7c93542f8051fa89a64ac74c899398d3e413c4299290754f6ff"
+      "bytes": 362,
+      "sha256": "4c0bae3582f1835c7503105c54a116bec0bd43a294e2c1d04ce75a714a16e5e7"
     },
     "data/processed/regions/east_district/map_layers/network_buffer.geojson": {
-      "bytes": 12568,
-      "sha256": "1dbbda634c029561ad15e98a0f23140ac753be16516d5c395dd687b0666b60fb"
+      "bytes": 12576,
+      "sha256": "1a4f0c8be2c84dde3b36b8504f5f3c9f68525bd3f4543ecbac2abf4d04b68a08"
     },
     "data/processed/regions/east_district/map_layers/population_density.tif": {
       "bytes": 204087,
       "sha256": "6ebc06789459b167065ebc222ff5309f7ec16818876ca22f0b76103622f695f1"
     },
     "data/processed/regions/east_district/map_layers/population_heatmap.geojson": {
-      "bytes": 20283911,
-      "sha256": "ba4aff0572e7249fc2b7a7b048c5884cca22242be614ecdf33cdaaab18acb7a0"
+      "bytes": 20322387,
+      "sha256": "2d55e9c813fb9d571a996b12453a09ab445205f09d67414414ef7b2727873c1e"
     },
     "data/processed/regions/east_district/map_layers/population_stats.json": {
-      "bytes": 277,
-      "sha256": "c11f5e95ff7188ff3f5a85bf920dfb47ff86906f5f51a56f85b5d92fd370a920"
+      "bytes": 285,
+      "sha256": "c0bbacf4169504ed7ac5f65c253709fdec0be6d100b5629d022b201472f335ad"
     },
     "data/processed/regions/east_district/map_layers/road_edges.geojson": {
-      "bytes": 46126124,
-      "sha256": "fe53472c57c3f742cf98583382fc983bf38e551bb611dec15e5bc4b8f9ca02d1"
+      "bytes": 46338259,
+      "sha256": "c9b8ecb0e08bbfe551b5eb03ee282c65a6a4a4d11457773ab73941b83f513bd2"
     },
     "data/processed/regions/east_district/map_layers/shelter_capacity.geojson": {
-      "bytes": 100991,
-      "sha256": "b46b474b34bbf9f0a7afd0b327b31b7180229292425ad79969548cf07a526f0e"
+      "bytes": 101029,
+      "sha256": "4bdba806f0b2ac17fca10d70c68025410177d8a972db6fd7cd58198ba4940781"
     },
     "data/processed/regions/east_district/population.tif": {
       "bytes": 203743,
       "sha256": "11b5d1f7c9c87b36510d80e8b4471a9ce853bdeee8fc237dc14dcac5c5ac0869"
     },
     "data/processed/regions/east_district/quality_summary.json": {
-      "bytes": 4167,
-      "sha256": "7588d72725c1c82d8b30f3f4f42fa24277d7dc76001cf050ede38ec96cdff112"
+      "bytes": 4603,
+      "sha256": "21550caea025e59d9817176af4cbbd31ef8137a32177df414feeab08f48712c1"
     },
     "data/processed/regions/east_district/road_graph_metadata.json": {
-      "bytes": 996,
-      "sha256": "48c40866a7825ad88e935faa63abbc9495a99fb73b2df7610f4104389da4b75a"
+      "bytes": 1031,
+      "sha256": "8bb6f131205f96cb1922a7152ec4296087d435056fd59398bfd76e78276db5fc"
     },
     "data/processed/regions/east_district/road_walk.graphml": {
-      "bytes": 33262386,
-      "sha256": "96f27a58d5e0d026de26e2a38ed4240114c02ecd8e1d6d7bfb827716f6e80905"
+      "bytes": 34280372,
+      "sha256": "673a7f214735d39389dfcad839fb8730dd732e071825157ebabd239e4e85abee"
     },
     "data/processed/regions/east_district/scenario_catalog.json": {
-      "bytes": 3294,
-      "sha256": "41ddb3a91b05879b4b595e6719e029648ca9e4ffdd67b9b562300a4d9c46a925"
+      "bytes": 3385,
+      "sha256": "f139d332b14ca0e05299327eda387cbc533b68655b430464bd3b5110d86a86db"
     },
     "data/processed/regions/east_district/shelter_snap_audit.csv": {
-      "bytes": 1393,
-      "sha256": "c3062cae00ec701622de83d4e8bbe116502b1fe3fa881f2f86af32a3bebf4223"
+      "bytes": 1425,
+      "sha256": "057c4c78d13ee39861913ada342afe93cda02a9ddfd10187fffcf07ebab15193"
     },
     "data/processed/regions/east_district/shelters.geojson": {
-      "bytes": 100167,
-      "sha256": "70724dd168be655967b696c07e973fc9494fd9e2cd35c3f7b85070dca62e9ed2"
+      "bytes": 100205,
+      "sha256": "f3252f5a77bcbfb2d13aea3555cf4cf20407801d5a9f0f44e8658346828c090e"
     },
     "data/processed/regions/east_district/shelters_all.csv": {
-      "bytes": 34742,
-      "sha256": "6cc440d4338a44694eba5ea2043a099341f729a722e0e70d69d7c70323c68b9d"
+      "bytes": 34774,
+      "sha256": "d9c0869ae5ddbfd6113cc7ff101548b60ea8bcd5af80184ca6ad5137f3cec103"
     },
     "data/processed/regions/east_district/travel_matrix.parquet": {
       "bytes": 29192454,
       "sha256": "0875c7d0316ed72762e4039829f0ca9b5b3db0fad6bfb4ca023da4614732675d"
     },
     "configs/module_a_v2_b/east_district.yaml": {
-      "bytes": 647,
-      "sha256": "e4b8581241365c4999459f4c6e329ac48839c229116a3bb2a58c737e0f8e6d08"
+      "bytes": 740,
+      "sha256": "eedebe48b467d529dc6f770a1fda7583f268407d26e5d2039f6ace821c9190d6"
     }
   }
 }

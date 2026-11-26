@@ -712,11 +712,24 @@ def test_module_a_v2_region_catalog_isolation_and_binding(tmp_path: Path):
     assert client.post("/v1/sessions", json={"region_id": "xiaolan"}).status_code == 409
     assert client.post("/v1/sessions", json={"region_id": "unknown"}).status_code == 404
 
-    created = client.post("/v1/sessions", json={"region_id": "shiqi"})
+    created = client.post(
+        "/v1/sessions",
+        json={
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        },
+    )
     assert created.status_code == 201, created.text
     sid = created.json()["session_id"]
     assert created.json()["region_id"] == "shiqi"
     assert created.json()["data_version"] == "shelterplan_module_a_v2.0-demo__shiqi"
+
+    mismatch = client.post(
+        "/v1/sessions",
+        json={"region_id": "shiqi", "data_version": "wrong-version"},
+    )
+    assert mismatch.status_code == 409
+    assert "data_version" in mismatch.json()["detail"]
 
     # Cross-region shelter ID from east_district must be blocked before calling B.
     cross_region_turn = _turn(client, sid, "停用 zs_east0001，做压力测试。")

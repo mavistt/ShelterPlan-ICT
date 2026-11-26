@@ -3,6 +3,9 @@ project:
   data_version: shelterplan_module_a_v2.0-demo__xiaolan
   region_id: xiaolan
   data_status: DEMO_ONLY
+scenario_defaults:
+  population_demand_ratio: 0.2
+  max_walk_time_min: 15.0
 paths:
   shelters_geojson: data/processed/regions/xiaolan/shelters.geojson
   demand_nodes: data/processed/regions/xiaolan/demand_nodes.geojson

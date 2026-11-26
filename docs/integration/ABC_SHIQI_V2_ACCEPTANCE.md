@@ -117,3 +117,18 @@ python -B scripts/run_abc_shiqi_http.py
 - 本机默认 Python 环境未安装 `geopandas`/`pandas`，A v2/GIS 测试未在本轮本地重跑（本轮零改动 A/GIS 代码）。
 - 原始人口 TIFF 未拉取 LFS 大对象，A 的全量重建/重新生成没有执行；没有阻塞现有 A v2 processed data 的 B/C 集成。
 - PR #1 仍是上游依赖；后续集成 PR 应以 `feature/module-a-stage1-research` 为 base，并在说明中关联 PR #1。不会自动合并 main。
+
+
+## A v2 issue closure (2026-11-25)
+
+- A v2 adapters now carry scenario_defaults; the generator preserves it on rebuild.
+- Region layer manifests explicitly include oad_edges, 
+etwork_buffer, oundary, and nalysis_area; quality summaries keep both eal_pilot_blockers and lockers.
+- project.primary_region_id=east_district is explicit. xiaolan remains in the audited package but is nabled: false because one shelter snaps 424.7m and 50,129 OD pairs exceed the 200m threshold.
+- A validation: 21 tests PASS; release validator PASS_DEMO with official-boundary/source-completeness warnings. C HTTP/MCP default-region regression rerun: 8 PASS; B tests: 30 OK.
+- Residual: official boundary, 453-vs-906 source reconciliation, and raw WorldPop LFS reconstruction remain open; all results are DEMO_ONLY.
+
+
+## Latest real Shiqi HTTP run
+
+2026-11-25T08:57:18Z：使用最新 A v2 adapter/manifest 启动真实 B 与 C MCP HTTP；health/capabilities、assess、optimize（多轮继承）、stress_test、explain_result 和 Trace evidence 全部 PASS，Trace 8/8。摘要与日志位于 ignored outputs/module_c。

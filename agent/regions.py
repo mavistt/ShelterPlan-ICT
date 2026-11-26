@@ -60,6 +60,8 @@ class RegionInfo:
     region_id: str
     town: str
     role: str
+    enabled: bool
+    exclusion_reason: str | None
     data_version: str
     release_status: str
     data_status: str
@@ -81,6 +83,8 @@ class RegionInfo:
             "region_id": self.region_id,
             "town": self.town,
             "role": self.role,
+            "enabled": self.enabled,
+            "exclusion_reason": self.exclusion_reason,
             "data_version": self.data_version,
             "release_status": self.release_status,
             "data_status": self.data_status,
@@ -388,6 +392,8 @@ class RegionCatalog:
                 region_id=region_id_str,
                 town=str(meta.get("town") or region_id_str),
                 role=str(meta.get("role") or "supplementary"),
+                enabled=bool(meta.get("enabled", True)),
+                exclusion_reason=(str(meta["exclusion_reason"]) if meta.get("exclusion_reason") else None),
                 data_version=data_version,
                 release_status=release_status,
                 data_status=data_status,
@@ -431,6 +437,8 @@ class RegionCatalog:
             region_id="east_district",
             town=str(project.get("pilot_town") or "东区街道"),
             role="primary",
+            enabled=True,
+            exclusion_reason=None,
             data_version=data_version,
             release_status="PASS_DEMO" if od_available else "PARTIAL",
             data_status=data_status,

@@ -815,6 +815,25 @@ def run_spatial_analysis(region_id: str, cfg: dict[str, Any]) -> dict[str, Any]:
             gap_out = paths["layers"] / f"access_gaps_{threshold}min.geojson"
             gaps.to_file(gap_out, driver="GeoJSON", index=False)
             layers.append({"layer_id": f"access_gaps_{threshold}min", "layer_name": f"{threshold}分钟潜在服务缺口", "path": str(gap_out.relative_to(ROOT)), "format": "GeoJSON", "crs": "EPSG:4326", "geometry_type": "Point", "description": "No candidate shelter within the threshold; not capacity-unserved demand.", "fields": ["demand_id", "pop_est", "nearest_shelter_id", "nearest_time_min"], "data_status": "DEMO_ONLY"})
+    supplemental = [
+        ("road_edges", "步行道路网络边", paths["road_edges"], "LineString", "OSM walkable road network edges from static Guangdong PBF snapshot.", ["length"], "STATIC_PBF"),
+        ("network_buffer", "路网分析缓冲区", paths["network_buffer"], "Polygon", "Buffered analysis corridor around candidate shelters.", ["region_id", "network_source"], "DEMO_ONLY"),
+        ("boundary", "区域演示边界", paths["boundary"], "Polygon", "Demo analysis boundary; not an official administrative boundary.", ["region_id", "boundary_status", "source_note", "source_url"], "DEMO_ONLY"),
+        ("analysis_area", "分析范围", paths["analysis_area"], "Polygon", "Buffered regional spatial analysis extent.", ["region_id", "analysis_status", "buffer_m"], "DEMO_ONLY"),
+    ]
+    for layer_id, layer_name, path, geometry_type, description, fields, data_status in supplemental:
+        if path.is_file():
+            layers.append({
+                "layer_id": layer_id,
+                "layer_name": layer_name,
+                "path": str(path.relative_to(ROOT)),
+                "format": "GeoJSON",
+                "crs": "EPSG:4326",
+                "geometry_type": geometry_type,
+                "description": description,
+                "fields": fields,
+                "data_status": data_status,
+            })
     paths["layers_manifest"].write_text(json.dumps({"schema_version": 1, "region_id": region_id, "layers": layers}, ensure_ascii=False, indent=2), encoding="utf-8")
     return {"layers": len(layers), "coverage": coverage_stats}
 
@@ -826,11 +845,21 @@ def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dic
     release_status = "PASS_DEMO" if not results.get("errors") else "PARTIAL"
     b_cfg = {
         "project": {"name": "ShelterPlan Module A v2", "data_version": data_version, "region_id": region_id, "data_status": status},
+        "scenario_defaults": {"population_demand_ratio": 0.2, "max_walk_time_min": 15.0},
         "paths": {"shelters_geojson": str(paths["shelters"].relative_to(ROOT)), "demand_nodes": str(paths["demand"].relative_to(ROOT)), "demand_nodes_parquet": str(paths["demand_parquet"].relative_to(ROOT)), "travel_matrix": str(paths["matrix"].relative_to(ROOT)), "manifest": str(paths["manifest"].relative_to(ROOT)), "a7_quality_summary": str(paths["quality"].relative_to(ROOT))},
         "network": {"max_snap_distance_m": cfg["project"]["max_snap_distance_m"]},
     }
     paths["b_config"].parent.mkdir(parents=True, exist_ok=True)
     paths["b_config"].write_text(yaml.safe_dump(b_cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    blockers = [
+        "Demo coordinates are approximate or unresolved.",
+        "2024 capacities are original or regional-median demo imputations.",
+        "Boundary is public OSM or demo-derived, not an official government boundary.",
+        "Current open status is assumed_open for demo only.",
+    ]
+    region_meta = (cfg.get("regions") or {}).get(region_id) or {}
+    if not bool(region_meta.get("enabled", True)) and region_meta.get("exclusion_reason"):
+        blockers.append(str(region_meta["exclusion_reason"]))
     quality = {
         "region_id": region_id,
         "data_version": data_version,
@@ -845,7 +874,8 @@ def write_quality_and_manifest(region_id: str, cfg: dict[str, Any], results: dic
         "network": results.get("network", {}),
         "travel_matrix": results.get("od", {}),
         "spatial_analysis": results.get("spatial", {}),
-        "blockers": ["Demo coordinates are approximate or unresolved.", "2024 capacities are original or regional-median demo imputations.", "Boundary is public OSM or demo-derived, not an official government boundary.", "Current open status is assumed_open for demo only."],
+        "real_pilot_blockers": blockers,
+        "blockers": blockers,
     }
     paths["quality"].write_text(json.dumps(quality, ensure_ascii=False, indent=2), encoding="utf-8")
     files = {}

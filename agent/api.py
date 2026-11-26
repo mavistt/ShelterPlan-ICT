@@ -69,6 +69,7 @@ class TurnRequest(BaseModel):
 class SessionRequest(BaseModel):
     session_id: str | None = Field(default=None, max_length=80)
     region_id: str | None = Field(default=None, max_length=64)
+    data_version: str | None = Field(default=None, max_length=128)
 
 
 # --------------------------------------------------------------------------- #
@@ -121,12 +122,18 @@ class ConversationService:
     # Sessions
     # ------------------------------------------------------------------ #
     def create_session(self, session_id: str | None = None, *,
-                       region_id: str | None = None) -> str:
+                       region_id: str | None = None,
+                       data_version: str | None = None) -> str:
         session_id = session_id or f"s-{uuid.uuid4().hex[:12]}"
         region_id = region_id or self.config.default_region_id
         region_info: RegionInfo | None = None
         if region_id is not None:
             region_info = self.regions.get_region(region_id)
+            if data_version is not None and data_version != region_info.data_version:
+                raise ValueError(
+                    f"data_version '{data_version}' does not match region '{region_id}' "
+                    f"('{region_info.data_version}')"
+                )
             if not region_info.od_available:
                 raise RegionUnavailableError(
                     f"DATA_UNAVAILABLE: region '{region_id}' has no travel matrix yet "
@@ -867,6 +874,7 @@ def create_app(*, conversation: ConversationService | None = None,
             session_id = conversation.create_session(
                 (body.session_id if body else None),
                 region_id=(body.region_id if body else None),
+                data_version=(body.data_version if body else None),
             )
         except KeyError as exc:
             raise HTTPException(status_code=404, detail=f"unknown region: {body.region_id if body else ''}") from exc

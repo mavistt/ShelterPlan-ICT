@@ -21,6 +21,7 @@ project:
     - https://overpass-api.de/api/interpreter
     - https://overpass.kumi.systems/api/interpreter
     - https://overpass.nchc.org.tw/api/interpreter
+  primary_region_id: east_district
 regions:
   east_district:
     town: 东区街道
@@ -33,4 +34,6 @@ regions:
   xiaolan:
     town: 小榄镇
     role: supplementary
+    enabled: false
+    exclusion_reason: "EXCLUDED_GEO_DRIFT: one shelter snaps 424.7m from the walking network; 50,129 OD pairs exceed the 200m shelter snap threshold."
     boundary_query: 小榄镇, 中山市, 广东省, 中国

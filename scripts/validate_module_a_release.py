@@ -40,6 +40,10 @@ def main() -> int:
     cfg = yaml.safe_load((ROOT / "configs" / "regions.yaml").read_text(encoding="utf-8"))
     region_ids = list(cfg["regions"])
     check(set(region_ids) == set(EXPECTED), f"regions.yaml region set is {region_ids}", failures)
+    primary_region_id = str((cfg.get("project") or {}).get("primary_region_id") or "")
+    primary_ids = [region_id for region_id, meta in cfg["regions"].items() if (meta or {}).get("role") == "primary"]
+    check(primary_region_id in cfg["regions"], f"primary_region_id {primary_region_id!r} is not configured", failures)
+    check(primary_ids == [primary_region_id], f"primary role/primary_region_id mismatch: roles={primary_ids}, configured={primary_region_id!r}", failures)
     disposition_path = ROOT / "data/interim/regions/source_disposition.csv"
     disposition = pd.read_csv(disposition_path, dtype=str)
     target = disposition[disposition["region_id"].isin(EXPECTED)]
@@ -155,6 +159,9 @@ def main() -> int:
     if not all((ROOT / f"data/raw/portal_shelters_batch_{n}.xls").exists() for n in (1, 2)):
         warnings.append("portal shelter batches are absent; source completeness is not fully reconciled")
     warnings.append("official target administrative boundaries are absent; all regional results remain DEMO_ONLY")
+    disabled_regions = [region_id for region_id, meta in cfg["regions"].items() if not bool((meta or {}).get("enabled", True))]
+    if disabled_regions:
+        warnings.append(f"regions excluded from active demo selection pending data repair: {disabled_regions}")
     planning_scenarios_path = ROOT / "configs/planning_scenarios.yaml"
     if planning_scenarios_path.exists():
         planning_scenarios = yaml.safe_load(planning_scenarios_path.read_text(encoding="utf-8"))
@@ -168,6 +175,8 @@ def main() -> int:
         "failures": failures,
         "warnings": warnings,
         "regions": region_reports,
+        "active_regions": [region_id for region_id, meta in cfg["regions"].items() if bool((meta or {}).get("enabled", True))],
+        "excluded_regions": disabled_regions,
         "external_dependencies": {
             "portal_batches_present": all((ROOT / f"data/raw/portal_shelters_batch_{n}.xls").exists() for n in (1, 2)),
             "official_target_boundaries_present": False,
@@ -176,7 +185,14 @@ def main() -> int:
         },
     }
     out = ROOT / "data/processed/module_a_v2_release_validation.json"
-    out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    except PermissionError:
+        # Some synced Windows workspaces expose generated artifacts as
+        # read-only to the interpreter. Keep validation authoritative and
+        # report the write limitation instead of turning a PASS_DEMO into a
+        # false data failure.
+        report["warnings"].append(f"validation report could not be refreshed due to filesystem permissions: {out}")
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 1 if status == "FAIL" else 0
 

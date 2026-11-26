@@ -28,9 +28,14 @@ def main() -> int:
     group.add_argument("--region-id")
     parser.add_argument("--reuse-legacy-east", action="store_true", help="Reuse the preserved v0.1 East graph when public Overpass is unavailable.")
     parser.add_argument("--skip-network-supplementary", action="store_true", help="Skip external network calls for non-East regions.")
+    parser.add_argument("--include-disabled", action="store_true", help="Explicitly rebuild regions excluded from the active demo catalog.")
     args = parser.parse_args()
     cfg = load_config()
     region_ids = list(cfg["regions"]) if args.all_regions else [args.region_id]
+    if not args.include_disabled:
+        region_ids = [region_id for region_id in region_ids if bool((cfg["regions"].get(region_id) or {}).get("enabled", True))]
+        if not region_ids:
+            raise SystemExit("The requested region is disabled; pass --include-disabled to rebuild it explicitly.")
     if any(region_id not in cfg["regions"] for region_id in region_ids):
         raise SystemExit(f"Unknown region_id; expected one of {list(cfg['regions'])}")
     results = []
