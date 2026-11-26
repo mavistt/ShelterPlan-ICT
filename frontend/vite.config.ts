@@ -71,10 +71,24 @@ function readVerifiedGeoJson(regionId: string, asset: AssetDescriptor) {
   const absolutePath = path.resolve(projectRoot, normalized)
   const regionRoot = path.resolve(projectRoot, 'data', 'processed', 'regions', regionId) + path.sep
   if (!absolutePath.startsWith(regionRoot)) throw new Error('图层路径越界')
-  const bytes = readFileSync(absolutePath).toString('utf8').replace(/\r\n/g, '\n')
-  const digest = createHash('sha256').update(bytes, 'utf8').digest('hex')
-  if (digest !== manifestEntry.sha256) throw new Error(`SHA-256 校验失败：${asset.id}`)
-  return Buffer.from(bytes, 'utf8')
+  const rawBytes = readFileSync(absolutePath)
+  const rawDigest = createHash('sha256').update(rawBytes).digest('hex')
+  if (rawBytes.length === manifestEntry.bytes && rawDigest === manifestEntry.sha256) return rawBytes
+
+  // Git may check out a text GeoJSON with LF even when A's manifest records
+  // the exact CRLF artifact. Reconstruct those declared bytes in memory, then
+  // compare both byte length and digest. This mirrors Module B's strict
+  // raw-or-reconstructed-CRLF verification and never blesses arbitrary text.
+  const hasBom = rawBytes.subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf]))
+  const decoded = rawBytes.toString('utf8').replace(/^\uFEFF/, '')
+  const normalizedText = decoded.replace(/\r\n?/g, '\n')
+  const reconstructed = Buffer.from(normalizedText.replace(/\n/g, '\r\n'), 'utf8')
+  const declaredBytes = hasBom ? Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), reconstructed]) : reconstructed
+  const reconstructedDigest = createHash('sha256').update(declaredBytes).digest('hex')
+  if (declaredBytes.length !== manifestEntry.bytes || reconstructedDigest !== manifestEntry.sha256) {
+    throw new Error(`SHA-256 校验失败：${asset.id}`)
+  }
+  return declaredBytes
 }
 
 function dataAdapter(): Plugin {

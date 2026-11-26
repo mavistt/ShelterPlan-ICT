@@ -1,0 +1,124 @@
+{
+  "audit_version": 1,
+  "generated_at_utc": "2026-11-26T19:12:44.928256+00:00",
+  "method": "read-only manifest verification plus in-memory admission_gate.run_gate; no preflight/admission CLI and no source writes",
+  "release_source_revision": "origin/feature/shelterplan-eval",
+  "release_manifest_sha256_worktree": "57371de155904422c05670547cd4c2ccaaecac07c90fee6e6450c2d9b3351e5e",
+  "frozen_release_artifacts": [
+    {
+      "path": "reports/final_release/difficulty_discovery.json",
+      "declared_sha256": "5dc42a0c09b51bf6cca2027593bc6349282fc5cce153b5d10c38e2e338ffe84a",
+      "working_tree_sha256": "5dc42a0c09b51bf6cca2027593bc6349282fc5cce153b5d10c38e2e338ffe84a",
+      "source_git_blob_sha256": "a34ab9ccfb5920f63fc9281feaf1c0d5372aafe21af2e27f89e6595115734f4a",
+      "source_blob_matches_declared": false,
+      "working_tree_raw_matches_declared": true
+    },
+    {
+      "path": "reports/final_release/difficulty_discovery.md",
+      "declared_sha256": "0a0b700a40c81dc14eb866eed3f24a7beef06aca9cff1c46cf025c0ba22a177e",
+      "working_tree_sha256": "0a0b700a40c81dc14eb866eed3f24a7beef06aca9cff1c46cf025c0ba22a177e",
+      "source_git_blob_sha256": "08b7ae7b6e6682ec85f6a1665c97c99a08b78a6513a88d4e38976b3496c31adf",
+      "source_blob_matches_declared": false,
+      "working_tree_raw_matches_declared": true
+    },
+    {
+      "path": "reports/final_release/task_dataset.json",
+      "declared_sha256": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
+      "working_tree_sha256": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
+      "source_git_blob_sha256": "be0f298fc5be6161d0d92e6e8efe5544ac8fedb0e6f393fc702b0a11527f4b86",
+      "source_blob_matches_declared": false,
+      "working_tree_raw_matches_declared": true
+    },
+    {
+      "path": "reports/final_release/evaluation_set.json",
+      "declared_sha256": "b67fa0994b2663ab207e230375410705f66cce5acef1a511e2c212fc0fdc0a38",
+      "working_tree_sha256": "b67fa0994b2663ab207e230375410705f66cce5acef1a511e2c212fc0fdc0a38",
+      "source_git_blob_sha256": "0eda1a6cb9d993acd2941a16d54f6d98ab82fa93cf5a30b335f22778ff02f874",
+      "source_blob_matches_declared": false,
+      "working_tree_raw_matches_declared": true
+    }
+  ],
+  "a_v2_manifests": [
+    {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "declared_files": 36,
+      "raw_matches": 36,
+      "reconstructed_crlf_matches": 0,
+      "content_failures": 0,
+      "all_content_match": true
+    },
+    {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "declared_files": 36,
+      "raw_matches": 36,
+      "reconstructed_crlf_matches": 0,
+      "content_failures": 0,
+      "all_content_match": true
+    },
+    {
+      "region_id": "xiaolan",
+      "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+      "declared_files": 36,
+      "raw_matches": 36,
+      "reconstructed_crlf_matches": 0,
+      "content_failures": 0,
+      "all_content_match": true
+    }
+  ],
+  "admission_gate_in_memory": {
+    "totals": {
+      "source_rows": 87,
+      "demo_eligible": 56,
+      "normal_planning_candidates": 56,
+      "verified_eligible": 0,
+      "needs_review": 30,
+      "excluded": 1
+    },
+    "regions": [
+      {
+        "region_id": "shiqi",
+        "enabled": true,
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_rows": 25,
+        "demo_eligible": 25,
+        "normal_planning_candidates": 25,
+        "verified_eligible": 0,
+        "admission_counts": {
+          "demo_eligible_with_warnings": 25
+        }
+      },
+      {
+        "region_id": "east_district",
+        "enabled": true,
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_rows": 31,
+        "demo_eligible": 31,
+        "normal_planning_candidates": 31,
+        "verified_eligible": 0,
+        "admission_counts": {
+          "demo_eligible_with_warnings": 31
+        }
+      },
+      {
+        "region_id": "xiaolan",
+        "enabled": false,
+        "data_version": "shelterplan_module_a_v2.0-demo__xiaolan",
+        "source_rows": 31,
+        "demo_eligible": 0,
+        "normal_planning_candidates": 0,
+        "verified_eligible": 0,
+        "admission_counts": {
+          "needs_review": 30,
+          "excluded": 1
+        }
+      }
+    ],
+    "matches_existing_admission_summary": true,
+    "verified_never_upgraded_automatically": true
+  },
+  "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+  "release_source_manifest_sha256": "8520a9e62e25db9a50da90296cadc89cf58104c5c38ed1fc96836b55551dee30",
+  "interpretation": "A v2 remains DEMO_ONLY. The current region manifests verify as exact raw matches. Admission is 56 DEMO candidates, 30 needs_review, 1 excluded, and 0 VERIFIED. No A data or frozen release manifest was edited by this audit."
+}

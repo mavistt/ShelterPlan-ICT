@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Check, ChevronDown, Compass, Info, LoaderCircle, MapPin,
-  PanelLeftOpen, PanelRightClose, PanelRightOpen, ShieldCheck, X,
+  Activity, PanelLeftOpen, PanelRightClose, PanelRightOpen, ShieldCheck, X,
 } from 'lucide-react'
 import { api, ApiError, C_FINAL_STATUSES } from './api/client'
 import type { RegionMetadata, ShelterRecord } from './api/types'
@@ -11,6 +11,7 @@ import { TaskDrawer } from './components/TaskDrawer'
 import { AgentCopilot } from './components/AgentCopilot'
 import { EvidenceDrawer } from './components/EvidenceDrawer'
 import { IntroModal, type ScenarioPreset } from './components/IntroModal'
+import { EvaluationPanel } from './components/EvaluationPanel'
 import { useWorkspace, type WorkspaceMessage } from './state/workspace'
 
 const intFmt = new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 0 })
@@ -19,8 +20,14 @@ function useCurrentRegion() {
   const regionId = useWorkspace((s) => s.regionId)
   const localRegions = useQuery({ queryKey: ['local-regions'], queryFn: api.localRegions, staleTime: 5 * 60_000 })
   const cRegions = useQuery({ queryKey: ['c-regions'], queryFn: api.regions, refetchInterval: 30_000, retry: 1 })
-  const region = localRegions.data?.regions.find((item) => item.region_id === regionId)
+  const localRegion = localRegions.data?.regions.find((item) => item.region_id === regionId)
     ?? localRegions.data?.regions[0]
+  const serviceRegion = cRegions.data?.regions.find((item) => item.region_id === localRegion?.region_id)
+  const region = localRegion ? {
+    ...localRegion,
+    enabled: serviceRegion?.enabled ?? true,
+    exclusion_reason: serviceRegion?.exclusion_reason ?? null,
+  } : undefined
   return { region, localRegions, cRegions }
 }
 
@@ -73,6 +80,12 @@ function useSession(region?: RegionMetadata) {
 
   useEffect(() => {
     if (!region || !health.data || sessionId) return
+    if (region.enabled === false) {
+      setBusy(false, region.exclusion_reason
+        ? `${region.town} 规划已禁用：${region.exclusion_reason}`
+        : '当前区域未通过数据准入，规划会话已禁用。')
+      return
+    }
     let cancelled = false
     const restoreOrCreate = async () => {
       let failure: string | null = null
@@ -236,6 +249,7 @@ export default function App() {
   const [activeLayers, setActiveLayers] = useState<string[]>(['boundary', 'population_heatmap', 'shelter_capacity'])
   const [regionMenuOpen, setRegionMenuOpen] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
+  const [evaluationOpen, setEvaluationOpen] = useState(false)
   const [evidenceResultId, setEvidenceResultId] = useState<string | null>(null)
   const [snapshotView, setSnapshotView] = useState<'baseline' | 'damaged' | 'recovered'>('recovered')
 
@@ -283,7 +297,15 @@ export default function App() {
   const regionOptions = useMemo(() => {
     const cSet = new Set((cRegions.data?.regions ?? []).map((r) => r.region_id))
     const all = localRegions.data?.regions ?? []
-    return cSet.size ? all.filter((r) => cSet.has(r.region_id)) : all
+    const visible = cSet.size ? all.filter((r) => cSet.has(r.region_id)) : all
+    return visible.map((item) => {
+      const serviceRegion = cRegions.data?.regions.find((row) => row.region_id === item.region_id)
+      return {
+        ...item,
+        enabled: serviceRegion?.enabled ?? true,
+        exclusion_reason: serviceRegion?.exclusion_reason ?? null,
+      }
+    })
   }, [cRegions.data?.regions, localRegions.data?.regions])
 
   const totalCapacity = useMemo(() => shelters.reduce((sum, s) => sum + s.capacity, 0), [shelters])
@@ -369,6 +391,9 @@ export default function App() {
               <span>中山 · <strong>{region.town}</strong></span>
               <ChevronDown size={14} />
             </button>
+            {region.enabled === false && (
+              <span className="region-access-badge" title={region.exclusion_reason || '当前区域不允许规划'}>规划已禁用</span>
+            )}
             {regionMenuOpen && (
               <div className="glass-popover region-popover">
                 <div className="popover-title">切换分析镇街</div>
@@ -384,7 +409,9 @@ export default function App() {
                   >
                     <div>
                       <strong>{opt.town}</strong>
-                      <small>{opt.shelters} 处场所 · {(opt.population_estimate / 10000).toFixed(1)} 万模型人口</small>
+                      <small>
+                        {opt.enabled === false ? '仅查看地图 · 规划禁用' : `${opt.shelters} 处场所 · ${(opt.population_estimate / 10000).toFixed(1)} 万模型人口`}
+                      </small>
                     </div>
                     {opt.region_id === region.region_id && <Check size={14} className="accent-teal" />}
                   </button>
@@ -426,6 +453,15 @@ export default function App() {
         </div>
 
         <div className="ft-right">
+          <button
+            type="button"
+            className={`glass-pill-btn eval-launch-btn ${evaluationOpen ? 'is-active' : ''}`}
+            onClick={() => setEvaluationOpen((value) => !value)}
+            aria-expanded={evaluationOpen}
+            aria-label="打开评测与集成状态"
+          >
+            <Activity size={14} /> <span>评测状态</span>
+          </button>
           <button
             type="button"
             className="glass-pill-btn"
@@ -562,6 +598,8 @@ export default function App() {
           onClose={() => setEvidenceOpen(false)}
         />
       )}
+
+      {evaluationOpen && <EvaluationPanel onClose={() => setEvaluationOpen(false)} />}
     </div>
   )
 }

@@ -1,0 +1,4705 @@
+.F...F.F......F.....FF..F.F.F.......F................F.F..F..F.......... [ 22%]
+
+
+
+.....FFFFFFFF......F.................................................... [ 45%]
+
+
+
+........................................................................ [ 68%]
+
+
+
+....FFF......FFFF.F......F..FF....F.FFFFF...F.................F..FFFF.FF [ 91%]
+
+
+
+..........................                                               [100%]
+
+
+
+================================== FAILURES ===================================
+
+
+
+________ test_api_envelope_surfaces_fallback_warning_and_monotonicity _________
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_api_envelope_surfaces_fal0')
+
+
+
+
+
+
+
+    def test_api_envelope_surfaces_fallback_warning_and_monotonicity(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        service = HarnessService(
+
+
+
+            config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
+
+
+
+        )
+
+
+
+        conv = ConversationService(
+
+
+
+            config,
+
+
+
+            service=service,
+
+
+
+            llm=FailingLLM(),
+
+
+
+            store_dir=str(tmp_path / "state"),
+
+
+
+            dialogue_enabled=True,
+
+
+
+        )
+
+
+
+        client = TestClient(create_app(conversation=conv))
+
+
+
+        sid = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        t1 = _poll_turn(
+
+
+
+            client,
+
+
+
+            client.post(f"/v1/sessions/{sid}/turns", json={"text": "?????????????????????"}).json()["turn_id"],
+
+
+
+        )
+
+
+
+>       assert t1["status"] == "SUCCEEDED", (t1.get("error"), t1.get("message"))
+
+
+
+E       AssertionError: ({'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'class': 'upstream_rejected...': False}, '????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????')
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_abc_integration_fixes.py:129: AssertionError
+
+
+
+___________________ test_session_merges_only_named_changes ____________________
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+
+
+
+
+    def test_session_merges_only_named_changes(config, b_app_client):
+
+
+
+        runner, _ = make_harness(config, b_app_client)
+
+
+
+        runner.llm.responses = [
+
+
+
+            ScriptedResponse(tool_calls=[tool_call("submit_task", task_type="assess",
+
+
+
+                                                   changes=assess_changes(ratio=0.35))],
+
+
+
+                             usage=ok_usage()),
+
+
+
+            ScriptedResponse(tool_calls=[tool_call("submit_task", task_type="assess",
+
+
+
+                                                   changes=assess_changes(walk=20))],
+
+
+
+                             usage=ok_usage()),
+
+
+
+            ScriptedResponse(content="????????????c??????????????????0.35?????????20?????????", usage=ok_usage()),
+
+
+
+        ]
+
+
+
+        run = runner.run_case("T-merge", [{"user": "??????????????????????????0.35"}, {"user": "???????????????3??20"}])
+
+
+
+        assert run.final_text
+
+
+
+>       assert [row["ok"] for row in run.submitted] == [True, True]
+
+
+
+E       assert [False, False] == [True, True]
+
+
+
+E
+
+
+
+E         At index 0 diff: False != True
+
+
+
+E         Use -v to get more diff
+
+
+
+
+
+
+
+tests\module_c\test_agent_loop.py:58: AssertionError
+
+
+
+___________________ test_numeric_gate_rewrites_wrong_number ___________________
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+
+
+
+
+    def test_numeric_gate_rewrites_wrong_number(config, b_app_client):
+
+
+
+        runner, _ = make_harness(config, b_app_client)
+
+
+
+        runner.llm.responses = [
+
+
+
+            ScriptedResponse(tool_calls=[tool_call("submit_task", task_type="assess")], usage=ok_usage()),
+
+
+
+            ScriptedResponse(content="????????????c????w??????????????? 99999.0 ?????", usage=ok_usage()),
+
+
+
+            ScriptedResponse(content="????????????a?????????????????????????? DEMO_ONLY ??????c?????????????????????????"
+
+
+
+                                     "??w??????????????< 6456 ?????????????????< 110206 ?????", usage=ok_usage()),
+
+
+
+        ]
+
+
+
+        run = runner.run_case("T-numeric", [{"user": "?????????????"}])
+
+
+
+        assert run.rewrite_used is True
+
+
+
+        assert run.citations is not None
+
+
+
+>       assert run.citations["consistent"] is True
+
+
+
+E       assert False is True
+
+
+
+
+
+
+
+tests\module_c\test_agent_loop.py:107: AssertionError
+
+
+
+________________ test_clarification_resume_and_result_envelope ________________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_clarification_resume_and_0')
+
+
+
+
+
+
+
+    def test_clarification_resume_and_result_envelope(tmp_path):
+
+
+
+        _conv, client = build(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        first = turn(client, session_id, "??????????????????????????{??????")
+
+
+
+        assert first["status"] == "NEEDS_CLARIFICATION"
+
+
+
+        assert first["clarification"]["fields"] == ["budget_units"]
+
+
+
+        assert first["result_id"] is None
+
+
+
+        assert REQUIRED_KEYS <= set(first)
+
+
+
+
+
+
+
+        second = turn(client, session_id, "$????????2????")
+
+
+
+        assert second["status"] == "NEEDS_CLARIFICATION"
+
+
+
+        assert second["clarification"]["fields"] == ["improvement_options"]
+
+
+
+
+
+
+
+        third = turn(client, session_id, f"{SHIELD} ???????? 300 ???????q?? 1????")
+
+
+
+>       assert third["status"] == "SUCCEEDED", third["message"]
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_api.py:113: AssertionError
+
+
+
+_______________________ test_reset_clears_session_state _______________________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_reset_clears_session_stat0')
+
+
+
+
+
+
+
+    def test_reset_clears_session_state(tmp_path):
+
+
+
+        _conv, client = build(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        done = turn(client, session_id, "??????????????0.3?????????????????????")
+
+
+
+>       assert done["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_api.py:190: AssertionError
+
+
+
+_______________ test_restart_restores_params_results_and_turns ________________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_restart_restores_params_r0')
+
+
+
+
+
+
+
+    def test_restart_restores_params_results_and_turns(tmp_path):
+
+
+
+        conv, client = build(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        done = turn(client, session_id, "??????????????0.3?????????????????????")
+
+
+
+>       assert done["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_api.py:203: AssertionError
+
+
+
+_______ test_contract_refusal_is_a_failed_envelope_and_changes_nothing ________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_contract_refusal_is_a_fai0')
+
+
+
+
+
+
+
+    def test_contract_refusal_is_a_failed_envelope_and_changes_nothing(tmp_path):
+
+
+
+        """A trust-altering request is refused, identified by code, and harmless."""
+
+
+
+        _conv, client = build(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        baseline = turn(client, session_id, "??????????????0.3?????????????????????")
+
+
+
+>       assert baseline["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_api.py:268: AssertionError
+
+
+
+__________________ test_vague_change_never_invents_a_number ___________________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_vague_change_never_invent0')
+
+
+
+
+
+
+
+    def test_vague_change_never_invents_a_number(tmp_path):
+
+
+
+        """A change with no number must not turn into a number."""
+
+
+
+        _conv, client = build(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        before = client.get(f"/v1/sessions/{session_id}").json()["params"]
+
+
+
+        payload = turn(client, session_id, "????$?????????????????????????????")
+
+
+
+>       assert payload["status"] in {"SUCCEEDED", "NEEDS_CLARIFICATION"}
+
+
+
+E       AssertionError: assert 'FAILED' in {'NEEDS_CLARIFICATION', 'SUCCEEDED'}
+
+
+
+
+
+
+
+tests\module_c\test_api.py:309: AssertionError
+
+
+
+_________________________ test_two_servers_full_flow __________________________
+
+
+
+
+
+
+
+servers = {'b': 'http://127.0.0.1:52706', 'c': 'http://127.0.0.1:52707', 'procs': (<Popen: returncode: None args: ['D:\\miniconda\\envs\\dl_pytorch\\python.exe...>, <Popen: returncode: None args: ['D:\\miniconda\\envs\\dl_pytorch\\python.exe...>)}
+
+
+
+
+
+
+
+    def test_two_servers_full_flow(servers):
+
+
+
+        base = servers["c"]
+
+
+
+
+
+
+
+        status, health = _request("GET", f"{base}/healthz")
+
+
+
+        assert status == 200 and health["service"] == "shelterplan-module-c"
+
+
+
+
+
+
+
+        status, created = _request("POST", f"{base}/v1/sessions", {})
+
+
+
+        assert status == 201, created
+
+
+
+        session_id = created["session_id"]
+
+
+
+
+
+
+
+        # --- turn 1: clarification -------------------------------------------- #
+
+
+
+        status, accepted = _request("POST", f"{base}/v1/sessions/{session_id}/turns",
+
+
+
+                                    {"text": "??????????????????????????{??????"})
+
+
+
+        assert status == 202, accepted
+
+
+
+        assert accepted["status"] == "RUNNING"
+
+
+
+        turn_id = accepted["turn_id"]
+
+
+
+        first = _wait_turn(f"{base}/v1/turns/{turn_id}")
+
+
+
+        assert first["status"] == "NEEDS_CLARIFICATION"
+
+
+
+        assert first["clarification"]["fields"] == ["budget_units"]
+
+
+
+
+
+
+
+        # --- turn 2: answer the missing field ---------------------------------- #
+
+
+
+        _, accepted = _request("POST", f"{base}/v1/sessions/{session_id}/turns",
+
+
+
+                               {"text": "$????????2????"})
+
+
+
+        second = _wait_turn(f"{base}/v1/turns/{accepted['turn_id']}")
+
+
+
+        assert second["status"] == "NEEDS_CLARIFICATION"
+
+
+
+        assert second["clarification"]["fields"] == ["improvement_options"]
+
+
+
+
+
+
+
+        # --- turn 3: complete the task over HTTP ------------------------------- #
+
+
+
+        _, accepted = _request("POST", f"{base}/v1/sessions/{session_id}/turns",
+
+
+
+                               {"text": f"{SHIELD} ???????? 300 ???????q?? 1????"})
+
+
+
+        third = _wait_turn(f"{base}/v1/turns/{accepted['turn_id']}")
+
+
+
+>       assert third["status"] == "SUCCEEDED", third.get("message")
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_api_http.py:173: AssertionError
+
+
+
+_______________ test_four_step_business_flow_and_clarification ________________
+
+
+
+
+
+
+
+live_servers = 'http://127.0.0.1:57228'
+
+
+
+
+
+
+
+    def test_four_step_business_flow_and_clarification(live_servers):
+
+
+
+>       flows = run_flows(live_servers)
+
+
+
+                ^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+
+
+tests\module_c\test_business_flow_e2e.py:29:
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+base = 'http://127.0.0.1:57228'
+
+
+
+
+
+
+
+    def run_flows(base: str) -> dict[str, list[dict]]:
+
+
+
+        _, session = request("POST", f"{base}/v1/sessions", {})
+
+
+
+        main_session = session["session_id"]
+
+
+
+        business = []
+
+
+
+        # 1 ????????????? -> 2 ????????????? -> 3 ??????????{?? -> 4 ??????????=??
+
+
+
+        steps = [
+
+
+
+            ("?????????????", "??????????????????????"),
+
+
+
+            ("?????????????", "????????????????3??0.3???????????????????3??20?????????????????????????????"),
+
+
+
+            ("??????????{??", f"$?????????2???????? {SHIELD} ????????300???????q??1??????????????????{??????"),
+
+
+
+            ("??????????=??", "??=????????????????0.2????0.4????????????????8?????????c?"),
+
+
+
+        ]
+
+
+
+        for index, (label, text) in enumerate(steps, 1):
+
+
+
+            envelope = submit(base, main_session, text)
+
+
+
+            business.append({"step": index, "label": label, "text": text,
+
+
+
+                             **projection(envelope)})
+
+
+
+            print(f"  [{index}] {label:<8} {envelope.get('status'):<20} "
+
+
+
+                  f"result={envelope.get('result_id')} "
+
+
+
+                  f"served={envelope.get('metrics', {}).get('served_demand')}")
+
+
+
+        for row in business:
+
+
+
+            if row["status"] != "SUCCEEDED":
+
+
+
+>               raise AssertionError(f"business step {row['step']} failed: {row['status']} "
+
+
+
+                                     f"{row['error']} {row['message'][:200]}")
+
+
+
+E               AssertionError: business step 1 failed: FAILED {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'class': 'upstream_rejected', 'recoverable': False} ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E               ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E               ???????????????2?????????????????9?n??????????????
+
+
+
+
+
+
+
+examples\c_to_d_business_flow.py:184: AssertionError
+
+
+
+---------------------------- Captured stdout call -----------------------------
+
+
+
+  [1] ?????????????     FAILED               result=None served=None
+
+
+
+  [2] ?????????????     FAILED               result=None served=None
+
+
+
+  [3] ??????????{??     FAILED               result=None served=None
+
+
+
+  [4] ??????????=??     FAILED               result=None served=None
+
+
+
+___________ test_three_step_clarification_resumes_the_original_task ___________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C01DCC1280>
+
+
+
+
+
+
+
+    def test_three_step_clarification_resumes_the_original_task(service):
+
+
+
+        runner = make_runner(service, "sess-loop")
+
+
+
+        first = runner.run_turn("??????????????????????????{??????")
+
+
+
+        assert first.status == "NEEDS_CLARIFICATION"
+
+
+
+        assert "budget_units" in first.clarification_fields
+
+
+
+        assert runner.dialogue.pending is not None
+
+
+
+        assert runner.dialogue.pending.task_type == "optimize"
+
+
+
+
+
+
+
+        second = runner.run_turn("$????????2????")
+
+
+
+        assert second.status == "NEEDS_CLARIFICATION"
+
+
+
+        assert "improvement_options" in second.clarification_fields
+
+
+
+        # The budget from turn 2 must be carried, not forgotten.
+
+
+
+        assert runner.dialogue.pending.changes.get("budget_units") == 2
+
+
+
+
+
+
+
+        third = runner.run_turn(f"{SHIELD} ???????? 300 ???????q?? 1????")
+
+
+
+>       assert third.status == "SUCCEEDED", third.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_dialogue.py:103: AssertionError
+
+
+
+_____________ test_switching_task_drops_the_pending_clarification _____________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C0257A8170>
+
+
+
+
+
+
+
+    def test_switching_task_drops_the_pending_clarification(service):
+
+
+
+        runner = make_runner(service, "sess-switch")
+
+
+
+        runner.run_turn("??????????????????????????{??????")
+
+
+
+        switched = runner.run_turn("??2????{?????????3???????????????????")
+
+
+
+>       assert switched.status == "SUCCEEDED", switched.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_dialogue.py:129: AssertionError
+
+
+
+___________ test_two_sessions_do_not_share_pending_state_or_results ___________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C02B524920>
+
+
+
+
+
+
+
+    def test_two_sessions_do_not_share_pending_state_or_results(service):
+
+
+
+        a = make_runner(service, "sess-a")
+
+
+
+        b = make_runner(service, "sess-b")
+
+
+
+
+
+
+
+        a.run_turn("??????????????????????????{??????")
+
+
+
+        b.run_turn("??????????????????????")
+
+
+
+        assert a.dialogue.pending is not None
+
+
+
+        assert b.dialogue.pending is None
+
+
+
+        b_results = list(service.session_state("sess-b")["result_ids"])
+
+
+
+
+
+
+
+        done = a.run_turn("$????2????????a " + SHIELD + " ???????? 300 ???q??1????")
+
+
+
+>       assert done.status == "SUCCEEDED", done.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_dialogue.py:174: AssertionError
+
+
+
+__________________ test_mcp_and_api_return_the_same_numbers ___________________
+
+
+
+
+
+
+
+api = <starlette.testclient.TestClient object at 0x000001C03A2A5340>
+
+
+
+service = <agent.service.HarnessService object at 0x000001C021484770>
+
+
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C035F8E090>
+
+
+
+
+
+
+
+    def test_mcp_and_api_return_the_same_numbers(api, service, monkeypatch):
+
+
+
+        monkeypatch.setattr(mcp_server, "_service", service, raising=False)
+
+
+
+
+
+
+
+        # --- HTTP entry: the user sentence is the only input -------------------
+
+
+
+        session_id = api.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        envelope = _turn(api, session_id,
+
+
+
+                         f"????$?????????3???????????????????????{??????????a???? {SHIELD} ????????500???????q??1????")
+
+
+
+>       assert envelope["status"] == "SUCCEEDED", envelope.get("message")
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_entry_points_agree.py:83: AssertionError
+
+
+
+___________ test_assess_returns_demo_result_with_projected_summary ____________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C0315F3230>
+
+
+
+
+
+
+
+    def test_assess_returns_demo_result_with_projected_summary(executor: HarnessExecutor):
+
+
+
+        outcome = executor.execute(ExecuteRequest(task_type="assess"))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='assess', task_id='c-a4c136c3-588c-46e9-9e35-620fefd56982', session_id='s-test', scena...875, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:30: AssertionError
+
+
+
+_______________ test_optimize_with_zero_budget_selects_nothing ________________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C0CA700DD0>
+
+
+
+
+
+
+
+    def test_optimize_with_zero_budget_selects_nothing(executor: HarnessExecutor):
+
+
+
+        outcome = executor.execute(ExecuteRequest(task_type="optimize", changes={"budget_units": 0}))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='optimize', task_id='c-6ab13820-e0be-4b73-a89f-397e5b888df8', session_id='s-test', sce...827, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:41: AssertionError
+
+
+
+______________ test_optimize_picks_an_option_when_capacity_binds ______________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C02891E240>
+
+
+
+
+
+
+
+    def test_optimize_picks_an_option_when_capacity_binds(executor: HarnessExecutor):
+
+
+
+        outcome = executor.execute(ExecuteRequest(
+
+
+
+            task_type="optimize",
+
+
+
+            changes={"budget_units": 1, "disabled_shelter_ids": SCARCE_SHELTERS},
+
+
+
+            improvement_options=[SATURATED_OPTION]))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='optimize', task_id='c-a89998a5-f7d9-4c53-8bc5-acce5925493e', session_id='s-test', sce...384, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:71: AssertionError
+
+
+
+_________ test_optimize_reports_no_gain_when_capacity_is_not_binding __________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C026A30A40>
+
+
+
+
+
+
+
+    def test_optimize_reports_no_gain_when_capacity_is_not_binding(executor: HarnessExecutor):
+
+
+
+        """A valid business answer: buying capacity changes nothing here."""
+
+
+
+        outcome = executor.execute(ExecuteRequest(
+
+
+
+            task_type="optimize", changes={"budget_units": 1},
+
+
+
+            improvement_options=[HYPO_OPTION]))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='optimize', task_id='c-a7871197-43b9-4e2b-8f43-6e5430853fd4', session_id='s-test', sce...843, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:83: AssertionError
+
+
+
+_____________ test_compare_returns_two_rows_and_no_forced_winner ______________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C024DA57C0>
+
+
+
+
+
+
+
+    def test_compare_returns_two_rows_and_no_forced_winner(executor: HarnessExecutor):
+
+
+
+        outcome = executor.execute(ExecuteRequest(
+
+
+
+            task_type="compare",
+
+
+
+            parameters={"scenarios": [{"population_demand_ratio": 0.1},
+
+
+
+                                      {"population_demand_ratio": 0.3}]}))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='compare', task_id='c-facf102e-1c42-48c7-b493-33ab1ef476f5', session_id='s-test', scen...844, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:92: AssertionError
+
+
+
+________________ test_stress_test_compares_fixed_and_adaptive _________________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C0DA9FBF50>
+
+
+
+
+
+
+
+    def test_stress_test_compares_fixed_and_adaptive(executor: HarnessExecutor):
+
+
+
+        outcome = executor.execute(ExecuteRequest(
+
+
+
+            task_type="stress_test",
+
+
+
+            parameters={"disabled_shelter_ids": ["zs_1b4df7920b"], "budget_units": 1},
+
+
+
+            improvement_options=[SATURATED_OPTION]))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='stress_test', task_id='c-3406c700-aad1-403b-8fe0-450948712f78', session_id='s-test', ...676, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:105: AssertionError
+
+
+
+______________ test_multi_turn_inheritance_keeps_untouched_ratio ______________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C032838E00>
+
+
+
+
+
+
+
+    def test_multi_turn_inheritance_keeps_untouched_ratio(executor: HarnessExecutor):
+
+
+
+        first = executor.execute(ExecuteRequest(
+
+
+
+            task_type="assess", changes={"population_demand_ratio": 0.35}))
+
+
+
+>       assert first.ok, first.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='assess', task_id='c-fb6f2acc-dd82-46a5-9192-29233059de1c', session_id='s-test', scena...194, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:116: AssertionError
+
+
+
+________________ test_explain_result_reuses_a_previous_result _________________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C02B46EC90>
+
+
+
+
+
+
+
+    def test_explain_result_reuses_a_previous_result(executor: HarnessExecutor):
+
+
+
+        first = executor.execute(ExecuteRequest(task_type="assess"))
+
+
+
+>       assert first.ok, first.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='assess', task_id='c-7102122a-d394-46a9-a7eb-5a341e3198fb', session_id='s-test', scena...515, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:128: AssertionError
+
+
+
+______________________ test_summary_matches_full_result _______________________
+
+
+
+
+
+
+
+executor = <agent.harness.executor.HarnessExecutor object at 0x000001C0D6C082F0>
+
+
+
+b_client = <agent.b_client.BClient object at 0x000001C0D6C086B0>
+
+
+
+
+
+
+
+    def test_summary_matches_full_result(executor: HarnessExecutor, b_client: BClient):
+
+
+
+        outcome = executor.execute(ExecuteRequest(task_type="assess"))
+
+
+
+>       assert outcome.ok, outcome.error
+
+
+
+E       AssertionError: {'code': 'B_DATA_INVALID', 'message': 'Manifest artifact size or SHA-256 does not match', 'details': {'path': 'data/pr...json', 'status': 'CONTENT_MISMATCH', 'expected_bytes': 2633782, 'actual_bytes': 2641754, ...}, 'retryable': False, ...}
+
+
+
+E       assert False
+
+
+
+E        +  where False = TaskOutcome(ok=False, task_type='assess', task_id='c-2d593c6a-63e3-4143-a705-189bb51746bf', session_id='s-test', scena...601, status='error', attempt=1, error_code='B_DATA_INVALID', job_id=None, result_id=None, detail={})], summary_bytes=0).ok
+
+
+
+
+
+
+
+tests\module_c\test_executor.py:186: AssertionError
+
+
+
+____________________ test_doubling_is_not_the_model_number ____________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C037509DC0>
+
+
+
+
+
+
+
+    def test_doubling_is_not_the_model_number(service):
+
+
+
+        run = runner(service, "p0-double")
+
+
+
+        run.run_turn("$?????????3?????????????????????")
+
+
+
+>       assert params(service, "p0-double")["budget_units"] == 3.0
+
+
+
+E       assert None == 3.0
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:84: AssertionError
+
+
+
+____________________________ test_halving_is_half _____________________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C033A42390>
+
+
+
+
+
+
+
+    def test_halving_is_half(service):
+
+
+
+        run = runner(service, "p0-half")
+
+
+
+        run.run_turn("$?????????8?????????????????????")
+
+
+
+        run.llm.payload = wrong([{"field": "budget_units", "op": "scale", "value": 4.0}])
+
+
+
+        run.run_turn("$??????????????????????????")
+
+
+
+>       assert params(service, "p0-half")["budget_units"] == 4.0
+
+
+
+E       assert None == 4.0
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:98: AssertionError
+
+
+
+_____________________ test_half_an_hour_is_thirty_minutes _____________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C02F0E6930>
+
+
+
+
+
+
+
+    def test_half_an_hour_is_thirty_minutes(service):
+
+
+
+        run = runner(service, "p0-walk")
+
+
+
+        run.llm.payload = wrong([{"field": "max_walk_time_min", "op": "scale", "value": 7.5}],
+
+
+
+                                intent="assess")
+
+
+
+        record = run.run_turn("?????????????????!??????????????????????")
+
+
+
+>       assert record.status == "SUCCEEDED", record.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:109: AssertionError
+
+
+
+________________ test_undo_last_restores_the_previous_snapshot ________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C080B86570>
+
+
+
+
+
+
+
+    def test_undo_last_restores_the_previous_snapshot(service):
+
+
+
+        run = runner(service, "p0-undo")
+
+
+
+        run.run_turn("????????????????3??0.35????????????????")
+
+
+
+        run.run_turn("????????????????3??0.5????????????????")
+
+
+
+        record = run.run_turn("??r??????6??????????????????????????????")
+
+
+
+>       assert record.status == "SUCCEEDED", record.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:181: AssertionError
+
+
+
+_________________ test_undo_one_field_leaves_the_others_alone _________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C0325B9A30>
+
+
+
+
+
+
+
+    def test_undo_one_field_leaves_the_others_alone(service):
+
+
+
+        run = runner(service, "p0-undo2")
+
+
+
+        run.run_turn("$?????????3?????????????????????")
+
+
+
+        run.run_turn("$?????????7???????????????????3??20??????????????????????????")
+
+
+
+        run.run_turn("?????$??c8")
+
+
+
+        current = params(service, "p0-undo2")
+
+
+
+>       assert current["budget_units"] == 3.0
+
+
+
+E       assert None == 3.0
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:191: AssertionError
+
+
+
+_______________________ test_undo_without_a_target_asks _______________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C036A10EC0>
+
+
+
+
+
+
+
+    def test_undo_without_a_target_asks(service):
+
+
+
+        run = runner(service, "p0-undo3")
+
+
+
+        run.run_turn("????????????????3??0.3????????????????")
+
+
+
+        record = run.run_turn("??????????????")
+
+
+
+        assert record.status == "NEEDS_CLARIFICATION"
+
+
+
+        assert "?????????" in record.text
+
+
+
+>       assert params(service, "p0-undo3")["population_demand_ratio"] == 0.3
+
+
+
+E       assert 0.2 == 0.3
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:201: AssertionError
+
+
+
+____________________ test_stop_disabling_is_not_a_restore _____________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C037C5D880>
+
+
+
+
+
+
+
+    def test_stop_disabling_is_not_a_restore(service):
+
+
+
+        run = runner(service, "p0-undo4")
+
+
+
+        run.run_turn(f"c???? zs_1b4df7920b????????y??????????!??")
+
+
+
+        record = run.run_turn("?????c?????????????????c?????;?????????????????????")
+
+
+
+>       assert record.status == "SUCCEEDED", record.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:208: AssertionError
+
+
+
+______ test_hallucinated_default_restatement_does_not_block_a_real_task _______
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C032F96F60>
+
+
+
+
+
+
+
+    def test_hallucinated_default_restatement_does_not_block_a_real_task(service):
+
+
+
+        """post-fix regression V21-E-04: the model restated two defaults as `set` ops.
+
+
+
+
+
+
+
+        The user asked for an optimisation with budget 2. The two fields they never
+
+
+
+        named must be dropped with a warning, not turn the whole request into a
+
+
+
+       clarification.
+
+
+
+        """
+
+
+
+        run = runner(service, "p0-restatement")
+
+
+
+        run.llm.payload = {
+
+
+
+            "intent": "optimize",
+
+
+
+            "ops": [{"field": "population_demand_ratio", "op": "set", "value": 0.2},
+
+
+
+                    {"field": "max_walk_time_min", "op": "set", "value": 15.0},
+
+
+
+                    {"field": "budget_units", "op": "set", "value": 2.0}],
+
+
+
+            "options": [{"shelter_id": SHIELD, "delta_capacity_persons": 100,
+
+
+
+                         "cost_units": 1}],
+
+
+
+            "clarify": [],
+
+
+
+        }
+
+
+
+        record = run.run_turn(f"??x?? {SHIELD} ????????100???????q??1????$????2??????????{??????")
+
+
+
+>       assert params(service, "p0-restatement")["budget_units"] == 2.0
+
+
+
+E       assert None == 2.0
+
+
+
+
+
+
+
+tests\module_c\test_v22_behaviour.py:244: AssertionError
+
+
+
+________ test_history_reference_resolves_against_the_previous_snapshot ________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C01F2F9F10>
+
+
+
+
+
+
+
+    def test_history_reference_resolves_against_the_previous_snapshot(service):
+
+
+
+        run = runner(service, "sem-history")
+
+
+
+        first = run.run_turn("$?????????5?????????????????????")
+
+
+
+>       assert first.status == "SUCCEEDED", first.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v23_semantics.py:101: AssertionError
+
+
+
+_________________ test_negated_shutdown_is_not_a_stress_test __________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C03A775490>
+
+
+
+
+
+
+
+    def test_negated_shutdown_is_not_a_stress_test(service):
+
+
+
+        text = f"???? {SHIELD} ????????200???????q??1????$????2?????????????c??????????????????"
+
+
+
+        record = runner(service, "sem-neg-disable").run_turn(text)
+
+
+
+>       assert record.status == "SUCCEEDED", record.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v23_semantics.py:133: AssertionError
+
+
+
+___________________ test_paired_values_recover_a_comparison ___________________
+
+
+
+
+
+
+
+service = <agent.service.HarnessService object at 0x000001C081BDD2E0>
+
+
+
+
+
+
+
+    def test_paired_values_recover_a_comparison(service):
+
+
+
+        record = runner(service, "sem-compare").run_turn(
+
+
+
+            "??=??$????2????$????5????????????????8?????????c?")
+
+
+
+>       assert record.status == "SUCCEEDED", record.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v23_semantics.py:143: AssertionError
+
+
+
+____________ test_chinese_no_space_shelter_id_extraction_and_undo _____________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_chinese_no_space_shelter_0')
+
+
+
+
+
+
+
+    def test_chinese_no_space_shelter_id_extraction_and_undo(tmp_path: Path):
+
+
+
+        stress_intent = rule_extract(f"c????{SHIELD}????????y??????????!??")
+
+
+
+        assert any(
+
+
+
+            op.field == "disabled_shelter_ids" and op.value == [SHIELD]
+
+
+
+            for op in stress_intent.ops
+
+
+
+        )
+
+
+
+
+
+
+
+        opt_intent = rule_extract(f"????{SHIELD}????????300???????q??1????$????2??????????{??????")
+
+
+
+        assert opt_intent.options
+
+
+
+        assert opt_intent.options[0]["shelter_id"] == SHIELD
+
+
+
+        assert opt_intent.options[0]["delta_capacity_persons"] == 300.0
+
+
+
+
+
+
+
+        config = HarnessConfig()
+
+
+
+        service = HarnessService(config, client=BClient(config, client=TestClient(b_app)),
+
+
+
+                                 trace_dir=str(tmp_path / "trace"))
+
+
+
+        runner = StructuredRunner("harness_opt", service, RuleLLM(), config,
+
+
+
+                                  session_id="no-space-id", dialogue_enabled=True)
+
+
+
+        first = runner.run_turn(f"c????{SHIELD}????????y??????????!??")
+
+
+
+>       assert first.status == "SUCCEEDED", first.text
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:83: AssertionError
+
+
+
+_____________ test_optimize_layers_metrics_and_full_result_cache ______________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_optimize_layers_metrics_a0')
+
+
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C080094500>
+
+
+
+
+
+
+
+    def test_optimize_layers_metrics_and_full_result_cache(tmp_path: Path, monkeypatch):
+
+
+
+        conv, client, b_client = _build_api(tmp_path)
+
+
+
+        get_result_calls = 0
+
+
+
+        original_get_result = b_client.get_result
+
+
+
+
+
+
+
+        def counted_get_result(result_id: str) -> dict[str, Any]:
+
+
+
+            nonlocal get_result_calls
+
+
+
+            get_result_calls += 1
+
+
+
+            return original_get_result(result_id)
+
+
+
+
+
+
+
+        monkeypatch.setattr(b_client, "get_result", counted_get_result)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        # Disable scarce shelters first so expansion creates real capacity gain.
+
+
+
+        scarce = " ".join(SCARCE_SHELTERS)
+
+
+
+        first = _turn(client, session_id, f"c???? {scarce}?????????????????????")
+
+
+
+>       assert first["status"] == "SUCCEEDED", first["message"]
+
+
+
+E       AssertionError: ????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E         ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E         ???????????????2?????????????????9?n??????????????
+
+
+
+E       assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:122: AssertionError
+
+
+
+_____________ test_stress_test_layers_returns_fixed_and_adaptive ______________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_stress_test_layers_return0')
+
+
+
+
+
+
+
+    def test_stress_test_layers_returns_fixed_and_adaptive(tmp_path: Path):
+
+
+
+        conv, client, _ = _build_api(tmp_path)
+
+
+
+        session_id = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        set_budget = _turn(client, session_id, "$?????????1?????????????????????")
+
+
+
+>       assert set_budget["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:188: AssertionError
+
+
+
+__________ test_restart_restores_memory_client_turns_and_lazy_loads ___________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_restart_restores_memory_c0')
+
+
+
+
+
+
+
+    def test_restart_restores_memory_client_turns_and_lazy_loads(tmp_path: Path):
+
+
+
+        conv1, client1, _ = _build_api(tmp_path)
+
+
+
+        session_id = client1.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        first = _turn(client1, session_id, "??????????????0.3?????????????????????", client_turn_id="idem-1")
+
+
+
+>       assert first["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:221: AssertionError
+
+
+
+________________ test_reset_clears_client_turns_and_disk_turns ________________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_reset_clears_client_turns0')
+
+
+
+
+
+
+
+    def test_reset_clears_client_turns_and_disk_turns(tmp_path: Path):
+
+
+
+        conv1, client1, _ = _build_api(tmp_path)
+
+
+
+        session_id = client1.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        first = _turn(client1, session_id, "??????????????0.3?????????????????????", client_turn_id="dup-key")
+
+
+
+>       assert first["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:247: AssertionError
+
+
+
+____________ test_result_endpoints_preserve_real_http_status_codes ____________
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_result_endpoints_preserve0')
+
+
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C08C30DA00>
+
+
+
+
+
+
+
+    def test_result_endpoints_preserve_real_http_status_codes(tmp_path: Path, monkeypatch):
+
+
+
+        conv, client, _ = _build_api(tmp_path)
+
+
+
+        session_a = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        session_b = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        done = _turn(client, session_a, "?????????????????")
+
+
+
+        rid = done["result_id"]
+
+
+
+
+
+
+
+        assert client.get(f"/v1/results/{rid}/layers", params={"session_id": "missing"}).status_code == 404
+
+
+
+        assert client.get(f"/v1/results/{rid}/layers", params={"session_id": session_b}).status_code == 403
+
+
+
+        assert client.get(
+
+
+
+            f"/v1/results/{rid}/layers",
+
+
+
+            params={"session_id": session_a, "variant": "bogus"},
+
+
+
+        ).status_code == 422
+
+
+
+>       assert client.get(
+
+
+
+            f"/v1/results/{rid}/evidence/bogus_section",
+
+
+
+            params={"session_id": session_a},
+
+
+
+        ).status_code == 422
+
+
+
+E       AssertionError: assert 403 == 422
+
+
+
+E        +  where 403 = <Response [403 Forbidden]>.status_code
+
+
+
+E        +    where <Response [403 Forbidden]> = get('/v1/results/None/evidence/bogus_section', params={'session_id': 's-051f08c194c7'})
+
+
+
+E        +      where get = <starlette.testclient.TestClient object at 0x000001C08C30E030>.get
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:282: AssertionError
+
+
+
+____ test_mcp_structured_supports_multi_turn_clarification_and_shared_llm _____
+
+
+
+
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_mcp_structured_supports_m0')
+
+
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C0AD6F67B0>
+
+
+
+
+
+
+
+    def test_mcp_structured_supports_multi_turn_clarification_and_shared_llm(tmp_path: Path, monkeypatch):
+
+
+
+        monkeypatch.setenv("SHELTERPLAN_MCP_STRUCTURED", "1")
+
+
+
+        import agent.mcp_server as mcp_server
+
+
+
+
+
+
+
+        importlib.reload(mcp_server)
+
+
+
+        config = HarnessConfig()
+
+
+
+        service = HarnessService(config, client=BClient(config, client=TestClient(b_app)),
+
+
+
+                                 trace_dir=str(tmp_path / "mcp-trace"))
+
+
+
+        shared_llm = RuleLLM()
+
+
+
+        monkeypatch.setattr(mcp_server, "_service", service, raising=False)
+
+
+
+        monkeypatch.setattr(mcp_server, "_llm_adapter", shared_llm, raising=False)
+
+
+
+        mcp_server._structured_runners.clear()  # noqa: SLF001
+
+
+
+
+
+
+
+        try:
+
+
+
+            r1 = mcp_server._structured_runner("s-one")  # noqa: SLF001
+
+
+
+            r2 = mcp_server._structured_runner("s-two")  # noqa: SLF001
+
+
+
+            assert r1.extractor.llm is shared_llm
+
+
+
+            assert r2.extractor.llm is shared_llm
+
+
+
+
+
+
+
+            turn1 = mcp_server.handle_request("??????????????????????????{??????", session_id="mcp-dlg")
+
+
+
+            assert turn1["ok"] is True
+
+
+
+            assert turn1["status"] == "NEEDS_CLARIFICATION"
+
+
+
+            assert turn1["clarification_fields"] == ["budget_units"]
+
+
+
+
+
+
+
+            turn2 = mcp_server.handle_request("$????2????", session_id="mcp-dlg")
+
+
+
+            assert turn2["status"] == "NEEDS_CLARIFICATION"
+
+
+
+            assert turn2["clarification_fields"] == ["improvement_options"]
+
+
+
+
+
+
+
+            turn3 = mcp_server.handle_request(f"????{SHIELD}????????300???????q??1????", session_id="mcp-dlg")
+
+
+
+>           assert turn3["status"] == "SUCCEEDED", turn3
+
+
+
+E           AssertionError: {'ok': True, 'status': 'FAILED', 'answer': '????????!?????n????????>???????????????B_DATA_INVALID????????
+
+
+
+E             ????-????Manifest artifact size or SHA-256 does not match
+
+
+
+E             ???????????????2?????????????????9?n??????????????', 'intent': 'optimize', ...}
+
+
+
+E           assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E             - SUCCEEDED
+
+
+
+E             + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v24_fixes_and_regions.py:413: AssertionError
+
+
+
+_ test_diagnose_intervene_with_options_projects_both_diagnosis_and_optimization _
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_diagnose_intervene_with_o0')
+
+
+
+
+
+
+
+    def test_diagnose_intervene_with_options_projects_both_diagnosis_and_optimization(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        service = HarnessService(
+
+
+
+            config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
+
+
+
+        )
+
+
+
+        options = [_pilot_option("CAP_1", "zs_6358642b6f", 100.0, 1.0)]
+
+
+
+        outcome = service.submit(
+
+
+
+            "diagnose_intervene",
+
+
+
+            session_id="s-diag-opt",
+
+
+
+            changes={"budget_units": 5.0},
+
+
+
+            improvement_options=options,
+
+
+
+        )
+
+
+
+>       assert outcome["ok"] is True, outcome
+
+
+
+E       AssertionError: {'ok': False, 'task_type': 'diagnose_intervene', 'task_id': 'c-b7bb34eb-5cc5-4de2-a543-3cd446c2d056', 'session_id': 's-diag-opt', ...}
+
+
+
+E       assert False is True
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:105: AssertionError
+
+
+
+_ test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_match _
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_primary_stage_optimal_tri0')
+
+
+
+
+
+
+
+    def test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_match(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        # Case A: live Module B now records stage-1 objective_value -> strictly TRUE.
+
+
+
+        service = HarnessService(
+
+
+
+            config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
+
+
+
+        )
+
+
+
+        outcome = service.submit(
+
+
+
+            "optimize",
+
+
+
+            session_id="s-stage",
+
+
+
+            changes={"budget_units": 1.0},
+
+
+
+            improvement_options=[_pilot_option("OPT_A", "zs_6358642b6f", 100.0, 1.0)],
+
+
+
+        )
+
+
+
+>       assert outcome["ok"] is True
+
+
+
+E       assert False is True
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:207: AssertionError
+
+
+
+_ test_greedy_comparison_is_unavailable_without_b_evidence_and_never_self_computed _
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_greedy_comparison_is_unav0')
+
+
+
+
+
+
+
+    def test_greedy_comparison_is_unavailable_without_b_evidence_and_never_self_computed(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        # Live non-synthetic B optimize now attaches native greedy_comparison evidence.
+
+
+
+        service = HarnessService(
+
+
+
+            config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
+
+
+
+        )
+
+
+
+        outcome = service.submit(
+
+
+
+            "optimize",
+
+
+
+            session_id="s-nogreedy",
+
+
+
+            changes={"budget_units": 1.0},
+
+
+
+            improvement_options=[_pilot_option("OPT_A", "zs_6358642b6f", 100.0, 1.0)],
+
+
+
+        )
+
+
+
+>       assert outcome["ok"] is True
+
+
+
+E       assert False is True
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:312: AssertionError
+
+
+
+___ test_c_constructed_3opt_knapsack_on_real_pilot_data_and_explain_result ____
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_c_constructed_3opt_knapsa0')
+
+
+
+
+
+
+
+    def test_c_constructed_3opt_knapsack_on_real_pilot_data_and_explain_result(
+
+
+
+        config: HarnessConfig, tmp_path: Path
+
+
+
+    ):
+
+
+
+        # Cross-check mathematically against B's own GreedyExpansion vs MIP on the real pilot bundle,
+
+
+
+        # while labeling this fixture explicitly as C_CONSTRUCTED_3OPT_KNAPSACK (not REAL-000).
+
+
+
+>       data, base_sc, _ = load_task_source(None, requested_data_version="zhongshan_pilot_v0.1")
+
+
+
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:376:
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+backend\graph\executor.py:296: in load_task_source
+
+
+
+    bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
+
+
+
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+backend\adapters\a_reader.py:427: in load_a_bundle
+
+
+
+    _validate_manifest_artifact(root, str(paths[key]), manifest_files)
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+root = WindowsPath('<REPO_ROOT>')
+
+
+
+relpath = 'data/processed/demand_nodes.geojson'
+
+
+
+manifest_files = {'data/raw/zhongshan_shelters.xls': {'bytes': 97792, 'sha256': '15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f7...lters_review.csv': {'bytes': 10220, 'sha256': 'a7523fed030f08338425e5e58529e12a1a60d2f2a5fecc08bf07cdd33b5c5907'}, ...}
+
+
+
+
+
+
+
+    def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[str, Any]) -> dict[str, Any]:
+
+
+
+        record = manifest_files.get(relpath)
+
+
+
+        if not isinstance(record, dict) or not isinstance(record.get("sha256"), str):
+
+
+
+            raise DataValidationError("Manifest is missing a required file hash", details={"path": relpath})
+
+
+
+        path = (root / relpath).resolve()
+
+
+
+        if path != root and root not in path.parents:
+
+
+
+            raise DataValidationError("Manifest artifact path escapes the project root", details={"path": relpath})
+
+
+
+        if not path.is_file():
+
+
+
+            raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
+
+
+
+        raw_bytes = path.stat().st_size
+
+
+
+        raw_sha256 = _raw_sha256(path)
+
+
+
+        is_text = path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES
+
+
+
+        canonical_bytes, canonical_sha256 = _normalized_file_signature(
+
+
+
+            path, b"\n" if is_text else None
+
+
+
+        )
+
+
+
+        raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
+
+
+
+        if is_text:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = _normalized_file_signature(path, b"\r\n")
+
+
+
+        else:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = None, None
+
+
+
+        reconstructed_match = (
+
+
+
+            reconstructed_bytes is not None
+
+
+
+            and record.get("bytes") == reconstructed_bytes
+
+
+
+            and record.get("sha256") == reconstructed_sha256
+
+
+
+        )
+
+
+
+        if not raw_match and not reconstructed_match:
+
+
+
+>           raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
+
+
+
+                "path": relpath,
+
+
+
+                "status": "CONTENT_MISMATCH",
+
+
+
+                "expected_bytes": record.get("bytes"),
+
+
+
+                "actual_bytes": raw_bytes,
+
+
+
+                "canonical_bytes": canonical_bytes,
+
+
+
+                "reconstructed_crlf_bytes": reconstructed_bytes,
+
+
+
+                "raw_bytes": raw_bytes,
+
+
+
+                "expected_sha256": record.get("sha256"),
+
+
+
+                "actual_sha256": raw_sha256,
+
+
+
+                "canonical_sha256": canonical_sha256,
+
+
+
+                "reconstructed_crlf_sha256": reconstructed_sha256,
+
+
+
+            })
+
+
+
+E           backend.errors.DataValidationError: Manifest artifact size or SHA-256 does not match
+
+
+
+
+
+
+
+backend\adapters\a_reader.py:182: DataValidationError
+
+
+
+_____________ test_monotonicity_tri_state_pass_fail_inconclusive ______________
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_monotonicity_tri_state_pa0')
+
+
+
+
+
+
+
+    def test_monotonicity_tri_state_pass_fail_inconclusive(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        service = HarnessService(
+
+
+
+            config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace")
+
+
+
+        )
+
+
+
+        # 1. Real B sensitivity on max_walk_time_min -> PASS
+
+
+
+        walk_sens = service.submit(
+
+
+
+            "sensitivity",
+
+
+
+            session_id="s-mono",
+
+
+
+            parameters={"parameter": "max_walk_time_min", "values": [10, 15, 20]},
+
+
+
+        )
+
+
+
+>       assert walk_sens["ok"] is True
+
+
+
+E       assert False is True
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:452: AssertionError
+
+
+
+_ test_concurrent_same_session_read_modify_write_and_cross_session_isolation __
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_concurrent_same_session_r0')
+
+
+
+
+
+
+
+    def test_concurrent_same_session_read_modify_write_and_cross_session_isolation(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        # 1. Direct SessionStore intra-process multi-thread atomic write stress test
+
+
+
+        store = SessionStore(tmp_path / "concurrent_store")
+
+
+
+        from agent.harness.session import Session
+
+
+
+        sess = Session("s-concurrent", PARAMS)
+
+
+
+
+
+
+
+        def _store_worker(idx: int) -> None:
+
+
+
+            for step in range(8):
+
+
+
+                store.save_turn({
+
+
+
+                    "turn_id": f"t-{idx}",
+
+
+
+                    "session_id": "s-concurrent",
+
+
+
+                    "status": "SUCCEEDED",
+
+
+
+                    "created_at": f"2026-11-21T00:00:0{step}Z",
+
+
+
+                })
+
+
+
+                store.save_session(
+
+
+
+                    "s-concurrent",
+
+
+
+                    session=sess,
+
+
+
+                    dialogue={"pending": None, "turns": idx * 10 + step},
+
+
+
+                    memory={"last_task_type": "assess", "actions": [f"step:{idx}:{step}"]},
+
+
+
+                    summaries=[],
+
+
+
+                    client_turns={f"c-{idx}": f"t-{idx}"},
+
+
+
+                    turn_ids=[f"t-{idx}"],
+
+
+
+                )
+
+
+
+                loaded = store.load_session("s-concurrent")
+
+
+
+                assert loaded is not None and loaded["session_id"] == "s-concurrent"
+
+
+
+
+
+
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+
+
+
+            futures = [pool.submit(_store_worker, idx) for idx in range(8)]
+
+
+
+            for fut in futures:
+
+
+
+                fut.result()
+
+
+
+
+
+
+
+        # 2. Concurrent ConversationService turns + reads on the same session & cross-session isolation
+
+
+
+        service = HarnessService(config, client=BClient(config, client=b_app_client), trace_dir=str(tmp_path / "trace"))
+
+
+
+        conv = ConversationService(
+
+
+
+            config,
+
+
+
+            service=service,
+
+
+
+            llm=RuleLLM(),
+
+
+
+            store_dir=str(tmp_path / "api_state"),
+
+
+
+            max_workers=4,
+
+
+
+            dialogue_enabled=True,
+
+
+
+        )
+
+
+
+        client = TestClient(create_app(conversation=conv))
+
+
+
+        sid_a = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        sid_b = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+
+
+
+
+        # Concurrent submissions and reads against sid_a (only same-client-id deduplication + valid views).
+
+
+
+        prompts = ["??????????????????", "???????????????3?? 20 ????????", "??????????????????? 0.3", "??????????????????"]
+
+
+
+
+
+
+
+        def _submit_and_view(i: int):
+
+
+
+            resp = client.post(
+
+
+
+                f"/v1/sessions/{sid_a}/turns",
+
+
+
+                json={"text": prompts[i], "client_turn_id": f"cid-{i}"},
+
+
+
+            )
+
+
+
+            assert resp.status_code == 202
+
+
+
+            tid = resp.json()["turn_id"]
+
+
+
+            view = client.get(f"/v1/sessions/{sid_a}")
+
+
+
+            assert view.status_code == 200
+
+
+
+            return tid
+
+
+
+
+
+
+
+        with ThreadPoolExecutor(max_workers=4) as pool:
+
+
+
+            turn_ids = [fut.result() for fut in [pool.submit(_submit_and_view, i) for i in range(4)]]
+
+
+
+
+
+
+
+        results = [_poll_turn(client, tid) for tid in turn_ids]
+
+
+
+>       assert all(r["status"] == "SUCCEEDED" for r in results)
+
+
+
+E       assert False
+
+
+
+E        +  where False = all(<generator object test_concurrent_same_session_read_modify_write_and_cross_session_isolation.<locals>.<genexpr> at 0x000001C017444790>)
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:608: AssertionError
+
+
+
+____ test_trace_correlation_queue_ms_capabilities_fallback_and_byte_cache _____
+
+
+
+
+
+
+
+config = HarnessConfig(b_base_url='http://127.0.0.1:8000', data_version='zhongshan_pilot_v0.1', default_region_id=None, expecte...t_root=WindowsPath('<REPO_ROOT>'), send_region_id_to_b=False)
+
+
+
+b_app_client = <starlette.testclient.TestClient object at 0x000001C0189BA330>
+
+
+
+tmp_path = WindowsPath('<PYTEST_TEMP>/pytest-24/test_trace_correlation_queue_m0')
+
+
+
+
+
+
+
+    def test_trace_correlation_queue_ms_capabilities_fallback_and_byte_cache(
+
+
+
+        config: HarnessConfig, b_app_client: TestClient, tmp_path: Path
+
+
+
+    ):
+
+
+
+        trace_dir = tmp_path / "trace"
+
+
+
+        service = HarnessService(config, client=BClient(config, client=b_app_client), trace_dir=str(trace_dir))
+
+
+
+        conv = ConversationService(
+
+
+
+            config, service=service, llm=RuleLLM(), store_dir=str(tmp_path / "state"), dialogue_enabled=True
+
+
+
+        )
+
+
+
+        client = TestClient(create_app(conversation=conv))
+
+
+
+        sid = client.post("/v1/sessions", json={}).json()["session_id"]
+
+
+
+        turn = _run_turn(client, sid, "??????????????????")
+
+
+
+>       assert turn["status"] == "SUCCEEDED"
+
+
+
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+
+
+
+E
+
+
+
+E         - SUCCEEDED
+
+
+
+E         + FAILED
+
+
+
+
+
+
+
+tests\module_c\test_v25_scoped_improvements.py:632: AssertionError
+
+
+
+============================== warnings summary ===============================
+
+
+
+<PYTHON_ENV>/Lib\site-packages\requests\__init__.py:113
+
+
+
+  <PYTHON_ENV>/Lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (7.4.3)/charset_normalizer (3.4.3) doesn't match a supported version!
+
+
+
+    warnings.warn(
+
+
+
+
+
+
+
+tests/module_c/test_b_client.py::test_transport_failure_is_retried_then_succeeds
+
+
+
+tests/module_c/test_executor.py::test_job_state_lost_is_detected_not_polled_forever
+
+
+
+tests/module_c/test_executor.py::test_job_state_lost_is_detected_not_polled_forever
+
+
+
+  <PYTHON_ENV>/Lib\site-packages\starlette\testclient.py:445: DeprecationWarning: You should not use the 'timeout' argument with the TestClient. See https://github.com/Kludex/starlette/issues/1108 for more information.
+
+
+
+    warnings.warn(
+
+
+
+
+
+
+
+tests/module_c/test_mcp_http.py::test_http_transport_lists_tools_and_runs_task
+
+
+
+  <PYTHON_ENV>/Lib\contextlib.py:105: DeprecationWarning: Use `streamable_http_client` instead.
+
+
+
+    self.gen = func(*args, **kwds)
+
+
+
+
+
+
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+
+
+=========================== short test summary info ===========================
+
+
+
+FAILED tests/module_c/test_abc_integration_fixes.py::test_api_envelope_surfaces_fallback_warning_and_monotonicity
+
+
+
+FAILED tests/module_c/test_agent_loop.py::test_session_merges_only_named_changes
+
+
+
+FAILED tests/module_c/test_agent_loop.py::test_numeric_gate_rewrites_wrong_number
+
+
+
+FAILED tests/module_c/test_api.py::test_clarification_resume_and_result_envelope
+
+
+
+FAILED tests/module_c/test_api.py::test_reset_clears_session_state - Assertio...
+
+
+
+FAILED tests/module_c/test_api.py::test_restart_restores_params_results_and_turns
+
+
+
+FAILED tests/module_c/test_api.py::test_contract_refusal_is_a_failed_envelope_and_changes_nothing
+
+
+
+FAILED tests/module_c/test_api.py::test_vague_change_never_invents_a_number
+
+
+
+FAILED tests/module_c/test_api_http.py::test_two_servers_full_flow - Assertio...
+
+
+
+FAILED tests/module_c/test_business_flow_e2e.py::test_four_step_business_flow_and_clarification
+
+
+
+FAILED tests/module_c/test_dialogue.py::test_three_step_clarification_resumes_the_original_task
+
+
+
+FAILED tests/module_c/test_dialogue.py::test_switching_task_drops_the_pending_clarification
+
+
+
+FAILED tests/module_c/test_dialogue.py::test_two_sessions_do_not_share_pending_state_or_results
+
+
+
+FAILED tests/module_c/test_entry_points_agree.py::test_mcp_and_api_return_the_same_numbers
+
+
+
+FAILED tests/module_c/test_executor.py::test_assess_returns_demo_result_with_projected_summary
+
+
+
+FAILED tests/module_c/test_executor.py::test_optimize_with_zero_budget_selects_nothing
+
+
+
+FAILED tests/module_c/test_executor.py::test_optimize_picks_an_option_when_capacity_binds
+
+
+
+FAILED tests/module_c/test_executor.py::test_optimize_reports_no_gain_when_capacity_is_not_binding
+
+
+
+FAILED tests/module_c/test_executor.py::test_compare_returns_two_rows_and_no_forced_winner
+
+
+
+FAILED tests/module_c/test_executor.py::test_stress_test_compares_fixed_and_adaptive
+
+
+
+FAILED tests/module_c/test_executor.py::test_multi_turn_inheritance_keeps_untouched_ratio
+
+
+
+FAILED tests/module_c/test_executor.py::test_explain_result_reuses_a_previous_result
+
+
+
+FAILED tests/module_c/test_executor.py::test_summary_matches_full_result - As...
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_doubling_is_not_the_model_number
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_halving_is_half - assert No...
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_half_an_hour_is_thirty_minutes
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_undo_last_restores_the_previous_snapshot
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_undo_one_field_leaves_the_others_alone
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_undo_without_a_target_asks
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_stop_disabling_is_not_a_restore
+
+
+
+FAILED tests/module_c/test_v22_behaviour.py::test_hallucinated_default_restatement_does_not_block_a_real_task
+
+
+
+FAILED tests/module_c/test_v23_semantics.py::test_history_reference_resolves_against_the_previous_snapshot
+
+
+
+FAILED tests/module_c/test_v23_semantics.py::test_negated_shutdown_is_not_a_stress_test
+
+
+
+FAILED tests/module_c/test_v23_semantics.py::test_paired_values_recover_a_comparison
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_chinese_no_space_shelter_id_extraction_and_undo
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_optimize_layers_metrics_and_full_result_cache
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_stress_test_layers_returns_fixed_and_adaptive
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_restart_restores_memory_client_turns_and_lazy_loads
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_reset_clears_client_turns_and_disk_turns
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_result_endpoints_preserve_real_http_status_codes
+
+
+
+FAILED tests/module_c/test_v24_fixes_and_regions.py::test_mcp_structured_supports_multi_turn_clarification_and_shared_llm
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_diagnose_intervene_with_options_projects_both_diagnosis_and_optimization
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_primary_stage_optimal_tri_state_requires_stage_evidence_and_objective_match
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_greedy_comparison_is_unavailable_without_b_evidence_and_never_self_computed
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_c_constructed_3opt_knapsack_on_real_pilot_data_and_explain_result
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_monotonicity_tri_state_pass_fail_inconclusive
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_concurrent_same_session_read_modify_write_and_cross_session_isolation
+
+
+
+FAILED tests/module_c/test_v25_scoped_improvements.py::test_trace_correlation_queue_ms_capabilities_fallback_and_byte_cache
+
+
+
+48 failed, 266 passed, 5 warnings in 387.33s (0:06:27)

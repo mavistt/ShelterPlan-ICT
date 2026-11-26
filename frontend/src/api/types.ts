@@ -10,11 +10,50 @@ export interface RegionInfo {
   data_version: string
   data_status: string
   release_status: string
+  enabled?: boolean
+  exclusion_reason?: string | null
   demand_nodes: number | null
   shelters: number | null
   od_available: boolean
   blockers?: string[]
   warnings?: string[]
+}
+
+export interface EvaluationArmSummary {
+  id: string
+  name: string
+  status: string
+  result?: string
+  note?: string
+}
+
+export interface EvaluationAdmissionSummary {
+  shiqi?: { demo_eligible?: number; verified?: number; enabled?: boolean }
+  east_district?: { demo_eligible?: number; verified?: number; enabled?: boolean }
+  xiaolan?: { demo_eligible?: number; needs_review?: number; excluded?: number; verified?: number; enabled?: boolean }
+  totals?: { records?: number; demo_eligible?: number; needs_review?: number; excluded?: number; verified?: number }
+}
+
+export interface EvaluationSummary {
+  report_version: string
+  frozen_task_count: number
+  data_status: string
+  generated_at?: string
+  arms: EvaluationArmSummary[]
+  admission: EvaluationAdmissionSummary
+  b_structured: {
+    status?: string
+    result_count?: number
+    pass_count?: number
+    fail_count?: number
+    unscorable_count?: number
+    success_rate?: number | null
+    mean_elapsed_ms?: number | null
+    trace_count?: number
+    oracle_status?: string
+    note?: string
+  }
+  agent_evaluation: { status?: string; note?: string }
 }
 
 export interface CoverageStat {
@@ -45,6 +84,8 @@ export interface RegionMetadata {
   data_version: string
   release_status: string
   data_status: string
+  enabled?: boolean
+  exclusion_reason?: string | null
   demand_nodes: number
   shelters: number
   od_rows: number

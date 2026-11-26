@@ -10,8 +10,14 @@ import uuid
 
 
 def canonical_hash(value: Any) -> str:
-    raw = json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
-    return hashlib.sha256(raw).hexdigest()
+    # Avoid materializing a second full-size string/bytes copy for large GIS
+    # result payloads. JSONEncoder.iterencode emits the same canonical stream
+    # as json.dumps with these options, so existing hashes remain stable.
+    digest = hashlib.sha256()
+    encoder = json.JSONEncoder(sort_keys=True, separators=(",", ":"), default=str)
+    for chunk in encoder.iterencode(value):
+        digest.update(chunk.encode("utf-8"))
+    return digest.hexdigest()
 
 
 class DependencyCache:
@@ -42,7 +48,10 @@ class JsonResultStore:
         result_id = str(uuid.UUID(result_id))
         path = self.root / f"{result_id}.json"
         with self.lock:
-            path.write_text(json.dumps(document, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+            encoder = json.JSONEncoder(ensure_ascii=False, indent=2, default=str)
+            with path.open("w", encoding="utf-8", newline="") as handle:
+                for chunk in encoder.iterencode(document):
+                    handle.write(chunk)
         return path
 
     def get(self, result_id: str) -> dict | None:

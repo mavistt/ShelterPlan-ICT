@@ -35,7 +35,7 @@ export function buildRegionScenarios(_region: RegionMetadata, shelters: ShelterR
   const optC = mid ?? top3 ?? top1
 
   const optPrompt = optA && optB && optC && optA.shelter_id !== optB.shelter_id
-    ? `预算 2，给 ${optA.shelter_id} 扩容 600 人成本 2，给 ${optB.shelter_id} 扩容 450 人成本 1，给 ${optC.shelter_id} 扩容 420 人成本 1，做预算优化并对比贪心方案。`
+    ? `预算 2，给 ${optA.shelter_id} 扩容 600 人成本 2，给 ${optB.shelter_id} 扩容 450 人成本 1，给 ${optC.shelter_id} 扩容 420 人成本 1，执行预算优化，并在结果中报告 MIP 求解方案与 Greedy 基线指标。`
     : '请基于当前区域避难场所做预算优化评估。'
 
   return [

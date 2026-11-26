@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import json
 import platform
+import threading
 import time
 import uuid
 from pathlib import Path
@@ -23,6 +24,7 @@ FIXTURE_ROOT = (Path(__file__).resolve().parents[2] / "tests" / "module_b" / "fi
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CACHE = DependencyCache()
 SOURCE_CACHE = DependencyCache()
+_SOURCE_LOAD_LOCK = threading.RLock()
 
 
 def _validated_scenario(raw: dict) -> PlanningScenario:
@@ -119,6 +121,20 @@ def module_a_source_registry(module_b_config: dict) -> dict[str, dict]:
         )
 
     allowed_config_root = (PROJECT_ROOT / "configs" / "module_a_v2_b").resolve()
+    regions_policy_path = PROJECT_ROOT / "configs" / "regions.yaml"
+    try:
+        regions_document = yaml.safe_load(regions_policy_path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError) as exc:
+        raise DataValidationError(
+            "Could not read Module A region admission policy",
+            details={"error_code": "REGION_POLICY_UNAVAILABLE"},
+        ) from exc
+    region_policies = regions_document.get("regions") or {}
+    if not isinstance(region_policies, dict):
+        raise DataValidationError(
+            "Module A region admission policy is invalid",
+            details={"error_code": "REGION_POLICY_INVALID"},
+        )
     registry: dict[str, dict] = {}
     version_regions: dict[str, str] = {}
     for raw_region_id, source_reference in sources.items():
@@ -155,6 +171,12 @@ def module_a_source_registry(module_b_config: dict) -> dict[str, dict]:
                 details={"error_code": "SOURCE_REGISTRY_INVALID", "region_id": region_id},
             ) from exc
         project = adapter.get("project") or {}
+        region_policy = region_policies.get(region_id) or {}
+        if not isinstance(region_policy, dict):
+            raise DataValidationError(
+                "Module A region admission policy entry is invalid",
+                details={"error_code": "REGION_POLICY_INVALID", "region_id": region_id},
+            )
         configured_region = str(project.get("region_id") or "")
         data_version = str(project.get("data_version") or "")
         if configured_region != region_id or not data_version:
@@ -178,6 +200,8 @@ def module_a_source_registry(module_b_config: dict) -> dict[str, dict]:
             "adapter": adapter,
             "data_version": data_version,
             "data_status": project.get("data_status"),
+            "enabled": bool(region_policy.get("enabled", True)),
+            "exclusion_reason": region_policy.get("exclusion_reason"),
         }
     return registry
 
@@ -235,6 +259,16 @@ def load_task_source(
                 )
 
         if selected_source is not None:
+            if not selected_source.get("enabled", True):
+                reason = selected_source.get("exclusion_reason") or "region is disabled by Module A admission policy"
+                raise DataUnavailableError(
+                    f"REGION_DISABLED: {requested_region_id or selected_source['adapter']['project'].get('region_id')} — {reason}",
+                    details={
+                        "error_code": "REGION_DISABLED",
+                        "region_id": requested_region_id or selected_source["adapter"]["project"].get("region_id"),
+                        "exclusion_reason": reason,
+                    },
+                )
             config_path = selected_source["config_path"]
             pilot = selected_source["adapter"]
         elif legacy_adapter is not None:
@@ -252,10 +286,17 @@ def load_task_source(
         if not config_path.is_file():
             raise DataUnavailableError("Configured Module A adapter is missing", details={"error_code": "DATA_UNAVAILABLE", "path": str(config_path)})
         cache_key = _source_cache_key(config_path)
-        cached = SOURCE_CACHE.get(cache_key)
-        bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
-        if cached is None:
-            SOURCE_CACHE.put(cache_key, bundle)
+        # A v2 travel matrix expands into many Python objects. Keeping every
+        # region bundle for the life of the API process can exhaust memory
+        # after a user switches regions. Retain one most-recent source bundle;
+        # an in-flight request keeps its local references while another region
+        # is loaded.
+        with _SOURCE_LOAD_LOCK:
+            cached = SOURCE_CACHE.get(cache_key)
+            bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
+            if cached is None:
+                SOURCE_CACHE.clear()
+                SOURCE_CACHE.put(cache_key, bundle)
         region_id = bundle.region_id or configured_region_id
         if requested_region_id and not region_id:
             raise DataValidationError("Requested source does not declare region_id", details={"error_code": "REGION_MISSING"})

@@ -24,6 +24,8 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from copy import deepcopy
+import json
+from pathlib import Path
 import threading
 import time
 from typing import Any
@@ -48,6 +50,8 @@ STATUS_RUNNING = "RUNNING"
 STATUS_SUCCEEDED = "SUCCEEDED"
 STATUS_FAILED = "FAILED"
 STATUS_CANCELLED = "CANCELLED"
+
+EVALUATION_REPORT_DIR = Path(__file__).resolve().parents[1] / "reports" / "integration" / "eval_run_v1"
 
 DEMO_NOTE = "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
 LAYER_VARIANTS = {"auto", "baseline", "damaged", "recovered", "optimized", "fixed", "adaptive"}
@@ -133,6 +137,11 @@ class ConversationService:
                 raise ValueError(
                     f"data_version '{data_version}' does not match region '{region_id}' "
                     f"('{region_info.data_version}')"
+                )
+            if not region_info.enabled:
+                reason = region_info.exclusion_reason or "region is disabled by Module A admission policy"
+                raise RegionUnavailableError(
+                    f"REGION_DISABLED: region '{region_id}' is not available for planning: {reason}"
                 )
             if not region_info.od_available:
                 raise RegionUnavailableError(
@@ -849,6 +858,29 @@ def create_app(*, conversation: ConversationService | None = None,
             "source_mode": conversation.regions.mode,
             "regions": conversation.regions.list_regions(),
             "cross_region_scenarios": conversation.regions.list_cross_region_scenarios(),
+        }
+
+    @app.get("/v1/evaluation/summary")
+    def evaluation_summary() -> dict[str, Any]:
+        """Serve a bounded, read-only summary of the frozen integration run."""
+        comparison_path = EVALUATION_REPORT_DIR / "EVAL_ARM_COMPARISON.json"
+        manifest_path = EVALUATION_REPORT_DIR / "RUN_MANIFEST.json"
+        if not comparison_path.is_file() or not manifest_path.is_file():
+            raise HTTPException(status_code=404, detail="集成评测报告尚未生成")
+        try:
+            comparison = json.loads(comparison_path.read_text(encoding="utf-8"))
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise HTTPException(status_code=503, detail="集成评测摘要暂时不可读取") from exc
+        return {
+            "report_version": "eval_run_v1",
+            "frozen_task_count": 24,
+            "data_status": "DEMO_ONLY",
+            "arms": comparison.get("arms", []),
+            "admission": manifest.get("admission_summary", {}),
+            "b_structured": comparison.get("b_structured", {}),
+            "agent_evaluation": comparison.get("agent_evaluation", {}),
+            "generated_at": manifest.get("generated_at"),
         }
 
     @app.get("/v1/regions/{region_id}/layers")

@@ -103,6 +103,17 @@ function mockFetch(url: string, init?: RequestInit) {
     }
   }
   if (url === '/api/c/v1/capabilities') return { statuses: ['NEEDS_CLARIFICATION', 'RUNNING', 'SUCCEEDED', 'FAILED', 'CANCELLED'], task_types: ['assess', 'optimize_budget'], b_service_status: 'ok', limits: { turn_timeout_s: 180, poll_interval_hint_ms: 500, max_text_chars: 4000 } }
+  if (url === '/api/c/v1/evaluation/summary') return {
+    report_version: 'eval_run_v1', frozen_task_count: 24, data_status: 'DEMO_ONLY',
+    arms: [{ id: 'A', name: '普通 Tool Agent', status: 'NOT_RUN', note: '无真实 LLM' }],
+    admission: {
+      shiqi: { demo_eligible: 25, verified: 0, enabled: true },
+      east_district: { demo_eligible: 31, verified: 0, enabled: true },
+      xiaolan: { demo_eligible: 0, needs_review: 30, excluded: 1, verified: 0, enabled: false },
+    },
+    b_structured: { status: 'PARTIAL', result_count: 8, pass_count: 6, fail_count: 0, unscorable_count: 2, success_rate: 0.75, trace_count: 6, oracle_status: 'CONDITIONAL_SUBSET_OPTIMUM', note: '6 PASS · 2 UNSCORABLE' },
+    agent_evaluation: { status: 'NOT_RUN', note: '真实 LLM 不可用，各 Agent 组没有计分。' },
+  }
   if (url === '/api/c/v1/sessions' && init?.method === 'POST') return { session_id: 'session-test', status: 'READY', region_id: 'shiqi', data_version: regionMetadata.data_version, data_status: 'DEMO_ONLY' }
   throw new Error(`Unhandled mocked request ${url}`)
 }
@@ -202,5 +213,57 @@ describe('ShelterPlan Map-First Resilience Workbench', () => {
     expect(screen.getByText('全局规划 (MIP) vs 经验贪心 (Greedy)')).toBeInTheDocument()
     expect(screen.getByText('+270 人')).toBeInTheDocument()
     expect(screen.getByText('单调性通过')).toBeInTheDocument()
+  })
+
+  it('shows frozen evaluation outcomes separately from unrun Agent arms and disabled Xiaolan data', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const result = mockFetch(String(input), init)
+      return new Response(JSON.stringify(result), { status: 200, headers: { 'content-type': 'application/json' } })
+    }))
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+    render(<QueryClientProvider client={queryClient}><MemoryRouter><App /></MemoryRouter></QueryClientProvider>)
+
+    fireEvent.click(await screen.findByRole('button', { name: '打开评测与集成状态' }))
+    expect(await screen.findByText('B Solver 结构化实测')).toBeInTheDocument()
+    expect(screen.getAllByText('6', { exact: true })).toHaveLength(2)
+    expect(screen.getByText('真实 Agent 未计分')).toBeInTheDocument()
+    expect(screen.getByText('普通 Tool Agent')).toBeInTheDocument()
+    expect(screen.getByText('小榄镇')).toBeInTheDocument()
+    expect(screen.getByText('30 待审核')).toBeInTheDocument()
+    expect(screen.getByText('VERIFIED 0')).toBeInTheDocument()
+  })
+
+  it('keeps Xiaolan viewable but does not open a planning session when admission is disabled', async () => {
+    const xiaolan = {
+      ...regionMetadata,
+      region_id: 'xiaolan',
+      town: '小榄镇',
+      data_version: 'shelterplan_module_a_v2.0-demo__xiaolan',
+      enabled: false,
+      exclusion_reason: 'EXCLUDED_GEO_DRIFT: 当前区域尚未通过数据准入。',
+    }
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input)
+      if (url === '/__a/v2/regions') return new Response(JSON.stringify({ regions: [regionMetadata, xiaolan] }), { status: 200 })
+      if (url === '/__a/v2/layers/xiaolan/shelter_capacity') return new Response(JSON.stringify(shelterGeoJson), { status: 200 })
+      if (url === '/api/c/v1/regions') return new Response(JSON.stringify({
+        source_mode: 'module_a_v2',
+        regions: [
+          { region_id: 'shiqi', town: '石岐街道', data_version: regionMetadata.data_version, data_status: 'DEMO_ONLY', release_status: 'PASS_DEMO', demand_nodes: 7336, shelters: 25, od_available: true, enabled: true, warnings: [] },
+          { region_id: 'xiaolan', town: '小榄镇', data_version: xiaolan.data_version, data_status: 'DEMO_ONLY', release_status: 'PASS_DEMO', demand_nodes: 60406, shelters: 31, od_available: true, enabled: false, exclusion_reason: xiaolan.exclusion_reason, warnings: [] },
+        ],
+      }), { status: 200 })
+      const result = mockFetch(url, init)
+      return new Response(JSON.stringify(result), { status: 200, headers: { 'content-type': 'application/json' } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    useWorkspace.setState({ regionId: 'xiaolan', introOpen: false, sessionId: null })
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+    render(<QueryClientProvider client={queryClient}><MemoryRouter><App /></MemoryRouter></QueryClientProvider>)
+
+    expect(await screen.findByTestId('map-view')).toHaveTextContent('小榄镇')
+    expect(screen.getByText('规划已禁用')).toBeInTheDocument()
+    expect(await screen.findByText(/EXCLUDED_GEO_DRIFT/)).toBeInTheDocument()
+    expect(fetchMock).not.toHaveBeenCalledWith('/api/c/v1/sessions', expect.anything())
   })
 })

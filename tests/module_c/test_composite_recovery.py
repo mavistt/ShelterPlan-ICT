@@ -14,7 +14,7 @@ from agent.harness.trace import TraceRecorder, read_trace
 from agent.intent.extractor import _deterministic_repairs, rule_extract
 from agent.intent.normalizer import apply_ops
 from agent.intent.schema import ParsedIntent
-from agent.workflow.dialogue import DialogueState, fill_pending, resume_intent
+from agent.workflow.dialogue import DialogueState, detect_undo, fill_pending, resume_intent
 from agent.workflow.router import TurnMemory, route
 
 
@@ -57,6 +57,11 @@ def test_chinese_composite_intent_binds_damage_budget_and_candidate_separately(c
     assert plan.changes["disabled_shelter_ids"] == ["zs_60213118ec", "zs_e016bde4b3"]
     assert plan.options[0]["shelter_id"] not in plan.changes["disabled_shelter_ids"]
     assert plan.user_goal == composite_text()
+
+
+def test_restore_field_with_an_explicit_value_is_not_misread_as_undo():
+    assert detect_undo("\u6062\u590d\u9884\u7b97\u4e3a13") is None
+    assert detect_undo("\u6062\u590d\u9884\u7b97").fields == ["budget_units"]
 
 
 def test_composite_missing_candidate_cost_is_clarified_and_resumes_original_task():

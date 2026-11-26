@@ -216,7 +216,11 @@ def _job_error(job: dict[str, Any]) -> HarnessError:
     return BError(
         code,
         error.get("message") or f"Module B job failed with {code}",
-        details={**error.get("details", {}), "job_id": job.get("job_id")},
+        details={
+            **error.get("details", {}),
+            "job_id": job.get("job_id"),
+            "execution_trace_id": job.get("execution_trace_id"),
+        },
         retryable=bool(error.get("retryable")),
         user_action=error.get("required_user_action"),
     )

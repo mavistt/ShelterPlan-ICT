@@ -61,9 +61,17 @@ def main() -> int:
         "--output",
         default="outputs/integration/demo/session_demo.json",
     )
+    parser.add_argument(
+        "--run-dir",
+        default=None,
+        help="project-relative directory for isolated server state and logs",
+    )
     args = parser.parse_args()
 
-    run_dir = ROOT / "outputs" / "integration" / "demo" / f"run-{int(time.time())}"
+    run_dir = (ROOT / args.run_dir).resolve() if args.run_dir else (
+        ROOT / "outputs" / "integration" / "demo" / f"run-{int(time.time())}"
+    )
+    run_dir.relative_to(ROOT)
     run_dir.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ)
     for key in ("HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"):

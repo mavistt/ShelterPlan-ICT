@@ -51,7 +51,7 @@ npm run e2e
 
 ## Data adapter and deployment boundary
 
-`/__a/v2/regions` returns a limited metadata projection from the checked out A v2 manifests and quality summaries. `__a/v2/layers/{region_id}/{layer_id}` only serves GeoJSON IDs declared in the region layer manifest or explicitly allowlisted supplementary layers present in the region manifest. The adapter rejects arbitrary file paths and canonicalizes CRLF to LF before checking the manifest SHA-256. It never serves Parquet or raw A inputs. GeoTIFF is listed but not rendered.
+`/__a/v2/regions` returns a limited metadata projection from the checked out A v2 manifests and quality summaries. `__a/v2/layers/{region_id}/{layer_id}` only serves GeoJSON IDs declared in the region layer manifest or explicitly allowlisted supplementary layers present in the region manifest. The adapter rejects arbitrary file paths and validates the exact raw byte hash, or an exact in-memory CRLF reconstruction when the checkout uses LF. It never serves Parquet or raw A inputs. GeoTIFF is listed but not rendered.
 
 The adapter is attached to Vite dev/preview middleware for a local demo. A separately deployed static build needs an equivalent allowlisted data endpoint and a same-origin reverse proxy for `/api/c`; do not expose the Vite dev server to an untrusted network. Module C has no authentication in this local-demo contract.
 

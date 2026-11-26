@@ -756,3 +756,22 @@ def test_module_a_v2_region_catalog_isolation_and_binding(tmp_path: Path):
     assert view2["region_id"] == "shiqi"
     assert view2["data_version"] == "shelterplan_module_a_v2.0-demo__shiqi"
     conv2.close()
+
+
+def test_disabled_region_is_refused_even_when_od_matrix_is_present(tmp_path: Path):
+    project_root = Path(__file__).resolve().parents[2]
+    config = HarnessConfig(
+        project_root=project_root,
+        default_region_id="shiqi",
+        data_version="shelterplan_module_a_v2.0-demo__shiqi",
+    )
+    catalog = RegionCatalog(project_root, config=config)
+    xiaolan = catalog.get_region("xiaolan")
+    assert xiaolan.od_available is True
+    assert xiaolan.enabled is False
+
+    conv, client, _ = _build_api(tmp_path, config=config, regions=catalog)
+    response = client.post("/v1/sessions", json={"region_id": "xiaolan"})
+    assert response.status_code == 409
+    assert "REGION_DISABLED" in response.json()["detail"]
+    conv.close()

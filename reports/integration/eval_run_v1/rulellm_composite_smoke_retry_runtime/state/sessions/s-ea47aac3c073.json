@@ -1,0 +1,82 @@
+{
+  "session_id": "s-ea47aac3c073",
+  "updated_at": "2026-11-26T17:18:00Z",
+  "session": {
+    "session_id": "s-ea47aac3c073",
+    "turn": 1,
+    "current": {
+      "scenario_id": "c-s-ea47aa-t01-39e89d8a",
+      "parent_scenario_id": null,
+      "turn": 1,
+      "changes": {},
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "analysis_mode": "demo",
+        "region_id": "shiqi"
+      },
+      "result_id": null,
+      "created_at": "2026-11-26T17:18:00.129+00:00"
+    },
+    "lineage": [
+      {
+        "scenario_id": "c-s-ea47aa-t01-39e89d8a",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": null
+      }
+    ],
+    "result_ids": [],
+    "region_id": "shiqi",
+    "results": {}
+  },
+  "dialogue": {
+    "pending": {
+      "task_type": "disaster_recovery",
+      "changes": {},
+      "options": [],
+      "parameters": {},
+      "missing": [
+        "disabled_shelter_ids"
+      ],
+      "question": "请指定要模拟停用的场所 ID（例如 zs_1b4df7920b）。",
+      "original_text": "请分析石岐灾后恢复方案。停用场所 zs_04ec8cb884。恢复预算为13个单位，需求比例为0.2，最大步行时间为15分钟。恢复候选 zs_1654dda235 扩容300人，成本为4；恢复候选 zs_3fa8ce2b1e 扩容400人，成本为9。",
+      "asked_at": 1795713480.163865,
+      "expires_at": 1795715280.163865,
+      "attempts": 1
+    },
+    "ttl_s": 1800.0,
+    "turns": 0,
+    "last_closed": null
+  },
+  "memory": {
+    "last_task_type": null,
+    "last_options": [],
+    "last_result_id": null,
+    "last_changes": {},
+    "actions": [
+      "disaster_recovery:CLARIFY"
+    ]
+  },
+  "summaries": [],
+  "client_turns": {
+    "demo-turn-1": "t-f904ed75fe49"
+  },
+  "turn_ids": [
+    "t-f904ed75fe49"
+  ],
+  "region_id": "shiqi"
+}

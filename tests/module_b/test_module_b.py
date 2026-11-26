@@ -19,7 +19,7 @@ from backend.evaluation.benchmark_cases import build_cases
 from backend.evaluation.fault_injection import run_fault_campaign
 from backend.evaluation.refinement import run_offline_refinement
 from backend.errors import DataUnavailableError, PlanRejectedError, ScenarioError
-from backend.graph.executor import CACHE, execute_task, load_fixture
+from backend.graph.executor import CACHE, execute_task, load_fixture, load_task_source
 from backend.graph.planner import validate_plan
 from backend.models import AssignmentResult, ImprovementOption, PlanningScenario, ProposedSkillPlan, TaskRequest
 from backend.storage import JsonResultStore
@@ -47,6 +47,15 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual((len(bundle.shelters), len(bundle.demands), len(bundle.od_edges)), (24, 7965, 191160))
         self.assertEqual(len(bundle.manifest.validated_artifacts), 4)
         self.assertTrue(all(item["matched"] is True for item in bundle.manifest.validated_artifacts))
+
+    def test_disabled_region_is_blocked_before_loading_its_data(self):
+        with self.assertRaises(DataUnavailableError) as caught:
+            load_task_source(
+                None,
+                "xiaolan",
+                "shelterplan_module_a_v2.0-demo__xiaolan",
+            )
+        self.assertEqual(caught.exception.details["error_code"], "REGION_DISABLED")
 
 
 class SolverTests(unittest.TestCase):

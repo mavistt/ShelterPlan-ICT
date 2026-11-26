@@ -1,0 +1,981 @@
+.......F...................F......F...                                   [100%]
+
+
+
+================================== FAILURES ===================================
+
+
+
+_______ AdapterTests.test_synced_a_bundle_schema_hashes_and_demo_status _______
+
+
+
+
+
+
+
+self = <test_module_b.AdapterTests testMethod=test_synced_a_bundle_schema_hashes_and_demo_status>
+
+
+
+
+
+
+
+    def test_synced_a_bundle_schema_hashes_and_demo_status(self):
+
+
+
+>       bundle = load_a_bundle(ROOT / "configs/pilot.yaml", ROOT)
+
+
+
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+
+
+tests\module_b\test_module_b.py:43:
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+backend\adapters\a_reader.py:427: in load_a_bundle
+
+
+
+    _validate_manifest_artifact(root, str(paths[key]), manifest_files)
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+root = WindowsPath('<REPO_ROOT>')
+
+
+
+relpath = 'data/processed/demand_nodes.geojson'
+
+
+
+manifest_files = {'data/raw/zhongshan_shelters.xls': {'bytes': 97792, 'sha256': '15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f7...lters_review.csv': {'bytes': 10220, 'sha256': 'a7523fed030f08338425e5e58529e12a1a60d2f2a5fecc08bf07cdd33b5c5907'}, ...}
+
+
+
+
+
+
+
+    def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[str, Any]) -> dict[str, Any]:
+
+
+
+        record = manifest_files.get(relpath)
+
+
+
+        if not isinstance(record, dict) or not isinstance(record.get("sha256"), str):
+
+
+
+            raise DataValidationError("Manifest is missing a required file hash", details={"path": relpath})
+
+
+
+        path = (root / relpath).resolve()
+
+
+
+        if path != root and root not in path.parents:
+
+
+
+            raise DataValidationError("Manifest artifact path escapes the project root", details={"path": relpath})
+
+
+
+        if not path.is_file():
+
+
+
+            raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
+
+
+
+        raw_bytes = path.stat().st_size
+
+
+
+        raw_sha256 = _raw_sha256(path)
+
+
+
+        is_text = path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES
+
+
+
+        canonical_bytes, canonical_sha256 = _normalized_file_signature(
+
+
+
+            path, b"\n" if is_text else None
+
+
+
+        )
+
+
+
+        raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
+
+
+
+        if is_text:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = _normalized_file_signature(path, b"\r\n")
+
+
+
+        else:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = None, None
+
+
+
+        reconstructed_match = (
+
+
+
+            reconstructed_bytes is not None
+
+
+
+            and record.get("bytes") == reconstructed_bytes
+
+
+
+            and record.get("sha256") == reconstructed_sha256
+
+
+
+        )
+
+
+
+        if not raw_match and not reconstructed_match:
+
+
+
+>           raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
+
+
+
+                "path": relpath,
+
+
+
+                "status": "CONTENT_MISMATCH",
+
+
+
+                "expected_bytes": record.get("bytes"),
+
+
+
+                "actual_bytes": raw_bytes,
+
+
+
+                "canonical_bytes": canonical_bytes,
+
+
+
+                "reconstructed_crlf_bytes": reconstructed_bytes,
+
+
+
+                "raw_bytes": raw_bytes,
+
+
+
+                "expected_sha256": record.get("sha256"),
+
+
+
+                "actual_sha256": raw_sha256,
+
+
+
+                "canonical_sha256": canonical_sha256,
+
+
+
+                "reconstructed_crlf_sha256": reconstructed_sha256,
+
+
+
+            })
+
+
+
+E           backend.errors.DataValidationError: Manifest artifact size or SHA-256 does not match
+
+
+
+
+
+
+
+backend\adapters\a_reader.py:182: DataValidationError
+
+
+
+_ PlannerAndVerifierTests.test_budget_optimize_records_stage_objectives_and_real_greedy_across_regions _
+
+
+
+
+
+
+
+self = <test_module_b.PlannerAndVerifierTests testMethod=test_budget_optimize_records_stage_objectives_and_real_greedy_across_regions>
+
+
+
+
+
+
+
+    def test_budget_optimize_records_stage_objectives_and_real_greedy_across_regions(self):
+
+
+
+>       result = execute_task(TaskRequest(
+
+
+
+            task_type="optimize",
+
+
+
+            data_version="zhongshan_pilot_v0.1",
+
+
+
+            analysis_mode="demo",
+
+
+
+            changes={"budget_units": 1.0},
+
+
+
+            improvement_options=[{
+
+
+
+                "option_id": "CAP_TEST_1",
+
+
+
+                "shelter_id": "zs_6358642b6f",
+
+
+
+                "action": "capacity_adjustment_demo",
+
+
+
+                "delta_capacity_persons": 100.0,
+
+
+
+                "cost_units": 1.0,
+
+
+
+                "eligible": True,
+
+
+
+                "source_status": "HYPOTHETICAL",
+
+
+
+                "hypothetical": True,
+
+
+
+                "human_confirmed": True,
+
+
+
+                "combination_policy": "standalone",
+
+
+
+            }],
+
+
+
+        ))
+
+
+
+
+
+
+
+tests\module_b\test_module_b.py:357:
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+backend\graph\executor.py:392: in execute_task
+
+
+
+    data, base_scenario, fixture_options = source_override or load_task_source(
+
+
+
+backend\graph\executor.py:296: in load_task_source
+
+
+
+    bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
+
+
+
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+backend\adapters\a_reader.py:427: in load_a_bundle
+
+
+
+    _validate_manifest_artifact(root, str(paths[key]), manifest_files)
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+root = WindowsPath('<REPO_ROOT>')
+
+
+
+relpath = 'data/processed/demand_nodes.geojson'
+
+
+
+manifest_files = {'data/raw/zhongshan_shelters.xls': {'bytes': 97792, 'sha256': '15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f7...lters_review.csv': {'bytes': 10220, 'sha256': 'a7523fed030f08338425e5e58529e12a1a60d2f2a5fecc08bf07cdd33b5c5907'}, ...}
+
+
+
+
+
+
+
+    def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[str, Any]) -> dict[str, Any]:
+
+
+
+        record = manifest_files.get(relpath)
+
+
+
+        if not isinstance(record, dict) or not isinstance(record.get("sha256"), str):
+
+
+
+            raise DataValidationError("Manifest is missing a required file hash", details={"path": relpath})
+
+
+
+        path = (root / relpath).resolve()
+
+
+
+        if path != root and root not in path.parents:
+
+
+
+            raise DataValidationError("Manifest artifact path escapes the project root", details={"path": relpath})
+
+
+
+        if not path.is_file():
+
+
+
+            raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
+
+
+
+        raw_bytes = path.stat().st_size
+
+
+
+        raw_sha256 = _raw_sha256(path)
+
+
+
+        is_text = path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES
+
+
+
+        canonical_bytes, canonical_sha256 = _normalized_file_signature(
+
+
+
+            path, b"\n" if is_text else None
+
+
+
+        )
+
+
+
+        raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
+
+
+
+        if is_text:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = _normalized_file_signature(path, b"\r\n")
+
+
+
+        else:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = None, None
+
+
+
+        reconstructed_match = (
+
+
+
+            reconstructed_bytes is not None
+
+
+
+            and record.get("bytes") == reconstructed_bytes
+
+
+
+            and record.get("sha256") == reconstructed_sha256
+
+
+
+        )
+
+
+
+        if not raw_match and not reconstructed_match:
+
+
+
+>           raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
+
+
+
+                "path": relpath,
+
+
+
+                "status": "CONTENT_MISMATCH",
+
+
+
+                "expected_bytes": record.get("bytes"),
+
+
+
+                "actual_bytes": raw_bytes,
+
+
+
+                "canonical_bytes": canonical_bytes,
+
+
+
+                "reconstructed_crlf_bytes": reconstructed_bytes,
+
+
+
+                "raw_bytes": raw_bytes,
+
+
+
+                "expected_sha256": record.get("sha256"),
+
+
+
+                "actual_sha256": raw_sha256,
+
+
+
+                "canonical_sha256": canonical_sha256,
+
+
+
+                "reconstructed_crlf_sha256": reconstructed_sha256,
+
+
+
+            })
+
+
+
+E           backend.errors.DataValidationError: Manifest artifact size or SHA-256 does not match
+
+
+
+
+
+
+
+backend\adapters\a_reader.py:182: DataValidationError
+
+
+
+_ PlannerAndVerifierTests.test_sensitivity_points_include_solver_status_and_optimality_proven _
+
+
+
+
+
+
+
+self = <test_module_b.PlannerAndVerifierTests testMethod=test_sensitivity_points_include_solver_status_and_optimality_proven>
+
+
+
+
+
+
+
+    def test_sensitivity_points_include_solver_status_and_optimality_proven(self):
+
+
+
+        walk_res = execute_task(TaskRequest(
+
+
+
+            task_type="sensitivity",
+
+
+
+            fixture_id="toy_case",
+
+
+
+            parameters={"parameter": "max_walk_time_min", "values": [10.0, 20.0]},
+
+
+
+        ))
+
+
+
+        walk_pts = walk_res["result_detail"]["sensitivity"]["points"]
+
+
+
+        self.assertEqual(len(walk_pts), 2)
+
+
+
+        for pt in walk_pts:
+
+
+
+            self.assertEqual(pt.get("solver_status"), "OPTIMAL")
+
+
+
+            self.assertIs(pt.get("optimality_proven"), True)
+
+
+
+
+
+
+
+>       budget_res = execute_task(TaskRequest(
+
+
+
+            task_type="sensitivity",
+
+
+
+            data_version="zhongshan_pilot_v0.1",
+
+
+
+            analysis_mode="demo",
+
+
+
+            parameters={"parameter": "budget_units", "values": [0.0, 1.0]},
+
+
+
+            improvement_options=[{
+
+
+
+                "option_id": "CAP_TEST_S1",
+
+
+
+                "shelter_id": "zs_6358642b6f",
+
+
+
+                "action": "capacity_adjustment_demo",
+
+
+
+                "delta_capacity_persons": 100.0,
+
+
+
+                "cost_units": 1.0,
+
+
+
+                "eligible": True,
+
+
+
+                "source_status": "HYPOTHETICAL",
+
+
+
+                "hypothetical": True,
+
+
+
+                "human_confirmed": True,
+
+
+
+                "combination_policy": "standalone",
+
+
+
+            }],
+
+
+
+        ))
+
+
+
+
+
+
+
+tests\module_b\test_module_b.py:397:
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+backend\graph\executor.py:392: in execute_task
+
+
+
+    data, base_scenario, fixture_options = source_override or load_task_source(
+
+
+
+backend\graph\executor.py:296: in load_task_source
+
+
+
+    bundle = cached if cached is not None else load_a_bundle(config_path, PROJECT_ROOT)
+
+
+
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+backend\adapters\a_reader.py:427: in load_a_bundle
+
+
+
+    _validate_manifest_artifact(root, str(paths[key]), manifest_files)
+
+
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
+
+root = WindowsPath('<REPO_ROOT>')
+
+
+
+relpath = 'data/processed/demand_nodes.geojson'
+
+
+
+manifest_files = {'data/raw/zhongshan_shelters.xls': {'bytes': 97792, 'sha256': '15e2e779a73a67deb0a858eba9dae9ae5c5d196d6f2206bfe539f7...lters_review.csv': {'bytes': 10220, 'sha256': 'a7523fed030f08338425e5e58529e12a1a60d2f2a5fecc08bf07cdd33b5c5907'}, ...}
+
+
+
+
+
+
+
+    def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[str, Any]) -> dict[str, Any]:
+
+
+
+        record = manifest_files.get(relpath)
+
+
+
+        if not isinstance(record, dict) or not isinstance(record.get("sha256"), str):
+
+
+
+            raise DataValidationError("Manifest is missing a required file hash", details={"path": relpath})
+
+
+
+        path = (root / relpath).resolve()
+
+
+
+        if path != root and root not in path.parents:
+
+
+
+            raise DataValidationError("Manifest artifact path escapes the project root", details={"path": relpath})
+
+
+
+        if not path.is_file():
+
+
+
+            raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
+
+
+
+        raw_bytes = path.stat().st_size
+
+
+
+        raw_sha256 = _raw_sha256(path)
+
+
+
+        is_text = path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES
+
+
+
+        canonical_bytes, canonical_sha256 = _normalized_file_signature(
+
+
+
+            path, b"\n" if is_text else None
+
+
+
+        )
+
+
+
+        raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
+
+
+
+        if is_text:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = _normalized_file_signature(path, b"\r\n")
+
+
+
+        else:
+
+
+
+            reconstructed_bytes, reconstructed_sha256 = None, None
+
+
+
+        reconstructed_match = (
+
+
+
+            reconstructed_bytes is not None
+
+
+
+            and record.get("bytes") == reconstructed_bytes
+
+
+
+            and record.get("sha256") == reconstructed_sha256
+
+
+
+        )
+
+
+
+        if not raw_match and not reconstructed_match:
+
+
+
+>           raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
+
+
+
+                "path": relpath,
+
+
+
+                "status": "CONTENT_MISMATCH",
+
+
+
+                "expected_bytes": record.get("bytes"),
+
+
+
+                "actual_bytes": raw_bytes,
+
+
+
+                "canonical_bytes": canonical_bytes,
+
+
+
+                "reconstructed_crlf_bytes": reconstructed_bytes,
+
+
+
+                "raw_bytes": raw_bytes,
+
+
+
+                "expected_sha256": record.get("sha256"),
+
+
+
+                "actual_sha256": raw_sha256,
+
+
+
+                "canonical_sha256": canonical_sha256,
+
+
+
+                "reconstructed_crlf_sha256": reconstructed_sha256,
+
+
+
+            })
+
+
+
+E           backend.errors.DataValidationError: Manifest artifact size or SHA-256 does not match
+
+
+
+
+
+
+
+backend\adapters\a_reader.py:182: DataValidationError
+
+
+
+============================== warnings summary ===============================
+
+
+
+<PYTHON_ENV>/Lib\site-packages\requests\__init__.py:113
+
+
+
+  <PYTHON_ENV>/Lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (7.4.3)/charset_normalizer (3.4.3) doesn't match a supported version!
+
+
+
+    warnings.warn(
+
+
+
+
+
+
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+
+
+=========================== short test summary info ===========================
+
+
+
+FAILED tests/module_b/test_module_b.py::AdapterTests::test_synced_a_bundle_schema_hashes_and_demo_status
+
+
+
+FAILED tests/module_b/test_module_b.py::PlannerAndVerifierTests::test_budget_optimize_records_stage_objectives_and_real_greedy_across_regions
+
+
+
+FAILED tests/module_b/test_module_b.py::PlannerAndVerifierTests::test_sensitivity_points_include_solver_status_and_optimality_proven
+
+
+
+3 failed, 35 passed, 1 warning in 14.65s

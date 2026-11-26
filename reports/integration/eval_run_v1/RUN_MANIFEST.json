@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "report_version": "eval_run_v1",
+  "generated_at": "2026-11-26T19:12:45.590769+00:00",
+  "generated_at_utc": "2026-11-26T19:12:45.590769+00:00",
+  "workspace_branch": "integration/composite-recovery-eval",
+  "workspace_head_before_commit": "b5781d4c336a42a5183cc696ab81e4e7fc5ac5bf",
+  "workspace_dirty_before_commit": true,
+  "dirty_path_count_before_commit": 167,
+  "source_revisions": {
+    "origin/main": "9a2b927932ac8e9e01b379735755087127afdbd9",
+    "origin/feat/composite-recovery-ui-bridge": "b5781d4c336a42a5183cc696ab81e4e7fc5ac5bf",
+    "origin/feature/compositional-skill-harness": "f92db1875b33f3602a893b10342e82f35886d5a8",
+    "origin/feature/shelterplan-eval": "2f1e7afc67f0dfd1e6729839a8adbad5512d97af"
+  },
+  "runtime": {
+    "python": "3.12.1",
+    "platform": "win32",
+    "node": "v24.14.1"
+  },
+  "ports_open_when_manifest_built": {
+    "8000": true,
+    "8080": true,
+    "5173": true,
+    "11434": false
+  },
+  "llm_policy": {
+    "local_ollama_11434_open": false,
+    "paid_api_called": false,
+    "agent_arms": "NOT_RUN",
+    "rulellm_is_smoke_only": true
+  },
+  "frozen_gt": {
+    "path": "reports/final_release/task_dataset.json",
+    "task_count": 24,
+    "sha256_working_tree": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
+    "copy": "TASK_GT.json",
+    "copy_sha256": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
+    "byte_identical": true
+  },
+  "stage3_structured_result": {
+    "path": "b_structured/results.json",
+    "sha256": "50b6962c5efbc525b5ab88bc554b4ad80add81f2627f188bba3e68aa18a9e52a",
+    "case_count": 8,
+    "status_counts": {
+      "PASS": 6,
+      "UNSCORABLE": 2
+    },
+    "trace_bearing_count": 6
+  },
+  "admission_summary": {
+    "shiqi": {
+      "demo_eligible": 25,
+      "verified": 0,
+      "needs_review": 0,
+      "excluded": 0,
+      "enabled": true
+    },
+    "east_district": {
+      "demo_eligible": 31,
+      "verified": 0,
+      "needs_review": 0,
+      "excluded": 0,
+      "enabled": true
+    },
+    "xiaolan": {
+      "demo_eligible": 0,
+      "verified": 0,
+      "needs_review": 30,
+      "excluded": 1,
+      "enabled": false
+    }
+  },
+  "tests": {
+    "module_a_eval_regression": {
+      "status": "PASS",
+      "passed": 53,
+      "failed": 0,
+      "duration_seconds": 22.136,
+      "log": "reports/integration/eval_run_v1/module_a_eval_regression.log",
+      "command": "python -B -m unittest tests.test_a_reader_hash_policy tests.test_admission_gate tests.test_preflight_manifest tests.test_scenario_factory tests.test_stage2_1_quality tests.test_stage3_pilot tests.test_module_a_release tests.test_storage_streaming"
+    },
+    "module_b": {
+      "status": "RECORDED",
+      "counts": {
+        "passed": 35,
+        "failed": 3,
+        "skipped": 0
+      },
+      "tail": "\n\n\nFAILED tests/module_b/test_module_b.py::PlannerAndVerifierTests::test_sensitivity_points_include_solver_status_and_optimality_proven\n\n\n\n3 failed, 35 passed, 1 warning in 14.65s",
+      "log": "reports/integration/eval_run_v1/module_b_pytest.log",
+      "command": "python -B -m pytest tests/module_b -q"
+    },
+    "module_c": {
+      "status": "RECORDED",
+      "counts": {
+        "passed": 266,
+        "failed": 48,
+        "skipped": 0
+      },
+      "tail": "\n\n\nFAILED tests/module_c/test_v25_scoped_improvements.py::test_trace_correlation_queue_ms_capabilities_fallback_and_byte_cache\n\n\n\n48 failed, 266 passed, 5 warnings in 387.33s (0:06:27)",
+      "log": "reports/integration/eval_run_v1/module_c_pytest.log",
+      "command": "python -B -m pytest tests/module_c -q"
+    },
+    "module_c_trace_correlation": {
+      "status": "RECORDED",
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      "tail": "\n\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n\n\n\n1 passed, 1 warning in 0.66s",
+      "log": "reports/integration/eval_run_v1/module_c_trace_correlation_regression.log",
+      "command": "python -B -m pytest tests/module_c/test_b_client.py::test_business_failure_arrives_as_job_error_not_http_4xx -q"
+    },
+    "compileall": {
+      "status": "PASS",
+      "command": "python -B -m compileall -q backend agent benchmark adapters sources scripts tests"
+    },
+    "frontend": {
+      "schema_version": 1,
+      "generated_at_utc": "2026-11-26T18:58:24.064454+00:00",
+      "overall_status": "PASS_WITH_PRE_FIX_FAILURES_RECORDED",
+      "environment": {
+        "os": "Windows",
+        "python": "3.12.11",
+        "node": "v24.14.1",
+        "browser": "Playwright Desktop Chrome"
+      },
+      "frontend": {
+        "unit": {
+          "command": "npm run test",
+          "status": "PASS",
+          "test_files": 2,
+          "passed": 6,
+          "failed": 0
+        },
+        "typecheck": {
+          "command": "npm run typecheck",
+          "status": "PASS"
+        },
+        "build": {
+          "command": "npm run build",
+          "status": "PASS",
+          "warning": "MapLibre and charts chunks exceed Vite 500 kB advisory threshold."
+        },
+        "e2e": {
+          "command": "npm run e2e",
+          "status": "PASS",
+          "passed": 4,
+          "failed": 0,
+          "duration": "1.2m",
+          "cases": [
+            {
+              "name": "loads manifest-verified GIS layers and the frozen evaluation summary",
+              "status": "PASS",
+              "screenshot": "screenshots/integrated-evaluation-panel.png"
+            },
+            {
+              "name": "runs a real C-to-B assessment from the map-first scenario entry",
+              "status": "PASS",
+              "screenshot": "screenshots/shiqi-assessment-result.png"
+            },
+            {
+              "name": "routes the budget preset to MIP and displays the Greedy baseline",
+              "status": "PASS",
+              "screenshot": "screenshots/shiqi-mip-greedy-result.png"
+            },
+            {
+              "name": "runs East District through C and B, and keeps Xiaolan planning disabled",
+              "status": "PASS",
+              "screenshot": "screenshots/east-district-assessment-result.png"
+            }
+          ]
+        }
+      },
+      "prior_failure_runs": [
+        {
+          "status": "FAIL_BEFORE_FIX",
+          "symptom": "B_INTERNAL_ERROR",
+          "trace": "traces/c/east_browser_internal_error_01.jsonl",
+          "details": "Opaque B internal error; B logging instrumentation had not yet been added."
+        },
+        {
+          "status": "FAIL_BEFORE_FIX",
+          "symptom": "B_INTERNAL_ERROR",
+          "trace": "traces/c/east_browser_internal_error_02.jsonl",
+          "details": "Opaque B internal error; B logging instrumentation had not yet been added."
+        },
+        {
+          "status": "FAIL_BEFORE_FIX",
+          "symptom": "MemoryError",
+          "trace": "traces/c/east_browser_memory_error_before_fix.jsonl",
+          "server_traceback": "traces/east_memory_error_server_traceback.txt",
+          "details": "Peak memory while serializing the full result in B canonical_hash."
+        },
+        {
+          "status": "PASS_BEFORE_MEMORY_FIX",
+          "trace": "traces/c/east_browser_success_after_fix.jsonl",
+          "details": "Standalone C-to-B East path succeeded once before the full-suite memory failure was diagnosed."
+        }
+      ],
+      "integration_fixes": [
+        "Stream canonical JSON hashing without changing canonical byte sequence.",
+        "Stream pretty JSON writes in JsonResultStore.",
+        "Retain only the most recently loaded A region bundle; an active task keeps its local references.",
+        "Add server-side traceback logging for unexpected B task failures; public job error envelope remains unchanged."
+      ],
+      "data_status": {
+        "shiqi": "DEMO_ONLY",
+        "east_district": "DEMO_ONLY",
+        "xiaolan": "DISABLED",
+        "verified_shelters": 0
+      },
+      "real_llm_arms": "NOT_RUN",
+      "rulellm": "SMOKE_ONLY_NOT_SCORED",
+      "paid_api_called": false,
+      "runtime_services": {
+        "b": {
+          "url": "http://127.0.0.1:8000",
+          "bind": "127.0.0.1"
+        },
+        "c": {
+          "url": "http://127.0.0.1:8080",
+          "bind": "127.0.0.1"
+        },
+        "frontend": {
+          "url": "http://127.0.0.1:5173",
+          "bind": "127.0.0.1"
+        }
+      },
+      "trace_index": {
+        "c": "traces/c/",
+        "b": "traces/b/",
+        "memory_error": "traces/east_memory_error_server_traceback.txt",
+        "playwright_archive": "NOT_RETAINED; retained C tool trace and B server traceback instead"
+      },
+      "limitations": [
+        "The browser E2E uses RuleLLM, not a real Agent arm.",
+        "A v2 GIS data is DEMO_ONLY and has not been field validated.",
+        "The full Module B and C suites were rerun after the streaming-storage and source-cache changes. Their retained failures are the legacy v1 manifest mismatch; see FAILURE_ANALYSIS.md."
+      ],
+      "backend_regression_after_storage_fix": {
+        "module_b": {
+          "status": "FAIL_WITH_LEGACY_V1_FIXTURE_MISMATCH",
+          "passed": 35,
+          "failed": 3,
+          "log": "module_b_pytest.log"
+        },
+        "module_c": {
+          "status": "FAIL_WITH_LEGACY_V1_FIXTURE_MISMATCH",
+          "passed": 266,
+          "failed": 48,
+          "log": "module_c_pytest.log"
+        },
+        "module_a_eval_storage_regression": {
+          "status": "PASS",
+          "passed": 53,
+          "failed": 0,
+          "log": "module_a_eval_regression.log"
+        },
+        "module_c_trace_correlation": {
+          "status": "PASS",
+          "passed": 1,
+          "failed": 0,
+          "log": "module_c_trace_correlation_regression.log",
+          "scope": "B execution_trace_id is retained in C error details."
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "TASK_GT.json": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
+    "EVAL_CASE_RESULTS.csv": "b1d4b38dde4a7e7d6e704c1c172b9834b24d9b80695beb722fdf8e36a181ba84",
+    "EVAL_ARM_COMPARISON.json": "50c9554173a5f83a1899c56df37776e54864c5441a578448751a353e94650d29",
+    "SOURCE_HASH_AUDIT.json": "38086269d041940a1ce397ac796007c76028b0ca5b6d021fab24dfe02abfb786",
+    "b_structured/results.json": "50b6962c5efbc525b5ab88bc554b4ad80add81f2627f188bba3e68aa18a9e52a"
+  },
+  "limitations": [
+    "All A v2 planning data is DEMO_ONLY; verified shelter count is zero.",
+    "The 24 frozen tasks/GT are preserved; true LLM Agent arms are NOT_RUN.",
+    "B structured results are solver baselines and do not count as C Agent results.",
+    "RuleLLM smoke is excluded from all benchmark scores."
+  ]
+}

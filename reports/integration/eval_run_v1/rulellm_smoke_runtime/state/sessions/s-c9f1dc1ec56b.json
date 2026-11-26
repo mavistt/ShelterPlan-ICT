@@ -1,0 +1,210 @@
+{
+  "session_id": "s-c9f1dc1ec56b",
+  "updated_at": "2026-11-26T17:13:03Z",
+  "session": {
+    "session_id": "s-c9f1dc1ec56b",
+    "turn": 1,
+    "current": {
+      "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+      "parent_scenario_id": null,
+      "turn": 1,
+      "changes": {},
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [],
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "analysis_mode": "demo",
+        "region_id": "shiqi"
+      },
+      "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+      "created_at": "2026-11-26T17:12:58.215+00:00"
+    },
+    "lineage": [
+      {
+        "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8"
+      }
+    ],
+    "result_ids": [
+      "b333e4f4-d6c2-47d8-89f0-82f8badd62b8"
+    ],
+    "region_id": "shiqi",
+    "results": {
+      "b333e4f4-d6c2-47d8-89f0-82f8badd62b8": {
+        "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+        "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "summary": {
+          "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+          "task_id": "c-a05ce5cb-2936-48d3-817d-42c6db3ec991",
+          "task_type": "assess",
+          "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+          "parent_scenario_id": null,
+          "scenario_changes": {},
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "data_status": "DEMO_ONLY",
+          "analysis_mode": "demo",
+          "solver_status": "OPTIMAL",
+          "optimality_proven": true,
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 11957.966963123272,
+            "total_demand": 120343.36288926564,
+            "weighted_walk_time_min": 8.546513064657791,
+            "optimized_served_demand": null,
+            "diagnosed_unserved_nodes": 6790
+          },
+          "scenario_params": {
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": []
+          },
+          "warnings": [
+            "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+          ],
+          "evidence": {
+            "assignments": 570,
+            "deficits": 7336,
+            "diagnosis_rows": 6790,
+            "certificate_checks": 7935,
+            "trace_rows": 6
+          },
+          "provenance": {
+            "skill_graph_version": "module-b-skillgraph-0.1.0",
+            "execution_trace_id": "1b2533d6-fc27-4d05-a356-406c19c21c55",
+            "scenario_hash": "ee18bd507978fd8c",
+            "solver_version": "SciPy 1.16.2 HiGHS",
+            "source_hash": "1b7f3891270d105b"
+          },
+          "disclosure": {
+            "demo_only": true,
+            "synthetic_fixture": false,
+            "verified_for_real_planning": false,
+            "must_state": "DEMO_ONLY: not field verified; not an operational planning recommendation."
+          },
+          "detail": {
+            "diagnosis": {
+              "unserved_node_count": 6790,
+              "by_cause": {
+                "NO_LEGAL_CONNECTION": 5293,
+                "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 1497
+              },
+              "unserved_persons_by_cause": {
+                "NO_LEGAL_CONNECTION": 74019.605,
+                "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 34365.781
+              },
+              "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+            }
+          },
+          "summary_bytes": 1728
+        },
+        "options_digest": "4f53cda18c2baa0c",
+        "stored_at": "2026-11-26T17:13:03.869+00:00"
+      }
+    }
+  },
+  "dialogue": {
+    "pending": null,
+    "ttl_s": 1800.0,
+    "turns": 0,
+    "last_closed": null
+  },
+  "memory": {
+    "last_task_type": "assess",
+    "last_options": [],
+    "last_result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+    "last_changes": {},
+    "actions": [
+      "assess:ok"
+    ]
+  },
+  "summaries": [
+    {
+      "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+      "task_id": "c-a05ce5cb-2936-48d3-817d-42c6db3ec991",
+      "task_type": "assess",
+      "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+      "parent_scenario_id": null,
+      "scenario_changes": {},
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "data_status": "DEMO_ONLY",
+      "analysis_mode": "demo",
+      "solver_status": "OPTIMAL",
+      "optimality_proven": true,
+      "verification_status": "PASS_DEMO",
+      "metrics": {
+        "served_demand": 11957.966963123272,
+        "total_demand": 120343.36288926564,
+        "weighted_walk_time_min": 8.546513064657791,
+        "optimized_served_demand": null,
+        "diagnosed_unserved_nodes": 6790
+      },
+      "scenario_params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": []
+      },
+      "warnings": [
+        "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity."
+      ],
+      "evidence": {
+        "assignments": 570,
+        "deficits": 7336,
+        "diagnosis_rows": 6790,
+        "certificate_checks": 7935,
+        "trace_rows": 6
+      },
+      "provenance": {
+        "skill_graph_version": "module-b-skillgraph-0.1.0",
+        "execution_trace_id": "1b2533d6-fc27-4d05-a356-406c19c21c55",
+        "scenario_hash": "ee18bd507978fd8c",
+        "solver_version": "SciPy 1.16.2 HiGHS",
+        "source_hash": "1b7f3891270d105b"
+      },
+      "disclosure": {
+        "demo_only": true,
+        "synthetic_fixture": false,
+        "verified_for_real_planning": false,
+        "must_state": "DEMO_ONLY: not field verified; not an operational planning recommendation."
+      },
+      "detail": {
+        "diagnosis": {
+          "unserved_node_count": 6790,
+          "by_cause": {
+            "NO_LEGAL_CONNECTION": 5293,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 1497
+          },
+          "unserved_persons_by_cause": {
+            "NO_LEGAL_CONNECTION": 74019.605,
+            "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 34365.781
+          },
+          "note": "Aggregated only; per-node evidence is available through the paginated evidence reader."
+        }
+      },
+      "summary_bytes": 1728
+    }
+  ],
+  "client_turns": {
+    "demo-turn-1": "t-099a5a97e63b"
+  },
+  "turn_ids": [
+    "t-099a5a97e63b"
+  ],
+  "region_id": "shiqi"
+}

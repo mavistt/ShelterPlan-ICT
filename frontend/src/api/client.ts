@@ -1,6 +1,6 @@
 import type {
   CCapabilities, EvidencePage, LayerCatalog, RegionInfo, RegionMetadata,
-  ResultLayers, SessionEnvelope, TurnEnvelope,
+  ResultLayers, SessionEnvelope, TurnEnvelope, EvaluationSummary,
 } from './types'
 import type { FeatureCollection } from 'geojson'
 
@@ -35,6 +35,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<{ status: string; service: string; arm?: string; dialogue_enabled?: boolean; data_status?: string; data_version?: string }>(`${C_BASE}/healthz`),
   capabilities: () => request<CCapabilities>(`${C_BASE}/v1/capabilities`),
+  evaluationSummary: () => request<EvaluationSummary>(`${C_BASE}/v1/evaluation/summary`),
   regions: () => request<{ source_mode: string; regions: RegionInfo[] }>(`${C_BASE}/v1/regions`),
   localRegions: () => request<{ regions: RegionMetadata[] }>(`${ASSET_BASE}/regions`),
   layers: (regionId: string) => request<LayerCatalog>(`${C_BASE}/v1/regions/${encodeURIComponent(regionId)}/layers`),

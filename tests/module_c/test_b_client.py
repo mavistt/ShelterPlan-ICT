@@ -47,6 +47,8 @@ def test_business_failure_arrives_as_job_error_not_http_4xx(b_client: BClient):
         b_client.wait_for_job(submitted["job_id"])
     assert excinfo.value.code == "B_SCENARIO_INVALID"
     assert excinfo.value.details.get("error_code") == "VERSION_MISMATCH"
+    assert excinfo.value.details.get("job_id") == submitted["job_id"]
+    assert excinfo.value.details.get("execution_trace_id") == submitted["execution_trace_id"]
 
 
 def test_transport_failure_is_retried_then_succeeds(config, b_app_client):

@@ -29,21 +29,72 @@ def _artifact_bytes(path: Path) -> bytes:
     strict.
     """
     raw = path.read_bytes()
-    if path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES:
-        return raw.replace(b"\r\n", b"\n")
-    return raw
+    if path.suffix.lower() not in _TEXT_ARTIFACT_SUFFIXES:
+        return raw
+    has_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    canonical = normalized.encode("utf-8")
+    return (b"\xef\xbb\xbf" if has_bom else b"") + canonical
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    digest.update(_artifact_bytes(path))
-    return digest.hexdigest()
+    newline = b"\n" if path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES else None
+    return _normalized_file_signature(path, newline)[1]
 
 
 def _raw_sha256(path: Path) -> str:
+    return _normalized_file_signature(path, None)[1]
+
+
+def _normalized_file_signature(path: Path, newline: bytes | None,
+                               *, chunk_size: int = 1024 * 1024) -> tuple[int, str]:
+    """Return byte count and hash without materializing a large GIS artifact.
+
+    For declared text, normalize CRLF and lone CR to LF first, then replace
+    each normalized LF with `newline` (LF for canonical bytes, CRLF for the
+    historical Windows reconstruction check). UTF-8 newline bytes are ASCII,
+    so byte-level conversion is equivalent to the previous decode/encode path
+    while preserving BOMs and multibyte characters exactly.
+    """
     digest = hashlib.sha256()
-    digest.update(path.read_bytes())
-    return digest.hexdigest()
+    byte_count = 0
+    pending_cr = False
+    with path.open("rb") as handle:
+        while chunk := handle.read(chunk_size):
+            prefix = b""
+            if pending_cr:
+                prefix = newline or b"\n"
+                if chunk.startswith(b"\n"):
+                    chunk = chunk[1:]
+                pending_cr = False
+            if newline is not None:
+                if chunk.endswith(b"\r"):
+                    chunk = chunk[:-1]
+                    pending_cr = True
+                chunk = chunk.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+                chunk = chunk.replace(b"\n", newline)
+            if prefix:
+                digest.update(prefix)
+                byte_count += len(prefix)
+            digest.update(chunk)
+            byte_count += len(chunk)
+    if pending_cr:
+        ending = newline or b"\n"
+        digest.update(ending)
+        byte_count += len(ending)
+    return byte_count, digest.hexdigest()
+
+
+def _reconstructed_crlf_bytes(path: Path) -> bytes | None:
+    if path.suffix.lower() not in _TEXT_ARTIFACT_SUFFIXES:
+        return None
+    raw = path.read_bytes()
+    has_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    rebuilt = normalized.encode("utf-8").replace(b"\n", b"\r\n")
+    return (b"\xef\xbb\xbf" if has_bom else b"") + rebuilt
 
 
 def _read_geojson(path: Path) -> list[dict[str, Any]]:
@@ -113,19 +164,52 @@ def _validate_manifest_artifact(root: Path, relpath: str, manifest_files: dict[s
         raise DataValidationError("Manifest artifact is absent", details={"path": relpath})
     raw_bytes = path.stat().st_size
     raw_sha256 = _raw_sha256(path)
-    canonical_bytes = len(_artifact_bytes(path))
-    canonical_sha256 = _sha256(path)
+    is_text = path.suffix.lower() in _TEXT_ARTIFACT_SUFFIXES
+    canonical_bytes, canonical_sha256 = _normalized_file_signature(
+        path, b"\n" if is_text else None
+    )
     raw_match = record.get("bytes") == raw_bytes and record.get("sha256") == raw_sha256
-    canonical_match = record.get("bytes") == canonical_bytes and record.get("sha256") == canonical_sha256
-    if not raw_match and not canonical_match:
+    if is_text:
+        reconstructed_bytes, reconstructed_sha256 = _normalized_file_signature(path, b"\r\n")
+    else:
+        reconstructed_bytes, reconstructed_sha256 = None, None
+    reconstructed_match = (
+        reconstructed_bytes is not None
+        and record.get("bytes") == reconstructed_bytes
+        and record.get("sha256") == reconstructed_sha256
+    )
+    if not raw_match and not reconstructed_match:
         raise DataValidationError("Manifest artifact size or SHA-256 does not match", details={
-            "path": relpath, "expected_bytes": record.get("bytes"), "actual_bytes": canonical_bytes,
+            "path": relpath,
+            "status": "CONTENT_MISMATCH",
+            "expected_bytes": record.get("bytes"),
+            "actual_bytes": raw_bytes,
+            "canonical_bytes": canonical_bytes,
+            "reconstructed_crlf_bytes": reconstructed_bytes,
             "raw_bytes": raw_bytes,
-            "expected_sha256": record.get("sha256"), "actual_sha256": canonical_sha256,
-            "raw_sha256": raw_sha256,
+            "expected_sha256": record.get("sha256"),
+            "actual_sha256": raw_sha256,
+            "canonical_sha256": canonical_sha256,
+            "reconstructed_crlf_sha256": reconstructed_sha256,
         })
-    matched_bytes, matched_sha256 = ((raw_bytes, raw_sha256) if raw_match else (canonical_bytes, canonical_sha256))
-    return {"path": relpath, "bytes": matched_bytes, "sha256": matched_sha256, "matched": True}
+    match_mode = "MATCH_RAW" if raw_match else "MATCH_RECONSTRUCTED_CRLF"
+    matched_bytes, matched_sha256 = (
+        (raw_bytes, raw_sha256) if raw_match else (reconstructed_bytes, reconstructed_sha256)
+    )
+    result = {
+        "path": relpath,
+        "bytes": matched_bytes,
+        "sha256": matched_sha256,
+        "matched": True,
+        "match_mode": match_mode,
+        "raw_bytes": raw_bytes,
+        "raw_sha256": raw_sha256,
+        "canonical_bytes": canonical_bytes,
+        "canonical_sha256": canonical_sha256,
+        "reconstructed_crlf_bytes": reconstructed_bytes,
+        "reconstructed_crlf_sha256": reconstructed_sha256,
+    }
+    return {key: value for key, value in result.items() if value is not None}
 
 
 def _read_travel_matrix(

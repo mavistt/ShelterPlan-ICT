@@ -12,6 +12,7 @@ import time
 import pytest
 from starlette.testclient import TestClient
 
+import agent.api as agent_api
 from agent.api import ConversationService, create_app
 from agent.b_client import BClient
 from agent.config import HarnessConfig
@@ -58,6 +59,40 @@ def test_health_and_capabilities(tmp_path):
     assert set(capabilities["statuses"]) == {
         "NEEDS_CLARIFICATION", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED"}
     assert "assess" in capabilities["task_types"]
+
+
+def test_evaluation_summary_is_fixed_read_only_allowlist(tmp_path, monkeypatch):
+    _conv, client = build(tmp_path)
+    report_dir = tmp_path / "eval_run_v1"
+    report_dir.mkdir()
+    (report_dir / "EVAL_ARM_COMPARISON.json").write_text(json.dumps({
+        "arms": [{"id": "A", "name": "ordinary agent", "status": "NOT_RUN"}],
+        "b_structured": {"status": "PARTIAL", "result_count": 8},
+        "raw_trace": "must not be exposed",
+    }), encoding="utf-8")
+    (report_dir / "RUN_MANIFEST.json").write_text(json.dumps({
+        "admission_summary": {"totals": {"verified": 0}},
+        "generated_at": "2026-11-27T00:00:00Z",
+        "private_field": "must not be exposed",
+    }), encoding="utf-8")
+    monkeypatch.setattr(agent_api, "EVALUATION_REPORT_DIR", report_dir)
+
+    response = client.get("/v1/evaluation/summary?path=../../.env")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["frozen_task_count"] == 24
+    assert body["arms"][0]["status"] == "NOT_RUN"
+    assert body["b_structured"]["result_count"] == 8
+    assert body["admission"]["totals"]["verified"] == 0
+    assert "raw_trace" not in body
+    assert "private_field" not in body
+
+
+def test_evaluation_summary_reports_missing_artifacts(tmp_path, monkeypatch):
+    _conv, client = build(tmp_path)
+    monkeypatch.setattr(agent_api, "EVALUATION_REPORT_DIR", tmp_path / "missing-eval")
+    response = client.get("/v1/evaluation/summary")
+    assert response.status_code == 404
 
 
 def test_clarification_resume_and_result_envelope(tmp_path):

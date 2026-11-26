@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-26T18:58:24.064454+00:00",
+  "overall_status": "PASS_WITH_PRE_FIX_FAILURES_RECORDED",
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.11",
+    "node": "v24.14.1",
+    "browser": "Playwright Desktop Chrome"
+  },
+  "frontend": {
+    "unit": {
+      "command": "npm run test",
+      "status": "PASS",
+      "test_files": 2,
+      "passed": 6,
+      "failed": 0
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    "build": {
+      "command": "npm run build",
+      "status": "PASS",
+      "warning": "MapLibre and charts chunks exceed Vite 500 kB advisory threshold."
+    },
+    "e2e": {
+      "command": "npm run e2e",
+      "status": "PASS",
+      "passed": 4,
+      "failed": 0,
+      "duration": "1.2m",
+      "cases": [
+        {
+          "name": "loads manifest-verified GIS layers and the frozen evaluation summary",
+          "status": "PASS",
+          "screenshot": "screenshots/integrated-evaluation-panel.png"
+        },
+        {
+          "name": "runs a real C-to-B assessment from the map-first scenario entry",
+          "status": "PASS",
+          "screenshot": "screenshots/shiqi-assessment-result.png"
+        },
+        {
+          "name": "routes the budget preset to MIP and displays the Greedy baseline",
+          "status": "PASS",
+          "screenshot": "screenshots/shiqi-mip-greedy-result.png"
+        },
+        {
+          "name": "runs East District through C and B, and keeps Xiaolan planning disabled",
+          "status": "PASS",
+          "screenshot": "screenshots/east-district-assessment-result.png"
+        }
+      ]
+    }
+  },
+  "prior_failure_runs": [
+    {
+      "status": "FAIL_BEFORE_FIX",
+      "symptom": "B_INTERNAL_ERROR",
+      "trace": "traces/c/east_browser_internal_error_01.jsonl",
+      "details": "Opaque B internal error; B logging instrumentation had not yet been added."
+    },
+    {
+      "status": "FAIL_BEFORE_FIX",
+      "symptom": "B_INTERNAL_ERROR",
+      "trace": "traces/c/east_browser_internal_error_02.jsonl",
+      "details": "Opaque B internal error; B logging instrumentation had not yet been added."
+    },
+    {
+      "status": "FAIL_BEFORE_FIX",
+      "symptom": "MemoryError",
+      "trace": "traces/c/east_browser_memory_error_before_fix.jsonl",
+      "server_traceback": "traces/east_memory_error_server_traceback.txt",
+      "details": "Peak memory while serializing the full result in B canonical_hash."
+    },
+    {
+      "status": "PASS_BEFORE_MEMORY_FIX",
+      "trace": "traces/c/east_browser_success_after_fix.jsonl",
+      "details": "Standalone C-to-B East path succeeded once before the full-suite memory failure was diagnosed."
+    }
+  ],
+  "integration_fixes": [
+    "Stream canonical JSON hashing without changing canonical byte sequence.",
+    "Stream pretty JSON writes in JsonResultStore.",
+    "Retain only the most recently loaded A region bundle; an active task keeps its local references.",
+    "Add server-side traceback logging for unexpected B task failures; public job error envelope remains unchanged."
+  ],
+  "data_status": {
+    "shiqi": "DEMO_ONLY",
+    "east_district": "DEMO_ONLY",
+    "xiaolan": "DISABLED",
+    "verified_shelters": 0
+  },
+  "real_llm_arms": "NOT_RUN",
+  "rulellm": "SMOKE_ONLY_NOT_SCORED",
+  "paid_api_called": false,
+  "runtime_services": {
+    "b": {
+      "url": "http://127.0.0.1:8000",
+      "bind": "127.0.0.1"
+    },
+    "c": {
+      "url": "http://127.0.0.1:8080",
+      "bind": "127.0.0.1"
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5173",
+      "bind": "127.0.0.1"
+    }
+  },
+  "trace_index": {
+    "c": "traces/c/",
+    "b": "traces/b/",
+    "memory_error": "traces/east_memory_error_server_traceback.txt",
+    "playwright_archive": "NOT_RETAINED; retained C tool trace and B server traceback instead"
+  },
+  "limitations": [
+    "The browser E2E uses RuleLLM, not a real Agent arm.",
+    "A v2 GIS data is DEMO_ONLY and has not been field validated.",
+    "The full Module B and C suites were rerun after the streaming-storage and source-cache changes. Their retained failures are the legacy v1 manifest mismatch; see FAILURE_ANALYSIS.md."
+  ],
+  "backend_regression_after_storage_fix": {
+    "module_b": {
+      "status": "FAIL_WITH_LEGACY_V1_FIXTURE_MISMATCH",
+      "passed": 35,
+      "failed": 3,
+      "log": "module_b_pytest.log"
+    },
+    "module_c": {
+      "status": "FAIL_WITH_LEGACY_V1_FIXTURE_MISMATCH",
+      "passed": 266,
+      "failed": 48,
+      "log": "module_c_pytest.log"
+    },
+    "module_a_eval_storage_regression": {
+      "status": "PASS",
+      "passed": 53,
+      "failed": 0,
+      "log": "module_a_eval_regression.log"
+    },
+    "module_c_trace_correlation": {
+      "status": "PASS",
+      "passed": 1,
+      "failed": 0,
+      "log": "module_c_trace_correlation_regression.log",
+      "scope": "B execution_trace_id is retained in C error details."
+    }
+  }
+}

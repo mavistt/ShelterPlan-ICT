@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+import logging
 import threading
 import uuid
 from pathlib import Path
@@ -24,6 +25,7 @@ _idempotency: dict[str, str] = {}
 _idempotency_payloads: dict[str, str] = {}
 _pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="module-b")
 _results = JsonResultStore("outputs/module_b/runs")
+_logger = logging.getLogger(__name__)
 MAX_ACTIVE_JOBS = 100
 
 
@@ -48,6 +50,8 @@ def capabilities_document() -> dict:
                 "region_id": allowed_region,
                 "data_version": source["data_version"],
                 "data_status": source["data_status"],
+                "enabled": source["enabled"],
+                "exclusion_reason": source["exclusion_reason"],
             }
             for allowed_region, source in sorted(registry.items())
         ]
@@ -76,6 +80,8 @@ def _run(job_id: str, trace_id: str, request: TaskRequest | DisasterRecoveryRequ
         with _lock:
             _jobs[job_id].update({"status": "FAILED", "error": {"error_code": exc.error_code, "details": exc.details, "message": str(exc), "retryable": exc.retryable, "required_user_action": exc.required_user_action}})
     except Exception as exc:  # Convert internal faults to a stable envelope; details stay server-side.
+        _logger.exception("Module B internal task failure: job_id=%s trace_id=%s task_id=%s",
+                          job_id, trace_id, request.task_id)
         with _lock:
             _jobs[job_id].update({"status": "FAILED", "error": {"error_code": "INTERNAL_ERROR", "details": {}, "message": str(exc), "retryable": False, "required_user_action": None}})
 

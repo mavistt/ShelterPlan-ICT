@@ -286,6 +286,16 @@ def detect_undo(text: str, *, has_disabled: bool = False) -> UndoRequest | None:
 
     match = UNDO_FIELD_RE.search(text)
     if match:
+        # "恢复预算为 13" is an explicit parameter assignment, not a request
+        # to restore the previous value. Preserve undo semantics for bare
+        # "恢复预算" while allowing a stated value to flow to intent parsing.
+        assignment = re.match(
+            r"\s*(?:为|是|改为|设为|调整为|到|至|[:：=])\s*"
+            r"(?:-?\d+(?:\.\d+)?|[零一二两三四五六七八九十百千万]+)",
+            text[match.end():],
+        )
+        if assignment:
+            return None
         word = match.group("field")
         field_name = FIELD_BY_WORD.get(word)
         if field_name is None:

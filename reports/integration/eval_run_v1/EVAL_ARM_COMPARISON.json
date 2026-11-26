@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "report_version": "eval_run_v1",
+  "frozen_task_count": 24,
+  "data_status": "DEMO_ONLY",
+  "true_agent_arms": [
+    {
+      "id": "DIRECT_LLM",
+      "name": "Direct LLM",
+      "status": "NOT_RUN",
+      "task_count": 24,
+      "run_count": 0,
+      "verified_task_success_rate": null,
+      "reason": "No local LLM endpoint configured; no paid API called; no Agent benchmark score fabricated."
+    },
+    {
+      "id": "FLAT_TOOLS",
+      "name": "Flat Tool Agent",
+      "status": "NOT_RUN",
+      "task_count": 24,
+      "run_count": 0,
+      "verified_task_success_rate": null,
+      "reason": "No local LLM endpoint configured; no paid API called; no Agent benchmark score fabricated."
+    },
+    {
+      "id": "FIXED_WORKFLOW",
+      "name": "Fixed Workflow",
+      "status": "NOT_RUN",
+      "task_count": 24,
+      "run_count": 0,
+      "verified_task_success_rate": null,
+      "reason": "No local LLM endpoint configured; no paid API called; no Agent benchmark score fabricated."
+    },
+    {
+      "id": "COMPOSITE_HARNESS",
+      "name": "Composite Skills + Harness",
+      "status": "NOT_RUN",
+      "task_count": 24,
+      "run_count": 0,
+      "verified_task_success_rate": null,
+      "reason": "No local LLM endpoint configured; no paid API called; no Agent benchmark score fabricated."
+    }
+  ],
+  "arms": [
+    {
+      "id": "DIRECT_LLM",
+      "name": "Direct LLM",
+      "status": "NOT_RUN",
+      "note": "No configured real LLM; no Agent score assigned."
+    },
+    {
+      "id": "FLAT_TOOLS",
+      "name": "Flat Tool Agent",
+      "status": "NOT_RUN",
+      "note": "No configured real LLM; no Agent score assigned."
+    },
+    {
+      "id": "FIXED_WORKFLOW",
+      "name": "Fixed Workflow",
+      "status": "NOT_RUN",
+      "note": "No configured real LLM; no Agent score assigned."
+    },
+    {
+      "id": "COMPOSITE_HARNESS",
+      "name": "Composite Skills + Harness",
+      "status": "NOT_RUN",
+      "note": "No configured real LLM; no Agent score assigned."
+    }
+  ],
+  "b_direct_structured": {
+    "id": "B_DIRECT_STRUCTURED",
+    "status": "PARTIAL",
+    "scope": "B solver structured pilot; never a C Agent result",
+    "task_count": 24,
+    "attempted_pilot_tasks": 8,
+    "pass_count": 6,
+    "unscorable_count": 2,
+    "fail_count": 0,
+    "not_run_count": 16,
+    "trace_count": 6,
+    "hard_success_rate_over_attempted": 0.75,
+    "hard_success_rate_over_scored": 1.0,
+    "vets_hard_success": {
+      "pass": 6,
+      "attempted": 8,
+      "unscorable": 2,
+      "scored_pass": 6,
+      "scored_denominator": 6
+    },
+    "route_counts": {
+      "configured_http": 4,
+      "explicit_adapter_direct_solver": 4
+    },
+    "mean_elapsed_harness_ms": 4232.9473333333335,
+    "oracle_status_counts": {
+      "NOT_RUN": 5,
+      "CONDITIONAL_SUBSET_OPTIMUM": 3
+    },
+    "data_status": "DEMO_ONLY",
+    "note": "The Stage 3 pilot uses real B solver calls/direct adapters, with configured HTTP support for Shiqi. It does not run C Agent arms."
+  },
+  "b_structured": {
+    "status": "PARTIAL",
+    "result_count": 8,
+    "pass_count": 6,
+    "fail_count": 0,
+    "unscorable_count": 2,
+    "success_rate": 0.75,
+    "trace_count": 6,
+    "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM, NOT_RUN",
+    "note": "B structured solver pilot only: 6 PASS, 2 UNSCORABLE; 16/24 frozen tasks NOT_RUN. Not a C Agent score."
+  },
+  "agent_evaluation": {
+    "status": "NOT_RUN",
+    "note": "No configured local LLM endpoint; all four true Agent arms remain NOT_RUN. RuleLLM smoke is excluded."
+  },
+  "rule_based_smoke": {
+    "status": "SUCCEEDED",
+    "scored": false,
+    "kind": "RULE_BASED_SMOKE",
+    "path": "reports/integration/eval_run_v1/RULELLM_COMPOSITE_SMOKE_PATCHED.json",
+    "note": "C Session/Turn → B Composite API smoke only; excluded from Agent comparisons."
+  },
+  "source_hash_audit": "SOURCE_HASH_AUDIT.json",
+  "gt_source": "reports/final_release/task_dataset.json",
+  "gt_copy": "TASK_GT.json"
+}

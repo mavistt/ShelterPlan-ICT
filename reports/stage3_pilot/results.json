@@ -1,0 +1,1798 @@
+{
+  "manifest": {
+    "generator_version": "stage3-pilot-1.1-audit",
+    "source_pilot": "benchmark/shelterplan_eval/pilot_stage2_1/accepted_scenarios.json",
+    "case_ids": [
+      "ST21-shiqi-000",
+      "ST21-east_district-001",
+      "ST21-shiqi-002",
+      "ST21-east_district-003",
+      "ST21-shiqi-004",
+      "ST21-shiqi-016",
+      "ST21-east_district-029",
+      "ST21-east_district-011"
+    ],
+    "tasks": 8,
+    "results": 8,
+    "dataset_content_hashes": [
+      "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f"
+    ],
+    "source_manifest_sha256_values": [
+      "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9"
+    ],
+    "summary": {
+      "result_count": 8,
+      "status_counts": {
+        "PASS": 6,
+        "UNSCORABLE": 2
+      },
+      "behavior_counts": {
+        "EXECUTE": 5,
+        "SAFE_STOP": 1,
+        "CLARIFY": 1,
+        "REJECT": 1
+      },
+      "region_counts": {
+        "shiqi": 4,
+        "east_district": 4
+      },
+      "oracle_counts": {
+        "NOT_RUN": 5,
+        "CONDITIONAL_SUBSET_OPTIMUM": 3
+      },
+      "route_status_counts": {
+        "SUPPORTED": 4,
+        "UNSUPPORTED": 4
+      },
+      "vets_mean": {
+        "U": 0.9999999999912329,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 0.9999999999988728
+      },
+      "vets_status_counts": {
+        "PASS": 6,
+        "UNSCORABLE": 2
+      },
+      "vets_scored_count": 6,
+      "vets_success_count": 6,
+      "vets_success_rate_scored": 1.0,
+      "execution_count": 6,
+      "trace_count": 6,
+      "measured_difficulty_counts": {
+        "REAL_B_TRACE_AND_VERIFIER": 6,
+        "STATE_PROBE_ONLY_NO_AGENT_OUTPUT": 2
+      },
+      "greedy_comparison_count": 3,
+      "llm_cost": {
+        "tokens": null,
+        "currency": null,
+        "reason": "No LLM Agent was configured for this Pilot run"
+      }
+    }
+  },
+  "results": [
+    {
+      "task_id": "S3-ST21-shiqi-000",
+      "scenario_id": "ST21-shiqi-000",
+      "region_id": "shiqi",
+      "expected_behavior": "EXECUTE",
+      "scenario_family": "coverage_baseline",
+      "interaction_type": "complete_request",
+      "execution_route": "configured_http",
+      "http_route_status": "SUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "task_id": "stage3-ST21-shiqi-000-91af73fe",
+        "job_id": "d69dee98-2337-41df-a819-d2f7411296bb",
+        "result_id": "f337dcbb-bdcb-4062-a711-b75b8b5d4854",
+        "scenario_id": "ST21-shiqi-000",
+        "parent_scenario_id": null,
+        "scenario_hash": "1d650d72ef057461a74cbb728c7e17973307f698575c7cb1dada801802ac2fb6",
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "coverage_baseline"
+        },
+        "execution_trace_id": "214d90b6-f91e-4580-a161-86e35d77cdd9",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {
+          "served_demand": 7274.593472765874,
+          "total_demand": 120343.36288926564,
+          "weighted_walk_time_min": 6.035488087202664,
+          "optimized_served_demand": null,
+          "diagnosed_unserved_nodes": 7019
+        },
+        "selected_option_ids": [],
+        "total_cost_units": null,
+        "greedy_comparison": null,
+        "optimization_certificate": null,
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 7703,
+          "passed_check_count": 7703,
+          "failed_checks": [],
+          "certificate_sha256": "001e216b900123ae71ad8e42cf77d9658b7e419614279415b0401f7cf52d6a26"
+        },
+        "trace": [
+          {
+            "skill_id": "S01",
+            "skill_version": "1.0.0",
+            "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "duration_ms": 0.02,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S02",
+            "skill_version": "1.0.0",
+            "input_hash": "e4fe89e642400cd1c4da04a1243255256e5cbf4ea432591d92670c4232a10709",
+            "output_hash": "e4fe89e642400cd1c4da04a1243255256e5cbf4ea432591d92670c4232a10709",
+            "duration_ms": 0.02,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S03",
+            "skill_version": "1.0.0",
+            "input_hash": "85b46c3f4d7a29106001a8ff3590cffe05214683240416d3652c23a9ba4b2990",
+            "output_hash": "dc35bb26b460b9734ac10492c2b3b57710f17dad27aab1c3eca4906e19e0d14f",
+            "duration_ms": 8.67,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S04",
+            "skill_version": "1.0.0",
+            "input_hash": "2ba85b25e923553d1d7a4326775ba2a6b73835d1fd3a58514be28f2f7db94902",
+            "output_hash": "c5a7c923fdcfd277e20ce9e75324641242a1d179cc91be597ba736e5131bb9c1",
+            "duration_ms": 65.34,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S05",
+            "skill_version": "1.0.0",
+            "input_hash": "99f1249b2f71ff9bebd5bc419950161eeee6c3dc0ea25c4f68aa45db61fa6152",
+            "output_hash": "9bb151bb457d3146954d3ed43d034ca665703b08de63a7d4ab64230dd4f745e5",
+            "duration_ms": 38.789,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S12",
+            "skill_version": "1.0.0",
+            "input_hash": "67743413adc7753558bea070729e3baadd7f1ab635e6c32ae0d4c7a7b8b47ba4",
+            "output_hash": "421c211878ab1997f814e95db5d66f9c07529fbd9b520787d2a12688aead1f54",
+            "duration_ms": 0.038,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          }
+        ],
+        "elapsed_ms": 206.504,
+        "provenance": {
+          "region_id": "shiqi",
+          "source_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+          "scenario_hash": "e4fe89e642400cd1c4da04a1243255256e5cbf4ea432591d92670c4232a10709",
+          "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+          "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+          "skill_graph_version": "module-b-skillgraph-0.1.0",
+          "solver_version": "SciPy 1.13.1 HiGHS",
+          "runtime": {
+            "python": "3.12.4",
+            "random_seed": null,
+            "deterministic": true
+          }
+        },
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "elapsed_harness_ms": 233.416
+      },
+      "oracle": {
+        "status": "NOT_RUN"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual B execution and hard assertions passed",
+        "evidence": {
+          "trace_present": true,
+          "verification_status": "PASS_DEMO",
+          "oracle_status": "NOT_RUN",
+          "state_ok": null
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_SINGLE_STAGE",
+        "interaction_complexity": "MEASURED_VALID_EXECUTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": null,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 1.0,
+        "planning_quality": {
+          "observed_served_demand": 7274.593472765874,
+          "oracle_served_demand": null,
+          "oracle_gap": null,
+          "oracle_status": "NOT_RUN",
+          "oracle_proof_level": "NOT_RUN",
+          "selected_cost_units": null,
+          "budget_units": null
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 6,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718"
+        },
+        "cost": {
+          "elapsed_ms": 233.416,
+          "tool_calls": 6,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-east_district-001",
+      "scenario_id": "ST21-east_district-001",
+      "region_id": "east_district",
+      "expected_behavior": "EXECUTE",
+      "scenario_family": "budget_tradeoff",
+      "interaction_type": "complete_request",
+      "execution_route": "explicit_adapter_direct_solver",
+      "http_route_status": "UNSUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "task_id": "stage3-ST21-east_district-001-c25ec6fa",
+        "job_id": "0f3eeb1e-285c-428e-8d80-da8070dfea1a",
+        "result_id": "a3dfd4ba-fb37-494b-a874-5bec14d45fbf",
+        "scenario_id": "ST21-east_district-001",
+        "parent_scenario_id": null,
+        "scenario_hash": "8963b430859d2ed7a363cd14c90b53359d66e43d8c880316001eef68309ea38c",
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "budget_tradeoff"
+        },
+        "execution_trace_id": "58a02756-1b79-4cfe-b769-f5b94b2e562a",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {
+          "served_demand": 10257.165950297309,
+          "total_demand": 418994.26423649647,
+          "weighted_walk_time_min": 9.093156795395691,
+          "optimized_served_demand": 10617.165950198309,
+          "diagnosed_unserved_nodes": 38039
+        },
+        "selected_option_ids": [
+          "OPT-east_district-001-03"
+        ],
+        "total_cost_units": 11.0,
+        "greedy_comparison": {
+          "status": "available",
+          "served_demand": 10617.165950297309,
+          "selected_option_ids": [
+            "OPT-east_district-001-03"
+          ],
+          "cost_units": 11.0,
+          "budget_units": 14.4,
+          "verification_status": "PASS_DEMO",
+          "method": "Module B real-data greedy baseline"
+        },
+        "optimization_certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 38996,
+          "passed_check_count": 38996,
+          "failed_checks": [],
+          "certificate_sha256": "3280d5f8a9a9abe00609cd331c68d6604d783890cfae9094d3ea7ebb91b15a62"
+        },
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 38964,
+          "passed_check_count": 38964,
+          "failed_checks": [],
+          "certificate_sha256": "e2a3fa210da6ca9542f63a9ba8ccbc4193cec0971682a4c136a7c13eca8120af"
+        },
+        "trace": [
+          {
+            "skill_id": "S01",
+            "skill_version": "1.0.0",
+            "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "duration_ms": 0.018,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S02",
+            "skill_version": "1.0.0",
+            "input_hash": "eab2185f5123a46471bfb945b63e16f630a17d80643c9ad9ae6e0a4a13c48c5c",
+            "output_hash": "eab2185f5123a46471bfb945b63e16f630a17d80643c9ad9ae6e0a4a13c48c5c",
+            "duration_ms": 0.017,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S03",
+            "skill_version": "1.0.0",
+            "input_hash": "01d1ca303043b62c1ce106f96613e01e093a89cfd55367c7a331f34abb3701c5",
+            "output_hash": "95fc27c49fac5bb5e8a12efe80caa9e469263f98d81a24cc5598d71a48146f44",
+            "duration_ms": 52.712,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S04",
+            "skill_version": "1.0.0",
+            "input_hash": "cbbe040926f2d3092ee0d558deed04f69cb163ffcfd7dfc88ce06056c3cfb2d4",
+            "output_hash": "5fc59b191e80fc8e8e7798dc0cc1af0c56b6a364a205e3f4513887563fddc5e0",
+            "duration_ms": 292.004,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S06",
+            "skill_version": "1.0.0",
+            "input_hash": "3ca6a877b981f858284533217cdaeff01529c63f35f2476197585a860349b293",
+            "output_hash": "fae7b0eab33fb8a27441556c684bd0f88f336fb97ad44d7942e17bf165908f1d",
+            "duration_ms": 0.111,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S07",
+            "skill_version": "1.0.0",
+            "input_hash": "3825a67cd0abacbb38b7b73ad5c6e4e6c491f418db971b61c852819e8efe8171",
+            "output_hash": "5f2b690c4abae5915592ede5db43ada233a4a5b78c5d4d3326b4f3029c294734",
+            "duration_ms": 2012.016,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S08",
+            "skill_version": "1.0.0",
+            "input_hash": "3179d076f558833e658bd97b629dd17b1d010687f09cacd511d355cf59783a65",
+            "output_hash": "bb6e289ca40f103263f256720581a5beb2563da4904130079b6bf7fd9ffd0a5b",
+            "duration_ms": 52.85,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S12",
+            "skill_version": "1.0.0",
+            "input_hash": "b95067fd7a3f8a91ffd77bc46d04751283c5af898be4431b41c34c110cd9b903",
+            "output_hash": "93f754ded871a06648584c383988de3e05379e5a5409853781a325aab5c1e3eb",
+            "duration_ms": 0.049,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          }
+        ],
+        "elapsed_ms": 3634.454,
+        "provenance": {
+          "region_id": "east_district",
+          "source_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "scenario_hash": "eab2185f5123a46471bfb945b63e16f630a17d80643c9ad9ae6e0a4a13c48c5c",
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+          "skill_graph_version": "module-b-skillgraph-0.1.0",
+          "solver_version": "SciPy 1.13.1 HiGHS",
+          "runtime": {
+            "python": "3.12.4",
+            "random_seed": null,
+            "deterministic": true
+          }
+        },
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "elapsed_harness_ms": 3930.302
+      },
+      "oracle": {
+        "status": "CONDITIONAL_SUBSET_OPTIMUM",
+        "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION_REUSING_B_ASSIGNMENT",
+        "feasible_subset_count": 7,
+        "objective": {
+          "served_demand": 10617.165950297309,
+          "weighted_walk_time_min": 8.970040519064984,
+          "cost_units": 11.0,
+          "option_count": 1
+        },
+        "selected_option_ids": [
+          "OPT-east_district-001-03"
+        ],
+        "proof_scope": "all legal subsets of the supplied <=12-option set",
+        "independence": "not_full_b_implementation_reused",
+        "proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual B execution and hard assertions passed",
+        "evidence": {
+          "trace_present": true,
+          "verification_status": "PASS_DEMO",
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "state_ok": null
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_SINGLE_STAGE",
+        "interaction_complexity": "MEASURED_VALID_EXECUTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": 0.9999999999906755,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 0.9999999999972027,
+        "planning_quality": {
+          "observed_served_demand": 10617.165950198309,
+          "oracle_served_demand": 10617.165950297309,
+          "oracle_gap": 9.900031727738678e-08,
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "oracle_proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK",
+          "selected_cost_units": 11.0,
+          "budget_units": 14.4
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 8,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc"
+        },
+        "cost": {
+          "elapsed_ms": 3930.302,
+          "tool_calls": 8,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-shiqi-002",
+      "scenario_id": "ST21-shiqi-002",
+      "region_id": "shiqi",
+      "expected_behavior": "EXECUTE",
+      "scenario_family": "capacity_competition",
+      "interaction_type": "complete_request",
+      "execution_route": "configured_http",
+      "http_route_status": "SUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "task_id": "stage3-ST21-shiqi-002-46e8f8ec",
+        "job_id": "c5188fb2-523c-44ae-ae32-c52b009c4a47",
+        "result_id": "2b000f0e-0815-4fb4-9ca5-97000b57ee6c",
+        "scenario_id": "ST21-shiqi-002",
+        "parent_scenario_id": null,
+        "scenario_hash": "c322b0e7cf5f10745fc8a11a8affb6cf11737a31097ef01722fb0a70d8c2f873",
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "capacity_competition"
+        },
+        "execution_trace_id": "acf6a0e8-7348-4ace-9a61-7cfc500f1805",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {
+          "served_demand": 16355.087031491968,
+          "total_demand": 180515.04433389846,
+          "weighted_walk_time_min": 9.712804497120478,
+          "optimized_served_demand": 16715.087031392977,
+          "diagnosed_unserved_nodes": 6779
+        },
+        "selected_option_ids": [
+          "OPT-shiqi-002-03"
+        ],
+        "total_cost_units": 11.0,
+        "greedy_comparison": {
+          "status": "available",
+          "served_demand": 16715.087031490984,
+          "selected_option_ids": [
+            "OPT-shiqi-002-03"
+          ],
+          "cost_units": 11.0,
+          "budget_units": 12.6,
+          "verification_status": "PASS_DEMO",
+          "method": "Module B real-data greedy baseline"
+        },
+        "optimization_certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 7959,
+          "passed_check_count": 7959,
+          "failed_checks": [],
+          "certificate_sha256": "2dcee202c351079f55af18f39cf1722d7ead6ff39b18a5881ab8bcff14aa50a7"
+        },
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 7946,
+          "passed_check_count": 7946,
+          "failed_checks": [],
+          "certificate_sha256": "53a75bb015353857e9c82241af8cd5054b23254841d4c91966933b6b2db652ef"
+        },
+        "trace": [
+          {
+            "skill_id": "S01",
+            "skill_version": "1.0.0",
+            "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "duration_ms": 0.02,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S02",
+            "skill_version": "1.0.0",
+            "input_hash": "a40942dbd334926c5059a36678a46992fd2bac9414f18b67bfc19831a8456cdb",
+            "output_hash": "a40942dbd334926c5059a36678a46992fd2bac9414f18b67bfc19831a8456cdb",
+            "duration_ms": 0.017,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S03",
+            "skill_version": "1.0.0",
+            "input_hash": "aeb2cd0af1bfe596fc349f59bacdc7bc09fab8bade94ba9f5524bb788e0597de",
+            "output_hash": "b75ee0ad057bef9313e7b1caa6067101a719be9d5d76947629aa328da8aa64df",
+            "duration_ms": 15.57,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S04",
+            "skill_version": "1.0.0",
+            "input_hash": "f33456cae500e3fae437c94cea22205c84d572b3f16de99c70af605d5d87ab77",
+            "output_hash": "e57d77f250303fa379a5f19a4a2b3035df0de5f85add89a98eed086766dd6660",
+            "duration_ms": 104.107,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S06",
+            "skill_version": "1.0.0",
+            "input_hash": "c1858f11570dafed860c5544072634351ff0029cba55da71b7b8b6f85e2978a8",
+            "output_hash": "459b4aad208344257db44188d50714f647d8853baf05e991052a997c568c5fad",
+            "duration_ms": 0.098,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S07",
+            "skill_version": "1.0.0",
+            "input_hash": "29b572f1dd559ab329db63daab3c34fe177e2b181086571096c75caab20b0dec",
+            "output_hash": "3b214eddd7e6ee89ec22cffa96157c01a6878aba828f34d4470976ec6adb0397",
+            "duration_ms": 826.05,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S08",
+            "skill_version": "1.0.0",
+            "input_hash": "b729199331f10d5dff435fc063b2c9cee2b9250bd58cf5ceb9338cc4214ae568",
+            "output_hash": "ceb186c8a3bcac6ea30c3a34f1d3776aec470c1b1a346d9ddb44ed44ea050cb8",
+            "duration_ms": 9.656,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S12",
+            "skill_version": "1.0.0",
+            "input_hash": "9d9f566247dee028b28dc41449299c5570701b6821a17758c007cb159c59584c",
+            "output_hash": "c390e37a6f0c5fe65064a4ae3a171ee7ececcb787a96b3fdefe7dcbfc927e43c",
+            "duration_ms": 0.035,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          }
+        ],
+        "elapsed_ms": 1255.299,
+        "provenance": {
+          "region_id": "shiqi",
+          "source_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+          "scenario_hash": "a40942dbd334926c5059a36678a46992fd2bac9414f18b67bfc19831a8456cdb",
+          "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+          "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+          "skill_graph_version": "module-b-skillgraph-0.1.0",
+          "solver_version": "SciPy 1.13.1 HiGHS",
+          "runtime": {
+            "python": "3.12.4",
+            "random_seed": null,
+            "deterministic": true
+          }
+        },
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "elapsed_harness_ms": 1308.408
+      },
+      "oracle": {
+        "status": "CONDITIONAL_SUBSET_OPTIMUM",
+        "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION_REUSING_B_ASSIGNMENT",
+        "feasible_subset_count": 5,
+        "objective": {
+          "served_demand": 16715.087031490984,
+          "weighted_walk_time_min": 9.615013178336314,
+          "cost_units": 11.0,
+          "option_count": 1
+        },
+        "selected_option_ids": [
+          "OPT-shiqi-002-03"
+        ],
+        "proof_scope": "all legal subsets of the supplied <=12-option set",
+        "independence": "not_full_b_implementation_reused",
+        "proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual B execution and hard assertions passed",
+        "evidence": {
+          "trace_present": true,
+          "verification_status": "PASS_DEMO",
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "state_ok": null
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_SINGLE_STAGE",
+        "interaction_complexity": "MEASURED_VALID_EXECUTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": 0.9999999999941366,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 0.999999999998241,
+        "planning_quality": {
+          "observed_served_demand": 16715.087031392977,
+          "oracle_served_demand": 16715.087031490984,
+          "oracle_gap": 9.800714906305075e-08,
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "oracle_proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK",
+          "selected_cost_units": 11.0,
+          "budget_units": 12.6
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 8,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718"
+        },
+        "cost": {
+          "elapsed_ms": 1308.408,
+          "tool_calls": 8,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-east_district-003",
+      "scenario_id": "ST21-east_district-003",
+      "region_id": "east_district",
+      "expected_behavior": "EXECUTE",
+      "scenario_family": "facility_disruption",
+      "interaction_type": "complete_request",
+      "execution_route": "explicit_adapter_direct_solver",
+      "http_route_status": "UNSUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "task_id": "stage3-ST21-east_district-003-276c2b24",
+        "job_id": "c247ae7c-1cd2-4742-ac4f-4096aca50dc6",
+        "result_id": "b51ecd7d-665c-444d-9050-c73fa0f3d96c",
+        "scenario_id": "ST21-east_district-003",
+        "parent_scenario_id": null,
+        "scenario_hash": "0588b9b0719e2c1627da78fddd33e2c27f6407c865c013bea38fa477bf968e36",
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "facility_disruption"
+        },
+        "execution_trace_id": "e7ec6eb8-f701-4f23-a922-7bc6d89e2995",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {
+          "served_demand": 11506.999999999016,
+          "total_demand": 335195.4113891972,
+          "weighted_walk_time_min": 13.903800859818336,
+          "optimized_served_demand": null,
+          "diagnosed_unserved_nodes": 37792
+        },
+        "selected_option_ids": [],
+        "total_cost_units": null,
+        "greedy_comparison": null,
+        "optimization_certificate": null,
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 39211,
+          "passed_check_count": 39211,
+          "failed_checks": [],
+          "certificate_sha256": "af61b2a009dc1b94b9b3de05909407ff2bf865e3619589727b203fdddcdb6fa3"
+        },
+        "trace": [
+          {
+            "skill_id": "S01",
+            "skill_version": "1.0.0",
+            "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "duration_ms": 0.016,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S02",
+            "skill_version": "1.0.0",
+            "input_hash": "f8b0b1554a900c7b5b920f4f2dc1c734b1eb1939e7ea12df2cf0e4a4f805dae5",
+            "output_hash": "f8b0b1554a900c7b5b920f4f2dc1c734b1eb1939e7ea12df2cf0e4a4f805dae5",
+            "duration_ms": 0.017,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S03",
+            "skill_version": "1.0.0",
+            "input_hash": "f528cb450d6c694115e0e664a77c14a804e676bd95bdffd9d3008a2f988fc7be",
+            "output_hash": "04e04cf212e5c8a1eab0a73e2eb7b07b98fe9173029772ae6265e708d4c50e22",
+            "duration_ms": 64.54,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S04",
+            "skill_version": "1.0.0",
+            "input_hash": "e507271cb7f448ffa033ea80a1a48b4ccdc276769af67cb4e81fd1223230d6b4",
+            "output_hash": "6e4870e96459a4b35a6dd3924950459ac35ee9b083bedc97c73491f14e7c19c4",
+            "duration_ms": 415.503,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S05",
+            "skill_version": "1.0.0",
+            "input_hash": "af3c16f3c84852c076c6847ceee0dc6f6679a3490daabf0e8bbd09516916c1fb",
+            "output_hash": "462e3f1530353354ff1ac2f445b1a9e2690585cd7322fd4b73bd353b111a849a",
+            "duration_ms": 248.555,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S12",
+            "skill_version": "1.0.0",
+            "input_hash": "f246f83a83ccb2e600509a6b93bdfc0c5ee67211fa6b74772b8e6ce214d7532f",
+            "output_hash": "556f3f570f84f38ee9b528efd7196ecdae4da9ab2aab72c177fd261d70583955",
+            "duration_ms": 0.049,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          }
+        ],
+        "elapsed_ms": 1218.216,
+        "provenance": {
+          "region_id": "east_district",
+          "source_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "scenario_hash": "f8b0b1554a900c7b5b920f4f2dc1c734b1eb1939e7ea12df2cf0e4a4f805dae5",
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+          "skill_graph_version": "module-b-skillgraph-0.1.0",
+          "solver_version": "SciPy 1.13.1 HiGHS",
+          "runtime": {
+            "python": "3.12.4",
+            "random_seed": null,
+            "deterministic": true
+          }
+        },
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "elapsed_harness_ms": 1356.114
+      },
+      "oracle": {
+        "status": "NOT_RUN"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual B execution and hard assertions passed",
+        "evidence": {
+          "trace_present": true,
+          "verification_status": "PASS_DEMO",
+          "oracle_status": "NOT_RUN",
+          "state_ok": null
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_SINGLE_STAGE",
+        "interaction_complexity": "MEASURED_VALID_EXECUTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": null,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 1.0,
+        "planning_quality": {
+          "observed_served_demand": 11506.999999999016,
+          "oracle_served_demand": null,
+          "oracle_gap": null,
+          "oracle_status": "NOT_RUN",
+          "oracle_proof_level": "NOT_RUN",
+          "selected_cost_units": null,
+          "budget_units": null
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 6,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc"
+        },
+        "cost": {
+          "elapsed_ms": 1356.114,
+          "tool_calls": 6,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-shiqi-004",
+      "scenario_id": "ST21-shiqi-004",
+      "region_id": "shiqi",
+      "expected_behavior": "EXECUTE",
+      "scenario_family": "multi_stage_recovery",
+      "interaction_type": "parameter_edit",
+      "execution_route": "configured_http",
+      "http_route_status": "SUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "execution_trace_id": "64c239c9-c952-4522-89fe-ceca4c38c349",
+        "scenario_id": "ST21-shiqi-004-child",
+        "parent_scenario_id": "ST21-shiqi-004-parent",
+        "result_id": "645fa6a6-feb4-4231-bc33-10c061456b0f",
+        "region_id": "shiqi",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_hash": "fe53d56f74ea0832da880fd415bf40c428027599a81b84df3b7b81db76df354f",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "multi_stage_recovery"
+        },
+        "result_summary": {
+          "served_demand": 8548.355784415198,
+          "total_demand": 150429.20361158205,
+          "weighted_walk_time_min": 6.109749640479639,
+          "optimized_served_demand": 8908.355784316198,
+          "diagnosed_unserved_nodes": 7037
+        },
+        "selected_option_ids": [
+          "OPT-shiqi-004-03"
+        ],
+        "total_cost_units": 11.0,
+        "greedy_comparison": {
+          "status": "available",
+          "served_demand": 8908.355784415198,
+          "selected_option_ids": [
+            "OPT-shiqi-004-03"
+          ],
+          "cost_units": 11.0,
+          "budget_units": 14.4,
+          "verification_status": "PASS_DEMO",
+          "method": "Module B real-data greedy baseline"
+        },
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 7686,
+          "passed_check_count": 7686,
+          "failed_checks": [],
+          "certificate_sha256": "7ad97b7c97a02f373cc74def258c77114a001d2d424ea1e6187542cbbbf1b81f"
+        },
+        "optimization_certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 7706,
+          "passed_check_count": 7706,
+          "failed_checks": [],
+          "certificate_sha256": "fc2dad6867713b0ac9653a3b46c35be80f526dfa172fd4c53215a607ddfb494f"
+        },
+        "elapsed_harness_ms": 1157.921,
+        "state_inheritance": {
+          "passed": true,
+          "checks": {
+            "parent_succeeded": true,
+            "child_succeeded": true,
+            "parent_child_link": true,
+            "parent_region": true,
+            "child_region": true,
+            "parent_data_version": true,
+            "child_data_version": true,
+            "parent_data_status": true,
+            "child_data_status": true,
+            "parent_trace": true,
+            "child_trace": true,
+            "parent_scenario_hash": true,
+            "child_scenario_hash": true,
+            "inherited_region": true,
+            "inherited_version": true,
+            "inherited_analysis_mode": true,
+            "inherited_population_ratio": true,
+            "inherited_walk_threshold": true,
+            "inherited_disabled_shelters": true,
+            "budget_change_is_explicit": true,
+            "option_change_is_explicit": true
+          },
+          "expected_parent": {
+            "scenario_id": "ST21-shiqi-004-parent",
+            "parent_scenario_id": null,
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.25,
+            "max_walk_time_min": 10,
+            "budget_units": 12.0,
+            "disabled_shelter_ids": [],
+            "changes": {
+              "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+              "scenario_family": "multi_stage_recovery"
+            }
+          },
+          "expected_child": {
+            "scenario_id": "ST21-shiqi-004-child",
+            "parent_scenario_id": "ST21-shiqi-004-parent",
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.25,
+            "max_walk_time_min": 10,
+            "budget_units": 14.4,
+            "disabled_shelter_ids": [],
+            "changes": {
+              "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+              "scenario_family": "multi_stage_recovery"
+            }
+          }
+        },
+        "rounds": [
+          {
+            "role": "parent",
+            "execution": {
+              "status": "SUCCEEDED",
+              "task_id": "stage3-ST21-shiqi-004-6c7e6bdd",
+              "job_id": "3e886043-5266-4495-a8ed-77dd92f79b5a",
+              "result_id": "77ee08a1-6191-404a-addf-8972b93a9358",
+              "scenario_id": "ST21-shiqi-004-parent",
+              "parent_scenario_id": null,
+              "scenario_hash": "7c9f7a62c91b55ad1cc63cfd78f742fdb2e321f3f7a0e33a08f940a8cca22a3b",
+              "region_id": "shiqi",
+              "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+              "data_status": "DEMO_ONLY",
+              "analysis_mode": "demo",
+              "scenario_changes": {
+                "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+                "scenario_family": "multi_stage_recovery"
+              },
+              "execution_trace_id": "b5cb2b78-f091-4999-a68c-9ef730ac7eac",
+              "solver_status": "OPTIMAL",
+              "verification_status": "PASS_DEMO",
+              "result_summary": {
+                "served_demand": 8548.355784415198,
+                "total_demand": 150429.20361158205,
+                "weighted_walk_time_min": 6.109749640479639,
+                "optimized_served_demand": 8868.355784316198,
+                "diagnosed_unserved_nodes": 7037
+              },
+              "selected_option_ids": [
+                "OPT-shiqi-004-00",
+                "OPT-shiqi-004-01"
+              ],
+              "total_cost_units": 12.0,
+              "greedy_comparison": {
+                "status": "available",
+                "served_demand": 8868.355784415198,
+                "selected_option_ids": [
+                  "OPT-shiqi-004-01",
+                  "OPT-shiqi-004-00"
+                ],
+                "cost_units": 12.0,
+                "budget_units": 12.0,
+                "verification_status": "PASS_DEMO",
+                "method": "Module B real-data greedy baseline"
+              },
+              "optimization_certificate": {
+                "verification_status": "PASS_DEMO",
+                "verified_for_demo": true,
+                "verified_for_real_planning": false,
+                "check_count": 7699,
+                "passed_check_count": 7699,
+                "failed_checks": [],
+                "certificate_sha256": "c74a9f67fd44ec3172beb7de064c49882e48b85b33e89c342b8d21fdc83a2063"
+              },
+              "certificate": {
+                "verification_status": "PASS_DEMO",
+                "verified_for_demo": true,
+                "verified_for_real_planning": false,
+                "check_count": 7686,
+                "passed_check_count": 7686,
+                "failed_checks": [],
+                "certificate_sha256": "0ddfdf61117e04144e947a0becf00a29467e46d2d079a3a355ee6aa2eb3fc638"
+              },
+              "trace": [
+                {
+                  "skill_id": "S01",
+                  "skill_version": "1.0.0",
+                  "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+                  "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+                  "duration_ms": 0.017,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S02",
+                  "skill_version": "1.0.0",
+                  "input_hash": "5ba6fd2bd7948855316670584ad6906f1ffe336ed9e851f739bf6a4e33d80813",
+                  "output_hash": "5ba6fd2bd7948855316670584ad6906f1ffe336ed9e851f739bf6a4e33d80813",
+                  "duration_ms": 0.016,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S03",
+                  "skill_version": "1.0.0",
+                  "input_hash": "85b46c3f4d7a29106001a8ff3590cffe05214683240416d3652c23a9ba4b2990",
+                  "output_hash": "dc35bb26b460b9734ac10492c2b3b57710f17dad27aab1c3eca4906e19e0d14f",
+                  "duration_ms": 1.034,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": true
+                },
+                {
+                  "skill_id": "S04",
+                  "skill_version": "1.0.0",
+                  "input_hash": "756f9dac1df5f6cdf018f3f354babafabb507c4b77366c79c09ea1335049cbb0",
+                  "output_hash": "b3d6792d3989abdbdad612d50b41f87c414ad3778912b968b2980166c94cb9ce",
+                  "duration_ms": 55.403,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S06",
+                  "skill_version": "1.0.0",
+                  "input_hash": "0b2dbd84b03cd199b31ecc97348ac918b4a69422a8e8168d81a286c3a573cb88",
+                  "output_hash": "44cb1ab03ceb350f7303f06a6dd5d490a2baf3251fe3fc52bf4412b282f333c1",
+                  "duration_ms": 0.07,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S07",
+                  "skill_version": "1.0.0",
+                  "input_hash": "157113e969bbd85a037d02aee111d496429864d1d6a54f09ae2ef688ac6a3510",
+                  "output_hash": "e04dc7fff4dd1f8e4bb1ac51b023383d027e0019c56d3751c59aff37b3e0a2d0",
+                  "duration_ms": 245.619,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S08",
+                  "skill_version": "1.0.0",
+                  "input_hash": "f012c632fee609bd702afc18ca65f69dc8c6c231f9943143ba578a124d2d55e0",
+                  "output_hash": "2af7addab86746d7b0e3a5864fee188b82ebda34a2c59d071336058724815b29",
+                  "duration_ms": 9.604,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S12",
+                  "skill_version": "1.0.0",
+                  "input_hash": "0c5175ee9524dbf8adf822236328c12efc9ac996c322dcf505769f197c46c3b5",
+                  "output_hash": "c08071df94b2c3b74a8ad54f4342d9bb6837ceb5b9281dec083c811a2f256f1e",
+                  "duration_ms": 0.053,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                }
+              ],
+              "elapsed_ms": 608.126,
+              "provenance": {
+                "region_id": "shiqi",
+                "source_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+                "scenario_hash": "5ba6fd2bd7948855316670584ad6906f1ffe336ed9e851f739bf6a4e33d80813",
+                "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+                "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+                "skill_graph_version": "module-b-skillgraph-0.1.0",
+                "solver_version": "SciPy 1.13.1 HiGHS",
+                "runtime": {
+                  "python": "3.12.4",
+                  "random_seed": null,
+                  "deterministic": true
+                }
+              },
+              "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+              "elapsed_harness_ms": 659.88
+            }
+          },
+          {
+            "role": "child",
+            "execution": {
+              "status": "SUCCEEDED",
+              "task_id": "stage3-ST21-shiqi-004-afa8d006",
+              "job_id": "fd6fb353-cd26-4e34-a467-8a76f14d630f",
+              "result_id": "645fa6a6-feb4-4231-bc33-10c061456b0f",
+              "scenario_id": "ST21-shiqi-004-child",
+              "parent_scenario_id": "ST21-shiqi-004-parent",
+              "scenario_hash": "fe53d56f74ea0832da880fd415bf40c428027599a81b84df3b7b81db76df354f",
+              "region_id": "shiqi",
+              "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+              "data_status": "DEMO_ONLY",
+              "analysis_mode": "demo",
+              "scenario_changes": {
+                "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+                "scenario_family": "multi_stage_recovery"
+              },
+              "execution_trace_id": "64c239c9-c952-4522-89fe-ceca4c38c349",
+              "solver_status": "OPTIMAL",
+              "verification_status": "PASS_DEMO",
+              "result_summary": {
+                "served_demand": 8548.355784415198,
+                "total_demand": 150429.20361158205,
+                "weighted_walk_time_min": 6.109749640479639,
+                "optimized_served_demand": 8908.355784316198,
+                "diagnosed_unserved_nodes": 7037
+              },
+              "selected_option_ids": [
+                "OPT-shiqi-004-03"
+              ],
+              "total_cost_units": 11.0,
+              "greedy_comparison": {
+                "status": "available",
+                "served_demand": 8908.355784415198,
+                "selected_option_ids": [
+                  "OPT-shiqi-004-03"
+                ],
+                "cost_units": 11.0,
+                "budget_units": 14.4,
+                "verification_status": "PASS_DEMO",
+                "method": "Module B real-data greedy baseline"
+              },
+              "optimization_certificate": {
+                "verification_status": "PASS_DEMO",
+                "verified_for_demo": true,
+                "verified_for_real_planning": false,
+                "check_count": 7706,
+                "passed_check_count": 7706,
+                "failed_checks": [],
+                "certificate_sha256": "fc2dad6867713b0ac9653a3b46c35be80f526dfa172fd4c53215a607ddfb494f"
+              },
+              "certificate": {
+                "verification_status": "PASS_DEMO",
+                "verified_for_demo": true,
+                "verified_for_real_planning": false,
+                "check_count": 7686,
+                "passed_check_count": 7686,
+                "failed_checks": [],
+                "certificate_sha256": "7ad97b7c97a02f373cc74def258c77114a001d2d424ea1e6187542cbbbf1b81f"
+              },
+              "trace": [
+                {
+                  "skill_id": "S01",
+                  "skill_version": "1.0.0",
+                  "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+                  "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+                  "duration_ms": 0.014,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S02",
+                  "skill_version": "1.0.0",
+                  "input_hash": "43051fa41e14d6b4df60050d84c6b34f9762ba61cacc63f938770ecc2e751cc7",
+                  "output_hash": "43051fa41e14d6b4df60050d84c6b34f9762ba61cacc63f938770ecc2e751cc7",
+                  "duration_ms": 0.015,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S03",
+                  "skill_version": "1.0.0",
+                  "input_hash": "85b46c3f4d7a29106001a8ff3590cffe05214683240416d3652c23a9ba4b2990",
+                  "output_hash": "dc35bb26b460b9734ac10492c2b3b57710f17dad27aab1c3eca4906e19e0d14f",
+                  "duration_ms": 1.031,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": true
+                },
+                {
+                  "skill_id": "S04",
+                  "skill_version": "1.0.0",
+                  "input_hash": "756f9dac1df5f6cdf018f3f354babafabb507c4b77366c79c09ea1335049cbb0",
+                  "output_hash": "b3d6792d3989abdbdad612d50b41f87c414ad3778912b968b2980166c94cb9ce",
+                  "duration_ms": 10.671,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": true
+                },
+                {
+                  "skill_id": "S06",
+                  "skill_version": "1.0.0",
+                  "input_hash": "fb212e900205a3da64cd8e88a27aa34f88bf62345c5794c24530c331680fcbc7",
+                  "output_hash": "1471e5e0a9f98058d87e558f4c39f05703a592bf0e9c8f90b73534aafface3eb",
+                  "duration_ms": 0.055,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S07",
+                  "skill_version": "1.0.0",
+                  "input_hash": "d2984fa6f2513444fd95b97e1746756a3b0bc495472daa402c530fe4b03f4837",
+                  "output_hash": "7b3efdfbc2364d3ad3a1bd2ee31bc4bef466ee135658d152851ada4e35fd0959",
+                  "duration_ms": 205.396,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S08",
+                  "skill_version": "1.0.0",
+                  "input_hash": "e14a779e81b8e58021e1da429060e27e2c43e7d067ab0625706ec0443aadcabc",
+                  "output_hash": "f3c17d11023c79861564f60dfff91302e86a8bcd3c498b94e544ce09fa890a3d",
+                  "duration_ms": 9.444,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                },
+                {
+                  "skill_id": "S12",
+                  "skill_version": "1.0.0",
+                  "input_hash": "2d7eaa53e61e9f1351a9a96af3f53fcbe8c4421ba187f46bf6f32493ca506bd3",
+                  "output_hash": "5e380f9d8521fa62170d64c71ea62f745e8148a63cdd38ea32a4e8c468e15db9",
+                  "duration_ms": 0.063,
+                  "status": "SUCCEEDED",
+                  "error_code": null,
+                  "cache_hit": false
+                }
+              ],
+              "elapsed_ms": 442.89,
+              "provenance": {
+                "region_id": "shiqi",
+                "source_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+                "scenario_hash": "43051fa41e14d6b4df60050d84c6b34f9762ba61cacc63f938770ecc2e751cc7",
+                "source_manifest_hash": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+                "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+                "skill_graph_version": "module-b-skillgraph-0.1.0",
+                "solver_version": "SciPy 1.13.1 HiGHS",
+                "runtime": {
+                  "python": "3.12.4",
+                  "random_seed": null,
+                  "deterministic": true
+                }
+              },
+              "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+              "elapsed_harness_ms": 498.041
+            }
+          }
+        ]
+      },
+      "oracle": {
+        "status": "CONDITIONAL_SUBSET_OPTIMUM",
+        "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION_REUSING_B_ASSIGNMENT",
+        "feasible_subset_count": 3,
+        "objective": {
+          "served_demand": 8908.355784415198,
+          "weighted_walk_time_min": 6.2061881785023045,
+          "cost_units": 11.0,
+          "option_count": 1
+        },
+        "selected_option_ids": [
+          "OPT-shiqi-004-03"
+        ],
+        "proof_scope": "all legal subsets of the supplied <=12-option set",
+        "independence": "not_full_b_implementation_reused",
+        "proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual B execution and hard assertions passed",
+        "evidence": {
+          "trace_present": true,
+          "verification_status": "PASS_DEMO",
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "state_ok": true
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_MULTI_ROUND_STATE_INHERITANCE",
+        "interaction_complexity": "MEASURED_VALID_EXECUTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": 0.9999999999888868,
+        "W": 1.0,
+        "P": 1.0,
+        "E": 1.0,
+        "diagnostics_overall": 0.999999999996666,
+        "planning_quality": {
+          "observed_served_demand": 8908.355784316198,
+          "oracle_served_demand": 8908.355784415198,
+          "oracle_gap": 9.900031727738678e-08,
+          "oracle_status": "CONDITIONAL_SUBSET_OPTIMUM",
+          "oracle_proof_level": "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK",
+          "selected_cost_units": 11.0,
+          "budget_units": 14.4
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 16,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": null
+        },
+        "cost": {
+          "elapsed_ms": 1157.921,
+          "tool_calls": 16,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-east_district-011",
+      "scenario_id": "ST21-east_district-011",
+      "region_id": "east_district",
+      "expected_behavior": "SAFE_STOP",
+      "scenario_family": "clarification_and_safe_stop",
+      "interaction_type": "safe_stop",
+      "execution_route": "explicit_adapter_direct_solver",
+      "http_route_status": "UNSUPPORTED",
+      "execution": {
+        "status": "SUCCEEDED",
+        "task_id": "stage3-ST21-east_district-011-eb3e6136",
+        "job_id": "35ba0577-c777-4fc0-a909-55ee66edebcf",
+        "result_id": "4ad450c4-18df-498e-9dee-b2da7c267545",
+        "scenario_id": "ST21-east_district-011",
+        "parent_scenario_id": null,
+        "scenario_hash": "e6fc80eb99fefa64cd612a13188cb0649010799606df33d899bcfa253a312b88",
+        "region_id": "east_district",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "data_status": "DEMO_ONLY",
+        "analysis_mode": "demo",
+        "scenario_changes": {
+          "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
+          "scenario_family": "clarification_and_safe_stop"
+        },
+        "execution_trace_id": "b4c2ce22-0ecd-41eb-9c0f-91c2571a5bb8",
+        "solver_status": "OPTIMAL",
+        "verification_status": "PASS_DEMO",
+        "result_summary": {
+          "served_demand": 6490.739257357509,
+          "total_demand": 502793.1170837958,
+          "weighted_walk_time_min": 6.128471753460027,
+          "optimized_served_demand": null,
+          "diagnosed_unserved_nodes": 38249
+        },
+        "selected_option_ids": [],
+        "total_cost_units": null,
+        "greedy_comparison": null,
+        "optimization_certificate": null,
+        "certificate": {
+          "verification_status": "PASS_DEMO",
+          "verified_for_demo": true,
+          "verified_for_real_planning": false,
+          "check_count": 38752,
+          "passed_check_count": 38752,
+          "failed_checks": [],
+          "certificate_sha256": "2be1ba9bed1eb65bd55803080dc145db45c9d5bf41c639be49aeb687ec2b53a1"
+        },
+        "trace": [
+          {
+            "skill_id": "S01",
+            "skill_version": "1.0.0",
+            "input_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "output_hash": "869862999726b334a28557293b6b3e148469d1f7730a4e005f1afd6374b619b9",
+            "duration_ms": 0.016,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S02",
+            "skill_version": "1.0.0",
+            "input_hash": "5a424ea090f9430631ac02e4011b819bf6bf3f312340a844fe1e57e27dd13021",
+            "output_hash": "5a424ea090f9430631ac02e4011b819bf6bf3f312340a844fe1e57e27dd13021",
+            "duration_ms": 0.026,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S03",
+            "skill_version": "1.0.0",
+            "input_hash": "015f4f064fd5cf2b60b3b00c9e8fd4ecdc148c6b9a88e6be720bf2dd033e8f22",
+            "output_hash": "877a6ba55bfe7b4cb4ffc0cc0a3398c6daa819bef8cac409a9d182b579d6cef9",
+            "duration_ms": 54.469,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S04",
+            "skill_version": "1.0.0",
+            "input_hash": "1b41e8f0a7ceb009c0352860a581bb7f303d80aae598b5d4bcaeec3345bb10ef",
+            "output_hash": "47256cc52b6a0162275866dfee39b7bb21f64a4f06c2f94fb5f5a3d33fd8d4de",
+            "duration_ms": 255.772,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S05",
+            "skill_version": "1.0.0",
+            "input_hash": "2ac6661bc0301e1e7bda7ef0c94ac115102a192cab10bd2e8470047a8b105e7c",
+            "output_hash": "43ea223b8e67e373cc442769aadc14cb5fbee016eb4ce12abe7d9eabbf36da1f",
+            "duration_ms": 218.6,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          },
+          {
+            "skill_id": "S12",
+            "skill_version": "1.0.0",
+            "input_hash": "b4f6e33f3a41e272c337460fccdf7fab4c77e53f562a8c43ad27ca8f1f841c8c",
+            "output_hash": "a3974adc2821cd4aad17a0c7799a89b50945cbbfcfee95c8b04339a893c0f0a5",
+            "duration_ms": 0.068,
+            "status": "SUCCEEDED",
+            "error_code": null,
+            "cache_hit": false
+          }
+        ],
+        "elapsed_ms": 1394.454,
+        "provenance": {
+          "region_id": "east_district",
+          "source_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "scenario_hash": "5a424ea090f9430631ac02e4011b819bf6bf3f312340a844fe1e57e27dd13021",
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc",
+          "solver_settings_hash": "14e1ee0e60e0ad4499a96d214fcdfbe7ee0cfa910bd1f751a2341af6e4b5bede",
+          "skill_graph_version": "module-b-skillgraph-0.1.0",
+          "solver_version": "SciPy 1.13.1 HiGHS",
+          "runtime": {
+            "python": "3.12.4",
+            "random_seed": null,
+            "deterministic": true
+          }
+        },
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "elapsed_harness_ms": 1533.306
+      },
+      "oracle": {
+        "status": "NOT_RUN"
+      },
+      "safe_stop_evidence": {
+        "baseline_served_demand": 6490.739257357509,
+        "baseline_unserved_demand": 496302.3778264383,
+        "total_demand": 502793.1170837958,
+        "active_capacity_persons": 19507.0,
+        "capacity_constrained_baseline": true,
+        "capacity_unbounded_reachability_upper_bound": 39327.72260101935,
+        "residual_unserved_at_upper_bound": 463465.3944827764,
+        "safe_stop_supported_by_capacity_and_reachability": false,
+        "upper_bound_solver_status": "OPTIMAL",
+        "evidence_basis": "B solve_assignment with current capacities and explicit capacity-unbounded counterfactual over the same A v2 OD graph"
+      },
+      "evaluation": {
+        "status": "UNSCORABLE",
+        "reason": "no Agent output; capacity evidence is recorded separately",
+        "safe_stop_evidence": {
+          "baseline_served_demand": 6490.739257357509,
+          "baseline_unserved_demand": 496302.3778264383,
+          "total_demand": 502793.1170837958,
+          "active_capacity_persons": 19507.0,
+          "capacity_constrained_baseline": true,
+          "capacity_unbounded_reachability_upper_bound": 39327.72260101935,
+          "residual_unserved_at_upper_bound": 463465.3944827764,
+          "safe_stop_supported_by_capacity_and_reachability": false,
+          "upper_bound_solver_status": "OPTIMAL",
+          "evidence_basis": "B solve_assignment with current capacities and explicit capacity-unbounded counterfactual over the same A v2 OD graph"
+        },
+        "evidence": {
+          "trace_present": true,
+          "b_result_status": "SUCCEEDED"
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "NOT_MEASURED",
+        "workflow_complexity": "NOT_MEASURED",
+        "interaction_complexity": "NOT_MEASURED",
+        "evidence_status": "STATE_PROBE_ONLY_NO_AGENT_OUTPUT",
+        "state_probe": {
+          "capacity_evidence_measured": true,
+          "safe_stop_supported": false
+        }
+      },
+      "vets": {
+        "status": "UNSCORABLE",
+        "vets_success": null,
+        "U": null,
+        "W": null,
+        "P": null,
+        "E": 1.0,
+        "diagnostics_overall": 1.0,
+        "planning_quality": {
+          "observed_served_demand": 6490.739257357509,
+          "oracle_served_demand": null,
+          "oracle_gap": null,
+          "oracle_status": "NOT_RUN",
+          "oracle_proof_level": "NOT_RUN",
+          "selected_cost_units": null,
+          "budget_units": null
+        },
+        "evidence": {
+          "trace_present": true,
+          "trace_rows": 6,
+          "verification_status": "PASS_DEMO",
+          "source_identity_complete": true,
+          "source_manifest_hash": "5ed4a9bf13073f966612428076e949d477f70e5679e4a0767e38139e49a831cc"
+        },
+        "cost": {
+          "elapsed_ms": 1533.306,
+          "tool_calls": 6,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-east_district-029",
+      "scenario_id": "ST21-east_district-029",
+      "region_id": "east_district",
+      "expected_behavior": "CLARIFY",
+      "scenario_family": "clarification_and_safe_stop",
+      "interaction_type": "missing_parameter",
+      "execution_route": "explicit_adapter_direct_solver",
+      "http_route_status": "UNSUPPORTED",
+      "execution": {
+        "status": "FAILED",
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "execution_trace_id": null,
+        "http_status": null,
+        "error": {
+          "error_code": "SCENARIO_INVALID",
+          "message": "Budget is required for optimize task",
+          "details": {
+            "required_user_action": "Provide a confirmed budget_units value."
+          }
+        },
+        "response": null
+      },
+      "oracle": {
+        "status": "NOT_RUN"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "UNSCORABLE",
+        "reason": "no Agent output supplied for clarification scoring",
+        "evidence": {
+          "trace_present": false,
+          "b_result_status": "FAILED"
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "NOT_MEASURED",
+        "workflow_complexity": "NOT_MEASURED",
+        "interaction_complexity": "NOT_MEASURED",
+        "evidence_status": "STATE_PROBE_ONLY_NO_AGENT_OUTPUT"
+      },
+      "vets": {
+        "status": "UNSCORABLE",
+        "vets_success": null,
+        "U": null,
+        "W": null,
+        "P": null,
+        "E": null,
+        "diagnostics_overall": null,
+        "planning_quality": {
+          "observed_served_demand": null,
+          "oracle_served_demand": null,
+          "oracle_gap": null,
+          "oracle_status": "NOT_RUN",
+          "oracle_proof_level": "NOT_RUN",
+          "selected_cost_units": null,
+          "budget_units": null
+        },
+        "evidence": {
+          "trace_present": false,
+          "trace_rows": 0,
+          "verification_status": null,
+          "source_identity_complete": false,
+          "source_manifest_hash": null
+        },
+        "cost": {
+          "elapsed_ms": null,
+          "tool_calls": 0,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    },
+    {
+      "task_id": "S3-ST21-shiqi-016",
+      "scenario_id": "ST21-shiqi-016",
+      "region_id": "shiqi",
+      "expected_behavior": "REJECT",
+      "scenario_family": "multi_stage_recovery",
+      "interaction_type": "invalid_id",
+      "execution_route": "configured_http",
+      "http_route_status": "SUPPORTED",
+      "execution": {
+        "status": "FAILED",
+        "execution_mode": "DIRECT_B_SOLVER_EXPLICIT_A_ADAPTER",
+        "execution_trace_id": null,
+        "http_status": null,
+        "error": {
+          "error_code": "CANDIDATE_INVALID",
+          "message": "Improvement option references unknown shelter",
+          "details": {
+            "option_id": "OPT-shiqi-016-00"
+          }
+        },
+        "response": null
+      },
+      "oracle": {
+        "status": "NOT_RUN"
+      },
+      "safe_stop_evidence": null,
+      "evaluation": {
+        "status": "PASS",
+        "reason": "actual invalid request matched the GT error contract",
+        "evidence": {
+          "trace_present": false,
+          "error": {
+            "error_code": "CANDIDATE_INVALID",
+            "message": "Improvement option references unknown shelter",
+            "details": {
+              "option_id": "OPT-shiqi-016-00"
+            }
+          },
+          "response": {},
+          "expected_error_codes": [
+            "CANDIDATE_INVALID"
+          ],
+          "actual_error_code": "CANDIDATE_INVALID",
+          "expected_failure_phase": "candidate_validation",
+          "actual_failure_phase": "candidate_validation",
+          "solver_started": false,
+          "identity_ok": true
+        }
+      },
+      "measured_difficulty": {
+        "decision_complexity": "MEASURED_EXECUTION_ONLY",
+        "workflow_complexity": "MEASURED_SINGLE_STAGE",
+        "interaction_complexity": "MEASURED_REJECTION",
+        "evidence_status": "REAL_B_TRACE_AND_VERIFIER"
+      },
+      "vets": {
+        "status": "PASS",
+        "vets_success": true,
+        "U": null,
+        "W": 1.0,
+        "P": null,
+        "E": null,
+        "diagnostics_overall": 1.0,
+        "planning_quality": {
+          "observed_served_demand": null,
+          "oracle_served_demand": null,
+          "oracle_gap": null,
+          "oracle_status": "NOT_RUN",
+          "oracle_proof_level": "NOT_RUN",
+          "selected_cost_units": null,
+          "budget_units": null
+        },
+        "evidence": {
+          "trace_present": false,
+          "trace_rows": 0,
+          "verification_status": null,
+          "source_identity_complete": false,
+          "source_manifest_hash": null
+        },
+        "cost": {
+          "elapsed_ms": null,
+          "tool_calls": 0,
+          "llm_tokens": null,
+          "llm_cost": null,
+          "llm_status": "NOT_RUN"
+        }
+      }
+    }
+  ]
+}

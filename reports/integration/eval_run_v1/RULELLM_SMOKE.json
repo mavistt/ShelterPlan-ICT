@@ -1,0 +1,120 @@
+{
+  "status": "SUCCEEDED",
+  "llm_mode": "rule",
+  "region_id": "shiqi",
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+  "data_status": "DEMO_ONLY",
+  "user_text": "请评估石岐当前的避难服务现状，需求比例为0.2，步行时间阈值为15分钟。",
+  "servers": {
+    "module_b": "http://127.0.0.1:53587",
+    "module_c": "http://127.0.0.1:53588"
+  },
+  "session": {
+    "session_id": "s-c9f1dc1ec56b",
+    "status": "READY",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY"
+  },
+  "turn": {
+    "turn_id": "t-099a5a97e63b",
+    "session_id": "s-c9f1dc1ec56b",
+    "status": "SUCCEEDED",
+    "user_text": "请评估石岐当前的避难服务现状，需求比例为0.2，步行时间阈值为15分钟。",
+    "created_at": "2026-11-26T17:12:58Z",
+    "updated_at": "2026-11-26T17:13:03Z",
+    "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+    "region_id": "shiqi",
+    "task_id": "c-a05ce5cb-2936-48d3-817d-42c6db3ec991",
+    "job_id": "14a9cab5-b6c6-4293-98de-01b9b9d9f68d",
+    "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY",
+    "metrics": {
+      "served_demand": 11957.966963123272,
+      "total_demand": 120343.36288926564,
+      "weighted_walk_time_min": 8.546513064657791,
+      "diagnosed_unserved_nodes": 6790,
+      "coverage_ratio": 0.09936540475544493
+    },
+    "map": {
+      "available": false,
+      "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+      "layers_href": "/v1/results/b333e4f4-d6c2-47d8-89f0-82f8badd62b8/layers"
+    },
+    "warnings": [
+      "DEMO_ONLY: Module A handoff has not passed real-pilot acceptance; do not claim real coverage or current capacity.",
+      "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+    ],
+    "message": "【结论】现状评估完成。\n【未服务节点】6,790 个。\n【关键指标】已服务 11,957.97 人 / 总需求 120,343.36 人，覆盖率 9.9%；加权步行时间 8.55 分钟。\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=b333e4f4-d6c2-47d8-89f0-82f8badd62b8；scenario_id=c-s-c9f1dc-t01-39e89d8a",
+    "clarification": null,
+    "error": null,
+    "timings": {
+      "queued_at": "2026-11-26T17:12:58Z",
+      "queue_ms": 0.4,
+      "run_ms": 5658.2,
+      "started_at": "2026-11-26T17:12:58Z"
+    },
+    "llm": {
+      "calls": 1,
+      "prompt_tokens": 10,
+      "completion_tokens": 5,
+      "extract_modes": [
+        "llm"
+      ],
+      "fallback_used": false
+    },
+    "cancel_requested": false,
+    "state_persisted": true,
+    "execution_trace_id": "1b2533d6-fc27-4d05-a356-406c19c21c55",
+    "intent": "assess",
+    "task_type": "assess"
+  },
+  "session_snapshot": {
+    "session_id": "s-c9f1dc1ec56b",
+    "created_at": "2026-11-26T17:12:58Z",
+    "turn": 1,
+    "region_id": "shiqi",
+    "params": {
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15.0,
+      "budget_units": null,
+      "disabled_shelter_ids": [],
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "region_id": "shiqi"
+    },
+    "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+    "lineage": [
+      {
+        "scenario_id": "c-s-c9f1dc-t01-39e89d8a",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": "b333e4f4-d6c2-47d8-89f0-82f8badd62b8"
+      }
+    ],
+    "result_ids": [
+      "b333e4f4-d6c2-47d8-89f0-82f8badd62b8"
+    ],
+    "pending_clarification": null,
+    "turns": [
+      {
+        "turn_id": "t-099a5a97e63b",
+        "status": "SUCCEEDED",
+        "created_at": "2026-11-26T17:12:58Z"
+      }
+    ],
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY"
+  }
+}

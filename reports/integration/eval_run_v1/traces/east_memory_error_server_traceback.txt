@@ -1,0 +1,13 @@
+Captured Module B error log before the integration service restart (full traceback excerpt; C trace is adjacent under traces/c/east_browser_memory_error_before_fix.jsonl):
+
+Module B internal task failure: job_id=103cf321-d1f3-46fd-b479-c8981682c092 trace_id=71967548-a6f8-458e-9e39-5558b2248944 task_id=c-2ae0206b-d582-48b9-b947-1db9608bada9
+Traceback (most recent call last):
+  File "backend/api/planning.py", line 69, in _run
+    if isinstance(request, DisasterRecoveryRequest) else execute_task(request))
+  File "backend/graph/executor.py", line 636, in execute_task
+    records.append(_node_record("S12", canonical_hash({"result": result, "certificate": cert.model_dump(), "optimization_certificate": optimization_certificate}), evidence, time.perf_counter()))
+  File "backend/storage.py", line 13, in canonical_hash
+    raw = json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
+MemoryError
+
+After capturing this diagnostic, canonical_hash and JsonResultStore.save were changed to stream JSON chunks; the source bundle cache was bounded to the most recently loaded region. No solver objective or constraint was changed. The full four-test browser suite passed after those changes.

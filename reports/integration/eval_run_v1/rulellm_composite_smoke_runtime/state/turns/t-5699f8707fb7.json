@@ -1,0 +1,48 @@
+{
+  "turn_id": "t-5699f8707fb7",
+  "session_id": "s-0efa522a435e",
+  "status": "NEEDS_CLARIFICATION",
+  "user_text": "请分析石岐灾后恢复方案。停用场所 zs_eb8b69df7b。恢复预算为13个单位，需求比例为0.2，最大步行时间为15分钟。恢复候选 zs_1654dda235 扩容300人，成本为4；恢复候选 zs_3fa8ce2b1e 扩容400人，成本为9。",
+  "created_at": "2026-11-26T17:16:13Z",
+  "updated_at": "2026-11-26T17:16:13Z",
+  "scenario_id": "c-s-0efa52-t01-39e89d8a",
+  "region_id": "shiqi",
+  "task_id": null,
+  "job_id": null,
+  "result_id": null,
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+  "data_status": "DEMO_ONLY",
+  "metrics": {},
+  "map": null,
+  "warnings": [
+    "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+  ],
+  "message": "请指定要模拟停用的场所 ID（例如 zs_1b4df7920b）。\n当前参数：需求比例 20%；步行阈值 15.0 分钟；预算 未设置；停用场所 0 个。\n（未执行任何规划任务，因此没有新增结果。）",
+  "clarification": {
+    "fields": [
+      "disabled_shelter_ids"
+    ],
+    "question": "请指定要模拟停用的场所 ID（例如 zs_1b4df7920b）。",
+    "pending_task_type": "disaster_recovery",
+    "resume_hint": "下一轮只需补充这些字段，任务会自动续跑。"
+  },
+  "error": null,
+  "timings": {
+    "queued_at": "2026-11-26T17:16:13Z",
+    "queue_ms": 0.8,
+    "run_ms": 2.8,
+    "started_at": "2026-11-26T17:16:13Z"
+  },
+  "llm": {
+    "calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "extract_modes": [],
+    "fallback_used": false
+  },
+  "cancel_requested": false,
+  "state_persisted": true,
+  "execution_trace_id": null,
+  "intent": "disaster_recovery",
+  "task_type": "disaster_recovery"
+}

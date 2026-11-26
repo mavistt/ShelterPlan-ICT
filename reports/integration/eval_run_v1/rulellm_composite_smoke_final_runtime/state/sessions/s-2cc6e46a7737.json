@@ -1,0 +1,139 @@
+{
+  "session_id": "s-2cc6e46a7737",
+  "updated_at": "2026-11-26T17:20:26Z",
+  "session": {
+    "session_id": "s-2cc6e46a7737",
+    "turn": 2,
+    "current": {
+      "scenario_id": "c-s-2cc6e4-t02-35435f81",
+      "parent_scenario_id": "c-s-2cc6e4-t01-39e89d8a",
+      "turn": 2,
+      "changes": {
+        "disabled_shelter_ids": [
+          "zs_04ec8cb884"
+        ]
+      },
+      "params": {
+        "population_demand_ratio": 0.2,
+        "max_walk_time_min": 15.0,
+        "budget_units": null,
+        "disabled_shelter_ids": [
+          "zs_04ec8cb884"
+        ],
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "analysis_mode": "demo",
+        "region_id": "shiqi"
+      },
+      "result_id": null,
+      "created_at": "2026-11-26T17:20:26.384+00:00"
+    },
+    "lineage": [
+      {
+        "scenario_id": "c-s-2cc6e4-t01-39e89d8a",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": null
+      },
+      {
+        "scenario_id": "c-s-2cc6e4-t02-35435f81",
+        "parent_scenario_id": "c-s-2cc6e4-t01-39e89d8a",
+        "turn": 2,
+        "changes": {
+          "disabled_shelter_ids": [
+            "zs_04ec8cb884"
+          ]
+        },
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [
+            "zs_04ec8cb884"
+          ],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": null
+      }
+    ],
+    "result_ids": [],
+    "region_id": "shiqi",
+    "results": {}
+  },
+  "dialogue": {
+    "pending": {
+      "task_type": "disaster_recovery",
+      "changes": {
+        "disabled_shelter_ids": [
+          "zs_04ec8cb884"
+        ]
+      },
+      "options": [
+        {
+          "action": "hypothetical_capacity_increase",
+          "source_status": "hypothetical_assumption",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "eligible": true,
+          "combination_policy": "standalone",
+          "option_id": "RECOVERY_zs_1654dda235",
+          "shelter_id": "zs_1654dda235",
+          "delta_capacity_persons": 300.0,
+          "cost_units": 4.0
+        },
+        {
+          "action": "hypothetical_capacity_increase",
+          "source_status": "hypothetical_assumption",
+          "hypothetical": true,
+          "human_confirmed": false,
+          "eligible": true,
+          "combination_policy": "standalone",
+          "option_id": "RECOVERY_zs_3fa8ce2b1e",
+          "shelter_id": "zs_3fa8ce2b1e",
+          "delta_capacity_persons": 400.0,
+          "cost_units": 9.0
+        }
+      ],
+      "parameters": {},
+      "missing": [
+        "budget_units"
+      ],
+      "question": "请给出预算上限（预算单位，≥0），例如“预算 2”。",
+      "original_text": "请分析石岐灾后恢复规划。停用场所 zs_04ec8cb884。预算上限为13个单位，需求比例为0.2，步行时间为15分钟。候选项目：zs_1654dda235 扩容300人，成本为4；zs_3fa8ce2b1e 扩容400人，成本为9。",
+      "asked_at": 1795713626.3845525,
+      "expires_at": 1795715426.3845525,
+      "attempts": 1
+    },
+    "ttl_s": 1800.0,
+    "turns": 0,
+    "last_closed": null
+  },
+  "memory": {
+    "last_task_type": null,
+    "last_options": [],
+    "last_result_id": null,
+    "last_changes": {},
+    "actions": [
+      "disaster_recovery:CLARIFY"
+    ]
+  },
+  "summaries": [],
+  "client_turns": {
+    "demo-turn-1": "t-4733e9859859"
+  },
+  "turn_ids": [
+    "t-4733e9859859"
+  ],
+  "region_id": "shiqi"
+}

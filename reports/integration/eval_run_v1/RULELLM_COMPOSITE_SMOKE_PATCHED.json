@@ -1,0 +1,705 @@
+{
+  "status": "SUCCEEDED",
+  "llm_mode": "rule",
+  "region_id": "shiqi",
+  "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+  "data_status": "DEMO_ONLY",
+  "user_text": "请分析石岐灾后恢复规划。停用场所 zs_04ec8cb884。恢复预算为13个单位，需求比例为0.2，步行时间为15分钟。候选项目：zs_1654dda235 扩容300人，成本为4；zs_3fa8ce2b1e 扩容400人，成本为9。",
+  "servers": {
+    "module_b": "http://127.0.0.1:59302",
+    "module_c": "http://127.0.0.1:59303"
+  },
+  "session": {
+    "session_id": "s-e9614a066452",
+    "status": "READY",
+    "region_id": "shiqi",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY"
+  },
+  "turn": {
+    "turn_id": "t-0f598cf7bc05",
+    "session_id": "s-e9614a066452",
+    "status": "SUCCEEDED",
+    "user_text": "请分析石岐灾后恢复规划。停用场所 zs_04ec8cb884。恢复预算为13个单位，需求比例为0.2，步行时间为15分钟。候选项目：zs_1654dda235 扩容300人，成本为4；zs_3fa8ce2b1e 扩容400人，成本为9。",
+    "created_at": "2026-11-26T17:21:58Z",
+    "updated_at": "2026-11-26T17:22:06Z",
+    "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+    "region_id": "shiqi",
+    "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd",
+    "job_id": "4919b4d0-f11f-49b0-bd90-4a774a364655",
+    "result_id": "841a21b0-4c5a-42ed-b42d-681ffff0fff7",
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY",
+    "metrics": {
+      "served_demand": 11947.966963123274,
+      "total_demand": 120343.36288926564,
+      "weighted_walk_time_min": 8.422236809321458,
+      "optimized_served_demand": 12647.96696302428,
+      "diagnosed_unserved_nodes": 6790,
+      "baseline_served_demand": 11957.966963123272,
+      "damaged_served_demand": 11947.966963123274,
+      "recovered_served_demand": 12647.96696302428,
+      "coverage_ratio": 0.09928230918822865
+    },
+    "map": {
+      "available": false,
+      "reason": "Module B 的结果不含几何图层；可按 shelter_id 关联自备底图。",
+      "layers_href": "/v1/results/841a21b0-4c5a-42ed-b42d-681ffff0fff7/layers"
+    },
+    "warnings": [
+      "DEMO_ONLY: this result is not field-verified.",
+      "DEMO_ONLY：基于演示数据，未经真实现场核验，仅供演示与算法评估。"
+    ],
+    "message": "【复合任务】灾后恢复流程已执行：基线评估 → 受损评估 → 瓶颈诊断 → 恢复优化 → 对照 → 核验。\n【灾前基线】服务人数 11,957.97；情景 c-6da27200-c370-4c41-8563-67778418b6bd-baseline；结果 a1b8a066-306b-4aeb-8cb3-c22185bbd22a；求解 OPTIMAL；Verifier PASS_DEMO。\n【受损后】服务人数 11,947.97；情景 c-6da27200-c370-4c41-8563-67778418b6bd-damaged；结果 f70b1aff-de86-4460-9bb3-c737d3438b21；求解 OPTIMAL；Verifier PASS_DEMO。\n【恢复后】服务人数 12,647.97；情景 c-6da27200-c370-4c41-8563-67778418b6bd-recovered；结果 152ae9be-7964-45fe-9047-d169a1e8de98；求解 OPTIMAL；Verifier PASS_DEMO。\n【瓶颈诊断】未服务节点 6,790；Skill Trace S05。\n【恢复方案】选中项目 RECOVERY_zs_1654dda235、RECOVERY_zs_3fa8ce2b1e；实际成本 13.00 / 预算 13.00；服务损失 10.00；恢复新增服务 700.00。\n【恢复比例】7,000.0%。\n【跨阶段约束】通过 22/22 项；Trace 7fb4f3b0-9131-4c25-9712-9ec903aeabcc。\nDEMO_ONLY: this model result is not operationally or field verified.\n【参数】需求比例 20%；步行阈值 15.0 分钟；预算 13.00；停用场所 1 个\n【求解与验证】求解状态 OPTIMAL，且最优性已证明。 verification_status=PASS_DEMO。\n【数据声明】DEMO_ONLY — 基于演示数据，未经真实现场核验，仅供演示与算法评估。\n【结果编号】result_id=841a21b0-4c5a-42ed-b42d-681ffff0fff7；scenario_id=c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+    "clarification": null,
+    "error": null,
+    "timings": {
+      "queued_at": "2026-11-26T17:21:58Z",
+      "queue_ms": 0.4,
+      "run_ms": 8535.6,
+      "started_at": "2026-11-26T17:21:58Z"
+    },
+    "llm": {
+      "calls": 1,
+      "prompt_tokens": 10,
+      "completion_tokens": 5,
+      "extract_modes": [
+        "llm"
+      ],
+      "fallback_used": false
+    },
+    "cancel_requested": false,
+    "state_persisted": true,
+    "execution_trace_id": "7fb4f3b0-9131-4c25-9712-9ec903aeabcc",
+    "intent": "disaster_recovery",
+    "task_type": "disaster_recovery",
+    "composite": {
+      "status": "COMPLETED",
+      "user_goal": "请分析石岐灾后恢复规划。停用场所 zs_04ec8cb884。恢复预算为13个单位，需求比例为0.2，步行时间为15分钟。候选项目：zs_1654dda235 扩容300人，成本为4；zs_3fa8ce2b1e 扩容400人，成本为9。",
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "source_manifest_digest": "1b7f3891270d105bc1992251d324ea8a51992ce8af44de69cba630d7569fc718",
+      "stages": [
+        {
+          "stage_id": "baseline",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": null,
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+          "parent_scenario_id": null,
+          "result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+          "input_result_ids": [],
+          "execution_trace_id": "57db4046-2629-473d-8427-6fcab0f53c66",
+          "skill_ids": [
+            "S01",
+            "S02",
+            "S03",
+            "S04"
+          ],
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 11957.966963123272,
+            "total_demand": 120343.36288926564,
+            "weighted_walk_time_min": 8.546513064657791,
+            "diagnosed_unserved_nodes": 6790
+          },
+          "duration_ms": 484.014
+        },
+        {
+          "stage_id": "damage",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+          "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21",
+          "input_result_ids": [
+            "a1b8a066-306b-4aeb-8cb3-c22185bbd22a"
+          ],
+          "execution_trace_id": "29a98bd1-d3a3-4ebe-a9e1-c7ccf853f100",
+          "skill_ids": [
+            "S01",
+            "S02",
+            "S03",
+            "S04"
+          ],
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 11947.966963123274,
+            "total_demand": 120343.36288926564,
+            "weighted_walk_time_min": 8.550779012007677,
+            "diagnosed_unserved_nodes": 6790
+          },
+          "duration_ms": 420.095
+        },
+        {
+          "stage_id": "diagnose",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+          "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21",
+          "input_result_ids": [
+            "f70b1aff-de86-4460-9bb3-c737d3438b21"
+          ],
+          "execution_trace_id": "29a98bd1-d3a3-4ebe-a9e1-c7ccf853f100",
+          "skill_ids": [
+            "S05"
+          ],
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "diagnosed_unserved_nodes": 6790,
+            "diagnosis_by_cause": {
+              "NO_LEGAL_CONNECTION": 5295,
+              "CAPACITY_COMPETITION_OR_INSUFFICIENCY": 1495
+            }
+          },
+          "duration_ms": 60.191
+        },
+        {
+          "stage_id": "recovery",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+          "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+          "input_result_ids": [
+            "f70b1aff-de86-4460-9bb3-c737d3438b21",
+            "f70b1aff-de86-4460-9bb3-c737d3438b21"
+          ],
+          "execution_trace_id": "4f9d4476-e7cb-450f-9edc-57491b9c9357",
+          "skill_ids": [
+            "S01",
+            "S02",
+            "S03",
+            "S04",
+            "S06",
+            "S07",
+            "S08",
+            "S12"
+          ],
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "served_demand": 11947.966963123274,
+            "total_demand": 120343.36288926564,
+            "weighted_walk_time_min": 8.550779012007677,
+            "optimized_served_demand": 12647.96696302428,
+            "selected_option_ids": [
+              "RECOVERY_zs_1654dda235",
+              "RECOVERY_zs_3fa8ce2b1e"
+            ],
+            "total_cost_units": 13.0,
+            "budget_units": 13.0,
+            "optimized_weighted_walk_time_min": 8.422236809321458
+          },
+          "duration_ms": 1579.549
+        },
+        {
+          "stage_id": "compare",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+          "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+          "input_result_ids": [
+            "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+            "f70b1aff-de86-4460-9bb3-c737d3438b21",
+            "152ae9be-7964-45fe-9047-d169a1e8de98"
+          ],
+          "execution_trace_id": "7fb4f3b0-9131-4c25-9712-9ec903aeabcc",
+          "skill_ids": [],
+          "solver_status": null,
+          "verification_status": null,
+          "metrics": {
+            "baseline_result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+            "damaged_result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21",
+            "recovered_result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+            "damage_service_loss": 9.999999999998181,
+            "recovery_service_gain": 699.999999901007,
+            "recovery_ratio": {
+              "status": "APPLICABLE",
+              "value": 69.99999999011342
+            }
+          },
+          "duration_ms": null
+        },
+        {
+          "stage_id": "verify",
+          "status": "COMPLETED",
+          "reason_code": null,
+          "input_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+          "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+          "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+          "input_result_ids": [
+            "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+            "f70b1aff-de86-4460-9bb3-c737d3438b21",
+            "152ae9be-7964-45fe-9047-d169a1e8de98",
+            "152ae9be-7964-45fe-9047-d169a1e8de98"
+          ],
+          "execution_trace_id": "7fb4f3b0-9131-4c25-9712-9ec903aeabcc",
+          "skill_ids": [],
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "metrics": {
+            "constraint_check_count": 22,
+            "passed_constraint_check_count": 22
+          },
+          "duration_ms": null
+        }
+      ],
+      "comparison": {
+        "baseline": {
+          "served_demand": 11957.966963123272,
+          "total_demand": 120343.36288926564,
+          "weighted_walk_time_min": 8.546513064657791,
+          "diagnosed_unserved_nodes": 6790,
+          "result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a"
+        },
+        "damaged": {
+          "served_demand": 11947.966963123274,
+          "total_demand": 120343.36288926564,
+          "weighted_walk_time_min": 8.550779012007677,
+          "diagnosed_unserved_nodes": 6790,
+          "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21"
+        },
+        "recovered": {
+          "served_demand": 11947.966963123274,
+          "total_demand": 120343.36288926564,
+          "weighted_walk_time_min": 8.550779012007677,
+          "optimized_served_demand": 12647.96696302428,
+          "selected_option_ids": [
+            "RECOVERY_zs_1654dda235",
+            "RECOVERY_zs_3fa8ce2b1e"
+          ],
+          "total_cost_units": 13.0,
+          "budget_units": 13.0,
+          "optimized_weighted_walk_time_min": 8.422236809321458,
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98"
+        },
+        "damage_service_loss": 9.999999999998181,
+        "recovery_service_gain": 699.999999901007,
+        "recovery_ratio": {
+          "status": "APPLICABLE",
+          "value": 69.99999999011342
+        },
+        "budget_units": 13.0,
+        "selected_option_ids": [
+          "RECOVERY_zs_1654dda235",
+          "RECOVERY_zs_3fa8ce2b1e"
+        ],
+        "greedy_comparison": {
+          "status": "available",
+          "served_demand": 12647.966963123268,
+          "selected_option_ids": [
+            "RECOVERY_zs_1654dda235",
+            "RECOVERY_zs_3fa8ce2b1e"
+          ],
+          "cost_units": 13.0,
+          "budget_units": 13.0,
+          "verification_status": "PASS_DEMO",
+          "method": "Module B real-data greedy baseline"
+        }
+      },
+      "branch_decisions": [
+        {
+          "after_stage": "baseline",
+          "decision": "CONTINUE",
+          "reason_code": "BASELINE_RESULT_AVAILABLE",
+          "result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a"
+        },
+        {
+          "after_stage": "damage",
+          "decision": "CONTINUE",
+          "reason_code": "DAMAGED_RESULT_AVAILABLE",
+          "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21"
+        },
+        {
+          "after_stage": "recovery",
+          "decision": "CONTINUE",
+          "reason_code": "RECOVERY_RESULT_AVAILABLE",
+          "solver_status": "OPTIMAL",
+          "verification_status": "PASS_DEMO",
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98"
+        },
+        {
+          "after_stage": "compare",
+          "decision": "PUBLISH",
+          "reason_code": "ALL_STAGE_AND_CONSTRAINT_CHECKS_PASSED",
+          "constraint_check_count": 22
+        }
+      ],
+      "constraint_checks": [
+        {
+          "check_id": "REGION_MISMATCH",
+          "passed": true,
+          "observed": "shiqi",
+          "expected": "shiqi"
+        },
+        {
+          "check_id": "DATA_VERSION_MISMATCH",
+          "passed": true,
+          "observed": "shelterplan_module_a_v2.0-demo__shiqi",
+          "expected": "shelterplan_module_a_v2.0-demo__shiqi"
+        },
+        {
+          "check_id": "REGION_MISMATCH",
+          "passed": true,
+          "observed": "shiqi",
+          "expected": "shiqi"
+        },
+        {
+          "check_id": "PARAMETER_DRIFT",
+          "passed": true,
+          "observed": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+            "parent_scenario_id": null,
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "changes": {}
+          },
+          "expected": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+            "parent_scenario_id": null,
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [],
+            "changes": {}
+          }
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": "14cad147ffa1d959907fa7e4efc93a7f8f928d9e91adcabdbbcbffc347455ce2",
+          "expected": "14cad147ffa1d959907fa7e4efc93a7f8f928d9e91adcabdbbcbffc347455ce2"
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": {
+            "result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:baseline"
+          },
+          "expected": {
+            "result_id": "non-empty",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:baseline"
+          }
+        },
+        {
+          "check_id": "DATA_VERSION_MISMATCH",
+          "passed": true,
+          "observed": "shelterplan_module_a_v2.0-demo__shiqi",
+          "expected": "shelterplan_module_a_v2.0-demo__shiqi"
+        },
+        {
+          "check_id": "REGION_MISMATCH",
+          "passed": true,
+          "observed": "shiqi",
+          "expected": "shiqi"
+        },
+        {
+          "check_id": "PARAMETER_DRIFT",
+          "passed": true,
+          "observed": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+            "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_04ec8cb884"
+            ],
+            "changes": {
+              "disabled_shelter_ids": [
+                "zs_04ec8cb884"
+              ]
+            }
+          },
+          "expected": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+            "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-baseline",
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": null,
+            "disabled_shelter_ids": [
+              "zs_04ec8cb884"
+            ],
+            "changes": {
+              "disabled_shelter_ids": [
+                "zs_04ec8cb884"
+              ]
+            }
+          }
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": "d34a4ed0a8c5f0226fb5f694b14805259df157278e99e061c432c13d644a8ded",
+          "expected": "d34a4ed0a8c5f0226fb5f694b14805259df157278e99e061c432c13d644a8ded"
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": {
+            "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:damage"
+          },
+          "expected": {
+            "result_id": "non-empty",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:damage"
+          }
+        },
+        {
+          "check_id": "DATA_VERSION_MISMATCH",
+          "passed": true,
+          "observed": "shelterplan_module_a_v2.0-demo__shiqi",
+          "expected": "shelterplan_module_a_v2.0-demo__shiqi"
+        },
+        {
+          "check_id": "REGION_MISMATCH",
+          "passed": true,
+          "observed": "shiqi",
+          "expected": "shiqi"
+        },
+        {
+          "check_id": "PARAMETER_DRIFT",
+          "passed": true,
+          "observed": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+            "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 13.0,
+            "disabled_shelter_ids": [
+              "zs_04ec8cb884"
+            ],
+            "changes": {
+              "budget_units": 13.0
+            }
+          },
+          "expected": {
+            "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+            "parent_scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-damaged",
+            "region_id": "shiqi",
+            "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+            "analysis_mode": "demo",
+            "population_demand_ratio": 0.2,
+            "max_walk_time_min": 15.0,
+            "budget_units": 13.0,
+            "disabled_shelter_ids": [
+              "zs_04ec8cb884"
+            ],
+            "changes": {
+              "budget_units": 13.0
+            }
+          }
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": "9acc26d669fd5fa4580e1fb4c61f1e8ee15f8ce4d7e71c7533ab1d4bb34e7c54",
+          "expected": "9acc26d669fd5fa4580e1fb4c61f1e8ee15f8ce4d7e71c7533ab1d4bb34e7c54"
+        },
+        {
+          "check_id": "RESULT_BINDING_MISMATCH",
+          "passed": true,
+          "observed": {
+            "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:recovery"
+          },
+          "expected": {
+            "result_id": "non-empty",
+            "task_id": "c-6da27200-c370-4c41-8563-67778418b6bd:recovery"
+          }
+        },
+        {
+          "check_id": "DAMAGE_STATE_LOST",
+          "passed": true,
+          "observed": [
+            "zs_04ec8cb884"
+          ],
+          "expected": [
+            "zs_04ec8cb884"
+          ]
+        },
+        {
+          "check_id": "DAMAGE_STATE_LOST",
+          "passed": true,
+          "observed": [
+            "zs_04ec8cb884"
+          ],
+          "expected": [
+            "zs_04ec8cb884"
+          ]
+        },
+        {
+          "check_id": "INVALID_RECOVERY_OPTIONS",
+          "passed": true,
+          "observed": 13.0,
+          "expected": 13.0
+        },
+        {
+          "check_id": "STAGE_VERIFICATION_FAILED",
+          "passed": true,
+          "observed": "PASS_DEMO",
+          "expected": [
+            "PASS_DEMO",
+            "PASS_VERIFIED"
+          ]
+        },
+        {
+          "check_id": "STAGE_VERIFICATION_FAILED",
+          "passed": true,
+          "observed": "PASS_DEMO",
+          "expected": [
+            "PASS_DEMO",
+            "PASS_VERIFIED"
+          ]
+        },
+        {
+          "check_id": "STAGE_VERIFICATION_FAILED",
+          "passed": true,
+          "observed": "PASS_DEMO",
+          "expected": [
+            "PASS_DEMO",
+            "PASS_VERIFIED"
+          ]
+        }
+      ],
+      "verification_results": [
+        {
+          "stage_id": "baseline",
+          "result_id": "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+          "status": "PASS_DEMO",
+          "passed": true
+        },
+        {
+          "stage_id": "damage",
+          "result_id": "f70b1aff-de86-4460-9bb3-c737d3438b21",
+          "status": "PASS_DEMO",
+          "passed": true
+        },
+        {
+          "stage_id": "recovery",
+          "result_id": "152ae9be-7964-45fe-9047-d169a1e8de98",
+          "status": "PASS_DEMO",
+          "passed": true
+        }
+      ],
+      "execution_trace_id": "7fb4f3b0-9131-4c25-9712-9ec903aeabcc",
+      "disclosure": "DEMO_ONLY: this model result is not operationally or field verified."
+    },
+    "greedy_comparison": {
+      "status": "available",
+      "served_demand": 12647.966963123268,
+      "selected_option_ids": [
+        "RECOVERY_zs_1654dda235",
+        "RECOVERY_zs_3fa8ce2b1e"
+      ],
+      "cost_units": 13.0,
+      "budget_units": 13.0,
+      "verification_status": "PASS_DEMO",
+      "method": "Module B real-data greedy baseline"
+    }
+  },
+  "session_snapshot": {
+    "session_id": "s-e9614a066452",
+    "created_at": "2026-11-26T17:21:58Z",
+    "turn": 2,
+    "region_id": "shiqi",
+    "params": {
+      "population_demand_ratio": 0.2,
+      "max_walk_time_min": 15.0,
+      "budget_units": 13.0,
+      "disabled_shelter_ids": [
+        "zs_04ec8cb884"
+      ],
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "analysis_mode": "demo",
+      "region_id": "shiqi"
+    },
+    "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+    "lineage": [
+      {
+        "scenario_id": "c-s-e9614a-t01-39e89d8a",
+        "parent_scenario_id": null,
+        "turn": 1,
+        "changes": {},
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": null,
+          "disabled_shelter_ids": [],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": null
+      },
+      {
+        "scenario_id": "c-6da27200-c370-4c41-8563-67778418b6bd-recovered",
+        "parent_scenario_id": "c-s-e9614a-t01-39e89d8a",
+        "turn": 2,
+        "changes": {
+          "budget_units": 13.0,
+          "disabled_shelter_ids": [
+            "zs_04ec8cb884"
+          ]
+        },
+        "params": {
+          "population_demand_ratio": 0.2,
+          "max_walk_time_min": 15.0,
+          "budget_units": 13.0,
+          "disabled_shelter_ids": [
+            "zs_04ec8cb884"
+          ],
+          "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+          "analysis_mode": "demo",
+          "region_id": "shiqi"
+        },
+        "result_id": "841a21b0-4c5a-42ed-b42d-681ffff0fff7"
+      }
+    ],
+    "result_ids": [
+      "a1b8a066-306b-4aeb-8cb3-c22185bbd22a",
+      "f70b1aff-de86-4460-9bb3-c737d3438b21",
+      "152ae9be-7964-45fe-9047-d169a1e8de98",
+      "841a21b0-4c5a-42ed-b42d-681ffff0fff7"
+    ],
+    "pending_clarification": null,
+    "turns": [
+      {
+        "turn_id": "t-0f598cf7bc05",
+        "status": "SUCCEEDED",
+        "created_at": "2026-11-26T17:21:58Z"
+      }
+    ],
+    "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+    "data_status": "DEMO_ONLY"
+  }
+}
