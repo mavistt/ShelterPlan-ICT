@@ -15,7 +15,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -36,7 +41,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -57,7 +67,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -80,7 +95,12 @@
       ],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -101,7 +121,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": true,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -122,7 +147,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": true
+      "safe_stop_capacity_evidence_required": true,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -143,7 +173,12 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     }
   },
   {
@@ -164,7 +199,14 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [
+          "CANDIDATE_INVALID"
+        ],
+        "expected_failure_phase": "candidate_validation",
+        "solver_must_not_run": true
+      }
     }
   }
 ]

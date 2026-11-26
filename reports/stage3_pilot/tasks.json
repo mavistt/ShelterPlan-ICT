@@ -1,7 +1,7 @@
 [
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-shiqi-000",
     "scenario_id": "ST21-shiqi-000",
     "region_id": "shiqi",
@@ -131,11 +131,16 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "assess",
     "b_request_payload": {
-      "task_id": "stage3-ST21-shiqi-000-d30afdc8",
+      "task_id": "stage3-ST21-shiqi-000-91af73fe",
       "scenario_id": "ST21-shiqi-000",
       "region_id": "shiqi",
       "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
@@ -146,8 +151,6 @@
         "parent_scenario_id": null,
         "region_id": "shiqi",
         "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.2,
         "max_walk_time_min": 10,
@@ -163,7 +166,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-east_district-001",
     "scenario_id": "ST21-east_district-001",
     "region_id": "east_district",
@@ -327,11 +330,16 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "optimize",
     "b_request_payload": {
-      "task_id": "stage3-ST21-east_district-001-01ab145f",
+      "task_id": "stage3-ST21-east_district-001-c25ec6fa",
       "scenario_id": "ST21-east_district-001",
       "region_id": "east_district",
       "data_version": "shelterplan_module_a_v2.0-demo__east_district",
@@ -342,8 +350,6 @@
         "parent_scenario_id": null,
         "region_id": "east_district",
         "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.25,
         "max_walk_time_min": 15,
@@ -415,7 +421,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-shiqi-002",
     "scenario_id": "ST21-shiqi-002",
     "region_id": "shiqi",
@@ -576,11 +582,16 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "optimize",
     "b_request_payload": {
-      "task_id": "stage3-ST21-shiqi-002-38d2213a",
+      "task_id": "stage3-ST21-shiqi-002-46e8f8ec",
       "scenario_id": "ST21-shiqi-002",
       "region_id": "shiqi",
       "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
@@ -591,8 +602,6 @@
         "parent_scenario_id": null,
         "region_id": "shiqi",
         "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.3,
         "max_walk_time_min": 20,
@@ -664,7 +673,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-east_district-003",
     "scenario_id": "ST21-east_district-003",
     "region_id": "east_district",
@@ -832,11 +841,16 @@
       ],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "assess",
     "b_request_payload": {
-      "task_id": "stage3-ST21-east_district-003-ec7b5692",
+      "task_id": "stage3-ST21-east_district-003-276c2b24",
       "scenario_id": "ST21-east_district-003",
       "region_id": "east_district",
       "data_version": "shelterplan_module_a_v2.0-demo__east_district",
@@ -847,8 +861,6 @@
         "parent_scenario_id": null,
         "region_id": "east_district",
         "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.2,
         "max_walk_time_min": 30,
@@ -866,7 +878,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-shiqi-004",
     "scenario_id": "ST21-shiqi-004",
     "region_id": "shiqi",
@@ -1027,14 +1039,19 @@
       "disabled_shelter_ids": [],
       "parent_state_required": true,
       "independent_oracle_required": true,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "rounds": [
       {
         "round": 1,
         "role": "parent",
         "payload": {
-          "task_id": "stage3-ST21-shiqi-004-e8f561e3",
+          "task_id": "stage3-ST21-shiqi-004-6c7e6bdd",
           "scenario_id": "ST21-shiqi-004-parent",
           "region_id": "shiqi",
           "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
@@ -1045,8 +1062,6 @@
             "parent_scenario_id": null,
             "region_id": "shiqi",
             "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-            "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-            "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
             "analysis_mode": "demo",
             "population_demand_ratio": 0.25,
             "max_walk_time_min": 10,
@@ -1094,7 +1109,7 @@
         "round": 2,
         "role": "child",
         "payload_template": {
-          "task_id": "stage3-ST21-shiqi-004-a0b8b746",
+          "task_id": "stage3-ST21-shiqi-004-afa8d006",
           "scenario_id": "ST21-shiqi-004-child",
           "region_id": "shiqi",
           "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
@@ -1105,8 +1120,6 @@
             "parent_scenario_id": null,
             "region_id": "shiqi",
             "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-            "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-            "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
             "analysis_mode": "demo",
             "population_demand_ratio": 0.25,
             "max_walk_time_min": 10,
@@ -1155,7 +1168,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-east_district-011",
     "scenario_id": "ST21-east_district-011",
     "region_id": "east_district",
@@ -1323,11 +1336,16 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": true
+      "safe_stop_capacity_evidence_required": true,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "assess",
     "b_request_payload": {
-      "task_id": "stage3-ST21-east_district-011-d8074c64",
+      "task_id": "stage3-ST21-east_district-011-eb3e6136",
       "scenario_id": "ST21-east_district-011",
       "region_id": "east_district",
       "data_version": "shelterplan_module_a_v2.0-demo__east_district",
@@ -1338,8 +1356,6 @@
         "parent_scenario_id": null,
         "region_id": "east_district",
         "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.3,
         "max_walk_time_min": 10,
@@ -1355,7 +1371,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-east_district-029",
     "scenario_id": "ST21-east_district-029",
     "region_id": "east_district",
@@ -1520,11 +1536,16 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [],
+        "expected_failure_phase": null,
+        "solver_must_not_run": true
+      }
     },
     "task_type": "optimize",
     "b_request_payload": {
-      "task_id": "stage3-ST21-east_district-029-2329f67e",
+      "task_id": "stage3-ST21-east_district-029-2d0410df",
       "scenario_id": "ST21-east_district-029",
       "region_id": "east_district",
       "data_version": "shelterplan_module_a_v2.0-demo__east_district",
@@ -1535,8 +1556,6 @@
         "parent_scenario_id": null,
         "region_id": "east_district",
         "data_version": "shelterplan_module_a_v2.0-demo__east_district",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.3,
         "max_walk_time_min": 15,
@@ -1605,7 +1624,7 @@
   },
   {
     "schema_version": 1,
-    "generator_version": "stage3-pilot-1.0",
+    "generator_version": "stage3-pilot-1.1-audit",
     "task_id": "S3-ST21-shiqi-016",
     "scenario_id": "ST21-shiqi-016",
     "region_id": "shiqi",
@@ -1765,11 +1784,18 @@
       "disabled_shelter_ids": [],
       "parent_state_required": false,
       "independent_oracle_required": false,
-      "safe_stop_capacity_evidence_required": false
+      "safe_stop_capacity_evidence_required": false,
+      "reject_contract": {
+        "expected_error_codes": [
+          "CANDIDATE_INVALID"
+        ],
+        "expected_failure_phase": "candidate_validation",
+        "solver_must_not_run": true
+      }
     },
     "task_type": "optimize",
     "b_request_payload": {
-      "task_id": "stage3-ST21-shiqi-016-adb000f5",
+      "task_id": "stage3-ST21-shiqi-016-a02c21e7",
       "scenario_id": "ST21-shiqi-016",
       "region_id": "shiqi",
       "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
@@ -1780,8 +1806,6 @@
         "parent_scenario_id": null,
         "region_id": "shiqi",
         "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
-        "dataset_content_hash": "609a14546cd10baa28c455a59de7503d2010ee980b502cad27451435f97d730f",
-        "source_manifest_sha256": "9f1fa0d4438b7db9c877a34404915a3d8ee2b4090910ba5e3c1bde3f3289faa9",
         "analysis_mode": "demo",
         "population_demand_ratio": 0.25,
         "max_walk_time_min": 10,

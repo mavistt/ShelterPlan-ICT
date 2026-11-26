@@ -29,13 +29,13 @@ from backend.engine import solve_assignment
 from backend.errors import PlanningError
 from backend.graph.executor import execute_task
 from backend.models import ImprovementOption, PlanningInput, PlanningScenario, TaskRequest
+from backend.storage import canonical_hash
 from backend.verifier.checks import verify_assignment
-from fastapi.testclient import TestClient
 from sources.preflight import ROOT
 
 
 PILOT_PATH = ROOT / "benchmark/shelterplan_eval/pilot_stage2_1/accepted_scenarios.json"
-GENERATOR_VERSION = "stage3-pilot-1.0"
+GENERATOR_VERSION = "stage3-pilot-1.1-audit"
 SCHEMA_VERSION = 1
 EXECUTION_STATUSES = {"PASS", "FAIL", "NOT_RUN", "INFRA_ERROR", "UNSCORABLE"}
 TOLERANCE = 1e-6
@@ -129,8 +129,6 @@ def _scenario_doc(scenario: dict[str, Any], *, scenario_id: str | None = None, b
         "parent_scenario_id": parent_id,
         "region_id": scenario["region_id"],
         "data_version": scenario["data_version"],
-        "dataset_content_hash": scenario["dataset_content_hash"],
-        "source_manifest_sha256": scenario["source_manifest_sha256"],
         "analysis_mode": "demo",
         "population_demand_ratio": scenario["population_demand_ratio"],
         "max_walk_time_min": scenario["max_walk_time_min"] if max_walk is None else max_walk,
@@ -221,6 +219,11 @@ def build_task(scenario: dict[str, Any], *, route: dict[str, Any] | None = None)
             "parent_state_required": interaction == "parameter_edit",
             "independent_oracle_required": expected == "EXECUTE" and task_type == "optimize",
             "safe_stop_capacity_evidence_required": expected == "SAFE_STOP",
+            "reject_contract": {
+                "expected_error_codes": [],
+                "expected_failure_phase": None,
+                "solver_must_not_run": True,
+            },
         },
     }
 
@@ -242,16 +245,32 @@ def build_task(scenario: dict[str, Any], *, route: dict[str, Any] | None = None)
         if interaction == "invalid_id":
             payload["improvement_options"][0]["shelter_id"] = f"invalid-{scenario['scenario_id']}"
             contract_repairs.append("invalid_shelter_id_is_sent_to_B")
+            task["gt_assertions"]["reject_contract"].update({
+                "expected_error_codes": ["CANDIDATE_INVALID"],
+                "expected_failure_phase": "candidate_validation",
+            })
         elif interaction == "illegal_constraint":
             payload["scenario"]["max_walk_time_min"] = -5
             contract_repairs.append("negative_walk_threshold_is_sent_as_raw_HTTP_payload")
+            task["gt_assertions"]["reject_contract"].update({
+                "expected_error_codes": ["SCENARIO_INVALID"],
+                "expected_failure_phase": "request_validation",
+            })
         elif interaction == "illegal_budget":
             payload["parameters"] = {"budget_units": -1}
             contract_repairs.append("negative_budget_is_sent_to_B")
+            task["gt_assertions"]["reject_contract"].update({
+                "expected_error_codes": ["SCENARIO_INVALID"],
+                "expected_failure_phase": "request_validation",
+            })
         elif interaction == "data_version_mismatch":
             payload["data_version"] = "shelterplan-historical-v2"
             payload["scenario"]["data_version"] = "shelterplan-historical-v2"
             contract_repairs.append("historical_data_version_is_sent_to_B")
+            task["gt_assertions"]["reject_contract"].update({
+                "expected_error_codes": ["VERSION_MISMATCH"],
+                "expected_failure_phase": "source_routing",
+            })
         elif interaction == "missing_parameter":
             payload["scenario"]["budget_units"] = None
             payload.pop("parameters", None)
@@ -316,9 +335,12 @@ def _compact_output(output: dict[str, Any]) -> dict[str, Any]:
         "result_id": output.get("result_id"),
         "scenario_id": output.get("scenario_id"),
         "parent_scenario_id": output.get("parent_scenario_id"),
+        "scenario_hash": output.get("scenario_hash"),
         "region_id": output.get("region_id"),
         "data_version": output.get("data_version"),
         "data_status": output.get("data_status"),
+        "analysis_mode": output.get("analysis_mode"),
+        "scenario_changes": output.get("scenario_changes") or {},
         "execution_trace_id": output.get("execution_trace_id"),
         "solver_status": output.get("solver_status"),
         "verification_status": output.get("verification_status"),
@@ -347,6 +369,10 @@ def _compact_failure(*, error: Any = None, trace_id: str | None = None, http_sta
 
 def execute_http(payload: dict[str, Any], *, poll_seconds: float = 180.0) -> dict[str, Any]:
     """Exercise the real FastAPI route and background B execution in-process."""
+    # Import lazily: some managed Python environments hang while importing
+    # fastapi.testclient even though direct B execution is healthy.  That
+    # transport issue must remain visible instead of blocking all Eval code.
+    from fastapi.testclient import TestClient
     started = time.perf_counter()
     with TestClient(app) as client:
         response = client.post("/planning/tasks", json=payload)
@@ -408,7 +434,14 @@ def _option_constraints(options: list[ImprovementOption], selected: tuple[Improv
 
 
 def enumerate_budget_oracle(data: PlanningInput, scenario: PlanningScenario, options: list[ImprovementOption]) -> dict[str, Any]:
-    """Independently enumerate all legal option subsets (<=12 options)."""
+    """Enumerate legal subsets and state the actual proof boundary.
+
+    Real A v2 cases contain fractional populations/capacities and use the
+    production B assignment routine for each subset.  That evidence is useful
+    for comparison, but it is not an independent proof of optimality.  The
+    small integer fixture path uses the local Dinic implementation below and
+    is the only path labelled as an independent proof.
+    """
     if len(options) > 12:
         return {"status": "NOT_AVAILABLE", "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION", "reason": "option_count_exceeds_12"}
     if scenario.budget_units is None:
@@ -416,6 +449,7 @@ def enumerate_budget_oracle(data: PlanningInput, scenario: PlanningScenario, opt
     best: tuple[float, float, float, int, tuple[str, ...]] | None = None
     best_key: tuple[float, float, float, int, tuple[str, ...]] | None = None
     feasible_count = 0
+    independent_integer = _is_independent_integer_case(data, scenario, options)
     for count in range(len(options) + 1):
         for selected in itertools.combinations(options, count):
             if not _option_constraints(options, selected, scenario):
@@ -423,13 +457,17 @@ def enumerate_budget_oracle(data: PlanningInput, scenario: PlanningScenario, opt
             deltas: dict[str, float] = {}
             for option in selected:
                 deltas[option.shelter_id] = deltas.get(option.shelter_id, 0.0) + option.delta_capacity_persons
-            result = solve_assignment(data, scenario, deltas)
-            certificate = verify_assignment(data, scenario, result, deltas)
-            if certificate.verification_status == "FAIL":
-                continue
+            if independent_integer:
+                served = _independent_integer_max_flow(data, scenario, deltas)
+                weighted = float("inf")
+            else:
+                result = solve_assignment(data, scenario, deltas)
+                certificate = verify_assignment(data, scenario, result, deltas)
+                if certificate.verification_status == "FAIL":
+                    continue
+                served = float(result.served_demand)
+                weighted = float(result.weighted_walk_time_min) if result.weighted_walk_time_min is not None else float("inf")
             feasible_count += 1
-            served = float(result.served_demand)
-            weighted = float(result.weighted_walk_time_min) if result.weighted_walk_time_min is not None else float("inf")
             cost = float(sum(option.cost_units for option in selected))
             option_ids = tuple(option.option_id for option in selected)
             key = (served, -weighted, -cost, -count, tuple(reversed(option_ids)))
@@ -438,14 +476,98 @@ def enumerate_budget_oracle(data: PlanningInput, scenario: PlanningScenario, opt
                 best_key = key
     if best is None:
         return {"status": "NOT_AVAILABLE", "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION", "reason": "no_feasible_subset"}
+    independently_proven = independent_integer
     return {
-        "status": "ORACLE_PROVEN",
-        "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION",
+        "status": "INDEPENDENT_ORACLE_PROVEN" if independently_proven else "CONDITIONAL_SUBSET_OPTIMUM",
+        "method": "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION_WITH_INDEPENDENT_DINIC" if independently_proven else "EXHAUSTIVE_OPTION_SUBSET_ENUMERATION_REUSING_B_ASSIGNMENT",
         "feasible_subset_count": feasible_count,
         "objective": {"served_demand": best[0], "weighted_walk_time_min": None if best[1] == float("inf") else best[1], "cost_units": best[2], "option_count": best[3]},
         "selected_option_ids": list(best[4]),
-        "proof_scope": "all legal subsets of the supplied <=12-option set; assignment feasibility independently recomputed",
+        "proof_scope": "all legal subsets of the supplied <=12-option set",
+        "independence": "full_integer_max_flow" if independently_proven else "not_full_b_implementation_reused",
+        "proof_level": "INDEPENDENT_FULL_INTEGER_MAX_FLOW" if independently_proven else "CONDITIONAL_B_ASSIGNMENT_SUBSET_CHECK",
     }
+
+
+def _is_independent_integer_case(data: PlanningInput, scenario: PlanningScenario, options: list[ImprovementOption]) -> bool:
+    """The standalone proof is deliberately limited to exact integer cases."""
+    values = [scenario.population_demand_ratio, scenario.max_walk_time_min]
+    values.extend(row.pop_est for row in data.demands)
+    values.extend(row.capacity_persons for row in data.shelters)
+    values.extend(row.delta_capacity_persons for row in options)
+    values.extend(row.cost_units for row in options)
+    return data.data_status == "SYNTHETIC_FIXTURE" and all(abs(float(value) - round(float(value))) <= TOLERANCE for value in values)
+
+
+class _Dinic:
+    def __init__(self, count: int) -> None:
+        self.graph: list[list[list[int]]] = [[] for _ in range(count)]
+
+    def add(self, start: int, end: int, capacity: int) -> None:
+        forward = [end, capacity, len(self.graph[end])]
+        reverse = [start, 0, len(self.graph[start])]
+        self.graph[start].append(forward)
+        self.graph[end].append(reverse)
+
+    def max_flow(self, source: int, sink: int) -> int:
+        flow = 0
+        while True:
+            level = [-1] * len(self.graph)
+            level[source] = 0
+            queue = [source]
+            for node in queue:
+                for end, capacity, _reverse in self.graph[node]:
+                    if capacity > 0 and level[end] < 0:
+                        level[end] = level[node] + 1
+                        queue.append(end)
+            if level[sink] < 0:
+                return flow
+            it = [0] * len(self.graph)
+
+            def send(node: int, amount: int) -> int:
+                if node == sink:
+                    return amount
+                while it[node] < len(self.graph[node]):
+                    edge = self.graph[node][it[node]]
+                    end, capacity, reverse = edge
+                    if capacity > 0 and level[end] == level[node] + 1:
+                        pushed = send(end, min(amount, capacity))
+                        if pushed:
+                            edge[1] -= pushed
+                            self.graph[end][reverse][1] += pushed
+                            return pushed
+                    it[node] += 1
+                return 0
+
+            while True:
+                pushed = send(source, 10**18)
+                if not pushed:
+                    break
+                flow += pushed
+
+
+def _independent_integer_max_flow(data: PlanningInput, scenario: PlanningScenario, capacity_deltas: dict[str, float]) -> float:
+    """Pure-Python integer max-flow, independent of B's SciPy assignment."""
+    demand_ids = [row.demand_id for row in data.demands]
+    shelter_ids = [row.shelter_id for row in data.shelters]
+    demand_index = {key: index for index, key in enumerate(demand_ids)}
+    shelter_index = {key: index for index, key in enumerate(shelter_ids)}
+    source = 0
+    demand_start = 1
+    shelter_start = demand_start + len(demand_ids)
+    sink = shelter_start + len(shelter_ids)
+    graph = _Dinic(sink + 1)
+    demand_scale = {row.demand_id: int(round(row.pop_est * scenario.population_demand_ratio)) for row in data.demands}
+    disabled = set(scenario.disabled_shelter_ids)
+    for row in data.demands:
+        graph.add(source, demand_start + demand_index[row.demand_id], demand_scale[row.demand_id])
+    for row in data.shelters:
+        capacity = 0 if not row.active or row.shelter_id in disabled else int(round(row.capacity_persons + capacity_deltas.get(row.shelter_id, 0.0)))
+        graph.add(shelter_start + shelter_index[row.shelter_id], sink, max(0, capacity))
+    for edge in data.od_edges:
+        if edge.reachable and edge.time_min is not None and edge.time_min <= scenario.max_walk_time_min and edge.shelter_id not in disabled:
+            graph.add(demand_start + demand_index[edge.demand_id], shelter_start + shelter_index[edge.shelter_id], 10**18)
+    return float(graph.max_flow(source, sink))
 
 
 def safe_stop_capacity_evidence(data: PlanningInput, scenario: PlanningScenario, execution: dict[str, Any]) -> dict[str, Any]:
@@ -477,8 +599,25 @@ def _evaluate_output(task: dict[str, Any], execution: dict[str, Any], *, oracle:
     actual_status = execution.get("status")
     has_trace = bool(execution.get("execution_trace_id"))
     if expected == "REJECT":
-        passed = actual_status == "FAILED" and bool(execution.get("error") or execution.get("response"))
-        return {"status": "PASS" if passed else ("INFRA_ERROR" if actual_status == "FAILED" else "FAIL"), "reason": "actual invalid request was rejected" if passed else "invalid request did not produce a stable rejection", "evidence": {"trace_present": has_trace, "error": execution.get("error"), "response": execution.get("response")}}
+        contract = (task.get("gt_assertions") or {}).get("reject_contract") or {}
+        error = execution.get("error") or {}
+        response = execution.get("response") or {}
+        response_error = response.get("error") if isinstance(response, dict) else {}
+        actual_code = error.get("error_code") or error.get("code") or (response_error or {}).get("error_code") or (response_error or {}).get("code")
+        expected_codes = set(contract.get("expected_error_codes") or [])
+        actual_phase = _failure_phase(actual_code, execution)
+        solver_started = _solver_started(execution)
+        identity_ok = execution.get("region_id") in {None, task.get("region_id")} and execution.get("data_version") in {None, task.get("data_version")}
+        passed = (
+            actual_status == "FAILED"
+            and bool(expected_codes)
+            and actual_code in expected_codes
+            and actual_phase == contract.get("expected_failure_phase")
+            and (not contract.get("solver_must_not_run") or solver_started is False)
+            and identity_ok
+        )
+        status = "PASS" if passed else ("INFRA_ERROR" if actual_status == "FAILED" and actual_code in {None, "INFRA_ERROR", "POLL_TIMEOUT", "INTERNAL_ERROR"} else "FAIL")
+        return {"status": status, "reason": "actual invalid request matched the GT error contract" if passed else "invalid request did not match the GT error code/phase/solver contract", "evidence": {"trace_present": has_trace, "error": error, "response": response, "expected_error_codes": sorted(expected_codes), "actual_error_code": actual_code, "expected_failure_phase": contract.get("expected_failure_phase"), "actual_failure_phase": actual_phase, "solver_started": solver_started, "identity_ok": identity_ok}}
     if expected in {"CLARIFY", "SAFE_STOP"}:
         # No LLM/Agent output is supplied by this Pilot run.  A B assess result
         # is evidence for the state probe, not evidence that an Agent asked or
@@ -505,33 +644,86 @@ def _evaluate_output(task: dict[str, Any], execution: dict[str, Any], *, oracle:
         return {"status": "FAIL", "reason": "B selected an option outside the GT candidate set", "evidence": {"unexpected_option_ids": sorted(selected - allowed)}}
     if summary.get("optimized_served_demand") is not None and summary.get("total_demand") is not None and float(summary["optimized_served_demand"]) > float(summary["total_demand"]) + TOLERANCE:
         return {"status": "FAIL", "reason": "optimized served demand exceeds total demand", "evidence": summary}
-    if oracle and oracle.get("status") == "ORACLE_PROVEN":
+    if oracle and oracle.get("status") in {"ORACLE_PROVEN", "INDEPENDENT_ORACLE_PROVEN"}:
         b_value = float((execution.get("result_summary") or {}).get("optimized_served_demand") or 0.0)
         oracle_value = float((oracle.get("objective") or {}).get("served_demand") or 0.0)
         if abs(b_value - oracle_value) > 1e-3:
             return {"status": "FAIL", "reason": "B result differs from independent exhaustive oracle", "evidence": {"b_served_demand": b_value, "oracle_served_demand": oracle_value}}
-    return {"status": "PASS", "reason": "actual B execution and independent checks passed", "evidence": {"trace_present": has_trace, "verification_status": execution.get("verification_status"), "oracle_status": (oracle or {}).get("status", "NOT_RUN"), "state_ok": state_ok}}
+    return {"status": "PASS", "reason": "actual B execution and hard assertions passed", "evidence": {"trace_present": has_trace, "verification_status": execution.get("verification_status"), "oracle_status": (oracle or {}).get("status", "NOT_RUN"), "state_ok": state_ok}}
+
+
+def _failure_phase(error_code: str | None, execution: dict[str, Any]) -> str | None:
+    if error_code == "CANDIDATE_INVALID":
+        return "candidate_validation"
+    if error_code in {"VERSION_MISMATCH", "REGION_NOT_ALLOWED", "REGION_MISMATCH"}:
+        return "source_routing"
+    if error_code in {"SCENARIO_INVALID", "INVALID_PARAMETER", "MISSING_PARAMETER"}:
+        return "request_validation"
+    if execution.get("http_status") and int(execution["http_status"]) >= 500:
+        return "infrastructure"
+    return None
+
+
+def _solver_started(execution: dict[str, Any]) -> bool | None:
+    trace = execution.get("trace") or []
+    if trace:
+        return any(row.get("skill_id") in {"S04", "S06", "S07", "S08", "S12"} and row.get("status") == "SUCCEEDED" for row in trace if isinstance(row, dict))
+    error = execution.get("error") or {}
+    if (error.get("error_code") or error.get("code")) == "CANDIDATE_INVALID":
+        return False
+    return None
 
 
 def _vets(task: dict[str, Any], execution: dict[str, Any], evaluation: dict[str, Any], oracle: dict[str, Any] | None) -> dict[str, Any]:
     status = evaluation["status"]
-    if status == "UNSCORABLE" or status in {"NOT_RUN", "INFRA_ERROR"}:
-        return {"status": status, "U": None, "W": None, "P": None, "E": 1.0 if execution.get("execution_trace_id") else 0.0, "overall": None, "cost": {"elapsed_ms": execution.get("elapsed_harness_ms"), "llm_tokens": None, "llm_cost": None}}
-    if task["expected_behavior"] == "REJECT":
-        values = {"U": 1.0, "W": 1.0, "P": 1.0, "E": 1.0 if execution.get("error") or execution.get("response") else 0.0}
-    else:
-        summary = execution.get("result_summary") or {}
-        oracle_value = float((oracle or {}).get("objective", {}).get("served_demand") or 0.0)
-        observed = float(summary.get("optimized_served_demand") or summary.get("served_demand") or 0.0)
-        values = {
-            "U": min(1.0, observed / oracle_value) if oracle_value > TOLERANCE else None,
-            "W": 1.0 if status == "PASS" else 0.0,
-            "P": 1.0 if execution.get("verification_status") == "PASS_DEMO" else 0.0,
-            "E": 1.0 if execution.get("execution_trace_id") and execution.get("verification_status") == "PASS_DEMO" else 0.0,
-        }
-    applicable = [value for value in values.values() if value is not None]
-    overall = sum(values[key] * weight for key, weight in (("U", .30), ("W", .25), ("P", .25), ("E", .20)) if values[key] is not None) / sum(weight for key, weight in (("U", .30), ("W", .25), ("P", .25), ("E", .20)) if values[key] is not None) if applicable else None
-    return {"status": status, **values, "overall": overall, "cost": {"elapsed_ms": execution.get("elapsed_harness_ms"), "llm_tokens": None, "llm_cost": None}}
+    summary = execution.get("result_summary") or {}
+    oracle_objective = (oracle or {}).get("objective") or {}
+    oracle_value = float(oracle_objective.get("served_demand") or 0.0)
+    observed = float(summary.get("optimized_served_demand") or summary.get("served_demand") or 0.0)
+    values = {
+        "U": min(1.0, observed / oracle_value) if oracle_value > TOLERANCE else None,
+        "W": 1.0 if status == "PASS" else (0.0 if status == "FAIL" else None),
+        "P": 1.0 if execution.get("verification_status") == "PASS_DEMO" and status == "PASS" else (0.0 if status == "FAIL" else None),
+        "E": 1.0 if execution.get("execution_trace_id") and execution.get("verification_status") == "PASS_DEMO" else (0.0 if status == "FAIL" else None),
+    }
+    weights = (("U", .30), ("W", .25), ("P", .25), ("E", .20))
+    denominator = sum(weight for key, weight in weights if values[key] is not None)
+    diagnostics_overall = sum(values[key] * weight for key, weight in weights if values[key] is not None) / denominator if denominator else None
+    trace_rows = len(execution.get("trace") or [])
+    for row in execution.get("rounds") or []:
+        trace_rows += len((row.get("execution") or {}).get("trace") or [])
+    source_identity_complete = all(execution.get(key) is not None for key in ("region_id", "data_version", "data_status"))
+    planning_quality = {
+        "observed_served_demand": observed if execution.get("status") == "SUCCEEDED" else None,
+        "oracle_served_demand": oracle_value if oracle_value else None,
+        "oracle_gap": (oracle_value - observed) if oracle_value and execution.get("status") == "SUCCEEDED" else None,
+        "oracle_status": (oracle or {}).get("status", "NOT_RUN"),
+        "oracle_proof_level": (oracle or {}).get("proof_level", "NOT_RUN"),
+        "selected_cost_units": execution.get("total_cost_units"),
+        "budget_units": (execution.get("greedy_comparison") or {}).get("budget_units"),
+    }
+    evidence = {
+        "trace_present": bool(execution.get("execution_trace_id")),
+        "trace_rows": trace_rows,
+        "verification_status": execution.get("verification_status"),
+        "source_identity_complete": source_identity_complete,
+        "source_manifest_hash": (execution.get("provenance") or {}).get("source_manifest_hash"),
+    }
+    return {
+        "status": status,
+        "vets_success": True if status == "PASS" else (False if status == "FAIL" else None),
+        "U": values["U"], "W": values["W"], "P": values["P"], "E": values["E"],
+        "diagnostics_overall": diagnostics_overall,
+        "planning_quality": planning_quality,
+        "evidence": evidence,
+        "cost": {
+            "elapsed_ms": execution.get("elapsed_harness_ms"),
+            "tool_calls": trace_rows,
+            "llm_tokens": None,
+            "llm_cost": None,
+            "llm_status": "NOT_RUN",
+        },
+    }
 
 
 def _measured_difficulty(task: dict[str, Any], execution: dict[str, Any], evaluation: dict[str, Any], oracle: dict[str, Any] | None, state_ok: bool | None, safe_evidence: dict[str, Any] | None) -> dict[str, Any]:
@@ -545,11 +737,41 @@ def _measured_difficulty(task: dict[str, Any], execution: dict[str, Any], evalua
     if evaluation.get("status") not in {"PASS"}:
         base["evidence_status"] = "EXECUTION_DID_NOT_PASS"
         return base
-    base["decision_complexity"] = "MEASURED_ORACLE_BACKED" if oracle and oracle.get("status") == "ORACLE_PROVEN" else "MEASURED_EXECUTION_ONLY"
+    base["decision_complexity"] = "MEASURED_INDEPENDENT_ORACLE_BACKED" if oracle and oracle.get("status") == "INDEPENDENT_ORACLE_PROVEN" else "MEASURED_EXECUTION_ONLY"
     base["workflow_complexity"] = "MEASURED_MULTI_ROUND_STATE_INHERITANCE" if state_ok is True else "MEASURED_SINGLE_STAGE"
     base["interaction_complexity"] = "MEASURED_REJECTION" if task["expected_behavior"] == "REJECT" else "MEASURED_VALID_EXECUTION"
     base["evidence_status"] = "REAL_B_TRACE_AND_VERIFIER"
     return base
+
+
+def _multiround_state_checks(parent_payload: dict[str, Any], child_payload: dict[str, Any], parent: dict[str, Any], child: dict[str, Any], expected_region: str, expected_version: str) -> dict[str, Any]:
+    """Verify both the returned lineage and the exact scenario snapshots."""
+    parent_scenario = parent_payload["scenario"]
+    child_scenario = child_payload["scenario"]
+    checks = {
+        "parent_succeeded": parent.get("status") == "SUCCEEDED",
+        "child_succeeded": child.get("status") == "SUCCEEDED",
+        "parent_child_link": child.get("parent_scenario_id") == parent.get("scenario_id"),
+        "parent_region": parent.get("region_id") == expected_region,
+        "child_region": child.get("region_id") == expected_region,
+        "parent_data_version": parent.get("data_version") == expected_version,
+        "child_data_version": child.get("data_version") == expected_version,
+        "parent_data_status": parent.get("data_status") == "DEMO_ONLY",
+        "child_data_status": child.get("data_status") == "DEMO_ONLY",
+        "parent_trace": bool(parent.get("execution_trace_id")),
+        "child_trace": bool(child.get("execution_trace_id")),
+        "parent_scenario_hash": parent.get("scenario_hash") == canonical_hash({"scenario": PlanningScenario(**parent_scenario).model_dump(), "data_version": parent_payload["data_version"]}),
+        "child_scenario_hash": child.get("scenario_hash") == canonical_hash({"scenario": PlanningScenario(**child_scenario).model_dump(), "data_version": child_payload["data_version"]}),
+        "inherited_region": parent_scenario.get("region_id") == child_scenario.get("region_id") == expected_region,
+        "inherited_version": parent_scenario.get("data_version") == child_scenario.get("data_version") == expected_version,
+        "inherited_analysis_mode": parent_scenario.get("analysis_mode") == child_scenario.get("analysis_mode") == "demo",
+        "inherited_population_ratio": parent_scenario.get("population_demand_ratio") == child_scenario.get("population_demand_ratio"),
+        "inherited_walk_threshold": parent_scenario.get("max_walk_time_min") == child_scenario.get("max_walk_time_min"),
+        "inherited_disabled_shelters": sorted(parent_scenario.get("disabled_shelter_ids") or []) == sorted(child_scenario.get("disabled_shelter_ids") or []),
+        "budget_change_is_explicit": parent_scenario.get("budget_units") != child_scenario.get("budget_units"),
+        "option_change_is_explicit": parent_payload.get("improvement_options") != child_payload.get("improvement_options"),
+    }
+    return {"passed": all(checks.values()), "checks": checks, "expected_parent": parent_scenario, "expected_child": child_scenario}
 
 
 def run_case(task: dict[str, Any], *, use_http: bool = True, root: Path = ROOT) -> dict[str, Any]:
@@ -570,18 +792,31 @@ def run_case(task: dict[str, Any], *, use_http: bool = True, root: Path = ROOT) 
             child_template["parent_scenario_id"] = actual_parent_id
             child_template["scenario"]["parent_scenario_id"] = actual_parent_id
             child = execute_http(child_template) if use_http_for_case else execute_direct(child_template, source)
-            state_ok = child.get("status") == "SUCCEEDED" and child.get("parent_scenario_id") == actual_parent_id
+            state_evidence = _multiround_state_checks(parent_payload, child_template, parent, child, task["region_id"], task["data_version"])
+            state_ok = state_evidence["passed"]
             execution = {
                 "status": "SUCCEEDED" if child.get("status") == "SUCCEEDED" else "FAILED",
+                "execution_mode": child.get("execution_mode"),
                 "execution_trace_id": child.get("execution_trace_id"),
                 "scenario_id": child.get("scenario_id"),
                 "parent_scenario_id": child.get("parent_scenario_id"),
+                "result_id": child.get("result_id"),
+                "region_id": child.get("region_id"),
+                "data_version": child.get("data_version"),
+                "data_status": child.get("data_status"),
+                "analysis_mode": child.get("analysis_mode"),
+                "scenario_hash": child.get("scenario_hash"),
+                "scenario_changes": child.get("scenario_changes") or {},
                 "result_summary": child.get("result_summary"),
+                "selected_option_ids": child.get("selected_option_ids"),
+                "total_cost_units": child.get("total_cost_units"),
+                "greedy_comparison": child.get("greedy_comparison"),
                 "solver_status": child.get("solver_status"),
                 "verification_status": child.get("verification_status"),
                 "certificate": child.get("certificate"),
                 "optimization_certificate": child.get("optimization_certificate"),
                 "elapsed_harness_ms": (parent.get("elapsed_harness_ms") or 0) + (child.get("elapsed_harness_ms") or 0),
+                "state_inheritance": state_evidence,
                 "rounds": [{"role": "parent", "execution": parent}, {"role": "child", "execution": child}],
             }
             if child.get("status") == "SUCCEEDED":
@@ -619,7 +854,8 @@ def run_case(task: dict[str, Any], *, use_http: bool = True, root: Path = ROOT) 
 
 def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     statuses = Counter(row["evaluation"]["status"] for row in results)
-    numeric = {key: [row["vets"][key] for row in results if row["vets"].get(key) is not None] for key in ("U", "W", "P", "E", "overall")}
+    numeric = {key: [row["vets"][key] for row in results if row["vets"].get(key) is not None] for key in ("U", "W", "P", "E", "diagnostics_overall")}
+    vets_values = [row["vets"].get("vets_success") for row in results]
     return {
         "result_count": len(results),
         "status_counts": dict(statuses),
@@ -628,6 +864,10 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
         "oracle_counts": dict(Counter((row.get("oracle") or {}).get("status") for row in results)),
         "route_status_counts": dict(Counter(row["http_route_status"] for row in results)),
         "vets_mean": {key: (sum(values) / len(values) if values else None) for key, values in numeric.items()},
+        "vets_status_counts": dict(Counter("PASS" if value is True else "FAIL" if value is False else "UNSCORABLE" for value in vets_values)),
+        "vets_scored_count": sum(value is not None for value in vets_values),
+        "vets_success_count": sum(value is True for value in vets_values),
+        "vets_success_rate_scored": (sum(value is True for value in vets_values) / sum(value is not None for value in vets_values) if any(value is not None for value in vets_values) else None),
         "execution_count": sum(row["execution"].get("status") == "SUCCEEDED" for row in results),
         "trace_count": sum(bool(row["execution"].get("execution_trace_id")) for row in results),
         "measured_difficulty_counts": dict(Counter(row["measured_difficulty"].get("evidence_status") for row in results)),
@@ -651,9 +891,10 @@ def write_report(output_dir: Path, tasks: list[dict[str, Any]], results: list[di
         f"- Oracle: `{json.dumps(summary['oracle_counts'], ensure_ascii=False)}`",
         f"- Measured difficulty evidence: `{json.dumps(summary['measured_difficulty_counts'], ensure_ascii=False)}`",
         f"- Real Greedy comparisons: `{summary['greedy_comparison_count']}`",
-        f"- VETS mean: `{json.dumps(summary['vets_mean'], ensure_ascii=False)}`",
+        f"- VETS hard-success: `{summary['vets_success_count']}/{summary['result_count']}` overall; scored=`{summary['vets_success_count']}/{summary['vets_scored_count']}`, unscorable/not-run=`{summary['result_count'] - summary['vets_scored_count']}`.",
+        f"- VETS status counts: `{json.dumps(summary['vets_status_counts'], ensure_ascii=False)}`; U/W/P/E diagnostic means: `{json.dumps(summary['vets_mean'], ensure_ascii=False)}`.",
         "- LLM: `NOT_RUN`; this run has no Agent/LLM output and therefore CLARIFY/SAFE_STOP are UNSCORABLE.",
-        "- VETS means apply only to cases/dimensions with evidence; the two UNSCORABLE cases were not silently converted to zeros.",
+        "- VETS is a binary hard-assertion outcome. U/W/P/E, planning quality, evidence and cost are reported separately; UNSCORABLE/NOT_RUN/INFRA_ERROR are not silently counted as success.",
         "",
         "## Route policy",
         "",
@@ -709,7 +950,7 @@ def write_report(output_dir: Path, tasks: list[dict[str, Any]], results: list[di
         "",
         "## Scoring contract",
         "",
-        "VETS 输出 U/W/P/E：Utility、Workflow、Policy/Safety、Evidence。默认加权为 U 0.30、W 0.25、P 0.25、E 0.20；仅对适用维度求归一化均值。正确 REJECT 可得成功分，但必须有实际 HTTP/B 错误证据；CLARIFY 与 SAFE_STOP 在没有 Agent 输出时保持 UNSCORABLE。",
+        "VETS 是通过 GT 硬断言后的二元任务成功结果；U/W/P/E 仅是独立诊断维度（Utility、Workflow、Policy/Safety、Evidence），其诊断均值不等于端到端成功率。Planning Quality 单独记录服务人数、预算和 Oracle gap；Evidence 单独记录 Trace/Verifier/来源；Cost 单独记录运行时间、Trace 工具调用和 LLM token。正确 REJECT 必须匹配错误码、阶段和未启动求解器；CLARIFY 与 SAFE_STOP 在没有真实 Agent 输出时保持 UNSCORABLE。",
         "",
         "## Limitations and blockers",
         "",
