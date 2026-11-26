@@ -15,6 +15,8 @@ A v2 当前数据状态保持 DEMO_ONLY。东区与石岐不能因为 Solver 成
 
 先对原有 8 题逐例经过 C session/turn API：
 
+前置 Smoke Test 已通过 1 题（`S3-ST21-shiqi-000`，RuleLLM，真实双进程 HTTP，结果不计入 VETS）。正式执行前必须固定 A v2 data version；不得用 legacy `zhongshan_pilot_v0.1` 启动石岐任务，也不得把临时工作树中的 C 诊断性修补当作长期分支能力。
+
 - 普通现状评估；
 - 预算竞争；
 - 容量竞争；

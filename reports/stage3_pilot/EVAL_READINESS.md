@@ -1,6 +1,6 @@
 # ShelterPlan-Eval to B/C Readiness
 
-> **本轮适配器更正（2026-11-26）**：B Composite 与 C Agent 已拆分。`bc_adapter.py`/`b_composite_adapter.py` 是结构化 B Composite Recovery 传输适配器；`c_agent_adapter.py` 才是自然语言 C Agent 适配器，严格调用 `POST /v1/sessions`、`POST /v1/sessions/{session_id}/turns`、`GET /v1/turns/{turn_id}` 和 `GET /v1/sessions/{session_id}`。C 适配器不发送 `b_request_payload` 或 GT，不把 B 结果冒充 Agent 成绩。当前 C Agent、Flat、Fixed、Composite 的真实运行仍为 `NOT_RUN`，因为同伴 B/C 分支尚未在临时集成工作树验收，且真实 LLM 条件尚未确认。
+> **本轮适配器更正（2026-11-26）**：B Composite 与 C Agent 已拆分。`bc_adapter.py`/`b_composite_adapter.py` 是结构化 B Composite Recovery 传输适配器；`c_agent_adapter.py` 才是自然语言 C Agent 适配器，严格调用 `POST /v1/sessions`、`POST /v1/sessions/{session_id}/turns`、`GET /v1/turns/{turn_id}` 和 `GET /v1/sessions/{session_id}`。C 适配器不发送 `b_request_payload` 或 GT，不把 B 结果冒充 Agent 成绩。临时集成工作树已用 RuleLLM 完成 1 题 Smoke Test，但这不是正式 Agent 运行；C Agent、Flat、Fixed、Composite 的正式真实运行仍为 `NOT_RUN`，因为真实 LLM 条件尚未确认且上游区域目录仍需修复。
 
 ## Adapter contract
 
@@ -44,7 +44,7 @@ C Agent 适配器位于 `benchmark/shelterplan_eval/c_agent_adapter.py`。它只
 | --- | --- | --- |
 | Eval → 真实 B Solver（显式 A v2 adapter） | READY FOR PILOT | 冻结 8 题已真实执行，6 PASS、2 UNSCORABLE，均有结果文件和 Trace |
 | Eval → 当前分支内 HTTP B | NOT_RUN | 本轮为避免 `fastapi.testclient` 导入挂起使用显式 direct B；不是静默切换 |
-| Eval → C Harness disaster-recovery | NOT_RUN / BLOCKED | C 同伴代码未合并到长期 Eval 分支，需临时集成工作树或获批准的集成分支联调 |
+| Eval → C Harness disaster-recovery | SMOKE ONLY / NOT_READY | 临时工作树 + RuleLLM 已完成 1 题真实 HTTP Session/Turn；正式 8 题和 Agent 评分仍未运行，且上游 `RegionInfo` 字段修复未进入长期分支 |
 | Flat Tool Agent | NOT_RUN | 没有实际 Agent/LLM 运行 |
 | Fixed Workflow | NOT_RUN | 没有实际 Agent/LLM 运行 |
 | Composite Recovery + Harness | NOT_RUN | 未把同伴分支冒充已验收依赖 |

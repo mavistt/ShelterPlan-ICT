@@ -1,7 +1,7 @@
 # B/C 与 ShelterPlan-Eval 联调计划
 
 版本：2026-11-26
-状态：准备完成；真实 C Agent 运行待集成工作树和 LLM 条件
+状态：RuleLLM Smoke Test 已通过 1 题；正式 C Agent 评测仍待真实 LLM 和上游基线修复
 
 ## 1. 适配器边界
 
@@ -44,7 +44,7 @@ user_turns 由冻结任务的业务参数生成，允许包含区域、需求比
 
 建议以以下状态建立独立工作树：
 
-- Eval：feature/shelterplan-eval，当前 e93a133；
+- Eval：feature/shelterplan-eval，当前 eb0cbd9；
 - B/C 候选：origin/feat/composite-recovery-ui-bridge；
 - 基线：origin/integration/abc-shiqi-v2；
 - 数据：A v2 当前版本，保持 DEMO_ONLY；
@@ -67,12 +67,25 @@ user_turns 由冻结任务的业务参数生成，允许包含区域、需求比
 
 ## 5. 当前阻塞
 
+2026-11-26 在临时集成工作树中用真实 B/C uvicorn 进程和 `c_agent_adapter.py` 完成了 1 题 RuleLLM Smoke Test：
+
+- 任务：`S3-ST21-shiqi-000`；
+- 结果：`SUCCEEDED`；
+- 会话：同一 `session_id` 完成 1 个 `turn_id`，并成功取得最终 Session snapshot；
+- 证据：`region_id=shiqi`、`data_version=shelterplan_module_a_v2.0-demo__shiqi`、`data_status=DEMO_ONLY`、`result_id` 均返回；
+- 计分：不写入正式 Agent/VETS，RuleLLM 仅用于确定性链路验收。
+
+联调中还确认了两个必须保留的阻塞记录：
+
+1. 以 legacy `SHELTERPLAN_DATA_VERSION=zhongshan_pilot_v0.1` 启动 C 时，`shiqi` 会被错误视为未知区域，返回 404；正式 v2 联调必须显式使用 A v2 data version，不能静默回退 legacy 区域。
+2. 同伴 C 基线的 `RegionInfo` 构造缺少 `enabled` 和 `exclusion_reason` 字段；本轮只在临时工作树做诊断性修补以完成 Smoke Test，没有提交或推送该上游修补。
+
 同伴分支已经包含 B 的灾后恢复路由和 C 的 session/turn API，但长期 Eval 分支没有合并该候选；当前环境也没有确认可用的真实 LLM 凭据。RuleLLM 只能作为确定性 Smoke Test，不能写入正式 Agent 成绩。
 
 因此本计划完成后，正确的当前状态仍是：
 
 - B 结构化 Solver Pilot：已完成，6 PASS、2 UNSCORABLE；
-- C Agent 端到端：NOT_RUN，直到临时集成和模型条件满足；
+- C Agent 端到端：Smoke Test 1 题已通过；正式 Agent 评测仍为 NOT_RUN，直到真实 LLM、上游区域目录修复和 8 题验收满足；
 - Flat、Fixed、Composite 公平对照：NOT_RUN；
 - 正式 Agent VETS：NOT_READY。
 
