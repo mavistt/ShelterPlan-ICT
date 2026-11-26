@@ -35,10 +35,16 @@ class AgentOutcome:
     error: dict[str, Any] | None = None
 
 
+def _number_text(value: Any) -> str:
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
+
+
 def _option_text(option: dict[str, Any]) -> str:
     return (
-        f"{option.get('shelter_id')} 扩容 {option.get('delta_capacity_persons')} 人，"
-        f"成本 {option.get('cost_units')}"
+        f"{option.get('shelter_id')} 扩容 {_number_text(option.get('delta_capacity_persons'))} 人，"
+        f"成本 {_number_text(option.get('cost_units'))}"
     )
 
 
@@ -52,12 +58,12 @@ def _request_text(payload: dict[str, Any], *, safe_stop: bool = False) -> str:
     ratio = scenario.get("population_demand_ratio")
     walk = scenario.get("max_walk_time_min")
     if ratio is not None:
-        parts.append(f"需求比例按 {ratio} 计算。")
+        parts.append(f"需求比例按 {_number_text(ratio)} 计算。")
     if walk is not None:
-        parts.append(f"步行阈值为 {walk} 分钟。")
+        parts.append(f"步行阈值为 {_number_text(walk)} 分钟。")
     budget = scenario.get("budget_units")
     if budget is not None:
-        parts.append(f"预算为 {budget} 个单位。")
+        parts.append(f"预算为 {_number_text(budget)} 个单位。")
     options = list(payload.get("improvement_options") or [])
     if options:
         parts.append("候选恢复项目：" + "；".join(_option_text(option) for option in options) + "。")
