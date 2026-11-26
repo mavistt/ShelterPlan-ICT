@@ -16,20 +16,20 @@
 | 分支 | 当前事实 | 处置 |
 | --- | --- | --- |
 | integration/abc-shiqi-v2 | 远端基线 14d686a | 长期集成主线 |
-| feature/shelterplan-eval | e93a133；相对 integration ahead 6、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
+| feature/shelterplan-eval | 7c20870；相对 integration ahead 9、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
-| feat/composite-recovery-ui-bridge | B/C/UI 最新候选 | 保留，须在临时集成工作树验收 |
-| feature/compositional-skill-harness | B/C 历史候选 | 保留，检查独立提交依赖 |
-| feat/map-first-resilience-ui、abcd | UI 历史祖先 | 保留，待最新 UI/B/C 验收后再判断 |
+| feat/composite-recovery-ui-bridge | 2b0aed1；相对 integration ahead 5、behind 3；临时合入 integration 后形成 c42e967 | 验收通过后更新候选并创建 B/C/D PR |
+| feature/compositional-skill-harness | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
+| feat/map-first-resilience-ui、abcd | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
 | feature/benchmark-grounded | 历史 Benchmark 只读资产 | 保留，不作为当前 A v2 数据源 |
 
 ## Eval 交付链
 
-e93a133 的祖先链已经包含 Stage 0–3.1：
+7c20870 的祖先链已经包含 Stage 0–3.1 及显式 C region/data_version 绑定：
 
-14d686a → a572d19 → bbcba8a → 84a6cbd → 53313e1 → ecda3b7 → e93a133
+14d686a → a572d19 → bbcba8a → 84a6cbd → 53313e1 → ecda3b7 → e93a133 → eb0cbd9 → 7e55bb0 → 7c20870
 
 因此不需要把三个 Stage 分支长期并列保留。统一 PR 的目标应为：
 
@@ -39,9 +39,9 @@ e93a133 的祖先链已经包含 Stage 0–3.1：
 
 ## 当前权限与未执行动作
 
-本次 GitHub 连接返回仓库权限 push=false、admin=false、maintain=false。远端分支 SHA 已核对为 e93a133，但当前连接不能创建或关闭 PR，也不能删除分支。
+当前 GitHub 连接可以通过 Git 推送，但 GitHub Connector 的 PR/ref 管理仍返回 `403 Resource not accessible by integration`；因此创建/关闭 PR 和删除分支必须实际尝试并按返回结果报告。
 
-在权限可用前，以下动作保持待办，不以本地状态冒充完成：
+以下动作仍保持待办，不以本地状态冒充完成：
 
 1. 创建完整 Eval Draft PR。
 2. 在新 PR 可见后关闭旧 PR #11、#12，并注明由完整 PR 替代。
