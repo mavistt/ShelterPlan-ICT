@@ -1,6 +1,6 @@
 # ShelterPlan-Eval to B/C Readiness
 
-> **本轮适配器更正（2026-11-26）**：B Composite 与 C Agent 已拆分。`bc_adapter.py`/`b_composite_adapter.py` 是结构化 B Composite Recovery 传输适配器；`c_agent_adapter.py` 才是自然语言 C Agent 适配器，严格调用 `POST /v1/sessions`、`POST /v1/sessions/{session_id}/turns`、`GET /v1/turns/{turn_id}` 和 `GET /v1/sessions/{session_id}`。C 适配器不发送 `b_request_payload` 或 GT，不把 B 结果冒充 Agent 成绩。临时集成工作树已用 RuleLLM 完成 1 题 Smoke Test，但这不是正式 Agent 运行；C Agent、Flat、Fixed、Composite 的正式真实运行仍为 `NOT_RUN`，因为真实 LLM 条件尚未确认且上游区域目录仍需修复。
+> **本轮适配器更正（2026-11-26）**：B Composite 与 C Agent 已拆分。`bc_adapter.py`/`b_composite_adapter.py` 是结构化 B Composite Recovery 传输适配器；`c_agent_adapter.py` 才是自然语言 C Agent 适配器，严格调用 `POST /v1/sessions`、`POST /v1/sessions/{session_id}/turns`、`GET /v1/turns/{turn_id}` 和 `GET /v1/sessions/{session_id}`。C 适配器现在创建 Session 时显式传 `region_id` 与 `data_version`，并保存 C Turn 返回的 `execution_trace_id`。临时集成工作树已用 RuleLLM 完成冻结 8 题真实 Session/Turn Smoke（8/8 建会话，5 成功、3 追问），但这不是正式 Agent 运行；C Agent、Flat、Fixed、Composite 的正式真实运行仍为 `NOT_RUN`，因为真实 LLM 条件和正式 GT 评分尚未确认。
 
 ## Adapter contract
 
@@ -44,7 +44,7 @@ C Agent 适配器位于 `benchmark/shelterplan_eval/c_agent_adapter.py`。它只
 | --- | --- | --- |
 | Eval → 真实 B Solver（显式 A v2 adapter） | READY FOR PILOT | 冻结 8 题已真实执行，6 PASS、2 UNSCORABLE，均有结果文件和 Trace |
 | Eval → 当前分支内 HTTP B | NOT_RUN | 本轮为避免 `fastapi.testclient` 导入挂起使用显式 direct B；不是静默切换 |
-| Eval → C Harness disaster-recovery | SMOKE ONLY / NOT_READY | 临时工作树 + RuleLLM 已完成 1 题真实 HTTP Session/Turn；正式 8 题和 Agent 评分仍未运行，且上游 `RegionInfo` 字段修复未进入长期分支 |
+| Eval → C Harness disaster-recovery | SMOKE ONLY / NOT_READY | 临时工作树 + RuleLLM 已完成冻结 8 题真实 HTTP Session/Turn（5 成功、3 追问）；正式 Agent 评分和 C Composite 六阶段验收仍未运行 |
 | Flat Tool Agent | NOT_RUN | 没有实际 Agent/LLM 运行 |
 | Fixed Workflow | NOT_RUN | 没有实际 Agent/LLM 运行 |
 | Composite Recovery + Harness | NOT_RUN | 未把同伴分支冒充已验收依赖 |
@@ -52,7 +52,7 @@ C Agent 适配器位于 `benchmark/shelterplan_eval/c_agent_adapter.py`。它只
 
 ## 联调前置条件
 
-1. 在临时集成工作树中同时放入 Eval 当前 commit、已验收的 B/C commit；不要把未验收同伴分支强行合并到长期 Eval 主线。
+1. 在临时集成工作树中同时放入 Eval 当前 commit、已验收的 B/C commit；不要把未验收同伴分支强行合并到长期 Eval 主线。B/C 候选的最小区域字段、显式版本绑定和 Trace 透传修复为 `c42e967` 及其后续提交。
 2. 用相同 A v2 `dataset_content_hash`、`source_manifest_digest`、region、data_version、候选项目和预算，先跑石岐，再核验东区 allowlist；东区不得静默使用石岐数据。
 3. C 返回并保存完整 session snapshot：父场景、有效参数、受损场所、阶段结果、分支决策、约束检查、Verifier 和 Trace。
 4. 对 `EXECUTE`、`REJECT`、`CLARIFY`、`SAFE_STOP` 分别按 GT 评分：正确拒绝/追问/安全停止可以成功，但必须有实际 Agent/C 证据。
@@ -60,7 +60,7 @@ C Agent 适配器位于 `benchmark/shelterplan_eval/c_agent_adapter.py`。它只
 
 ## 下一步需要 B/C 同伴配合
 
-- 提供可运行的 C HTTP/Harness 启动方式和稳定的 `/planning/disaster-recovery` contract。
+- 提供可运行的 C HTTP/Harness 启动方式和稳定的 `/planning/disaster-recovery` contract；当前候选已提供 `scripts/run_session_demo.py` 作为 RuleLLM 可重复演示。
 - 提供东区与石岐的实际 allowlist/版本路由验证日志。
 - 确认 C 返回的 session state 与 Eval 的父子多轮字段一一对应。
 - 在同一数据和预算下完成三组 Agent 实测，保存 execution trace、tool calls 和真实 LLM token。

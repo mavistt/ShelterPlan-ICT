@@ -16,20 +16,20 @@
 | 分支 | 当前事实 | 处置 |
 | --- | --- | --- |
 | integration/abc-shiqi-v2 | 远端基线 14d686a | 长期集成主线 |
-| feature/shelterplan-eval | 7c20870；相对 integration ahead 9、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
+| feature/shelterplan-eval | 4a93324；相对 integration ahead 11、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
-| feat/composite-recovery-ui-bridge | 2b0aed1；相对 integration ahead 5、behind 3；临时合入 integration 后形成 c42e967 | 验收通过后更新候选并创建 B/C/D PR |
+| feat/composite-recovery-ui-bridge | 9d35fcf；相对 integration ahead 7、behind 0；包含 c42e967 及 Trace/演示修复 | 已推送候选，待创建 B/C/D PR |
 | feature/compositional-skill-harness | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
 | feat/map-first-resilience-ui、abcd | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
 | feature/benchmark-grounded | 历史 Benchmark 只读资产 | 保留，不作为当前 A v2 数据源 |
 
 ## Eval 交付链
 
-7c20870 的祖先链已经包含 Stage 0–3.1 及显式 C region/data_version 绑定：
+4a93324 的祖先链已经包含 Stage 0–3.1、显式 C region/data_version 绑定和整数化自然语言提示：
 
-14d686a → a572d19 → bbcba8a → 84a6cbd → 53313e1 → ecda3b7 → e93a133 → eb0cbd9 → 7e55bb0 → 7c20870
+14d686a → a572d19 → bbcba8a → 84a6cbd → 53313e1 → ecda3b7 → e93a133 → eb0cbd9 → 7e55bb0 → 7c20870 → 791786d → 4a93324
 
 因此不需要把三个 Stage 分支长期并列保留。统一 PR 的目标应为：
 
@@ -50,6 +50,9 @@
 
 手动入口：
 https://github.com/mavistt/ShelterPlan-ICT/compare/integration/abc-shiqi-v2...feature/shelterplan-eval?expand=1
+
+B/C/D 候选手动入口：
+https://github.com/mavistt/ShelterPlan-ICT/compare/integration/abc-shiqi-v2...feat/composite-recovery-ui-bridge?expand=1
 
 ## 数据与代码保护
 
