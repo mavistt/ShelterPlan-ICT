@@ -16,7 +16,7 @@
 | 分支 | 当前事实 | 处置 |
 | --- | --- | --- |
 | integration/abc-shiqi-v2 | 远端基线 14d686a | 长期集成主线 |
-| feature/shelterplan-eval | eb7864c；相对 integration ahead 14、behind 0 | 唯一完整 Eval 交付分支，待统一 PR |
+| feature/shelterplan-eval | 当前本地审计 head `079fa520`；相对 `integration/abc-shiqi-v2` 为 ahead 15、behind 0（远端状态需以推送/API 再核对） | 本轮唯一 A / ShelterPlan-Eval 交付分支 |
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
@@ -57,4 +57,8 @@ https://github.com/mavistt/ShelterPlan-ICT/compare/integration/abc-shiqi-v2...fe
 ## 数据与代码保护
 
 Eval 分支审计 diff 未发现 data/ 或 configs/module_a_v2_b/ 的改动。A v2 原始数据、Manifest 和历史 Benchmark 冻结资产继续保持只读语义。B/C/UI 分支不能在未验收时覆盖 integration。
+
+## 2026-11-26 A-only handoff
+
+本轮只维护 `feature/shelterplan-eval`，不创建新的 Stage 分支，不合并、关闭或删除其他分支和 PR。A 交付以 `reports/final_release/` 为唯一发布包，包含冻结任务集、A 侧难度证据、纯评测契约、Oracle 证明边界和复现命令。B/C/D 整合由后续团队工作负责，不作为本轮 A 验收条件。
 

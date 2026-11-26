@@ -10,6 +10,7 @@
 6. Stage 3 所需 GT/Oracle 输入契约草案。
 7. Stage 2.1 Scenario Factory 质量修复与验收。
 8. Stage 3 Pilot Task Factory、GT Assertions、独立枚举 Oracle、Evaluator 和 VETS 评分闭环。
+9. A-only difficulty discovery、纯评测器和 compact frozen release package。
 
 本轮明确不做：
 
@@ -64,6 +65,8 @@ python -B -m unittest tests.test_preflight_manifest tests.test_scenario_factory
 python -B -m benchmark.shelterplan_eval.scenario_factory --candidate-count 48 --target-accepted 24 --scenario-seed 20261125
 python -B -m unittest tests.test_stage3_pilot
 python -B -m benchmark.shelterplan_eval.stage3_pilot --output-dir reports/stage3_pilot
+python -B -m unittest tests.test_module_a_release
+python -B -m benchmark.shelterplan_eval.release
 ~~~
 
 sources.preflight 对 A v2 Manifest 做 raw bytes 校验；文本额外在内存中重建 CRLF 并报告 bytes/SHA-256 证据，Parquet/TIFF/PBF/XLSX 等二进制必须严格匹配。失败时返回非零并生成逐文件阻塞证据，不能通过重写 Manifest 消除失败。CRLF 重建吻合是传输格式证据，不是 VERIFIED 证据。
@@ -89,3 +92,16 @@ Stage 3 输出位于 `reports/stage3_pilot/`：
 
 
 石岐和东区可以用于 DEMO_ONLY 受控演示，但不能描述为现场核验数据。小榄保持 disabled；小榄中一条场所记录的路网吸附距离为 424.726m，超过 200m 门槛，因此该区域暂不进入正常规划准入。所有原始记录、审核备注和异常原因都必须保留。
+
+## A-only handoff
+
+本轮 A 交付的唯一长期工作分支是 `feature/shelterplan-eval`；本节不创建新的 Stage 分支，也不修改、合并或删除队友的 B/C/D 分支。
+
+`python -B -m benchmark.shelterplan_eval.release` 只生成 `reports/final_release/` 下的 A-owned 产物：
+
+- `difficulty_discovery.json/.md`：24 个冻结场景的预算、候选、互斥、空间重叠、可达性、容量上界和结构重复证据；不调用 B/C/LLM。
+- `task_dataset.json`：24 个带 user_turns、行为 GT、数据身份、provenance、difficulty evidence 和 split 的冻结任务。
+- `evaluation_set.json`：纯评测契约，保留 `U/W/P/E` 维度和 `NOT_RUN/UNSCORABLE/INFRA_ERROR` 规则。
+- `release_manifest.json`、`MODULE_A_RELEASE_REPORT.md`：文件哈希、限制、复现命令和明确的 `DEMO_ONLY` 边界。
+
+真实 GIS 场景的 Oracle 状态保持 `NOT_PROVEN`。`oracle.py` 提供不依赖 B 的独立整数最大流和小规模枚举内核，并由单元测试证明；这不等于已经对真实 GIS 组合做了完整最优性证明。`ST21-shiqi-004` 的多阶段字段目前只有结构性证据，没有损坏/禁用输入和运行时父子 Trace，因此不能写成已测得的恢复难度。

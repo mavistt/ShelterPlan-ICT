@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-25T13:17:29.129852+00:00",
+  "generated_at_utc": "2026-11-26T13:23:56.986518+00:00",
   "purpose": "Stage 0 read-only ShelterPlan-Eval source baseline",
   "run_metadata": {
-    "generated_at_utc": "2026-11-25T13:17:29.129852+00:00",
+    "generated_at_utc": "2026-11-26T13:23:56.986518+00:00",
     "git": {
-      "branch": "feature/shelterplan-eval-stage2",
-      "commit": "84a6cbdc0c644d28e2d38022f21bc84400520699",
+      "branch": "feature/shelterplan-eval",
+      "commit": "079fa52077c93f877c98218430d5b8aa17d01403",
       "integration_base": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
       "historical_reference": "a873701ada56b43289c84851d38fee80fc7e4a3d"
     }
   },
   "git": {
-    "branch": "feature/shelterplan-eval-stage2",
-    "commit": "84a6cbdc0c644d28e2d38022f21bc84400520699",
+    "branch": "feature/shelterplan-eval",
+    "commit": "079fa52077c93f877c98218430d5b8aa17d01403",
     "integration_base": "14d686aa0043dad513eb9c165b873f04a6b5e80f",
     "historical_reference": "a873701ada56b43289c84851d38fee80fc7e4a3d"
   },

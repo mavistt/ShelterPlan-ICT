@@ -1,0 +1,1883 @@
+{
+  "schema_version": 1,
+  "generator_version": "a2-difficulty-discovery-1.0",
+  "source_scenario_file": "benchmark/shelterplan_eval/pilot_stage2_1/accepted_scenarios.json",
+  "scenario_count": 24,
+  "region_observations": {
+    "east_district": {
+      "region_id": "east_district",
+      "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+      "data_status": "DEMO_ONLY",
+      "demand_node_count": 38469,
+      "total_population": 1675977.0569459859,
+      "shelter_count": 31,
+      "capacity_total_persons": 19507.0,
+      "thresholds": {
+        "10.0": {
+          "reachable_demand_nodes": 1346,
+          "reachable_population": 131092.4086700678,
+          "reachable_nodes_by_shelter": {
+            "zs_0705291eaf": 28,
+            "zs_1a562fd2ec": 23,
+            "zs_1b4df7920b": 58,
+            "zs_251667c58b": 51,
+            "zs_26835a8daa": 72,
+            "zs_4213304fee": 51,
+            "zs_5151e10626": 49,
+            "zs_528407a207": 44,
+            "zs_54cbb64815": 44,
+            "zs_574714482d": 56,
+            "zs_587a20a7af": 23,
+            "zs_58fc306a1f": 32,
+            "zs_60213118ec": 66,
+            "zs_6358642b6f": 55,
+            "zs_63f1d8e4ef": 45,
+            "zs_737caba8e8": 29,
+            "zs_740e2a0ec1": 73,
+            "zs_78f8de70a3": 73,
+            "zs_9445e74744": 64,
+            "zs_a4eac8200b": 56,
+            "zs_a947248455": 45,
+            "zs_b69995549d": 24,
+            "zs_b8ca9544d3": 43,
+            "zs_c801e944f6": 70,
+            "zs_d58044b4d4": 33,
+            "zs_e016bde4b3": 79,
+            "zs_e434541fb3": 83,
+            "zs_e9f476cdd6": 64,
+            "zs_f7d567aca2": 18,
+            "zs_fed820d94e": 88,
+            "zs_ff435768ca": 71
+          }
+        },
+        "15.0": {
+          "reachable_demand_nodes": 2641,
+          "reachable_population": 237564.03629404306,
+          "reachable_nodes_by_shelter": {
+            "zs_0705291eaf": 88,
+            "zs_1a562fd2ec": 84,
+            "zs_1b4df7920b": 144,
+            "zs_251667c58b": 128,
+            "zs_26835a8daa": 159,
+            "zs_4213304fee": 135,
+            "zs_5151e10626": 119,
+            "zs_528407a207": 94,
+            "zs_54cbb64815": 116,
+            "zs_574714482d": 142,
+            "zs_587a20a7af": 107,
+            "zs_58fc306a1f": 128,
+            "zs_60213118ec": 124,
+            "zs_6358642b6f": 114,
+            "zs_63f1d8e4ef": 120,
+            "zs_737caba8e8": 85,
+            "zs_740e2a0ec1": 176,
+            "zs_78f8de70a3": 145,
+            "zs_9445e74744": 166,
+            "zs_a4eac8200b": 143,
+            "zs_a947248455": 120,
+            "zs_b69995549d": 69,
+            "zs_b8ca9544d3": 125,
+            "zs_c801e944f6": 194,
+            "zs_d58044b4d4": 97,
+            "zs_e016bde4b3": 163,
+            "zs_e434541fb3": 208,
+            "zs_e9f476cdd6": 155,
+            "zs_f7d567aca2": 50,
+            "zs_fed820d94e": 207,
+            "zs_ff435768ca": 170
+          }
+        },
+        "20.0": {
+          "reachable_demand_nodes": 3889,
+          "reachable_population": 324518.2198669155,
+          "reachable_nodes_by_shelter": {
+            "zs_0705291eaf": 201,
+            "zs_1a562fd2ec": 204,
+            "zs_1b4df7920b": 287,
+            "zs_251667c58b": 288,
+            "zs_26835a8daa": 238,
+            "zs_4213304fee": 297,
+            "zs_5151e10626": 194,
+            "zs_528407a207": 182,
+            "zs_54cbb64815": 254,
+            "zs_574714482d": 246,
+            "zs_587a20a7af": 214,
+            "zs_58fc306a1f": 279,
+            "zs_60213118ec": 231,
+            "zs_6358642b6f": 225,
+            "zs_63f1d8e4ef": 248,
+            "zs_737caba8e8": 205,
+            "zs_740e2a0ec1": 326,
+            "zs_78f8de70a3": 253,
+            "zs_9445e74744": 321,
+            "zs_a4eac8200b": 276,
+            "zs_a947248455": 248,
+            "zs_b69995549d": 165,
+            "zs_b8ca9544d3": 247,
+            "zs_c801e944f6": 364,
+            "zs_d58044b4d4": 200,
+            "zs_e016bde4b3": 287,
+            "zs_e434541fb3": 400,
+            "zs_e9f476cdd6": 302,
+            "zs_f7d567aca2": 124,
+            "zs_fed820d94e": 315,
+            "zs_ff435768ca": 349
+          }
+        },
+        "30.0": {
+          "reachable_demand_nodes": 6321,
+          "reachable_population": 481297.90335929336,
+          "reachable_nodes_by_shelter": {
+            "zs_0705291eaf": 593,
+            "zs_1a562fd2ec": 661,
+            "zs_1b4df7920b": 696,
+            "zs_251667c58b": 733,
+            "zs_26835a8daa": 397,
+            "zs_4213304fee": 671,
+            "zs_5151e10626": 509,
+            "zs_528407a207": 562,
+            "zs_54cbb64815": 756,
+            "zs_574714482d": 625,
+            "zs_587a20a7af": 360,
+            "zs_58fc306a1f": 672,
+            "zs_60213118ec": 637,
+            "zs_6358642b6f": 584,
+            "zs_63f1d8e4ef": 733,
+            "zs_737caba8e8": 583,
+            "zs_740e2a0ec1": 814,
+            "zs_78f8de70a3": 685,
+            "zs_9445e74744": 864,
+            "zs_a4eac8200b": 664,
+            "zs_a947248455": 733,
+            "zs_b69995549d": 462,
+            "zs_b8ca9544d3": 609,
+            "zs_c801e944f6": 828,
+            "zs_d58044b4d4": 474,
+            "zs_e016bde4b3": 730,
+            "zs_e434541fb3": 901,
+            "zs_e9f476cdd6": 765,
+            "zs_f7d567aca2": 378,
+            "zs_fed820d94e": 671,
+            "zs_ff435768ca": 858
+          }
+        }
+      },
+      "source_files": {
+        "manifest": "data/processed/regions/east_district/manifest.json",
+        "shelters": "data/processed/regions/east_district/shelters.geojson",
+        "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+        "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+      },
+      "note": "Full OD IDs remain in the immutable A v2 travel_matrix.parquet; release stores aggregate counts only."
+    },
+    "shiqi": {
+      "region_id": "shiqi",
+      "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+      "data_status": "DEMO_ONLY",
+      "demand_node_count": 7336,
+      "total_population": 601716.8144463282,
+      "shelter_count": 25,
+      "capacity_total_persons": 24675.0,
+      "thresholds": {
+        "10.0": {
+          "reachable_demand_nodes": 1064,
+          "reachable_population": 129834.84403908253,
+          "reachable_nodes_by_shelter": {
+            "zs_04ec8cb884": 41,
+            "zs_0ea6eea145": 47,
+            "zs_1654dda235": 43,
+            "zs_16e73eb7d2": 72,
+            "zs_3fa8ce2b1e": 71,
+            "zs_4f00bd0879": 56,
+            "zs_5418f17c8e": 64,
+            "zs_59c4ec7386": 34,
+            "zs_5f2c91e5ad": 68,
+            "zs_68d933c3a3": 50,
+            "zs_7968f48965": 91,
+            "zs_7c10257791": 52,
+            "zs_93b853ea3f": 74,
+            "zs_9886d2ef6a": 86,
+            "zs_9ae03a468b": 40,
+            "zs_a0d74bfdf1": 80,
+            "zs_b4877c9de8": 33,
+            "zs_ba9e4c3236": 19,
+            "zs_c7b8f8436b": 20,
+            "zs_c8867d526a": 63,
+            "zs_c9d5429d03": 47,
+            "zs_d2948c3ad8": 47,
+            "zs_eb8b69df7b": 54,
+            "zs_ef12b22ef1": 70,
+            "zs_f1e6d13f73": 54
+          }
+        },
+        "15.0": {
+          "reachable_demand_nodes": 2043,
+          "reachable_population": 231618.79408168793,
+          "reachable_nodes_by_shelter": {
+            "zs_04ec8cb884": 110,
+            "zs_0ea6eea145": 145,
+            "zs_1654dda235": 119,
+            "zs_16e73eb7d2": 181,
+            "zs_3fa8ce2b1e": 197,
+            "zs_4f00bd0879": 166,
+            "zs_5418f17c8e": 163,
+            "zs_59c4ec7386": 134,
+            "zs_5f2c91e5ad": 187,
+            "zs_68d933c3a3": 148,
+            "zs_7968f48965": 203,
+            "zs_7c10257791": 149,
+            "zs_93b853ea3f": 190,
+            "zs_9886d2ef6a": 199,
+            "zs_9ae03a468b": 117,
+            "zs_a0d74bfdf1": 191,
+            "zs_b4877c9de8": 93,
+            "zs_ba9e4c3236": 50,
+            "zs_c7b8f8436b": 40,
+            "zs_c8867d526a": 171,
+            "zs_c9d5429d03": 144,
+            "zs_d2948c3ad8": 120,
+            "zs_eb8b69df7b": 155,
+            "zs_ef12b22ef1": 163,
+            "zs_f1e6d13f73": 165
+          }
+        },
+        "20.0": {
+          "reachable_demand_nodes": 2781,
+          "reachable_population": 296110.3993080569,
+          "reachable_nodes_by_shelter": {
+            "zs_04ec8cb884": 214,
+            "zs_0ea6eea145": 227,
+            "zs_1654dda235": 250,
+            "zs_16e73eb7d2": 342,
+            "zs_3fa8ce2b1e": 392,
+            "zs_4f00bd0879": 318,
+            "zs_5418f17c8e": 307,
+            "zs_59c4ec7386": 279,
+            "zs_5f2c91e5ad": 333,
+            "zs_68d933c3a3": 285,
+            "zs_7968f48965": 383,
+            "zs_7c10257791": 276,
+            "zs_93b853ea3f": 339,
+            "zs_9886d2ef6a": 377,
+            "zs_9ae03a468b": 214,
+            "zs_a0d74bfdf1": 370,
+            "zs_b4877c9de8": 212,
+            "zs_ba9e4c3236": 141,
+            "zs_c7b8f8436b": 103,
+            "zs_c8867d526a": 341,
+            "zs_c9d5429d03": 278,
+            "zs_d2948c3ad8": 253,
+            "zs_eb8b69df7b": 299,
+            "zs_ef12b22ef1": 282,
+            "zs_f1e6d13f73": 303
+          }
+        },
+        "30.0": {
+          "reachable_demand_nodes": 4333,
+          "reachable_population": 418777.7574532045,
+          "reachable_nodes_by_shelter": {
+            "zs_04ec8cb884": 567,
+            "zs_0ea6eea145": 515,
+            "zs_1654dda235": 682,
+            "zs_16e73eb7d2": 852,
+            "zs_3fa8ce2b1e": 863,
+            "zs_4f00bd0879": 820,
+            "zs_5418f17c8e": 808,
+            "zs_59c4ec7386": 768,
+            "zs_5f2c91e5ad": 833,
+            "zs_68d933c3a3": 702,
+            "zs_7968f48965": 868,
+            "zs_7c10257791": 694,
+            "zs_93b853ea3f": 828,
+            "zs_9886d2ef6a": 876,
+            "zs_9ae03a468b": 489,
+            "zs_a0d74bfdf1": 865,
+            "zs_b4877c9de8": 610,
+            "zs_ba9e4c3236": 381,
+            "zs_c7b8f8436b": 439,
+            "zs_c8867d526a": 832,
+            "zs_c9d5429d03": 706,
+            "zs_d2948c3ad8": 588,
+            "zs_eb8b69df7b": 781,
+            "zs_ef12b22ef1": 683,
+            "zs_f1e6d13f73": 734
+          }
+        }
+      },
+      "source_files": {
+        "manifest": "data/processed/regions/shiqi/manifest.json",
+        "shelters": "data/processed/regions/shiqi/shelters.geojson",
+        "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+        "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+      },
+      "note": "Full OD IDs remain in the immutable A v2 travel_matrix.parquet; release stores aggregate counts only."
+    }
+  },
+  "evidence": [
+    {
+      "scenario_id": "ST21-shiqi-000",
+      "semantic_signature": "3889b1afcb1bb85c6f0d1dc475247129a9b8765970684136953c7b80f4c0b3b8",
+      "design_difficulty": {
+        "decision_complexity": "low",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "measure a normal existing-shelter baseline before hypothetical investment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 2,
+        "total_option_cost_units": 12.0,
+        "budget_units": 13.0,
+        "budget_slack_units": 1.0,
+        "budget_competition": false,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 2,
+          "base_budget": 4,
+          "one_and_half_budget": 4
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 120343.362889,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-001",
+      "semantic_signature": "9faa29e9416502d156245c9cd8107b5c2fa92c5ee4c6ca5cc091705e6de332b9",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "force budget competition between legal capacity expansions"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 418994.264236,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 4,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-002",
+      "semantic_signature": "f7ff77352c566e20de90c9d10a64009e8ea1085d2b8a202f08126ad843d8dcb7",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "exercise exclusive alternatives targeting the same existing shelter"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 28.0,
+        "budget_units": 12.6,
+        "budget_slack_units": -15.4,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 6,
+          "one_and_half_budget": 11
+        },
+        "exclusive_group_count": 1,
+        "exclusive_groups": [
+          "capacity-alternative-zs_1654dda235"
+        ],
+        "duplicate_target_shelter_ids": [
+          "zs_1654dda235"
+        ],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 20.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 180515.044334,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-003",
+      "semantic_signature": "81e4f05232175df32d753e2eeeb5765ebed3db40263985e8a4d42a7acb256163",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "remove service from a real shelter while retaining the regional GIS environment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 30.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 11507.0,
+        "demand_persons_at_ratio": 335195.411389,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [
+          "zs_251667c58b"
+        ],
+        "disabled_shelter_ids": [
+          "zs_251667c58b"
+        ],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-004",
+      "semantic_signature": "e3fb3ad71c7f9215e2695defd901f52e9c68a76911d2110eccdec4f32dfb6f0e",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "parameter_edit",
+        "design_goal": "carry a parent scenario and staged capacity-expansion state forward"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 150429.203612,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "STRUCTURAL_ONLY_NO_RUNTIME_LINEAGE",
+        "warnings": [
+          "MULTI_STAGE_STRUCTURE_ONLY_NO_DAMAGE_OR_DISABLED_INPUT"
+        ]
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-east_district-005",
+      "semantic_signature": "8f3577a79145798fb1185270c36cc87e4f78138da26de5f22af08471a4399d8d",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "safe_stop",
+        "interaction_complexity": "invalid_id",
+        "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 502793.117084,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-006",
+      "semantic_signature": "f24db0a36d9cdaf5a606312469b96671752e7b3c745cabd51db43b5e6f5ab603",
+      "design_difficulty": {
+        "decision_complexity": "low",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "illegal_constraint",
+        "design_goal": "measure a normal existing-shelter baseline before hypothetical investment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 2,
+        "total_option_cost_units": 12.0,
+        "budget_units": 13.0,
+        "budget_slack_units": 1.0,
+        "budget_competition": false,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 2,
+          "base_budget": 4,
+          "one_and_half_budget": 4
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 20.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 120343.362889,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-east_district-009",
+      "semantic_signature": "ac60541f106e9952215780410b102bf67477420bf2494af2b7b66b5735870fb2",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "illegal_budget",
+        "design_goal": "remove service from a real shelter while retaining the regional GIS environment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19457.0,
+        "demand_persons_at_ratio": 335195.411389,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [
+          "zs_574714482d"
+        ],
+        "disabled_shelter_ids": [
+          "zs_574714482d"
+        ],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-010",
+      "semantic_signature": "a5be7bddc77093ca6c36aef3802e500054e1acea393d805a3ae1ee1cb3fc886a",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "data_version_mismatch",
+        "design_goal": "carry a parent scenario and staged capacity-expansion state forward"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 20.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 150429.203612,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "STRUCTURAL_ONLY_NO_RUNTIME_LINEAGE",
+        "warnings": [
+          "MULTI_STAGE_STRUCTURE_ONLY_NO_DAMAGE_OR_DISABLED_INPUT"
+        ]
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-011",
+      "semantic_signature": "4d355159c594fec2916a510c741aeca957fc5fdb4b3c8d1ad1a43495a517d62e",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "safe_stop",
+        "interaction_complexity": "safe_stop",
+        "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 502793.117084,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-shiqi-020",
+      "semantic_signature": "894793f45c0cd5831e16821f90a0fe79c9b68b43ca4e5389f626e9291f8ba145",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "illegal_budget",
+        "design_goal": "exercise exclusive alternatives targeting the same existing shelter"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 28.0,
+        "budget_units": 12.6,
+        "budget_slack_units": -15.4,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 6,
+          "one_and_half_budget": 11
+        },
+        "exclusive_group_count": 1,
+        "exclusive_groups": [
+          "capacity-alternative-zs_c9d5429d03"
+        ],
+        "duplicate_target_shelter_ids": [
+          "zs_c9d5429d03"
+        ],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 180515.044334,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-east_district-029",
+      "semantic_signature": "cc849bc73189806fc7830555c26e8a7021587f8df8e752be9446ef8ac4a3e9dd",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "safe_stop",
+        "interaction_complexity": "missing_parameter",
+        "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 502793.117084,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-east_district-031",
+      "semantic_signature": "414f20d82a6bea119673a7d36e56e55652e5d7fca324931b5a2d0a574c843af3",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "illegal_budget",
+        "design_goal": "force budget competition between legal capacity expansions"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 30.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 418994.264236,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 1
+    },
+    {
+      "scenario_id": "ST21-east_district-007",
+      "semantic_signature": "9faa29e9416502d156245c9cd8107b5c2fa92c5ee4c6ca5cc091705e6de332b9",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "force budget competition between legal capacity expansions"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 30.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 418994.264236,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 4,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-008",
+      "semantic_signature": "f7ff77352c566e20de90c9d10a64009e8ea1085d2b8a202f08126ad843d8dcb7",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "exercise exclusive alternatives targeting the same existing shelter"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 28.0,
+        "budget_units": 12.6,
+        "budget_slack_units": -15.4,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 6,
+          "one_and_half_budget": 11
+        },
+        "exclusive_group_count": 1,
+        "exclusive_groups": [
+          "capacity-alternative-zs_5f2c91e5ad"
+        ],
+        "duplicate_target_shelter_ids": [
+          "zs_5f2c91e5ad"
+        ],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 180515.044334,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-012",
+      "semantic_signature": "3889b1afcb1bb85c6f0d1dc475247129a9b8765970684136953c7b80f4c0b3b8",
+      "design_difficulty": {
+        "decision_complexity": "low",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "measure a normal existing-shelter baseline before hypothetical investment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 2,
+        "total_option_cost_units": 12.0,
+        "budget_units": 13.0,
+        "budget_slack_units": 1.0,
+        "budget_competition": false,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 2,
+          "base_budget": 4,
+          "one_and_half_budget": 4
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 120343.362889,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-013",
+      "semantic_signature": "9faa29e9416502d156245c9cd8107b5c2fa92c5ee4c6ca5cc091705e6de332b9",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "force budget competition between legal capacity expansions"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 418994.264236,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 4,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-014",
+      "semantic_signature": "f7ff77352c566e20de90c9d10a64009e8ea1085d2b8a202f08126ad843d8dcb7",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "exercise exclusive alternatives targeting the same existing shelter"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 28.0,
+        "budget_units": 12.6,
+        "budget_slack_units": -15.4,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 6,
+          "one_and_half_budget": 11
+        },
+        "exclusive_group_count": 1,
+        "exclusive_groups": [
+          "capacity-alternative-zs_9ae03a468b"
+        ],
+        "duplicate_target_shelter_ids": [
+          "zs_9ae03a468b"
+        ],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 20.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 180515.044334,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-015",
+      "semantic_signature": "81e4f05232175df32d753e2eeeb5765ebed3db40263985e8a4d42a7acb256163",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "remove service from a real shelter while retaining the regional GIS environment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 30.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19307.0,
+        "demand_persons_at_ratio": 335195.411389,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [
+          "zs_737caba8e8"
+        ],
+        "disabled_shelter_ids": [
+          "zs_737caba8e8"
+        ],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-016",
+      "semantic_signature": "a5be7bddc77093ca6c36aef3802e500054e1acea393d805a3ae1ee1cb3fc886a",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "invalid_id",
+        "design_goal": "carry a parent scenario and staged capacity-expansion state forward"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "multi_stage",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 10.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 150429.203612,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "STRUCTURAL_ONLY_NO_RUNTIME_LINEAGE",
+        "warnings": [
+          "MULTI_STAGE_STRUCTURE_ONLY_NO_DAMAGE_OR_DISABLED_INPUT"
+        ]
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-017",
+      "semantic_signature": "8f3577a79145798fb1185270c36cc87e4f78138da26de5f22af08471a4399d8d",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "safe_stop",
+        "interaction_complexity": "illegal_constraint",
+        "design_goal": "separate missing-input clarification from data-grounded safe stopping"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 502793.117084,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-shiqi-018",
+      "semantic_signature": "3889b1afcb1bb85c6f0d1dc475247129a9b8765970684136953c7b80f4c0b3b8",
+      "design_difficulty": {
+        "decision_complexity": "low",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "design_goal": "measure a normal existing-shelter baseline before hypothetical investment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 2,
+        "total_option_cost_units": 12.0,
+        "budget_units": 13.0,
+        "budget_slack_units": 1.0,
+        "budget_competition": false,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 2,
+          "base_budget": 4,
+          "one_and_half_budget": 4
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 20.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 24675.0,
+        "demand_persons_at_ratio": 120343.362889,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__shiqi",
+        "source_files": {
+          "manifest": "data/processed/regions/shiqi/manifest.json",
+          "shelters": "data/processed/regions/shiqi/shelters.geojson",
+          "demand_nodes": "data/processed/regions/shiqi/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/shiqi/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 3,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-019",
+      "semantic_signature": "9faa29e9416502d156245c9cd8107b5c2fa92c5ee4c6ca5cc091705e6de332b9",
+      "design_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "complete_request",
+        "design_goal": "force budget competition between legal capacity expansions"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "single_stage",
+        "interaction_complexity": "complete_request",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 30.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19507.0,
+        "demand_persons_at_ratio": 418994.264236,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [],
+        "disabled_shelter_ids": [],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 4,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    },
+    {
+      "scenario_id": "ST21-east_district-021",
+      "semantic_signature": "ac60541f106e9952215780410b102bf67477420bf2494af2b7b66b5735870fb2",
+      "design_difficulty": {
+        "decision_complexity": "medium",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "data_version_mismatch",
+        "design_goal": "remove service from a real shelter while retaining the regional GIS environment"
+      },
+      "measured_difficulty": {
+        "decision_complexity": "high",
+        "workflow_complexity": "conditional_branch",
+        "interaction_complexity": "negative_contract",
+        "evidence_status": "A_SIDE_STRUCTURAL_AND_REACHABILITY_EVIDENCE"
+      },
+      "evidence": {
+        "option_count": 4,
+        "total_option_cost_units": 32.0,
+        "budget_units": 14.4,
+        "budget_slack_units": -17.6,
+        "budget_competition": true,
+        "feasible_portfolio_count_by_budget": {
+          "half_budget": 3,
+          "base_budget": 7,
+          "one_and_half_budget": 12
+        },
+        "exclusive_group_count": 0,
+        "exclusive_groups": [],
+        "duplicate_target_shelter_ids": [],
+        "target_overlap_jaccard_max": 0.0,
+        "target_overlap_jaccard_mean": 0.0,
+        "walk_threshold_min": 15.0,
+        "reachable_demand_nodes": 0,
+        "reachable_population_share": 0.0,
+        "active_capacity_persons": 19487.0,
+        "demand_persons_at_ratio": 335195.411389,
+        "capacity_reachability_upper_bound_persons": 0.0,
+        "damaged_shelter_ids": [
+          "zs_b69995549d"
+        ],
+        "disabled_shelter_ids": [
+          "zs_b69995549d"
+        ],
+        "multi_stage_state_evidence": "NOT_APPLICABLE",
+        "warnings": []
+      },
+      "oracle": {
+        "status": "NOT_PROVEN",
+        "proof_level": "NOT_PROVEN",
+        "reason": "A-side reachability/capacity bound only; no B solver output and no full integer-scaled portfolio proof on this GIS case."
+      },
+      "provenance": {
+        "data_status": "DEMO_ONLY",
+        "data_version": "shelterplan_module_a_v2.0-demo__east_district",
+        "source_files": {
+          "manifest": "data/processed/regions/east_district/manifest.json",
+          "shelters": "data/processed/regions/east_district/shelters.geojson",
+          "demand_nodes": "data/processed/regions/east_district/demand_nodes.geojson",
+          "travel_matrix": "data/processed/regions/east_district/travel_matrix.parquet"
+        },
+        "source_data_modified": false,
+        "hypothetical_options": true,
+        "runtime_execution": "NOT_RUN"
+      },
+      "similarity_group_size": 2,
+      "selection_warning": "STRUCTURALLY_REPETITIVE_WITHIN_FROZEN_POOL"
+    }
+  ],
+  "summary": {
+    "measured_difficulty_counts": {
+      "medium": 4,
+      "high": 20
+    },
+    "expected_behavior_counts": {
+      "EXECUTE": 13,
+      "REJECT": 9,
+      "SAFE_STOP": 1,
+      "CLARIFY": 1
+    },
+    "oracle_status_counts": {
+      "NOT_PROVEN": 24
+    },
+    "repetitive_scenario_count": 18,
+    "state_dependency_warnings": [
+      "ST21-shiqi-004",
+      "ST21-shiqi-010",
+      "ST21-shiqi-016"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # ShelterPlan-Eval Stage 1 数据质量审计与准入
 
-- 生成时间（UTC）：2026-11-25T11:51:51.140267+00:00
+- 生成时间（UTC）：2026-11-26T13:24:09.864591+00:00
 - 输入快照：A v2 已有处理结果，只读
 - 准入策略：demo 与 verified 分离；不自动升级 verified；不静默删除源记录
 - active 只表示源记录的 active 字段；不等同于当前开放状态。正常候选必须同时满足 region enabled、active 和结构校验；DEMO_ONLY 警告继续保留。

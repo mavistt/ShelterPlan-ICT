@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "generator_version": "module-a-release-1.0",
+  "evaluation_kind": "module_a_frozen_eval_set",
+  "task_ids": [
+    "A-ST21-shiqi-000",
+    "A-ST21-east_district-001",
+    "A-ST21-shiqi-002",
+    "A-ST21-east_district-003",
+    "A-ST21-shiqi-004",
+    "A-ST21-east_district-005",
+    "A-ST21-shiqi-006",
+    "A-ST21-east_district-009",
+    "A-ST21-shiqi-010",
+    "A-ST21-east_district-011",
+    "A-ST21-shiqi-020",
+    "A-ST21-east_district-029",
+    "A-ST21-east_district-031",
+    "A-ST21-east_district-007",
+    "A-ST21-shiqi-008",
+    "A-ST21-shiqi-012",
+    "A-ST21-east_district-013",
+    "A-ST21-shiqi-014",
+    "A-ST21-east_district-015",
+    "A-ST21-shiqi-016",
+    "A-ST21-east_district-017",
+    "A-ST21-shiqi-018",
+    "A-ST21-east_district-019",
+    "A-ST21-east_district-021"
+  ],
+  "pilot_replay_task_ids": [
+    "A-ST21-shiqi-000",
+    "A-ST21-east_district-001",
+    "A-ST21-shiqi-002",
+    "A-ST21-east_district-003",
+    "A-ST21-shiqi-004",
+    "A-ST21-east_district-011",
+    "A-ST21-east_district-029",
+    "A-ST21-shiqi-016"
+  ],
+  "scoring_contract": {
+    "evaluator": "benchmark.shelterplan_eval.evaluator.evaluate_task",
+    "hard_gate": "behavioral contract plus A/B evidence supplied by the caller",
+    "dimensions": {
+      "U": "verified end-to-end task success",
+      "W": "cross-stage constraint fidelity",
+      "P": "oracle/recovery quality when applicable",
+      "E": "evidence completeness"
+    },
+    "unscorable_policy": "NOT_RUN, UNSCORABLE and INFRA_ERROR are not counted as success"
+  },
+  "tasks": [
+    {
+      "task_id": "A-ST21-shiqi-000",
+      "scenario_id": "ST21-shiqi-000",
+      "scenario_family": "coverage_baseline",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-001",
+      "scenario_id": "ST21-east_district-001",
+      "scenario_family": "budget_tradeoff",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-002",
+      "scenario_id": "ST21-shiqi-002",
+      "scenario_family": "capacity_competition",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-003",
+      "scenario_id": "ST21-east_district-003",
+      "scenario_family": "facility_disruption",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-004",
+      "scenario_id": "ST21-shiqi-004",
+      "scenario_family": "multi_stage_recovery",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-005",
+      "scenario_id": "ST21-east_district-005",
+      "scenario_family": "clarification_and_safe_stop",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-006",
+      "scenario_id": "ST21-shiqi-006",
+      "scenario_family": "coverage_baseline",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-009",
+      "scenario_id": "ST21-east_district-009",
+      "scenario_family": "facility_disruption",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-010",
+      "scenario_id": "ST21-shiqi-010",
+      "scenario_family": "multi_stage_recovery",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-011",
+      "scenario_id": "ST21-east_district-011",
+      "scenario_family": "clarification_and_safe_stop",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "SAFE_STOP",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-020",
+      "scenario_id": "ST21-shiqi-020",
+      "scenario_family": "capacity_competition",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-029",
+      "scenario_id": "ST21-east_district-029",
+      "scenario_family": "clarification_and_safe_stop",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "CLARIFY",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-031",
+      "scenario_id": "ST21-east_district-031",
+      "scenario_family": "budget_tradeoff",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-007",
+      "scenario_id": "ST21-east_district-007",
+      "scenario_family": "budget_tradeoff",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-008",
+      "scenario_id": "ST21-shiqi-008",
+      "scenario_family": "capacity_competition",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-012",
+      "scenario_id": "ST21-shiqi-012",
+      "scenario_family": "coverage_baseline",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-013",
+      "scenario_id": "ST21-east_district-013",
+      "scenario_family": "budget_tradeoff",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-014",
+      "scenario_id": "ST21-shiqi-014",
+      "scenario_family": "capacity_competition",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-015",
+      "scenario_id": "ST21-east_district-015",
+      "scenario_family": "facility_disruption",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-016",
+      "scenario_id": "ST21-shiqi-016",
+      "scenario_family": "multi_stage_recovery",
+      "split": "frozen_eval",
+      "pilot_replay": true,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-017",
+      "scenario_id": "ST21-east_district-017",
+      "scenario_family": "clarification_and_safe_stop",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-shiqi-018",
+      "scenario_id": "ST21-shiqi-018",
+      "scenario_family": "coverage_baseline",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-019",
+      "scenario_id": "ST21-east_district-019",
+      "scenario_family": "budget_tradeoff",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "EXECUTE",
+      "oracle_status": "NOT_PROVEN"
+    },
+    {
+      "task_id": "A-ST21-east_district-021",
+      "scenario_id": "ST21-east_district-021",
+      "scenario_family": "facility_disruption",
+      "split": "frozen_eval",
+      "pilot_replay": false,
+      "expected_behavior": "REJECT",
+      "oracle_status": "NOT_PROVEN"
+    }
+  ]
+}
