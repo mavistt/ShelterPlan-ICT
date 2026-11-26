@@ -20,7 +20,7 @@
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
-| feat/composite-recovery-ui-bridge | 9d35fcf；相对 integration ahead 7、behind 0；包含 c42e967 及 Trace/演示修复 | 已推送候选，待创建 B/C/D PR |
+| feat/composite-recovery-ui-bridge | b5781d4；相对 integration ahead 7、behind 0；包含 c42e967 及 Trace/演示/验收修复 | 已推送候选，待创建 B/C/D PR |
 | feature/compositional-skill-harness | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
 | feat/map-first-resilience-ui、abcd | feat/composite-recovery-ui-bridge 的祖先 | 无独立未包含提交，待候选 PR 建立后清理 |
 | feature/benchmark-grounded | 历史 Benchmark 只读资产 | 保留，不作为当前 A v2 数据源 |
