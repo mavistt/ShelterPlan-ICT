@@ -21,7 +21,7 @@
 
 ## 已进入 B/C 候选的契约修复
 
-候选提交 `c42e967` 完成以下最小修复：
+候选提交 `c42e967` 与 `9d35fcf` 完成以下最小修复：
 
 1. `RegionInfo` 公共字典补齐 `enabled` 与 `exclusion_reason`；
 2. C Session 请求接收并校验 `data_version`，不匹配时拒绝；

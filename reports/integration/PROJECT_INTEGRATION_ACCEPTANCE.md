@@ -54,7 +54,7 @@
   ```
 
 - C Turn 终态会携带 `result_id`、`verification_status`、`data_status`、`execution_trace_id` 和结果解释；完整结果和证据仍可通过 Session 绑定的结果接口查询。
-- 当前候选分支中的永久修复提交：`c42e967`（B/C merge：区域版本绑定、RegionInfo 公共字段）；前端和桥接历史来自候选分支，未把旧 Module C 分支整体覆盖进来。
+- 当前候选分支中的永久修复提交：`c42e967`（B/C merge：区域版本绑定、RegionInfo 公共字段）与 `9d35fcf`（Trace 透传、可重复演示和验收文档）；前端和桥接历史来自候选分支，未把旧 Module C 分支整体覆盖进来。
 
 ### D 前端
 
