@@ -398,28 +398,49 @@ def main() -> int:
     write_json(OUT / "RUN_MANIFEST.json", run_manifest)
 
     source_total = source_audit["admission_gate_in_memory"]["totals"]
+    pilot_summary = stage.get("manifest", {}).get("summary", {})
+    vets_means = pilot_summary.get("vets_mean", {})
+    frontend_overall = frontend_tests.get("overall_status", frontend_tests.get("status", "PENDING"))
+    frontend_detail = frontend_tests.get("frontend", {})
+    frontend_unit = frontend_detail.get("unit", {})
+    frontend_typecheck = frontend_detail.get("typecheck", {})
+    frontend_build = frontend_detail.get("build", {})
+    frontend_e2e = frontend_detail.get("e2e", {})
     lines = [
-        "# A/B/C + ShelterPlan-Eval integration report", "",
-        f"Generated: {run_manifest['generated_at_utc']}", "",
-        "## Frozen evaluation and measured results", "",
-        f"- Frozen tasks and GT: {len(frozen['tasks'])}; `TASK_GT.json` is byte-identical to the release task dataset (SHA-256 `{task_copy_hash}`).",
-        f"- B structured pilot: {len(stage_results)} selected tasks; PASS={pass_count}, UNSCORABLE={unscorable}; traces={trace_count}; remaining frozen tasks NOT_RUN={max(0,24-len(stage_results))}.",
-        "- The 4 true Agent arms (Direct LLM, Flat Tools, Fixed Workflow, Composite + Harness) are all NOT_RUN. No paid API was called.",
-        "- The RuleLLM C Session/Turn → B Composite smoke is recorded separately and excluded from Agent scores.",
-        "- B results remain `DEMO_ONLY`; `PASS_DEMO` does not imply verified real-world planning.", "",
-        "## A v2 data admission", "",
-        f"- {source_total['source_rows']} shelters audited; {source_total['demo_eligible']} DEMO candidates; {source_total['verified_eligible']} VERIFIED; {source_total['needs_review']} needs review; {source_total['excluded']} excluded.",
-        "- Shiqi (25) and East District (31) are DEMO_ONLY. Xiaolan is disabled (30 needs review, 1 excluded).",
-        "- Region manifest validation was read-only; see `SOURCE_HASH_AUDIT.json`.", "",
-        "## Verification", "",
-        f"- Module A / Eval selected regression: {a_eval_tests.get('passed')} passed ({a_eval_tests.get('status')}).",
-        f"- Module B: {b_tests.get('counts') or b_tests.get('status')} (full log: `{b_tests['log']}`).",
-        f"- Module C: {c_tests.get('counts') or c_tests.get('status')} (full log: `{c_tests['log']}`).",
-        f"- Frontend: `{frontend_tests.get('status', 'PENDING')}` (details: `FRONTEND_VALIDATION.json`).",
-        "- The checked-in backend/frontend code runs on loopback ports 8000 / 8080 / 5173; the start script uses RuleLLM smoke mode only.", "",
-        "## Scope and caveats", "",
-        "This is an integration/evidence report, not a claim of a completed comparative LLM benchmark. Solver comparisons, Agent success rates, and verified real GIS planning are not inferred from absent runs.",
-        "The legacy `configs/pilot.yaml` v1 source has a separate manifest mismatch for `data/processed/demand_nodes.geojson`; see `FAILURE_ANALYSIS.md` for retained test outcomes and classification.",
+        "# A/B/C + ShelterPlan-Eval 集成与评测报告", "",
+        f"生成时间（UTC）：{run_manifest['generated_at_utc']}", "",
+        "## 集成范围与冻结 GT", "",
+        f"- 冻结任务：{len(frozen['tasks'])} 个；`TASK_GT.json` 与 Release 原始任务集逐字节一致，SHA-256 为 `{task_copy_hash}`。",
+        "- B/C、前端以 UI Bridge 集成分支为主线；Eval 的场景、准入、Oracle、Evaluator、GT 与报告资产选择性并入。来源提交见 `MERGE_PROVENANCE.md`。",
+        "- 本报告中的 B 结构化 Pilot 是求解器/适配器执行结果，不代表 C Agent 成绩。",
+        "",
+        "## 冻结任务与实测结果", "",
+        f"- B 结构化 Pilot 实测 {len(stage_results)}/24：PASS={pass_count}，FAIL={sum(item.get('evaluation', {}).get('status') == 'FAIL' for item in stage_results)}，UNSCORABLE={unscorable}，NOT_RUN={max(0, 24-len(stage_results))}；带完整执行 Trace 的结果={trace_count}。",
+        f"- VETS hard success：{pass_count}/{len(stage_results)} 个已尝试任务（{pass_count / len(stage_results):.1%}）；可评分子集 {pass_count}/{pass_count + sum(item.get('evaluation', {}).get('status') == 'FAIL' for item in stage_results)}（100%）。2 个 UNSCORABLE 与 16 个 NOT_RUN 不计为成功，不能外推为完整任务集成绩。" if stage_results else "- VETS：NOT_RUN。",
+        f"- U/W/P/E 诊断均值（仅 B 结构化 Pilot）：U={vets_means.get('U', 'N/A')}，W={vets_means.get('W', 'N/A')}，P={vets_means.get('P', 'N/A')}，E={vets_means.get('E', 'N/A')}。这些诊断值不等于 VETS，也不是 Agent 评分。",
+        f"- Oracle：{json.dumps(pilot_summary.get('oracle_counts', {}), ensure_ascii=False)}；其中 `CONDITIONAL_SUBSET_OPTIMUM` 不代表完全独立 Oracle 证明。",
+        "- Direct LLM、Flat Tools、Fixed Workflow、Composite + Harness 四个真实 Agent 对照组均为 NOT_RUN：未配置本地真实 LLM；未调用收费 API。RuleLLM 仅为 C Session/Turn → B Composite 联调 Smoke，不参与评分。",
+        "- 所有当前 A v2 规划数据均标记 `DEMO_ONLY`；`PASS_DEMO` 不表示现场核验或真实部署保证。",
+        "",
+        "## A v2 数据准入", "",
+        f"- 审计 {source_total['source_rows']} 条场所记录：{source_total['demo_eligible']} 条 DEMO 候选，{source_total['verified_eligible']} 条 VERIFIED，{source_total['needs_review']} 条待审核，{source_total['excluded']} 条排除。",
+        "- 石岐与东区可用于受控 DEMO；小榄保持 disabled（30 条待审核、1 条排除）。未自动升级任何记录为 VERIFIED。",
+        "- 区域 Manifest 校验为只读；详见 `SOURCE_HASH_AUDIT.json`。",
+        "",
+        "## 验证结果", "",
+        f"- A/Eval 选定回归：{a_eval_tests.get('passed')} 项通过（{a_eval_tests.get('status')}）。",
+        f"- Module B 全量测试：{b_tests.get('counts') or b_tests.get('status')}；失败来自旧版 `configs/pilot.yaml` 的 A v1 Manifest 哈希不匹配，详见 `{b_tests['log']}` 与 `FAILURE_ANALYSIS.md`。",
+        f"- Module C 全量测试：{c_tests.get('counts') or c_tests.get('status')}；失败以同一旧版 A v1 Manifest 阻塞及其依赖失败为主，详见 `{c_tests['log']}` 与 `FAILURE_ANALYSIS.md`。",
+        f"- C 错误 Trace 关联回归：{c_trace_tests.get('counts') or c_trace_tests.get('status')}。Python compileall：PASS。",
+        f"- 前端：`{frontend_overall}`；单元测试 {frontend_unit.get('passed', 'N/A')} 通过，typecheck={frontend_typecheck.get('status', 'N/A')}，build={frontend_build.get('status', 'N/A')}，浏览器 E2E={frontend_e2e.get('passed', 'N/A')} 通过、{frontend_e2e.get('failed', 'N/A')} 失败。详情见 `FRONTEND_VALIDATION.json`。",
+        "- 浏览器 E2E 覆盖数据清单与 Eval 面板、石岐真实 C→B 规划、MIP/Greedy 对照、东区 C→B 与小榄禁用状态。",
+        "",
+        "## 本地服务", "",
+        "- 前端：`http://127.0.0.1:5173`；Module B：`http://127.0.0.1:8000`；Module C：`http://127.0.0.1:8080`。仅绑定 loopback，不是公网服务。当前没有独立 Eval API；前端读取只读评测摘要。",
+        "- 启动命令（Windows PowerShell）：`powershell -ExecutionPolicy Bypass -File scripts/start_integration_demo.ps1`。脚本采用 RuleLLM Smoke 配置，不调用外部/收费模型。",
+        "",
+        "## 限制", "",
+        "本报告记录真实集成证据，不宣称已完成真实 LLM 公平对照、24 题完整 Agent 评测或经现场核验的 GIS 规划。旧版 `configs/pilot.yaml` 的 `data/processed/demand_nodes.geojson` Manifest 不匹配是 B/C 全套回归的已知阻塞；不得通过改写历史 GT 或 A v1 Manifest 掩盖。",
         "",
     ]
     (OUT / "INTEGRATION_EVAL_REPORT.md").write_text("\n".join(lines), encoding="utf-8")

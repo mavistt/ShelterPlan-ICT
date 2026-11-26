@@ -1,6 +1,6 @@
 {
   "audit_version": 1,
-  "generated_at_utc": "2026-11-26T19:12:44.928256+00:00",
+  "generated_at_utc": "2026-11-26T19:17:15.735936+00:00",
   "method": "read-only manifest verification plus in-memory admission_gate.run_gate; no preflight/admission CLI and no source writes",
   "release_source_revision": "origin/feature/shelterplan-eval",
   "release_manifest_sha256_worktree": "57371de155904422c05670547cd4c2ccaaecac07c90fee6e6450c2d9b3351e5e",

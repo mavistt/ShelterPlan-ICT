@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "report_version": "eval_run_v1",
-  "generated_at": "2026-11-26T19:12:45.590769+00:00",
-  "generated_at_utc": "2026-11-26T19:12:45.590769+00:00",
+  "generated_at": "2026-11-26T19:17:16.336056+00:00",
+  "generated_at_utc": "2026-11-26T19:17:16.336056+00:00",
   "workspace_branch": "integration/composite-recovery-eval",
-  "workspace_head_before_commit": "b5781d4c336a42a5183cc696ab81e4e7fc5ac5bf",
+  "workspace_head_before_commit": "b5e80eac2edde9482a148342211da2551153bd62",
   "workspace_dirty_before_commit": true,
-  "dirty_path_count_before_commit": 167,
+  "dirty_path_count_before_commit": 3,
   "source_revisions": {
     "origin/main": "9a2b927932ac8e9e01b379735755087127afdbd9",
     "origin/feat/composite-recovery-ui-bridge": "b5781d4c336a42a5183cc696ab81e4e7fc5ac5bf",
@@ -273,7 +273,7 @@
     "TASK_GT.json": "a2e2a846b903e738e6bdece6e9835ea8bd2b847eb515870dc2e3dfee9ef9ac4b",
     "EVAL_CASE_RESULTS.csv": "b1d4b38dde4a7e7d6e704c1c172b9834b24d9b80695beb722fdf8e36a181ba84",
     "EVAL_ARM_COMPARISON.json": "50c9554173a5f83a1899c56df37776e54864c5441a578448751a353e94650d29",
-    "SOURCE_HASH_AUDIT.json": "38086269d041940a1ce397ac796007c76028b0ca5b6d021fab24dfe02abfb786",
+    "SOURCE_HASH_AUDIT.json": "5166b59ea0a327ef0dc4ae250fae1f1619fa6a4dd9e1be61d1a81baea202ba57",
     "b_structured/results.json": "50b6962c5efbc525b5ab88bc554b4ad80add81f2627f188bba3e68aa18a9e52a"
   },
   "limitations": [
