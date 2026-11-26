@@ -1,10 +1,12 @@
 # ShelterPlan-Eval to B/C Readiness
 
+> **本轮适配器更正（2026-11-26）**：B Composite 与 C Agent 已拆分。`bc_adapter.py`/`b_composite_adapter.py` 是结构化 B Composite Recovery 传输适配器；`c_agent_adapter.py` 才是自然语言 C Agent 适配器，严格调用 `POST /v1/sessions`、`POST /v1/sessions/{session_id}/turns`、`GET /v1/turns/{turn_id}` 和 `GET /v1/sessions/{session_id}`。C 适配器不发送 `b_request_payload` 或 GT，不把 B 结果冒充 Agent 成绩。当前 C Agent、Flat、Fixed、Composite 的真实运行仍为 `NOT_RUN`，因为同伴 B/C 分支尚未在临时集成工作树验收，且真实 LLM 条件尚未确认。
+
 ## Adapter contract
 
-`benchmark/shelterplan_eval/bc_adapter.py` 是显式适配器，不实现 Agent、不重写 Solver、不做 Mock，也不在 C 不可用时回退到旧结果。
+`benchmark/shelterplan_eval/b_composite_adapter.py` 是 B Composite 的显式结构化适配器，不实现 Agent、不重写 Solver、不做 Mock，也不在 B/C 不可用时回退到旧结果。
 
-Eval 向 C `/planning/disaster-recovery` 发送：
+B Composite 适配器向集成分支的 `/planning/disaster-recovery` 发送：
 
 - `task_id`、`client_session_id`、`client_turn_id`、`idempotency_key`
 - `region_id`、`data_version`、`source_manifest_digest`、`analysis_mode`
@@ -12,7 +14,7 @@ Eval 向 C `/planning/disaster-recovery` 发送：
 - `damaged_shelter_ids`、`budget_units`、`improvement_options`
 - 用户目标和任务行为由冻结 Task/GT 保留，不能由返回标签反推成功
 
-适配器只接受真实 C 返回的 job/result，并归一化以下证据：
+B Composite 适配器只接受真实 B/C 返回的 job/result，并归一化以下证据：
 
 - `execution_trace_id`、`result_id`、`region_id`、`data_version`、`data_status`
 - 六阶段 `stage_results`
@@ -20,7 +22,9 @@ Eval 向 C `/planning/disaster-recovery` 发送：
 - `constraint_checks`
 - `verification_results`
 
-404/405 会明确返回 `NOT_RUN`/`UNSUPPORTED`；传输错误是 `INFRA_ERROR`；C/B 真实失败保留为失败，不会被转换成正确 Agent 行为。
+404/405 会明确返回 `NOT_RUN`/`UNSUPPORTED`；传输错误是 `INFRA_ERROR`；B/C 真实失败保留为失败，不会被转换成正确 Agent 行为。
+
+C Agent 适配器位于 `benchmark/shelterplan_eval/c_agent_adapter.py`。它只发送审核过的自然语言 `user_turns`，保存同一 `session_id` 下的所有 turn 与最终 session snapshot。C Agent 结果必须另行经过 GT/evaluator 检查，不能直接复用 B Composite 的 VETS。
 
 ## 只读核对的同伴 B/C 实现
 

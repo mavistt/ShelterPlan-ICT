@@ -29,6 +29,7 @@ from backend.engine import solve_assignment
 from backend.errors import PlanningError
 from backend.graph.executor import execute_task
 from backend.models import ImprovementOption, PlanningInput, PlanningScenario, TaskRequest
+from benchmark.shelterplan_eval.c_agent_adapter import build_agent_user_turns
 from backend.storage import canonical_hash
 from backend.verifier.checks import verify_assignment
 from sources.preflight import ROOT
@@ -282,6 +283,9 @@ def build_task(scenario: dict[str, Any], *, route: dict[str, Any] | None = None)
         task["task_type"] = task_type
         task["b_request_payload"] = payload
     task["contract_repairs"] = contract_repairs
+    # Reviewed natural-language turns are stored separately from hidden
+    # GT/B payload. The C adapter sends only these texts to the session API.
+    task["user_turns"] = [row["text"] for row in build_agent_user_turns(task)]
     return task
 
 

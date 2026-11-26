@@ -1,10 +1,9 @@
-"""Explicit Eval -> Module C -> Module B adapter.
+"""Legacy-compatible B Composite Recovery transport adapter.
 
-This module is intentionally a transport adapter, not an Agent and not a
-fallback solver.  It only submits the frozen task contract to C's real
-``/planning/disaster-recovery`` route.  A missing route is reported as
-``NOT_RUN``/``UNSUPPORTED``; it is never replaced with a direct or mocked
-result.
+This module is intentionally a structured B adapter, not a natural-language
+Agent. It submits the frozen disaster-recovery contract to the composite
+planning route exposed by the B/C integration branch. The separate
+c_agent_adapter module is the only adapter that talks to C's /v1/sessions API.
 """
 from __future__ import annotations
 
@@ -38,12 +37,16 @@ def build_disaster_recovery_payload(task: dict[str, Any], *, session_id: str, tu
         source = task["b_request_payload"]
     scenario = dict(source.get("scenario") or {})
     gt = task.get("gt_assertions") or {}
+    user_turns = task.get("user_turns") or []
+    user_goal = task.get("user_goal")
+    if not user_goal and user_turns:
+        user_goal = user_turns[0] if isinstance(user_turns[0], str) else user_turns[0].get("text")
     return {
         "task_type": "disaster_recovery",
         "task_id": task.get("task_id"),
         "client_session_id": session_id,
         "client_turn_id": turn_id,
-        "user_goal": f"ShelterPlan Eval task {task.get('scenario_id')}",
+        "user_goal": user_goal or f"ShelterPlan Eval structured recovery task {task.get('scenario_id')}",
         "fixture_id": None,
         "region_id": task.get("region_id"),
         "data_version": task.get("data_version"),
