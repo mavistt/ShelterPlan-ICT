@@ -16,7 +16,7 @@
 | 分支 | 当前事实 | 处置 |
 | --- | --- | --- |
 | integration/abc-shiqi-v2 | 远端基线 14d686a | 长期集成主线 |
-| feature/shelterplan-eval | 当前本地审计 head `079fa520`；相对 `integration/abc-shiqi-v2` 为 ahead 15、behind 0（远端状态需以推送/API 再核对） | 本轮唯一 A / ShelterPlan-Eval 交付分支 |
+| feature/shelterplan-eval | 已推送 head `fa553ed6`；相对 `integration/abc-shiqi-v2` 为 ahead 16、behind 0 | 本轮唯一 A / ShelterPlan-Eval 交付分支 |
 | feature/shelterplan-eval-v1 | Stage 0/1 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage2 | Stage 1.5/2 祖先 | 暂不删除，待统一 PR 合并后清理 |
 | feature/shelterplan-eval-stage3-pilot | Stage 3 祖先 | 暂不删除，待统一 PR 合并后清理 |
