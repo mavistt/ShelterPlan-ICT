@@ -30,6 +30,8 @@ class CAgentAdapterTests(unittest.TestCase):
         def fake(method, url, payload, *, timeout_seconds):
             calls.append((method, url, payload))
             if method == "POST" and url.endswith("/v1/sessions"):
+                self.assertEqual(payload["region_id"], task["region_id"])
+                self.assertEqual(payload["data_version"], task["data_version"])
                 return {"session_id": "s-1", "region_id": "shiqi"}
             if method == "POST" and url.endswith("/v1/sessions/s-1/turns"):
                 self.assertNotIn("gt_assertions", payload)

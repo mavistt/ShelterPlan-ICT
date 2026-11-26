@@ -132,7 +132,15 @@ def submit_real_c_agent(
     request = request_fn or _json_request
     root = base_url.rstrip("/")
     try:
-        created = request("POST", f"{root}/v1/sessions", {"region_id": task.get("region_id")}, timeout_seconds=30.0)
+        created = request(
+            "POST",
+            f"{root}/v1/sessions",
+            {
+                "region_id": task.get("region_id"),
+                "data_version": task.get("data_version"),
+            },
+            timeout_seconds=30.0,
+        )
     except HTTPError as exc:
         if exc.code in {404, 405}:
             return AgentOutcome("NOT_RUN", "C session API is not available at this base URL", error=_http_error(exc))
